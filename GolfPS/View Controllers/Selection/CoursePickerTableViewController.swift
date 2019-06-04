@@ -29,8 +29,8 @@ class CoursePickerTableViewController: UITableViewController {
         super.viewDidLoad()
         
         refreshControl = UIRefreshControl();
-        let attrs: [NSAttributedStringKey : Any] = [
-            NSAttributedStringKey.foregroundColor : UIColor.white,
+        let attrs: [NSAttributedString.Key : Any] = [
+            NSAttributedString.Key.foregroundColor : UIColor.white,
             ]
         refreshControl!.attributedTitle = NSAttributedString(string: "Updating...", attributes: attrs)
         refreshControl!.addTarget(self, action: #selector(refreshCourses), for: .valueChanged)

@@ -22,6 +22,14 @@
 		8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */; };
 		896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 896D147122A59BE600873D15 /* GoogleService-Info.plist */; };
 		896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147322A5A0FE00873D15 /* AppSingleton.swift */; };
+		896D147822A6D1A200873D15 /* ImageViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147722A6D1A200873D15 /* ImageViewX.swift */; };
+		896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147922A6D1AA00873D15 /* TextFieldX.swift */; };
+		896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147B22A6D1AC00873D15 /* ButtonX.swift */; };
+		896D147E22A6D1B500873D15 /* Emitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147D22A6D1B500873D15 /* Emitter.swift */; };
+		896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147F22A6D1BB00873D15 /* DottedLine.swift */; };
+		896D148222A6D1D100873D15 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148122A6D1D100873D15 /* GradientView.swift */; };
+		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
+		896D148622A6D1D600873D15 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148522A6D1D600873D15 /* GradientButton.swift */; };
 		898A20B221026D80005FCA7A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898A20B121026D80005FCA7A /* NotificationCenter.framework */; };
 		898A20B521026D80005FCA7A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A20B421026D80005FCA7A /* TodayViewController.swift */; };
 		898A20B821026D80005FCA7A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 898A20B621026D80005FCA7A /* MainInterface.storyboard */; };
@@ -85,6 +93,15 @@
 		8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		896D147122A59BE600873D15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		896D147322A5A0FE00873D15 /* AppSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSingleton.swift; sourceTree = "<group>"; };
+		896D147622A6D19B00873D15 /* ViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewX.swift; sourceTree = "<group>"; };
+		896D147722A6D1A200873D15 /* ImageViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewX.swift; sourceTree = "<group>"; };
+		896D147922A6D1AA00873D15 /* TextFieldX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldX.swift; sourceTree = "<group>"; };
+		896D147B22A6D1AC00873D15 /* ButtonX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonX.swift; sourceTree = "<group>"; };
+		896D147D22A6D1B500873D15 /* Emitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emitter.swift; sourceTree = "<group>"; };
+		896D147F22A6D1BB00873D15 /* DottedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DottedLine.swift; sourceTree = "<group>"; };
+		896D148122A6D1D100873D15 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		896D148322A6D1D300873D15 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
+		896D148522A6D1D600873D15 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		898A20B021026D80005FCA7A /* GolfPS Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GolfPS Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		898A20B121026D80005FCA7A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		898A20B421026D80005FCA7A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +184,7 @@
 		8915E65E2088F8C800A20258 /* GolfPS */ = {
 			isa = PBXGroup;
 			children = (
+				896D147522A6D16700873D15 /* Views */,
 				89C32DFE20B6110A0036C151 /* GolfPS.entitlements */,
 				896D147122A59BE600873D15 /* GoogleService-Info.plist */,
 				89D68DBB21E97C090026BD7F /* ApiKeys.plist */,
@@ -214,6 +232,22 @@
 				8915E67D208A329200A20258 /* Selection */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		896D147522A6D16700873D15 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				896D148122A6D1D100873D15 /* GradientView.swift */,
+				896D148322A6D1D300873D15 /* GradientLabel.swift */,
+				896D148522A6D1D600873D15 /* GradientButton.swift */,
+				896D147622A6D19B00873D15 /* ViewX.swift */,
+				896D147722A6D1A200873D15 /* ImageViewX.swift */,
+				896D147922A6D1AA00873D15 /* TextFieldX.swift */,
+				896D147B22A6D1AC00873D15 /* ButtonX.swift */,
+				896D147D22A6D1B500873D15 /* Emitter.swift */,
+				896D147F22A6D1BB00873D15 /* DottedLine.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		898A20B321026D80005FCA7A /* GolfPS Widget */ = {
@@ -320,6 +354,7 @@
 				TargetAttributes = {
 					8915E65B2088F8C800A20258 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -334,6 +369,7 @@
 					};
 					898A20AF21026D80005FCA7A = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -425,7 +461,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
@@ -441,7 +477,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
@@ -467,13 +503,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/gRPCCertificates-Firestore.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Firestore.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 			);
@@ -496,15 +530,23 @@
 				8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */,
 				8915E67A208A2FE300A20258 /* CourseTableViewCell.swift in Sources */,
 				8904F347208E555700B9CCE5 /* Hole.swift in Sources */,
+				896D147822A6D1A200873D15 /* ImageViewX.swift in Sources */,
 				8915E6622088F8C800A20258 /* CourseMapViewController.swift in Sources */,
 				89996EC1210A5CE200E0E290 /* SettingsViewController.swift in Sources */,
 				89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */,
+				896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */,
 				8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */,
+				896D147E22A6D1B500873D15 /* Emitter.swift in Sources */,
 				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
+				896D148222A6D1D100873D15 /* GradientView.swift in Sources */,
+				896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */,
 				8915E6762088FB6700A20258 /* GoogleMapViewController.swift in Sources */,
 				896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */,
 				89C32DFD20B5FCCA0036C151 /* TabParentViewController.swift in Sources */,
+				896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */,
 				89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */,
+				896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */,
+				896D148622A6D1D600873D15 /* GradientButton.swift in Sources */,
 				89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */,
 				89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */,
 			);
@@ -687,7 +729,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -709,7 +751,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -732,7 +774,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dejongdevelopment.golfps.GolfPS-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -754,7 +796,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dejongdevelopment.golfps.GolfPS-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController {
         if (SCSDKLoginClient.isUserLoggedIn) {
             
             //change to "Unlink" after we are all logged in
-            SCSDKLoginClient.unlinkCurrentSession { (success: Bool) in
+            SCSDKLoginClient.unlinkAllSessions { (success: Bool) in
                 self.updateButtonLabel()
                 if success {
                     let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
@@ -50,6 +50,21 @@ class SettingsViewController: UIViewController {
             SCSDKLoginClient.login(from: self, completion: { success, error in
                 self.updateButtonLabel()
             })
+        }
+    }
+    
+    @IBAction func clickPrivacy(_ sender: UIButton) {
+        Analytics.logEvent("click_privacy_settings", parameters: nil)
+        
+        if let privacyURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/privacy_policy.html") {
+            UIApplication.shared.open(privacyURL, options: [:], completionHandler: nil)
+        }
+    }
+    @IBAction func clickTerms(_ sender: UIButton) {
+        Analytics.logEvent("click_terms_settings", parameters: nil)
+        
+        if let termsURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/terms_and_conditions.html") {
+            UIApplication.shared.open(termsURL, options: [:], completionHandler: nil)
         }
     }
     
@@ -88,32 +103,5 @@ class SettingsViewController: UIViewController {
                 self.bitmojiImage.image = nil
             }
         }
-//        if let forcedStatus = loggedIn {
-//            if (forcedStatus) {
-//                snapLink.setTitle("Disconnect Snapchat", for: .normal)
-//                snapLink.backgroundColor = UIColor(red: 0.235, green: 0.698, blue: 0.886, alpha: 1)
-//            } else {
-//                snapLink.setTitle("Link Snapchat", for: .normal)
-//                snapLink.backgroundColor = UIColor(red: 1, green: 0.753, blue: 0, alpha: 1)
-//            }
-//        } else
     }
-    //    private func fetchSnapUserInfo(){
-//        let graphQLQuery = "{me{displayName, bitmoji{avatar}}}"
-//        SCSDKLoginClient
-//            .fetchUserData(
-//                withQuery: graphQLQuery,
-//                variables: nil,
-//                success: { userInfo in
-//                    if let userInfo = userInfo,
-//                        let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted),
-//                        let userEntity = try? JSONDecoder().decode(UserEntity.self, from: data) {
-//                        DispatchQueue.main.async {
-////                            self.goToLoginConfirm(userEntity)
-//                        }
-//                    }
-//            }) { (error, isUserLoggedOut) in
-//                print(error?.localizedDescription ?? "")
-//        }
-//    }
 }

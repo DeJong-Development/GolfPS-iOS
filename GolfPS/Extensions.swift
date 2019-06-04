@@ -19,6 +19,33 @@ extension UIImage {
     }
 }
 
+extension CALayer {
+    
+    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
+        let border = CALayer()
+        
+        switch edge {
+        case UIRectEdge.top:
+            border.frame = CGRect.init(x: 0, y: 0, width: frame.width, height: thickness)
+            break
+        case UIRectEdge.bottom:
+            border.frame = CGRect.init(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
+            break
+        case UIRectEdge.left:
+            border.frame = CGRect.init(x: 0, y: 0, width: thickness, height: frame.height)
+            break
+        case UIRectEdge.right:
+            border.frame = CGRect.init(x: frame.width - thickness, y: 0, width: thickness, height: frame.height)
+            break
+        default:
+            break
+        }
+        
+        border.backgroundColor = color.cgColor;
+        self.addSublayer(border)
+    }
+}
+
 extension Date {
     //    "2016-06-18T05:18:27.935Z"
     static let iso8601Formatter: DateFormatter = {
@@ -86,5 +113,62 @@ extension String {
             finalImage = UIImage.init(cgImage: cgImage)
         }
         return finalImage
+    }
+}
+
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(hex: Int) {
+        self.init(
+            red: (hex >> 16) & 0xFF,
+            green: (hex >> 8) & 0xFF,
+            blue: hex & 0xFF
+        )
+    }
+    
+    func transparenter(by percentage: CGFloat = 15.0) -> UIColor? {
+        return self.transparentAdjust(by: -1 * abs(percentage) )
+    }
+    func opaquer(by percentage: CGFloat = 15.0) -> UIColor? {
+        return self.transparentAdjust(by: abs(percentage) )
+    }
+    
+    private func transparentAdjust(by percentage: CGFloat = 15.0) -> UIColor? {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            return UIColor(red: red,
+                           green: green,
+                           blue: blue,
+                           alpha: min(1.0, max(0, alpha + percentage/100)))
+        } else {
+            return nil
+        }
+    }
+    
+    func lighter(by percentage: CGFloat = 15.0) -> UIColor? {
+        return self.adjust(by: abs(percentage) )
+    }
+    
+    func darker(by percentage: CGFloat = 15.0) -> UIColor? {
+        return self.adjust(by: -1 * abs(percentage) )
+    }
+    
+    private func adjust(by percentage: CGFloat = 15.0) -> UIColor? {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            return UIColor(red: max(0, min(red + percentage/100, 1.0)),
+                           green: max(0, min(green + percentage/100, 1.0)),
+                           blue: max(0, min(blue + percentage/100, 1.0)),
+                           alpha: alpha)
+        } else {
+            return nil
+        }
     }
 }

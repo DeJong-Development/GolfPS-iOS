@@ -613,17 +613,37 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZIk-hs-8il">
+                                <rect key="frame" x="128.5" y="503" width="118" height="30"/>
+                                <state key="normal" title="PRIVACY POLICY"/>
+                                <connections>
+                                    <action selector="clickPrivacy:" destination="t5n-it-YCg" eventType="touchUpInside" id="iS8-EK-nti"/>
+                                    <action selector="clickPrivacy:" destination="dS7-Dt-uS5" eventType="touchUpInside" id="tW2-Me-ZmP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="loV-ZL-Phz">
+                                <rect key="frame" x="97" y="553" width="181" height="30"/>
+                                <state key="normal" title="TERMS AND CONDITIONS"/>
+                                <connections>
+                                    <action selector="clickTerms:" destination="t5n-it-YCg" eventType="touchUpInside" id="37t-Po-rRJ"/>
+                                    <action selector="clickTerms:" destination="dS7-Dt-uS5" eventType="touchUpInside" id="v8O-aS-NY1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="loV-ZL-Phz" firstAttribute="top" secondItem="ZIk-hs-8il" secondAttribute="bottom" constant="20" id="1HW-yY-Rim"/>
                             <constraint firstItem="ReD-vQ-44z" firstAttribute="top" secondItem="XcB-tf-0iP" secondAttribute="bottom" constant="35" id="33l-Tj-OVG"/>
                             <constraint firstItem="XcB-tf-0iP" firstAttribute="trailing" secondItem="d2s-ya-r7j" secondAttribute="trailing" constant="25" id="LGc-Go-ONG"/>
                             <constraint firstItem="SEV-Hy-NMi" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="Rww-MM-lHC"/>
                             <constraint firstItem="d2s-ya-r7j" firstAttribute="height" secondItem="XcB-tf-0iP" secondAttribute="height" multiplier="0.75" id="SaW-vg-1Ff"/>
                             <constraint firstItem="ReD-vQ-44z" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="TGX-7n-zym"/>
                             <constraint firstItem="d2s-ya-r7j" firstAttribute="centerY" secondItem="XcB-tf-0iP" secondAttribute="centerY" id="ahO-ui-dSX"/>
+                            <constraint firstItem="dzP-ch-zpj" firstAttribute="bottom" secondItem="loV-ZL-Phz" secondAttribute="bottom" constant="35" id="c9I-CF-pMh"/>
                             <constraint firstItem="XcB-tf-0iP" firstAttribute="top" secondItem="cxW-QG-3nJ" secondAttribute="bottom" constant="100" id="cWF-LA-jJf"/>
+                            <constraint firstItem="ZIk-hs-8il" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="hLf-Sw-0uU"/>
                             <constraint firstItem="XcB-tf-0iP" firstAttribute="top" secondItem="SEV-Hy-NMi" secondAttribute="bottom" constant="8" id="hPu-zB-zp6"/>
+                            <constraint firstItem="loV-ZL-Phz" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="ho5-0s-2Yx"/>
                             <constraint firstItem="XcB-tf-0iP" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="ima-Jr-Qzc"/>
                             <constraint firstItem="cxW-QG-3nJ" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="kMC-na-Ag3"/>
                             <constraint firstItem="SEV-Hy-NMi" firstAttribute="top" secondItem="cxW-QG-3nJ" secondAttribute="bottom" constant="12" id="qhw-3W-Uc8"/>
@@ -638,6 +658,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="haf-4b-DVk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="t5n-it-YCg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1536.8" y="-396.25187406296857"/>
         </scene>
