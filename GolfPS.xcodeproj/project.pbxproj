@@ -1,0 +1,795 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8904F344208E548900B9CCE5 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F343208E548900B9CCE5 /* Course.swift */; };
+		8904F347208E555700B9CCE5 /* Hole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F346208E555700B9CCE5 /* Hole.swift */; };
+		8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F348208E705800B9CCE5 /* ClubTools.swift */; };
+		8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E65F2088F8C800A20258 /* AppDelegate.swift */; };
+		8915E6622088F8C800A20258 /* CourseMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E6612088F8C800A20258 /* CourseMapViewController.swift */; };
+		8915E6652088F8C800A20258 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8915E6632088F8C800A20258 /* Main.storyboard */; };
+		8915E66A2088F8CA00A20258 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8915E6682088F8CA00A20258 /* LaunchScreen.storyboard */; };
+		8915E6742088F9AE00A20258 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 8915E6732088F9AE00A20258 /* Podfile */; };
+		8915E6762088FB6700A20258 /* GoogleMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E6752088FB6700A20258 /* GoogleMapViewController.swift */; };
+		8915E67A208A2FE300A20258 /* CourseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E679208A2FE300A20258 /* CourseTableViewCell.swift */; };
+		8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */; };
+		8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E680208A330F00A20258 /* CourseSelectionViewController.swift */; };
+		8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */; };
+		896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 896D147122A59BE600873D15 /* GoogleService-Info.plist */; };
+		896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147322A5A0FE00873D15 /* AppSingleton.swift */; };
+		898A20B221026D80005FCA7A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898A20B121026D80005FCA7A /* NotificationCenter.framework */; };
+		898A20B521026D80005FCA7A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A20B421026D80005FCA7A /* TodayViewController.swift */; };
+		898A20B821026D80005FCA7A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 898A20B621026D80005FCA7A /* MainInterface.storyboard */; };
+		898A20BC21026D80005FCA7A /* GolfPS Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 898A20B021026D80005FCA7A /* GolfPS Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		89996EC1210A5CE200E0E290 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89996EC0210A5CE200E0E290 /* SettingsViewController.swift */; };
+		89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89996EC3210A5F7B00E0E290 /* RequestViewController.swift */; };
+		89C32DF720B5F3DB0036C151 /* MyBagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */; };
+		89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DF820B5F3F90036C151 /* ClubTableViewCell.swift */; };
+		89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */; };
+		89C32DFD20B5FCCA0036C151 /* TabParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DFC20B5FCCA0036C151 /* TabParentViewController.swift */; };
+		89D078BA208ADBD500B97690 /* MapTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D078B9208ADBD500B97690 /* MapTools.swift */; };
+		89D68DBC21E97C090026BD7F /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89D68DBB21E97C090026BD7F /* ApiKeys.plist */; };
+		89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DFFE4E21E96B9B0096AC3C /* Extensions.swift */; };
+		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		898A20BA21026D80005FCA7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8915E6542088F8C800A20258 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 898A20AF21026D80005FCA7A;
+			remoteInfo = "GolfPS Widget";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		898A20C021026D80005FCA7A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				898A20BC21026D80005FCA7A /* GolfPS Widget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		06F5E4438E5F6058CD62C241 /* Pods-Golf Ace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Golf Ace.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Golf Ace/Pods-Golf Ace.debug.xcconfig"; sourceTree = "<group>"; };
+		1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.debug.xcconfig"; sourceTree = "<group>"; };
+		6C0D967551C1D0DB5C8ACEBF /* Pods_Golf_Ace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Golf_Ace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GolfPS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E14322CB073CCC339AF56FB /* Pods-Golf Ace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Golf Ace.release.xcconfig"; path = "Pods/Target Support Files/Pods-Golf Ace/Pods-Golf Ace.release.xcconfig"; sourceTree = "<group>"; };
+		8904F343208E548900B9CCE5 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		8904F346208E555700B9CCE5 /* Hole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hole.swift; sourceTree = "<group>"; };
+		8904F348208E705800B9CCE5 /* ClubTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubTools.swift; sourceTree = "<group>"; };
+		8915E65C2088F8C800A20258 /* GolfPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolfPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8915E65F2088F8C800A20258 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8915E6612088F8C800A20258 /* CourseMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseMapViewController.swift; sourceTree = "<group>"; };
+		8915E6642088F8C800A20258 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8915E6692088F8CA00A20258 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8915E66B2088F8CA00A20258 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8915E6732088F9AE00A20258 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8915E6752088FB6700A20258 /* GoogleMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapViewController.swift; sourceTree = "<group>"; };
+		8915E679208A2FE300A20258 /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
+		8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePickerTableViewController.swift; sourceTree = "<group>"; };
+		8915E680208A330F00A20258 /* CourseSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseSelectionViewController.swift; sourceTree = "<group>"; };
+		8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		896D147122A59BE600873D15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		896D147322A5A0FE00873D15 /* AppSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSingleton.swift; sourceTree = "<group>"; };
+		898A20B021026D80005FCA7A /* GolfPS Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GolfPS Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		898A20B121026D80005FCA7A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		898A20B421026D80005FCA7A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		898A20B721026D80005FCA7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		898A20B921026D80005FCA7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		898A20C121026DE2005FCA7A /* GolfPS Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GolfPS Widget.entitlements"; sourceTree = "<group>"; };
+		89996EC0210A5CE200E0E290 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		89996EC3210A5F7B00E0E290 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
+		89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBagViewController.swift; sourceTree = "<group>"; };
+		89C32DF820B5F3F90036C151 /* ClubTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubTableViewCell.swift; sourceTree = "<group>"; };
+		89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBagTableViewController.swift; sourceTree = "<group>"; };
+		89C32DFC20B5FCCA0036C151 /* TabParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabParentViewController.swift; sourceTree = "<group>"; };
+		89C32DFE20B6110A0036C151 /* GolfPS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GolfPS.entitlements; sourceTree = "<group>"; };
+		89D078B9208ADBD500B97690 /* MapTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTools.swift; sourceTree = "<group>"; };
+		89D68DBB21E97C090026BD7F /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
+		89DFFE4E21E96B9B0096AC3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8915E6592088F8C800A20258 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		898A20AD21026D80005FCA7A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				898A20B221026D80005FCA7A /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5CABB7DBB20D208E39DBC9FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6C0D967551C1D0DB5C8ACEBF /* Pods_Golf_Ace.framework */,
+				898A20B121026D80005FCA7A /* NotificationCenter.framework */,
+				6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8904F342208E53F700B9CCE5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8904F343208E548900B9CCE5 /* Course.swift */,
+				8904F346208E555700B9CCE5 /* Hole.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8915E6532088F8C800A20258 = {
+			isa = PBXGroup;
+			children = (
+				8915E65E2088F8C800A20258 /* GolfPS */,
+				898A20B321026D80005FCA7A /* GolfPS Widget */,
+				8915E65D2088F8C800A20258 /* Products */,
+				8915E6732088F9AE00A20258 /* Podfile */,
+				F2952F7C429A150259B45E6E /* Pods */,
+				5CABB7DBB20D208E39DBC9FE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8915E65D2088F8C800A20258 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8915E65C2088F8C800A20258 /* GolfPS.app */,
+				898A20B021026D80005FCA7A /* GolfPS Widget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8915E65E2088F8C800A20258 /* GolfPS */ = {
+			isa = PBXGroup;
+			children = (
+				89C32DFE20B6110A0036C151 /* GolfPS.entitlements */,
+				896D147122A59BE600873D15 /* GoogleService-Info.plist */,
+				89D68DBB21E97C090026BD7F /* ApiKeys.plist */,
+				8915E65F2088F8C800A20258 /* AppDelegate.swift */,
+				8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */,
+				8915E6632088F8C800A20258 /* Main.storyboard */,
+				8915E6682088F8CA00A20258 /* LaunchScreen.storyboard */,
+				8915E66B2088F8CA00A20258 /* Info.plist */,
+				8904F342208E53F700B9CCE5 /* Models */,
+				89D078B8208ADBCA00B97690 /* Tools */,
+				8915E67F208A32B500A20258 /* View Controllers */,
+				89DFFE4E21E96B9B0096AC3C /* Extensions.swift */,
+				896D147322A5A0FE00873D15 /* AppSingleton.swift */,
+			);
+			path = GolfPS;
+			sourceTree = "<group>";
+		};
+		8915E67D208A329200A20258 /* Selection */ = {
+			isa = PBXGroup;
+			children = (
+				8915E680208A330F00A20258 /* CourseSelectionViewController.swift */,
+				8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */,
+				8915E679208A2FE300A20258 /* CourseTableViewCell.swift */,
+				89996EC3210A5F7B00E0E290 /* RequestViewController.swift */,
+			);
+			path = Selection;
+			sourceTree = "<group>";
+		};
+		8915E67E208A32A400A20258 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				8915E6612088F8C800A20258 /* CourseMapViewController.swift */,
+				8915E6752088FB6700A20258 /* GoogleMapViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		8915E67F208A32B500A20258 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				89C32DFC20B5FCCA0036C151 /* TabParentViewController.swift */,
+				89996EBF210A5CD400E0E290 /* Settings */,
+				89C32DF520B5F3BF0036C151 /* MyBag */,
+				8915E67E208A32A400A20258 /* Map */,
+				8915E67D208A329200A20258 /* Selection */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		898A20B321026D80005FCA7A /* GolfPS Widget */ = {
+			isa = PBXGroup;
+			children = (
+				898A20C121026DE2005FCA7A /* GolfPS Widget.entitlements */,
+				898A20B421026D80005FCA7A /* TodayViewController.swift */,
+				898A20B621026D80005FCA7A /* MainInterface.storyboard */,
+				898A20B921026D80005FCA7A /* Info.plist */,
+			);
+			path = "GolfPS Widget";
+			sourceTree = "<group>";
+		};
+		89996EBF210A5CD400E0E290 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				89996EC0210A5CE200E0E290 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		89C32DF520B5F3BF0036C151 /* MyBag */ = {
+			isa = PBXGroup;
+			children = (
+				89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */,
+				89C32DF820B5F3F90036C151 /* ClubTableViewCell.swift */,
+				89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */,
+			);
+			path = MyBag;
+			sourceTree = "<group>";
+		};
+		89D078B8208ADBCA00B97690 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				89D078B9208ADBD500B97690 /* MapTools.swift */,
+				8904F348208E705800B9CCE5 /* ClubTools.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		F2952F7C429A150259B45E6E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				06F5E4438E5F6058CD62C241 /* Pods-Golf Ace.debug.xcconfig */,
+				7E14322CB073CCC339AF56FB /* Pods-Golf Ace.release.xcconfig */,
+				1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */,
+				DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8915E65B2088F8C800A20258 /* GolfPS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8915E66E2088F8CA00A20258 /* Build configuration list for PBXNativeTarget "GolfPS" */;
+			buildPhases = (
+				987338A928E6E19A037AF527 /* [CP] Check Pods Manifest.lock */,
+				8915E6582088F8C800A20258 /* Sources */,
+				8915E6592088F8C800A20258 /* Frameworks */,
+				8915E65A2088F8C800A20258 /* Resources */,
+				BACC91256F54FA1CF3FF6808 /* [CP] Embed Pods Frameworks */,
+				ECED2BF15C4390BFF343AB3E /* [CP] Copy Pods Resources */,
+				898A20C021026D80005FCA7A /* Embed App Extensions */,
+				89AD88DB211E219F00AA8D02 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				898A20BB21026D80005FCA7A /* PBXTargetDependency */,
+			);
+			name = GolfPS;
+			productName = "Golf Ace";
+			productReference = 8915E65C2088F8C800A20258 /* GolfPS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		898A20AF21026D80005FCA7A /* GolfPS Widget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 898A20BD21026D80005FCA7A /* Build configuration list for PBXNativeTarget "GolfPS Widget" */;
+			buildPhases = (
+				898A20AC21026D80005FCA7A /* Sources */,
+				898A20AD21026D80005FCA7A /* Frameworks */,
+				898A20AE21026D80005FCA7A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GolfPS Widget";
+			productName = "GolfPS Widget";
+			productReference = 898A20B021026D80005FCA7A /* GolfPS Widget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8915E6542088F8C800A20258 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "DeJong Development";
+				TargetAttributes = {
+					8915E65B2088F8C800A20258 = {
+						CreatedOnToolsVersion = 9.3;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
+					898A20AF21026D80005FCA7A = {
+						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 8915E6572088F8C800A20258 /* Build configuration list for PBXProject "GolfPS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8915E6532088F8C800A20258;
+			productRefGroup = 8915E65D2088F8C800A20258 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8915E65B2088F8C800A20258 /* GolfPS */,
+				898A20AF21026D80005FCA7A /* GolfPS Widget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8915E65A2088F8C800A20258 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8915E66A2088F8CA00A20258 /* LaunchScreen.storyboard in Resources */,
+				8915E6742088F9AE00A20258 /* Podfile in Resources */,
+				89D68DBC21E97C090026BD7F /* ApiKeys.plist in Resources */,
+				8915E6652088F8C800A20258 /* Main.storyboard in Resources */,
+				8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */,
+				896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		898A20AE21026D80005FCA7A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				898A20B821026D80005FCA7A /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		89AD88DB211E219F00AA8D02 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
+		};
+		987338A928E6E19A037AF527 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GolfPS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BACC91256F54FA1CF3FF6808 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
+				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKBitmojiKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCoreKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKCreativeKit.framework",
+				"${PODS_ROOT}/SnapSDK/SCSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKBitmojiKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKCreativeKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ECED2BF15C4390BFF343AB3E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseFirestore/gRPCCertificates-Firestore.bundle",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Firestore.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8915E6582088F8C800A20258 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8904F344208E548900B9CCE5 /* Course.swift in Sources */,
+				89C32DF720B5F3DB0036C151 /* MyBagViewController.swift in Sources */,
+				89D078BA208ADBD500B97690 /* MapTools.swift in Sources */,
+				8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */,
+				8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */,
+				8915E67A208A2FE300A20258 /* CourseTableViewCell.swift in Sources */,
+				8904F347208E555700B9CCE5 /* Hole.swift in Sources */,
+				8915E6622088F8C800A20258 /* CourseMapViewController.swift in Sources */,
+				89996EC1210A5CE200E0E290 /* SettingsViewController.swift in Sources */,
+				89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */,
+				8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */,
+				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
+				8915E6762088FB6700A20258 /* GoogleMapViewController.swift in Sources */,
+				896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */,
+				89C32DFD20B5FCCA0036C151 /* TabParentViewController.swift in Sources */,
+				89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */,
+				89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */,
+				89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		898A20AC21026D80005FCA7A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				898A20B521026D80005FCA7A /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		898A20BB21026D80005FCA7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 898A20AF21026D80005FCA7A /* GolfPS Widget */;
+			targetProxy = 898A20BA21026D80005FCA7A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8915E6632088F8C800A20258 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8915E6642088F8C800A20258 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8915E6682088F8CA00A20258 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8915E6692088F8CA00A20258 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		898A20B621026D80005FCA7A /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				898A20B721026D80005FCA7A /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8915E66C2088F8CA00A20258 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8915E66D2088F8CA00A20258 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8915E66F2088F8CA00A20258 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8915E6702088F8CA00A20258 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		898A20BE21026D80005FCA7A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "GolfPS Widget/GolfPS Widget.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				INFOPLIST_FILE = "GolfPS Widget/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dejongdevelopment.golfps.GolfPS-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		898A20BF21026D80005FCA7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "GolfPS Widget/GolfPS Widget.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				INFOPLIST_FILE = "GolfPS Widget/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dejongdevelopment.golfps.GolfPS-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8915E6572088F8C800A20258 /* Build configuration list for PBXProject "GolfPS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8915E66C2088F8CA00A20258 /* Debug */,
+				8915E66D2088F8CA00A20258 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8915E66E2088F8CA00A20258 /* Build configuration list for PBXNativeTarget "GolfPS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8915E66F2088F8CA00A20258 /* Debug */,
+				8915E6702088F8CA00A20258 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		898A20BD21026D80005FCA7A /* Build configuration list for PBXNativeTarget "GolfPS Widget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				898A20BE21026D80005FCA7A /* Debug */,
+				898A20BF21026D80005FCA7A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8915E6542088F8C800A20258 /* Project object */;
+}
