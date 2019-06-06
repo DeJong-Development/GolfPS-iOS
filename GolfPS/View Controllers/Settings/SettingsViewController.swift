@@ -38,9 +38,11 @@ class SettingsViewController: UIViewController {
             SCSDKLoginClient.unlinkAllSessions { (success: Bool) in
                 self.updateButtonLabel()
                 if success {
-                    let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
-                    ac.addAction(UIAlertAction(title: "OK", style: .default))
-                    self.present(ac, animated: true)
+                    DispatchQueue.main.async {
+                        let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(ac, animated: true)
+                    }
                 }
                 
             }

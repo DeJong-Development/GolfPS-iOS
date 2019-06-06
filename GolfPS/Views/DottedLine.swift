@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class DottedLine:UIView {
     
-    fileprivate let dotLineLayer:CAShapeLayer = CAShapeLayer()
+    fileprivate var dotLineLayer:CAShapeLayer = CAShapeLayer()
     
     @IBInspectable var dotColor:UIColor = UIColor.red {
         didSet {

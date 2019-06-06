@@ -45,6 +45,7 @@ class GradientView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
+        super.draw(rect)
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
         layer.masksToBounds = isRounded

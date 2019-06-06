@@ -16,6 +16,7 @@ public class Hole {
     var bunkerLocations:[GeoPoint] = [GeoPoint]()
     var teeLocations:[GeoPoint] = [GeoPoint]()
     var pinLocation:GeoPoint?
+    var dogLegLocation:GeoPoint?
     
     init(number:Int) {
         self.holeNumber = number;
@@ -23,5 +24,6 @@ public class Hole {
         bunkerLocations = [GeoPoint]()
         teeLocations = [GeoPoint]()
         pinLocation = nil
+        dogLegLocation = nil
     }
 }

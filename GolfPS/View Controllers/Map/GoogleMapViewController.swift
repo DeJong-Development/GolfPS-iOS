@@ -11,6 +11,7 @@ import GoogleMaps
 import Firebase
 import AudioToolbox
 import SCSDKBitmojiKit
+import SCSDKLoginKit
 
 extension GoogleMapViewController: CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -107,41 +108,36 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     // Wrapper for obtaining keys from keys.plist
     func valueForAPIKey(keyname:String) -> String {
         // Get the file path for keys.plist
-        let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist")
-        
-        // Put the keys in a dictionary
-        let plist = NSDictionary(contentsOfFile: filePath!)
-        
-        // Pull the value for the key
-        let value:String = plist?.object(forKey: keyname) as! String
-        
-        return value
+        if let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist") {
+            // Put the keys in a dictionary
+            if let plist = NSDictionary(contentsOfFile: filePath) {
+                // Pull the value for the key
+                if let value:String = plist.object(forKey: keyname) as? String {
+                    return value
+                }
+            }
+        }
+        return "no-key-found"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !SCSDKLoginClient.isUserLoggedIn {
+            myPlayerImage = nil
+        } else if myPlayerImage == nil {
+            downloadBitmojiImage()
+        }
     }
     
     //first
     override func loadView() {
+        super.loadView()
         GMSServices.provideAPIKey(valueForAPIKey(keyname: "GoogleMaps"))
-        
         
         let camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 2.0)
         self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         self.mapView.mapType = GMSMapViewType.satellite
         view = mapView
-        
-        SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let urlString = avatarURL, let url = URL(string: urlString) {
-                self.getData(from: url) { data, response, error in
-                    guard let data = data, error == nil else { return }
-                    print(response?.suggestedFilename ?? url.lastPathComponent)
-                    print("Download Finished")
-                    DispatchQueue.main.async() {
-                        self.myPlayerImage = UIImage(data: data)
-                    }
-                }
-            }
-        }
     }
     
     //second
@@ -161,6 +157,19 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func downloadBitmojiImage() {
+        SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
+            if let urlString = avatarURL, let url = URL(string: urlString) {
+                self.getData(from: url) { data, response, error in
+                    guard let data = data, error == nil else { return }
+                    DispatchQueue.main.async() {
+                        self.myPlayerImage = UIImage(data: data)
+                    }
+                }
+            }
+        }
     }
     
     internal func setCourse(_ course : Course) {
@@ -198,6 +207,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                         } else if let teeObj = data["tee"] as? GeoPoint {
                             hole.teeLocations = [teeObj]
                         }
+                        if let dlObj = data["dogLeg"] as? GeoPoint {
+                            hole.dogLegLocation = dlObj
+                        }
                         
                         course.holeInfo.append(hole);
                     }
@@ -209,10 +221,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     public func goToHole(increment: Int = 0) {
         currentDistanceMarker?.map = nil;
+        currentDistanceMarker = nil;
         lineToPin?.map = nil;
         lineToMyLocation?.map = nil;
-        
-        currentDistanceMarker = nil
         
         currentHoleNumber += increment;
         
@@ -233,13 +244,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         delegate.updateCurrentHole(num: currentHoleNumber);
         
         if (currentHole != nil) {
-            let bounds:GMSCoordinateBounds = updateMapBoundsForHole();
-            moveCameraToHole(with:bounds);
-            
             updatePinMarker();
             updateTeeMarker();
             updateBunkerMarkers();
             updateDrivingDistanceLines();
+            
+            let bounds:GMSCoordinateBounds = updateMapBoundsForHole();
+            moveCameraToHole(with:bounds);
             
             mapView.selectedMarker = currentPinMarker
             
@@ -254,36 +265,41 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: yardsToPin);
             delegate.updateSelectedClub(club: suggestedClub)
         }
-
     }
     
     private func moveCameraToHole(with bounds:GMSCoordinateBounds) {
-        let zoom:Float = mapTools.getBoundsZoomLevel(bounds:bounds, screenSize: view.frame)
+        let zoom:Float = mapTools.getBoundsZoomLevel(bounds: bounds, screenSize: view.frame)
         let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(bounds);
         
         let teeLocation:GeoPoint = currentHole.teeLocations[0]
         let pinLocation:GeoPoint = currentHole.pinLocation!
-        let bearing:Double = mapTools.calcBearing(start: teeLocation, finish: pinLocation) - 20
-        let newCameraView:GMSCameraPosition = GMSCameraPosition(target: center, zoom: zoom, bearing: bearing, viewingAngle: 45)
+        var bearing:Double = mapTools.calcBearing(start: teeLocation, finish: pinLocation)
+//        if let dlLocation = currentHole.dogLegLocation {
+//            bearing = mapTools.calcBearing(start: teeLocation, finish: dlLocation)
+//        }
+        let newCameraView:GMSCameraPosition = GMSCameraPosition(target: center,
+                                                                zoom: zoom,
+                                                                bearing: bearing - 20,
+                                                                viewingAngle: 45)
         mapView.animate(to: newCameraView)
     }
 
     private func updateMapBoundsForHole() -> GMSCoordinateBounds {
         var bounds:GMSCoordinateBounds = GMSCoordinateBounds();
-        
-        for point in currentHole.teeLocations {
-            let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: point.latitude,
-                                                                           longitude: point.longitude)
+        for tPoint in currentHole.teeLocations {
+            let coordinate = CLLocationCoordinate2D(latitude: tPoint.latitude, longitude: tPoint.longitude)
             bounds = bounds.includingCoordinate(coordinate);
         }
-        for point in currentHole.bunkerLocations {
-            let coordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: point.latitude,
-                                                                           longitude: point.longitude)
+        for blPoint in currentHole.bunkerLocations {
+            let coordinate = CLLocationCoordinate2D(latitude: blPoint.latitude, longitude: blPoint.longitude)
+            bounds = bounds.includingCoordinate(coordinate);
+        }
+        if let dlPoint = currentHole.dogLegLocation {
+            let coordinate = CLLocationCoordinate2D(latitude: dlPoint.latitude, longitude: dlPoint.longitude)
             bounds = bounds.includingCoordinate(coordinate);
         }
         let pinLocation:GeoPoint = currentHole.pinLocation!
-        let pinCoordinate:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: pinLocation.latitude,
-                                                                          longitude: pinLocation.longitude)
+        let pinCoordinate = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
         bounds = bounds.includingCoordinate(pinCoordinate);
         return bounds;
     }
@@ -292,10 +308,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         if (myPlayerMarker != nil) {
             myPlayerMarker!.map = nil
         }
-        if let loc:CLLocationCoordinate2D = currentPlayerLocation?.coordinate {
+        if let loc:CLLocationCoordinate2D = currentPlayerLocation?.coordinate,
+            let bitmojiImage = self.myPlayerImage {
             myPlayerMarker = GMSMarker(position: loc)
             myPlayerMarker!.title = "Me"
-            myPlayerMarker!.icon = self.myPlayerImage?.toNewSize(CGSize(width: 55, height: 55))
+            myPlayerMarker!.icon = bitmojiImage.toNewSize(CGSize(width: 55, height: 55))
             myPlayerMarker!.userData = "ME";
             myPlayerMarker!.map = mapView;
         }
@@ -340,10 +357,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         let bunkerLocationsForHole:[GeoPoint] = currentHole.bunkerLocations
         for (bunkerIndex,bunkerLocation) in bunkerLocationsForHole.enumerated() {
-            let bunkerLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: bunkerLocation.latitude,
-                                                                          longitude: bunkerLocation.longitude)
-            let teeLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: currentTeeMarker.position.latitude,
-                                                                       longitude: currentTeeMarker.position.longitude)
+            let bunkerLoc = CLLocationCoordinate2D(latitude: bunkerLocation.latitude,
+                                                   longitude: bunkerLocation.longitude)
+            let teeLoc = CLLocationCoordinate2D(latitude: currentTeeMarker.position.latitude,
+                                                longitude: currentTeeMarker.position.longitude)
             let yardsToBunker:Int = mapTools.distanceFrom(first: bunkerLoc, second: teeLoc)
             
             let bunkerMarker = GMSMarker(position: bunkerLoc)
@@ -364,7 +381,16 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         let teeLocation:GeoPoint = currentHole.teeLocations[0];
         let pinLocation:GeoPoint = currentHole.pinLocation!;
-        let bearing:Double = mapTools.calcBearing(start: teeLocation, finish: currentHole.pinLocation!)
+        let bearingToPin:Double = mapTools.calcBearing(start: teeLocation, finish: currentHole.pinLocation!)
+        var bearingToDogLeg:Double = bearingToPin
+        if let dll = currentHole.dogLegLocation {
+            bearingToDogLeg = mapTools.calcBearing(start: teeLocation, finish: dll)
+        }
+        
+        let minBearing:Int = Int(bearingToDogLeg - 12)
+        let maxBearing:Int = Int(bearingToDogLeg + 12)
+//        let minBearing:Int = Int(min(bearingToPin, bearingToDogLeg) - 12)
+//        let maxBearing:Int = Int(max(bearingToPin, bearingToDogLeg) + 12)
         
         let teeLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: teeLocation.latitude, longitude: teeLocation.longitude)
         let pinLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
@@ -376,10 +402,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 let lineColor:UIColor = distanceLineColors[i]
                 
                 let distancePath = GMSMutablePath()
-                for j in -3..<3 {
-                    let angle:Double = bearing + Double(4 * j);
-                    
-                    let distanceCoords = mapTools.coordinates(startingCoordinates: teeLoc, atDistance: Double(distance), atAngle: angle)
+                for angle in minBearing..<maxBearing {
+                    let distanceCoords = mapTools.coordinates(startingCoordinates: teeLoc, atDistance: Double(distance), atAngle: Double(angle))
                     distancePath.add(distanceCoords)
                 }
                 let distanceLine = GMSPolyline(path: distancePath)

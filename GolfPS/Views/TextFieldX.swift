@@ -17,7 +17,6 @@ enum TextFieldInputType: String {
 @IBDesignable
 class TextFieldX: UITextField {
     
-    
     @IBInspectable var hasBottomBorder: Bool = true
     @IBInspectable var hasBorder: Bool = false
     @IBInspectable var borderColor: UIColor = UIColor.clear {
@@ -37,8 +36,8 @@ class TextFieldX: UITextField {
         return NSAttributedString(string: placeholderText ?? "", attributes: placeholderAttrs)
     }
     
-    let acceptImage:UIImage = #imageLiteral(resourceName: "check-gold")
-    let invalidImage:UIImage = #imageLiteral(resourceName: "x-red-2")
+    var acceptImage:UIImage = #imageLiteral(resourceName: "check-gold")
+    var invalidImage:UIImage = #imageLiteral(resourceName: "x-red-2")
     var acceptStateImageView: UIImageView?
     
     var customPlaceholderView: UILabel?
@@ -98,6 +97,7 @@ class TextFieldX: UITextField {
     }
     
     override func draw(_ rect: CGRect) {
+        super.draw(rect)
         if (hasBottomBorder) {
             layer.addBorder(edge: .bottom, color: borderColor, thickness: borderWidth)
         } else if (hasBorder) {
@@ -124,7 +124,7 @@ class TextFieldX: UITextField {
     private func setupView() {
         
         customPlaceholderView?.removeFromSuperview()
-        customPlaceholderView = UILabel(frame: CGRect())
+        customPlaceholderView = UILabel(frame: .zero)
         customPlaceholderView!.attributedText = attributedHint
         customPlaceholderView!.alpha = 0.25
         customPlaceholderView!.translatesAutoresizingMaskIntoConstraints = false

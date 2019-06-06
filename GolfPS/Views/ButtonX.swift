@@ -26,7 +26,7 @@ class ButtonX: UIButton {
     @IBInspectable var borderColor: UIColor = UIColor.clear
     @IBInspectable var borderWidth: CGFloat = 1
     
-    let maskLayer = CAGradientLayer()
+    var maskLayer = CAGradientLayer()
     
     override var frame: CGRect {
         didSet {

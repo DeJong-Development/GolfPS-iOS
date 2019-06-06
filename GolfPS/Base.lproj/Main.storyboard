@@ -439,15 +439,15 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fHj-J0-bI4">
-                                <rect key="frame" x="178.5" y="465.5" width="18" height="50"/>
+                                <rect key="frame" x="0.0" y="465.5" width="375" height="50"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="45"/>
                                 <color key="textColor" red="0.93722427218203086" green="0.95955170665910605" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <size key="shadowOffset" width="1" height="-1"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
-                                <rect key="frame" x="184" y="515.5" width="7.5" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
+                                <rect key="frame" x="94" y="515.5" width="187.5" height="19.5"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                 <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -475,6 +475,7 @@
                             <constraint firstAttribute="bottom" secondItem="6zZ-Li-gyD" secondAttribute="bottom" constant="8" id="989-fc-C8T"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hsw-Bu-mCO"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" constant="-12" id="MiF-34-IK9"/>
+                            <constraint firstItem="fHj-J0-bI4" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="OVG-Dt-zmu"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="V2x-o8-O8f"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="Zxt-Ho-4V3"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="top" secondItem="nOD-mc-DML" secondAttribute="bottom" id="eFz-T0-taY"/>
@@ -482,6 +483,7 @@
                             <constraint firstItem="PPu-K7-rob" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qQD-2j-oPk"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="top" secondItem="7Bn-rn-ruU" secondAttribute="bottom" constant="30" id="uP3-Bt-GcA"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="top" secondItem="fHj-J0-bI4" secondAttribute="bottom" id="ves-af-ztn"/>
+                            <constraint firstItem="7Bn-rn-ruU" firstAttribute="width" secondItem="fHj-J0-bI4" secondAttribute="width" multiplier="0.5" id="xSf-uw-BnF"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="xdX-oB-pB7"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ybV-ed-VBr"/>
                         </constraints>

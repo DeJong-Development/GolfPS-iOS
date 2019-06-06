@@ -27,8 +27,8 @@ class GradientLabel: UIView {
         return NSAttributedString(string: title ?? "", attributes: placeholderAttrs)
     }
     
-    private let label:UILabel = UILabel(frame: .zero)
-    private let gradient: CAGradientLayer = CAGradientLayer()
+    private var label:UILabel = UILabel(frame: .zero)
+    private var gradient: CAGradientLayer = CAGradientLayer()
     
     @IBInspectable var startColor: UIColor = UIColor.clear
     @IBInspectable var endColor: UIColor = UIColor.clear
