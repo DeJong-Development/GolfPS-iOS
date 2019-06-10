@@ -493,12 +493,14 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                                     opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
                                 }
                             }
-//                        else if data["snap"] as? Bool == true && player.avatarURL == nil
-                        } else {
+                        } else if data["snap"] as? Bool == true && player.avatarURL == nil {
+//                        } else {
                             //did store icon on marker initially but now have no player avatar url
                             //remove snap icon
                             userDataForMarker["snap"] = false
                             opMarker.icon =  #imageLiteral(resourceName: "player_marker").toNewSize(CGSize(width: 35, height: 35))
+                        } else {
+                            userDataForMarker["snap"] = data["snap"] as? Bool ?? false
                         }
                         break;
                     }
