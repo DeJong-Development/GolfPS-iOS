@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
 
 class TabParentViewController: UITabBarController {
     
@@ -42,11 +42,6 @@ class TabParentViewController: UITabBarController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,6 +51,17 @@ class TabParentViewController: UITabBarController {
         for tbi in self.tabBar.items! {
             tbi.image = tbi.image?.withRenderingMode(.alwaysOriginal)
             tbi.selectedImage = tbi.selectedImage?.withRenderingMode(.alwaysOriginal)
+        }
+        
+        Auth.auth().signInAnonymously() { (authResult, error) in
+            if let user = authResult?.user {
+                let isAnonymous = user.isAnonymous  // true
+                let uid = user.uid
+                
+                AppSingleton.shared.me.id = uid;
+            } else if let err = error {
+                print(err.localizedDescription)
+            }
         }
     }
 

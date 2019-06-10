@@ -17,5 +17,6 @@ class AppSingleton {
     var appPath: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
     var db:Firestore!
+    let me:Player = Player()
 }
 

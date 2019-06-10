@@ -5,6 +5,7 @@ use_frameworks!
 target 'GolfPS' do
     pod 'GoogleMaps'
     pod 'GooglePlaces'
+    pod 'Firebase/Auth'
     pod 'Firebase/Firestore'
     pod 'Firebase/Core'
     pod 'Fabric'

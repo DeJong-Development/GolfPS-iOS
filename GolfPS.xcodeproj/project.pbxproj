@@ -34,6 +34,9 @@
 		898A20B521026D80005FCA7A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A20B421026D80005FCA7A /* TodayViewController.swift */; };
 		898A20B821026D80005FCA7A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 898A20B621026D80005FCA7A /* MainInterface.storyboard */; };
 		898A20BC21026D80005FCA7A /* GolfPS Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 898A20B021026D80005FCA7A /* GolfPS Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */; };
+		898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA922AC5D6A00C7815A /* Player.swift */; };
+		898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */; };
 		89996EC1210A5CE200E0E290 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89996EC0210A5CE200E0E290 /* SettingsViewController.swift */; };
 		89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89996EC3210A5F7B00E0E290 /* RequestViewController.swift */; };
 		89C32DF720B5F3DB0036C151 /* MyBagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */; };
@@ -108,6 +111,9 @@
 		898A20B721026D80005FCA7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		898A20B921026D80005FCA7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		898A20C121026DE2005FCA7A /* GolfPS Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GolfPS Widget.entitlements"; sourceTree = "<group>"; };
+		898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdateTimer.swift; sourceTree = "<group>"; };
+		898C2DA922AC5D6A00C7815A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUpdateTimer.swift; sourceTree = "<group>"; };
 		89996EC0210A5CE200E0E290 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		89996EC3210A5F7B00E0E290 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
 		89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBagViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +160,7 @@
 		8904F342208E53F700B9CCE5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				898C2DA922AC5D6A00C7815A /* Player.swift */,
 				8904F343208E548900B9CCE5 /* Course.swift */,
 				8904F346208E555700B9CCE5 /* Hole.swift */,
 			);
@@ -284,6 +291,8 @@
 			children = (
 				89D078B9208ADBD500B97690 /* MapTools.swift */,
 				8904F348208E705800B9CCE5 /* ClubTools.swift */,
+				898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */,
+				898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -462,6 +471,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
@@ -478,6 +488,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
@@ -527,6 +538,7 @@
 				89C32DF720B5F3DB0036C151 /* MyBagViewController.swift in Sources */,
 				89D078BA208ADBD500B97690 /* MapTools.swift in Sources */,
 				8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */,
+				898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */,
 				8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */,
 				8915E67A208A2FE300A20258 /* CourseTableViewCell.swift in Sources */,
 				8904F347208E555700B9CCE5 /* Hole.swift in Sources */,
@@ -536,6 +548,7 @@
 				89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */,
 				896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */,
 				8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */,
+				898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */,
 				896D147E22A6D1B500873D15 /* Emitter.swift in Sources */,
 				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
 				896D148222A6D1D100873D15 /* GradientView.swift in Sources */,
@@ -548,6 +561,7 @@
 				896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */,
 				896D148622A6D1D600873D15 /* GradientButton.swift in Sources */,
 				89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */,
+				898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */,
 				89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,7 +736,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -744,7 +758,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
