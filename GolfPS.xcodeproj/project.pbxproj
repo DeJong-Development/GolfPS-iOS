@@ -46,6 +46,7 @@
 		89D078BA208ADBD500B97690 /* MapTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D078B9208ADBD500B97690 /* MapTools.swift */; };
 		89D68DBC21E97C090026BD7F /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89D68DBB21E97C090026BD7F /* ApiKeys.plist */; };
 		89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DFFE4E21E96B9B0096AC3C /* Extensions.swift */; };
+		89F474F822B1D6CA007D044A /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F474F722B1D6CA007D044A /* Club.swift */; };
 		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +125,7 @@
 		89D078B9208ADBD500B97690 /* MapTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTools.swift; sourceTree = "<group>"; };
 		89D68DBB21E97C090026BD7F /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		89DFFE4E21E96B9B0096AC3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		89F474F722B1D6CA007D044A /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +165,7 @@
 				898C2DA922AC5D6A00C7815A /* Player.swift */,
 				8904F343208E548900B9CCE5 /* Course.swift */,
 				8904F346208E555700B9CCE5 /* Hole.swift */,
+				89F474F722B1D6CA007D044A /* Club.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */,
 				8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */,
 				8915E67A208A2FE300A20258 /* CourseTableViewCell.swift in Sources */,
+				89F474F822B1D6CA007D044A /* Club.swift in Sources */,
 				8904F347208E555700B9CCE5 /* Hole.swift in Sources */,
 				896D147822A6D1A200873D15 /* ImageViewX.swift in Sources */,
 				8915E6622088F8C800A20258 /* CourseMapViewController.swift in Sources */,

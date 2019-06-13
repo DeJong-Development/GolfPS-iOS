@@ -100,6 +100,9 @@ class CourseSelectionViewController: UIViewController {
                         if let state:String = data["state"] as? String {
                             course.state = state;
                         }
+                        if let spectationSpot:GeoPoint = data["spectation"] as? GeoPoint {
+                            course.spectation = spectationSpot;
+                        }
                         self.embeddedCourseTableViewController?.courseList.append(course);
                     }
                 }

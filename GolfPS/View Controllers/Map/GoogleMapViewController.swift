@@ -53,10 +53,22 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             let yardsToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: currentPinMarker.position)
             delegate.updateDistanceToPin(distance: yardsToPin)
             
+            let suggestedClubNum:Int = clubTools.getClubSuggestionNum(ydsTo: yardsToPin);
+            
             let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: yardsToPin);
             delegate.updateSelectedClub(club: suggestedClub)
             
             updateDistanceMarker()
+            
+            //if we are not being suggested the driver -> show the resulting suggested club arcs
+            if (suggestedClubNum > 1) ||
+                (yardsToPinFromTee != nil &&
+                    yardsToPinFromMyLocation < yardsToPinFromTee! - 30 &&
+                    yardsToTeeFromMyLocation + yardsToPinFromMyLocation < yardsToPinFromTee! + 75)  {
+                updateRecommendedClubLines()
+            } else {
+                updateDrivingDistanceLines()
+            }
         }
     }
 }
@@ -113,8 +125,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private var isDraggingDistanceMarker:Bool = false
     
-    private var distanceLines:[GMSPolyline] = [GMSPolyline]();
-    private let distanceLineColors:[UIColor] = [UIColor.red, UIColor.magenta, UIColor.yellow];
+    private var drivingDistanceLines:[GMSPolyline] = [GMSPolyline]();
+    private let drivingDistanceLineColors:[UIColor] = [UIColor.green, UIColor.yellow, UIColor.orange];
+    
+    private var suggestedDistanceLines:[GMSPolyline] = [GMSPolyline]();
     
     private var lineToMyLocation:GMSPolyline?
     private var lineToPin:GMSPolyline?
@@ -130,8 +144,31 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         if let pressLocation = currentDistanceMarker?.position {
             return mapTools.distanceFrom(first: currentTeeMarker.position, second: pressLocation)
         } else {
-            return -1;
+            return 1000;
         }
+    }
+    private var yardsToPinFromMyLocation:Int {
+        var yardsToPin = 1000;
+        if let playerLocation = currentPlayerLocation {
+            yardsToPin = mapTools.distanceFrom(first: playerLocation.coordinate, second: currentPinMarker.position)
+        } else {
+            yardsToPin = mapTools.distanceFrom(first: currentTeeMarker.position, second: currentPinMarker.position)
+        }
+        return yardsToPin
+    }
+    private var yardsToTeeFromMyLocation:Int {
+        var yardsToTee = 1000;
+        if let playerCoord = currentPlayerLocation?.coordinate,
+            let teeCoord = currentTeeMarker?.position {
+            yardsToTee = mapTools.distanceFrom(first: playerCoord, second: teeCoord)
+        }
+        return yardsToTee
+    }
+    private var yardsToPinFromTee:Int? {
+        if let tp = currentTeeMarker?.position, let pp = currentPinMarker?.position {
+            return mapTools.distanceFrom(first: tp, second: pp)
+        }
+        return nil
     }
     
     private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
@@ -228,7 +265,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let userId = AppSingleton.shared.me.id
         
         if AppSingleton.shared.me.shareLocation {
-            print("updating player location!")
             if let id = self.course?.id {
                 db.collection("players")
                     .document(userId)
@@ -305,6 +341,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         locationTimer.delegate = self
         locationTimer.startNewTimer(interval: 15)
         
+        //reset current hole number
+        currentHoleNumber = 1;
+        
         //grab course hole information
         db.collection("courses").document(course.id)
             .collection("holes").getDocuments() { (querySnapshot, err) in
@@ -344,7 +383,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                         course.holeInfo.append(hole);
                     }
                 }
-                self.goToHole();
+                
+                //add marker to show clubhouse and spectators?
+//                self.moveCamera(to: course.bounds, orientToHole: false);
+                self.goToHole()
             }
         }
     }
@@ -377,62 +419,50 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             updatePinMarker();
             updateTeeMarker();
             updateBunkerMarkers();
-            updateDrivingDistanceLines();
             
-            let bounds:GMSCoordinateBounds = updateMapBoundsForHole();
-            moveCameraToHole(with:bounds);
+            moveCamera(to: currentHole.bounds, orientToHole: true);
             
             mapView.selectedMarker = currentPinMarker
             
-            var yardsToPin = 1000;
-            if let playerLocation = currentPlayerLocation {
-                yardsToPin = mapTools.distanceFrom(first: playerLocation.coordinate, second: currentPinMarker.position)
-            } else {
-                yardsToPin = mapTools.distanceFrom(first: currentTeeMarker.position, second: currentPinMarker.position)
-            }
-            delegate.updateDistanceToPin(distance: yardsToPin)
+            delegate.updateDistanceToPin(distance: yardsToPinFromMyLocation)
             
-            let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: yardsToPin);
+            let suggestedClubNum:Int = clubTools.getClubSuggestionNum(ydsTo: yardsToPinFromMyLocation);
+            let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: yardsToPinFromMyLocation);
             delegate.updateSelectedClub(club: suggestedClub)
+            
+            if (suggestedClubNum > 1) ||
+                (yardsToPinFromTee != nil &&
+                    yardsToPinFromMyLocation < yardsToPinFromTee! - 30 &&
+                    yardsToTeeFromMyLocation + yardsToPinFromMyLocation < yardsToPinFromTee! + 75) { //30 yard buffer for bad tee position
+                updateRecommendedClubLines()
+            } else {
+                updateDrivingDistanceLines();
+            }
         }
     }
     
-    private func moveCameraToHole(with bounds:GMSCoordinateBounds) {
+    private func moveCamera(to bounds:GMSCoordinateBounds, orientToHole:Bool) {
         let zoom:Float = mapTools.getBoundsZoomLevel(bounds: bounds, screenSize: view.frame)
         let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(bounds);
         
-        let teeLocation:GeoPoint = currentHole.teeLocations[0]
-        let pinLocation:GeoPoint = currentHole.pinLocation!
-        let bearing:Double = mapTools.calcBearing(start: teeLocation, finish: pinLocation)
+        var bearing:Double = 0
+        var viewingAngle:Double = 0
+        if (orientToHole) {
+            let teeLocation:GeoPoint = currentHole.teeLocations[0]
+            let pinLocation:GeoPoint = currentHole.pinLocation!
+            bearing = mapTools.calcBearing(start: teeLocation, finish: pinLocation) - 20
+            viewingAngle = 45
+        }
 //        if let dlLocation = currentHole.dogLegLocation {
 //            bearing = mapTools.calcBearing(start: teeLocation, finish: dlLocation)
 //        }
         let newCameraView:GMSCameraPosition = GMSCameraPosition(target: center,
                                                                 zoom: zoom,
-                                                                bearing: bearing - 20,
-                                                                viewingAngle: 45)
+                                                                bearing: bearing,
+                                                                viewingAngle: viewingAngle)
         mapView.animate(to: newCameraView)
     }
-
-    private func updateMapBoundsForHole() -> GMSCoordinateBounds {
-        var bounds:GMSCoordinateBounds = GMSCoordinateBounds();
-        for tPoint in currentHole.teeLocations {
-            let coordinate = CLLocationCoordinate2D(latitude: tPoint.latitude, longitude: tPoint.longitude)
-            bounds = bounds.includingCoordinate(coordinate);
-        }
-        for blPoint in currentHole.bunkerLocations {
-            let coordinate = CLLocationCoordinate2D(latitude: blPoint.latitude, longitude: blPoint.longitude)
-            bounds = bounds.includingCoordinate(coordinate);
-        }
-        if let dlPoint = currentHole.dogLegLocation {
-            let coordinate = CLLocationCoordinate2D(latitude: dlPoint.latitude, longitude: dlPoint.longitude)
-            bounds = bounds.includingCoordinate(coordinate);
-        }
-        let pinLocation:GeoPoint = currentHole.pinLocation!
-        let pinCoordinate = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
-        bounds = bounds.includingCoordinate(pinCoordinate);
-        return bounds;
-    }
+    
     
     private func removeOldPlayerMarkers() {
         for marker in otherPlayerMarkers {
@@ -471,7 +501,17 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             if let playerGeoPoint:GeoPoint = player.location,
                 player.id != AppSingleton.shared.me.id {
                 
-                let playerLocation = CLLocationCoordinate2D(latitude: playerGeoPoint.latitude, longitude: playerGeoPoint.longitude)
+                var markerTitle:String = "Golfer"
+                
+                var playerLocation = CLLocationCoordinate2D(latitude: playerGeoPoint.latitude, longitude: playerGeoPoint.longitude)
+                if let courseSpec = course.spectation, !course.bounds.contains(playerLocation) {
+                    //not within course bounds - lets put them as spectator
+                    let randomDoubleLat = Double.random(in: -0.00001...0.00001)
+                    let randomDoubleLng = Double.random(in: -0.00001...0.00001)
+                    playerLocation = CLLocationCoordinate2D(latitude: courseSpec.latitude + randomDoubleLat,
+                                                            longitude: courseSpec.longitude + randomDoubleLng)
+                    markerTitle = "Spectator"
+                }
                 
                 var userDataForMarker:[String:Any] = ["userId":player.id, "snap":false]
                 var opMarker:GMSMarker! = nil
@@ -494,7 +534,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                                 }
                             }
                         } else if data["snap"] as? Bool == true && player.avatarURL == nil {
-//                        } else {
                             //did store icon on marker initially but now have no player avatar url
                             //remove snap icon
                             userDataForMarker["snap"] = false
@@ -510,7 +549,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 if opMarker == nil {
                     
                     opMarker = GMSMarker(position: playerLocation)
-                    opMarker.title = "Golfer"
                     opMarker.icon =  #imageLiteral(resourceName: "player_marker").toNewSize(CGSize(width: 35, height: 35))
                     
                     //if player has specified avatar then add the icon to the marker
@@ -531,9 +569,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 
                 //attached the potentially updated user data to the marker
                 opMarker.userData = userDataForMarker
+                opMarker.title = markerTitle
                 
                 let timeSinceLastLocationUpdate = player.lastLocationUpdate?.timeIntervalSinceNow ?? 1000
-                opMarker.opacity = timeSinceLastLocationUpdate < -60 ? 0.5 : 1
+                opMarker.opacity = timeSinceLastLocationUpdate < -60 ? 0.75 : 1
                 opMarker.map = self.mapView
             } else {
                 //no location data available for user or myself
@@ -604,7 +643,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             let yardsToBunker:Int = mapTools.distanceFrom(first: bunkerLoc, second: teeLoc)
             
             let bunkerMarker = GMSMarker(position: bunkerLoc)
-            bunkerMarker.title = "Bunker"
+            bunkerMarker.title = "Hazard"
             bunkerMarker.snippet = "\(yardsToBunker) yds"
             bunkerMarker.icon = #imageLiteral(resourceName: "hazard_marker").toNewSize(CGSize(width: 35, height: 35))
             bunkerMarker.userData = "\(currentHoleNumber):B\(bunkerIndex)";
@@ -614,10 +653,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     private func updateDrivingDistanceLines() {
-        for line in distanceLines {
-            line.map = nil;
-        }
-        distanceLines.removeAll()
+        clearDistanceLines()
         
         let teeLocation:GeoPoint = currentHole.teeLocations[0];
         let pinLocation:GeoPoint = currentHole.pinLocation!;
@@ -639,7 +675,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         if (clubTools.getClubDistance(num: 1) < teeYardsToPin) {
             for i in 0..<3 {
                 let distance = clubTools.getClubDistance(num: i + 1)
-                let lineColor:UIColor = distanceLineColors[i]
+                let lineColor:UIColor = drivingDistanceLineColors[i]
                 
                 let distancePath = GMSMutablePath()
                 for angle in minBearing..<maxBearing {
@@ -651,7 +687,67 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 distanceLine.strokeWidth = 2
                 distanceLine.map = mapView
                 
-                distanceLines.append(distanceLine)
+                drivingDistanceLines.append(distanceLine)
+            }
+        }
+    }
+    
+    private func clearDistanceLines() {
+        for line in drivingDistanceLines {
+            line.map = nil;
+        }
+        for line in suggestedDistanceLines {
+            line.map = nil;
+        }
+        drivingDistanceLines.removeAll()
+        suggestedDistanceLines.removeAll()
+    }
+    
+    private func updateRecommendedClubLines() {
+        clearDistanceLines()
+        
+        guard let myLocation = currentPlayerLocation else {
+            return
+        }
+        
+        let myGeopoint:GeoPoint = GeoPoint(latitude: myLocation.coordinate.latitude, longitude: myLocation.coordinate.longitude)
+        let pinGeopoint:GeoPoint = currentHole.pinLocation!;
+        let bearingToPin:Double = mapTools.calcBearing(start: myGeopoint, finish: pinGeopoint)
+        
+        let minBearing:Int = Int(bearingToPin - 12)
+        let maxBearing:Int = Int(bearingToPin + 12)
+        
+        //only show suggestion line if the min distance is less than current distance
+        if (clubTools.getClubDistance(num: 13) < yardsToPinFromMyLocation) {
+            let suggestedClubNum:Int = clubTools.getClubSuggestionNum(ydsTo: yardsToPinFromMyLocation);
+            
+            //show up to 2 club ups - if suggesting driver then 0 change allowed
+            let minChange:Int = -min(suggestedClubNum - 1, 2)
+            
+            //show up to 2 club downs but not past smallest club
+            let maxChange:Int = min(13 - suggestedClubNum, 2) + 1
+            
+            for i in minChange..<maxChange {
+                let distance = clubTools.getClubDistance(num: max(1, min(13, suggestedClubNum + i)))
+                var lineColor:UIColor = UIColor.white
+                switch i {
+                case -1: lineColor = UIColor.red;
+                case 0: lineColor = UIColor.green;
+                case 1: lineColor = UIColor.yellow;
+                default: lineColor = UIColor(white: 1, alpha: 0.25)
+                }
+                
+                let distancePath = GMSMutablePath()
+                for angle in minBearing..<maxBearing {
+                    let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate, atDistance: Double(distance), atAngle: Double(angle))
+                    distancePath.add(distanceCoords)
+                }
+                let distanceLine = GMSPolyline(path: distancePath)
+                distanceLine.strokeColor = lineColor;
+                distanceLine.strokeWidth = 2
+                distanceLine.map = mapView
+                
+                suggestedDistanceLines.append(distanceLine)
             }
         }
     }
@@ -704,7 +800,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private func updateDistanceMarker() {
         if (currentDistanceMarker != nil && yardsToPressFromTee > 0) {
-            let usingLocation:Bool = (yardsToPressFromLocation < 1000 && yardsToPressFromLocation > 0)
+            let usingLocation:Bool = (yardsToPressFromLocation < yardsToPressFromTee + 25 && yardsToPressFromLocation > 0)
             let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: (usingLocation) ? yardsToPressFromLocation : yardsToPressFromTee);
             
             currentDistanceMarker!.title = usingLocation ? "\(yardsToPressFromLocation) yds" : "\(yardsToPressFromTee) yds"
@@ -725,16 +821,14 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             }
             
             let playerPath = GMSMutablePath()
-            if (yardsToPressFromLocation < 1000 && yardsToPressFromLocation > 0) {
+            if (usingLocation) {
                 if let playerLocation = currentPlayerLocation {
                     playerPath.add(playerLocation.coordinate)
                     playerPath.add(currentDistanceMarker!.position)
                 }
-            } else if (yardsToPressFromTee > 0) {
+            } else {
                 playerPath.add(currentTeeMarker.position)
                 playerPath.add(currentDistanceMarker!.position)
-            } else {
-                print("invalid positions!!!")
             }
             if (lineToMyLocation == nil) {
                 lineToMyLocation = GMSPolyline(path: playerPath)

@@ -7,14 +7,28 @@
 //
 
 import Foundation
+import GoogleMaps
+import FirebaseFirestore
 
 public class Course {
     var id:String = ""
     var name:String = ""
     var city:String = ""
     var state:String = ""
+    var spectation:GeoPoint?
     
     var holeInfo:[Hole] = [Hole]();
+    
+    var bounds:GMSCoordinateBounds {
+        var bounds:GMSCoordinateBounds = GMSCoordinateBounds();
+        for hole in self.holeInfo {
+            bounds = bounds.includingBounds(hole.bounds);
+        }
+        if let s = spectation {
+            bounds = bounds.includingCoordinate(CLLocationCoordinate2D(latitude: s.latitude, longitude: s.longitude))
+        }
+        return bounds;
+    }
     
     init(id:String) {
         self.id = id;

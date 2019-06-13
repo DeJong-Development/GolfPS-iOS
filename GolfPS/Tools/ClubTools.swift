@@ -28,6 +28,7 @@ class ClubTools {
         case 11: clubName = self.preferences.string(forKey: "clubname\(i)") ?? "Pitching Wedge"; break;
         case 12: clubName = self.preferences.string(forKey: "clubname\(i)") ?? "Gap Wedge"; break;
         case 13: clubName = self.preferences.string(forKey: "clubname\(i)") ?? "Sand Wedge"; break;
+        case 14: clubName = self.preferences.string(forKey: "clubname\(i)") ?? "Putter"; break;
         default: break;
         }
         return clubName;
@@ -53,6 +54,7 @@ class ClubTools {
             case 11: distance = 130; break;
             case 12: distance = 110; break;
             case 13: distance = 80; break;
+            case 14: distance = 5; break;
             default: distance = 275; break;
             }
         }
@@ -60,24 +62,31 @@ class ClubTools {
         return distance
     }
     
-    public func getClubSuggestion(ydsTo: Int) -> String {
+    public func getClubSuggestionNum(ydsTo: Int) -> Int {
         var avgDistances:[Int] = [Int]()
-        var clubNames:[String] = [String]();
-        
         var distance:Int = -1;
-        var clubName:String = "";
         
         for i in 1..<14 {
             distance = getClubDistance(num: i);
             avgDistances.append(distance)
-            
-            clubName = getClubName(clubNum: i)
-            clubNames.append(clubName);
         }
         
         var clubNum:Int = 0;
         while (ydsTo < avgDistances[clubNum] && clubNum < 12) { clubNum += 1; } //iterate until we hit the appropriate club
-        return clubNames[clubNum];
+        return (clubNum + 1) //driver is club 1 not club 0
+    }
+    
+    public func getClubSuggestion(ydsTo: Int) -> String {
+        var clubNames:[String] = [String]();
+        var clubName:String = "";
+        
+        for i in 1..<14 {
+            clubName = getClubName(clubNum: i)
+            clubNames.append(clubName);
+        }
+        
+        let clubNum = getClubSuggestionNum(ydsTo: ydsTo)
+        return clubNames[clubNum - 1];
     }
     
     public func saveClubName(name:String, number:Int) {
