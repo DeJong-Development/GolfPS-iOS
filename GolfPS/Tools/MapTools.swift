@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 import GoogleMaps
 
 class MapTools {
@@ -88,7 +88,7 @@ class MapTools {
         return radians * 180 / .pi;
     }
     
-    public func distanceFrom(first:CLLocationCoordinate2D, second:CLLocationCoordinate2D) -> Int {
+    public func distanceFrom(first:GeoPoint, second:GeoPoint) -> Int {
         let earthRadiusKm:Double = 6371;
         
         var lat1:Double = first.latitude;
@@ -105,5 +105,11 @@ class MapTools {
         let a:Double = sin(dLat / 2) * sin(dLat / 2) + sin(dLon / 2) * sin(dLon / 2) * cos(lat1) * cos(lat2);
         let c:Double = 2 * atan2(sqrt(a), sqrt(1-a));
         return Int(earthRadiusKm * c * 1093.61); //convert km to yards
+    }
+    public func distanceFrom(first:CLLocationCoordinate2D, second:CLLocationCoordinate2D) -> Int {
+        return distanceFrom(first: first.geopoint, second: second.geopoint)
+    }
+    public func distanceFrom(first:CLLocation, second:CLLocation) -> Int {
+        return distanceFrom(first: first.geopoint, second: second.geopoint)
     }
 }

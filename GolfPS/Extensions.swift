@@ -7,6 +7,22 @@
 //
 
 import UIKit
+import GoogleMaps
+import FirebaseFirestore
+
+extension CLLocationCoordinate2D {
+    var geopoint: GeoPoint {
+        return GeoPoint(latitude: self.latitude,
+                        longitude: self.longitude)
+    }
+}
+
+extension CLLocation {
+    var geopoint: GeoPoint {
+        return GeoPoint(latitude: self.coordinate.latitude,
+                        longitude: self.coordinate.longitude)
+    }
+}
 
 extension UIImage {
     
