@@ -53,15 +53,13 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             let yardsToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: currentPinMarker.position)
             delegate.updateDistanceToPin(distance: yardsToPin)
             
-            let suggestedClubNum:Int = clubTools.getClubSuggestionNum(ydsTo: yardsToPin);
-            
-            let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: yardsToPin);
+            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: yardsToPin)
             delegate.updateSelectedClub(club: suggestedClub)
             
             updateDistanceMarker()
             
             //if we are not being suggested the driver -> show the resulting suggested club arcs
-            if (suggestedClubNum > 1) ||
+            if (suggestedClub.number > 1) ||
                 (yardsToPinFromTee != nil &&
                     yardsToPinFromMyLocation < yardsToPinFromTee! - 30 &&
                     yardsToTeeFromMyLocation + yardsToPinFromMyLocation < yardsToPinFromTee! + 75)  {
@@ -426,11 +424,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             delegate.updateDistanceToPin(distance: yardsToPinFromMyLocation)
             
-            let suggestedClubNum:Int = clubTools.getClubSuggestionNum(ydsTo: yardsToPinFromMyLocation);
-            let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: yardsToPinFromMyLocation);
+            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: yardsToPinFromMyLocation)
             delegate.updateSelectedClub(club: suggestedClub)
             
-            if (suggestedClubNum > 1) ||
+            if (suggestedClub.number > 1) ||
                 (yardsToPinFromTee != nil &&
                     yardsToPinFromMyLocation < yardsToPinFromTee! - 30 &&
                     yardsToTeeFromMyLocation + yardsToPinFromMyLocation < yardsToPinFromTee! + 75) { //30 yard buffer for bad tee position
@@ -672,14 +669,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let pinLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
         let teeYardsToPin:Int = mapTools.distanceFrom(first: teeLoc, second: pinLoc)
         
-        if (clubTools.getClubDistance(num: 1) < teeYardsToPin) {
+        let driver:Club = Club(number: 1)
+        if (driver.distance < teeYardsToPin) {
             for i in 0..<3 {
-                let distance = clubTools.getClubDistance(num: i + 1)
+                let drivingClub:Club = Club(number: i + 1)
                 let lineColor:UIColor = drivingDistanceLineColors[i]
                 
                 let distancePath = GMSMutablePath()
                 for angle in minBearing..<maxBearing {
-                    let distanceCoords = mapTools.coordinates(startingCoordinates: teeLoc, atDistance: Double(distance), atAngle: Double(angle))
+                    let distanceCoords = mapTools.coordinates(startingCoordinates: teeLoc, atDistance: Double(drivingClub.distance), atAngle: Double(angle))
                     distancePath.add(distanceCoords)
                 }
                 let distanceLine = GMSPolyline(path: distancePath)
@@ -717,18 +715,18 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let minBearing:Int = Int(bearingToPin - 12)
         let maxBearing:Int = Int(bearingToPin + 12)
         
+        let shortestWedge:Club = Club(number: 13)
         //only show suggestion line if the min distance is less than current distance
-        if (clubTools.getClubDistance(num: 13) < yardsToPinFromMyLocation) {
-            let suggestedClubNum:Int = clubTools.getClubSuggestionNum(ydsTo: yardsToPinFromMyLocation);
+        if (shortestWedge.distance < yardsToPinFromMyLocation) {
+            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: yardsToPinFromMyLocation)
             
             //show up to 2 club ups - if suggesting driver then 0 change allowed
-            let minChange:Int = -min(suggestedClubNum - 1, 2)
+            let minChange:Int = -min(suggestedClub.number - 1, 2)
             
             //show up to 2 club downs but not past smallest club
-            let maxChange:Int = min(13 - suggestedClubNum, 2) + 1
+            let maxChange:Int = min(13 - suggestedClub.number, 2) + 1
             
             for i in minChange..<maxChange {
-                let distance = clubTools.getClubDistance(num: max(1, min(13, suggestedClubNum + i)))
                 var lineColor:UIColor = UIColor.white
                 switch i {
                 case -1: lineColor = UIColor.red;
@@ -739,7 +737,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 
                 let distancePath = GMSMutablePath()
                 for angle in minBearing..<maxBearing {
-                    let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate, atDistance: Double(distance), atAngle: Double(angle))
+                    let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate,
+                                                              atDistance: Double(suggestedClub.distance),
+                                                              atAngle: Double(angle))
                     distancePath.add(distanceCoords)
                 }
                 let distanceLine = GMSPolyline(path: distancePath)
@@ -801,10 +801,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateDistanceMarker() {
         if (currentDistanceMarker != nil && yardsToPressFromTee > 0) {
             let usingLocation:Bool = (yardsToPressFromLocation < yardsToPressFromTee + 25 && yardsToPressFromLocation > 0)
-            let suggestedClub:String = clubTools.getClubSuggestion(ydsTo: (usingLocation) ? yardsToPressFromLocation : yardsToPressFromTee);
+            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: (usingLocation) ? yardsToPressFromLocation : yardsToPressFromTee);
             
             currentDistanceMarker!.title = usingLocation ? "\(yardsToPressFromLocation) yds" : "\(yardsToPressFromTee) yds"
-            currentDistanceMarker!.snippet = suggestedClub
+            currentDistanceMarker!.snippet = suggestedClub.name
             
             let pinPath = GMSMutablePath()
             pinPath.add(currentDistanceMarker!.position)

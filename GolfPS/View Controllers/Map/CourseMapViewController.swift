@@ -12,7 +12,7 @@ import Firebase
 
 protocol ViewUpdateDelegate: class {
     func updateDistanceToPin(distance: Int);
-    func updateSelectedClub(club: String);
+    func updateSelectedClub(club: Club);
     func updateCurrentHole(num: Int)
 }
 
@@ -90,8 +90,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         distanceToPinLabel.text = "\(distance) yds"
         todayExtensionValues?.setValue("\(distance) yds", forKey: "test_yards")
     }
-    internal func updateSelectedClub(club: String) {
-        selectedClubLabel.text = club
+    internal func updateSelectedClub(club: Club) {
+        selectedClubLabel.text = club.name
     }
     
     @IBAction func nextHoleButton(_ sender: UIButton) {

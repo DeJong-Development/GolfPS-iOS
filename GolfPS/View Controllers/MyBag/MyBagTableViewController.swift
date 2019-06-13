@@ -45,8 +45,10 @@ class MyBagTableViewController: UITableViewController {
         }
         
         let clubNumber:Int = indexPath.row + 1;
-        cell.clubName.text = clubTools.getClubName(clubNum: clubNumber)
-        cell.clubDistance.text = String(clubTools.getClubDistance(num: clubNumber))
+        let club:Club = Club(number: clubNumber)
+        cell.clubName.text = club.name
+        cell.clubDistance.text = String(club.distance)
+        
         cell.clubName.tag = clubNumber;
         cell.clubDistance.tag = clubNumber;
         
@@ -81,7 +83,8 @@ class MyBagTableViewController: UITableViewController {
         if let clubName = textField.text {
             let cleanClubName = clubName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             if (cleanClubName != "") {
-                clubTools.saveClubName(name: cleanClubName, number: clubNum)
+                var club = Club(number: clubNum)
+                club.name = cleanClubName
             }
         }
     }
@@ -89,7 +92,8 @@ class MyBagTableViewController: UITableViewController {
         let clubNum = textField.tag;
         if let clubDistance = textField.text {
             if let clubDistanceNum = Int(clubDistance) {
-                clubTools.saveClubDistance(distance: clubDistanceNum, number: clubNum)
+                var club = Club(number: clubNum)
+                club.distance = clubDistanceNum
             }
         }
     }
