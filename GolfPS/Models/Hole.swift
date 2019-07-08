@@ -12,7 +12,7 @@ import GoogleMaps
 
 public class Hole {
     
-    var holeNumber:Int = 1;
+    var number:Int = 1;
     
     var bunkerLocations:[GeoPoint] = [GeoPoint]()
     var teeLocations:[GeoPoint] = [GeoPoint]()
@@ -41,7 +41,7 @@ public class Hole {
     }
     
     init(number:Int) {
-        self.holeNumber = number;
+        self.number = number;
         
         bunkerLocations = [GeoPoint]()
         teeLocations = [GeoPoint]()

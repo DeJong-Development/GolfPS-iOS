@@ -98,8 +98,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     private var currentHoleNumber:Int = 1;
-    
-    private var course:Course!
     private var currentHole:Hole!
     
     private var playerListener:ListenerRegistration? = nil
@@ -113,6 +111,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
+    private var myDrivingDistanceMarker:GMSMarker?
     private var currentPinMarker:GMSMarker!
     private var currentTeeMarker:GMSMarker!
     private var currentBunkerMarkers:[GMSMarker] = [GMSMarker]();
@@ -187,12 +186,17 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             downloadBitmojiImage()
         }
         
-        if (course != nil) {
+        AppSingleton.shared.me.lastLocationUpdate = nil
+        AppSingleton.shared.me.location = nil
+        
+        if let course = AppSingleton.shared.course {
             locationTimer.invalidate()
             locationTimer.delegate = self
             locationTimer.startNewTimer(interval: 15)
             
             listenToPlayerLocationsOnCourse(with: course.id)
+            
+            self.goToHole()
         }
     }
     
@@ -222,6 +226,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.allowsBackgroundLocationUpdates = true
         
         locationManager.startUpdatingLocation()
         
@@ -254,7 +259,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let userId = AppSingleton.shared.me.id
         
         if AppSingleton.shared.me.shareLocation {
-            if let id = self.course?.id {
+            if let id = AppSingleton.shared.course?.id {
                 db.collection("players")
                     .document(userId)
                     .setData([
@@ -318,91 +323,30 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    public func setCourse(_ course : Course) {
-        self.course = course;
-        
-        AppSingleton.shared.me.lastLocationUpdate = nil
-        AppSingleton.shared.me.location = nil
-        
-        listenToPlayerLocationsOnCourse(with: course.id)
-        
-        locationTimer.invalidate()
-        locationTimer.delegate = self
-        locationTimer.startNewTimer(interval: 15)
-        
-        //reset current hole number
-        currentHoleNumber = 1;
-        
-        //grab course hole information
-        db.collection("courses").document(course.id)
-            .collection("holes").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                
-                course.holeInfo.removeAll();
-                
-                for document in querySnapshot!.documents {
-                    //get all the courses and add to a course list
-                    let data = document.data();
-                    
-                    if let holeNumber:Int = Int(document.documentID) {
-                        let hole:Hole = Hole(number: holeNumber)
-                        
-                        guard let pinObj = data["pin"] as? GeoPoint else {
-                            print("Invalid hole structure!")
-                            return;
-                        }
-                        
-                        hole.pinLocation = pinObj;
-                        if let bunkerObj = data["bunkers"] as? [GeoPoint] {
-                            hole.bunkerLocations = bunkerObj;
-                        } else if let bunkerObj = data["bunkers"] as? GeoPoint {
-                            hole.bunkerLocations = [bunkerObj];
-                        }
-                        if let teeObj = data["tee"] as? [GeoPoint] {
-                            hole.teeLocations = teeObj;
-                        } else if let teeObj = data["tee"] as? GeoPoint {
-                            hole.teeLocations = [teeObj]
-                        }
-                        if let dlObj = data["dogLeg"] as? GeoPoint {
-                            hole.dogLegLocation = dlObj
-                        }
-                        
-                        course.holeInfo.append(hole);
-                    }
-                }
-                
-                //add marker to show clubhouse and spectators?
-//                self.moveCamera(to: course.bounds, orientToHole: false);
-                self.goToHole()
-            }
-        }
-    }
-    
     public func goToHole(increment: Int = 0) {
+        guard let course = AppSingleton.shared.course else {
+            return
+        }
+        
         currentDistanceMarker?.map = nil;
         currentDistanceMarker = nil;
         lineToPin?.map = nil;
         lineToMyLocation?.map = nil;
         
         currentHoleNumber += increment;
-        
         if (currentHoleNumber > course.holeInfo.count) {
             currentHoleNumber = 1;
         } else if currentHoleNumber <= 0 {
             currentHoleNumber = course.holeInfo.count
         }
+        delegate.updateCurrentHole(num: currentHoleNumber);
         
         for hole in course.holeInfo {
-            if (hole.holeNumber == currentHoleNumber) {
+            if (hole.number == currentHoleNumber) {
                 currentHole = hole
                 break;
             }
         }
-        
-        //tell main to update layout
-        delegate.updateCurrentHole(num: currentHoleNumber);
         
         if (currentHole != nil) {
             updatePinMarker();
@@ -482,6 +426,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateOtherPlayerMarkers() {
         //remove old markers from the array
         removeOldPlayerMarkers()
+        
+        guard let course = AppSingleton.shared.course else {
+            return
+        }
         
         var newPlayerMarkers:[GMSMarker] = otherPlayerMarkers.filter { $0.map != nil }
         
@@ -569,6 +517,30 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         //update the array
         otherPlayerMarkers = newPlayerMarkers.filter { $0.map != nil }
+    }
+    
+    internal func addDrivePrompt() {
+        let ac = UIAlertController(title: "Add Long Drive Here?", message: "Your drive will be added to this hole and potentially be used in future long drive competitions (testing this feature).", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Yes", style: .default) { action in
+            //add a driving distance marker and select it
+            if (self.myDrivingDistanceMarker != nil) {
+                self.myDrivingDistanceMarker!.map = nil
+            }
+            
+            if let loc:CLLocationCoordinate2D = self.currentPlayerLocation?.coordinate {
+                let yardsToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
+                
+                self.myDrivingDistanceMarker = GMSMarker(position: loc)
+                self.myDrivingDistanceMarker!.title = "My Drive"
+                self.myDrivingDistanceMarker!.snippet = "\(yardsToTee) yds"
+                self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance").toNewSize(CGSize(width: 30, height: 30))
+                self.myDrivingDistanceMarker!.userData = "Drive";
+                self.myDrivingDistanceMarker!.map = self.mapView;
+                self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
+            }
+        })
+        ac.addAction(UIAlertAction(title: "No", style: .default))
+        self.present(ac, animated: true)
     }
     
     private func createPlayerMarker() {
@@ -674,7 +646,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     internal func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        mapView.selectedMarker = marker;
+        if (marker == myPlayerMarker) {
+            addDrivePrompt();
+        } else {
+            mapView.selectedMarker = marker;
+        }
         return true;
     }
     
@@ -685,6 +661,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         lineToPin?.map = nil;
         lineToMyLocation?.map = nil;
         currentDistanceMarker = nil
+    }
+    
+    internal func mapView(_ mapView: GMSMapView, didTapMyLocation location: CLLocationCoordinate2D) {
+        addDrivePrompt();
     }
     
     private func updateSuggestionLines(with club:Club) {

@@ -10,6 +10,7 @@
 		8904F344208E548900B9CCE5 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F343208E548900B9CCE5 /* Course.swift */; };
 		8904F347208E555700B9CCE5 /* Hole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F346208E555700B9CCE5 /* Hole.swift */; };
 		8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F348208E705800B9CCE5 /* ClubTools.swift */; };
+		8906414322B941B4006AFDC8 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8906414222B941B4006AFDC8 /* SettingsTableViewController.swift */; };
 		8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E65F2088F8C800A20258 /* AppDelegate.swift */; };
 		8915E6622088F8C800A20258 /* CourseMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E6612088F8C800A20258 /* CourseMapViewController.swift */; };
 		8915E6652088F8C800A20258 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8915E6632088F8C800A20258 /* Main.storyboard */; };
@@ -30,10 +31,6 @@
 		896D148222A6D1D100873D15 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148122A6D1D100873D15 /* GradientView.swift */; };
 		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
 		896D148622A6D1D600873D15 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148522A6D1D600873D15 /* GradientButton.swift */; };
-		898A20B221026D80005FCA7A /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898A20B121026D80005FCA7A /* NotificationCenter.framework */; };
-		898A20B521026D80005FCA7A /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A20B421026D80005FCA7A /* TodayViewController.swift */; };
-		898A20B821026D80005FCA7A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 898A20B621026D80005FCA7A /* MainInterface.storyboard */; };
-		898A20BC21026D80005FCA7A /* GolfPS Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 898A20B021026D80005FCA7A /* GolfPS Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */; };
 		898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA922AC5D6A00C7815A /* Player.swift */; };
 		898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */; };
@@ -50,16 +47,6 @@
 		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		898A20BA21026D80005FCA7A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8915E6542088F8C800A20258 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 898A20AF21026D80005FCA7A;
-			remoteInfo = "GolfPS Widget";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		898A20C021026D80005FCA7A /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -67,7 +54,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				898A20BC21026D80005FCA7A /* GolfPS Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,6 +69,7 @@
 		8904F343208E548900B9CCE5 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		8904F346208E555700B9CCE5 /* Hole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hole.swift; sourceTree = "<group>"; };
 		8904F348208E705800B9CCE5 /* ClubTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubTools.swift; sourceTree = "<group>"; };
+		8906414222B941B4006AFDC8 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		8915E65C2088F8C800A20258 /* GolfPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GolfPS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8915E65F2088F8C800A20258 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8915E6612088F8C800A20258 /* CourseMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseMapViewController.swift; sourceTree = "<group>"; };
@@ -106,12 +93,7 @@
 		896D148122A6D1D100873D15 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		896D148322A6D1D300873D15 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		896D148522A6D1D600873D15 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
-		898A20B021026D80005FCA7A /* GolfPS Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GolfPS Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		898A20B121026D80005FCA7A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		898A20B421026D80005FCA7A /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		898A20B721026D80005FCA7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		898A20B921026D80005FCA7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		898A20C121026DE2005FCA7A /* GolfPS Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GolfPS Widget.entitlements"; sourceTree = "<group>"; };
 		898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdateTimer.swift; sourceTree = "<group>"; };
 		898C2DA922AC5D6A00C7815A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUpdateTimer.swift; sourceTree = "<group>"; };
@@ -135,14 +117,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		898A20AD21026D80005FCA7A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				898A20B221026D80005FCA7A /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				8915E65E2088F8C800A20258 /* GolfPS */,
-				898A20B321026D80005FCA7A /* GolfPS Widget */,
 				8915E65D2088F8C800A20258 /* Products */,
 				8915E6732088F9AE00A20258 /* Podfile */,
 				F2952F7C429A150259B45E6E /* Pods */,
@@ -186,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				8915E65C2088F8C800A20258 /* GolfPS.app */,
-				898A20B021026D80005FCA7A /* GolfPS Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -260,21 +232,11 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		898A20B321026D80005FCA7A /* GolfPS Widget */ = {
-			isa = PBXGroup;
-			children = (
-				898A20C121026DE2005FCA7A /* GolfPS Widget.entitlements */,
-				898A20B421026D80005FCA7A /* TodayViewController.swift */,
-				898A20B621026D80005FCA7A /* MainInterface.storyboard */,
-				898A20B921026D80005FCA7A /* Info.plist */,
-			);
-			path = "GolfPS Widget";
-			sourceTree = "<group>";
-		};
 		89996EBF210A5CD400E0E290 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				89996EC0210A5CE200E0E290 /* SettingsViewController.swift */,
+				8906414222B941B4006AFDC8 /* SettingsTableViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -330,29 +292,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				898A20BB21026D80005FCA7A /* PBXTargetDependency */,
 			);
 			name = GolfPS;
 			productName = "Golf Ace";
 			productReference = 8915E65C2088F8C800A20258 /* GolfPS.app */;
 			productType = "com.apple.product-type.application";
-		};
-		898A20AF21026D80005FCA7A /* GolfPS Widget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 898A20BD21026D80005FCA7A /* Build configuration list for PBXNativeTarget "GolfPS Widget" */;
-			buildPhases = (
-				898A20AC21026D80005FCA7A /* Sources */,
-				898A20AD21026D80005FCA7A /* Frameworks */,
-				898A20AE21026D80005FCA7A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "GolfPS Widget";
-			productName = "GolfPS Widget";
-			productReference = 898A20B021026D80005FCA7A /* GolfPS Widget.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -379,15 +323,6 @@
 							};
 						};
 					};
-					898A20AF21026D80005FCA7A = {
-						CreatedOnToolsVersion = 10.0;
-						LastSwiftMigration = 1020;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
-					};
 				};
 			};
 			buildConfigurationList = 8915E6572088F8C800A20258 /* Build configuration list for PBXProject "GolfPS" */;
@@ -404,7 +339,6 @@
 			projectRoot = "";
 			targets = (
 				8915E65B2088F8C800A20258 /* GolfPS */,
-				898A20AF21026D80005FCA7A /* GolfPS Widget */,
 			);
 		};
 /* End PBXProject section */
@@ -420,14 +354,6 @@
 				8915E6652088F8C800A20258 /* Main.storyboard in Resources */,
 				8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */,
 				896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		898A20AE21026D80005FCA7A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				898A20B821026D80005FCA7A /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +480,7 @@
 				8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */,
 				898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */,
 				896D147E22A6D1B500873D15 /* Emitter.swift in Sources */,
+				8906414322B941B4006AFDC8 /* SettingsTableViewController.swift in Sources */,
 				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
 				896D148222A6D1D100873D15 /* GradientView.swift in Sources */,
 				896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */,
@@ -570,23 +497,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		898A20AC21026D80005FCA7A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				898A20B521026D80005FCA7A /* TodayViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		898A20BB21026D80005FCA7A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 898A20AF21026D80005FCA7A /* GolfPS Widget */;
-			targetProxy = 898A20BA21026D80005FCA7A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8915E6632088F8C800A20258 /* Main.storyboard */ = {
@@ -603,14 +514,6 @@
 				8915E6692088F8CA00A20258 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		898A20B621026D80005FCA7A /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				898A20B721026D80005FCA7A /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -734,7 +637,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -756,7 +658,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -769,51 +670,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		898A20BE21026D80005FCA7A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "GolfPS Widget/GolfPS Widget.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JJEJU2G45A;
-				INFOPLIST_FILE = "GolfPS Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dejongdevelopment.golfps.GolfPS-Widget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		898A20BF21026D80005FCA7A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "GolfPS Widget/GolfPS Widget.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = JJEJU2G45A;
-				INFOPLIST_FILE = "GolfPS Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dejongdevelopment.golfps.GolfPS-Widget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -836,15 +692,6 @@
 			buildConfigurations = (
 				8915E66F2088F8CA00A20258 /* Debug */,
 				8915E6702088F8CA00A20258 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		898A20BD21026D80005FCA7A /* Build configuration list for PBXNativeTarget "GolfPS Widget" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				898A20BE21026D80005FCA7A /* Debug */,
-				898A20BF21026D80005FCA7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

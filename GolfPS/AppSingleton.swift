@@ -18,5 +18,6 @@ class AppSingleton {
     
     var db:Firestore!
     let me:Player = Player()
+    var course:Course? = nil
 }
 

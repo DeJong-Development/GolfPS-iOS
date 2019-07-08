@@ -11,14 +11,6 @@ import UIKit
 @IBDesignable
 class ButtonX: UIButton {
     
-    var isSelectedX:Bool = false {
-        didSet {
-            self.setImage(isSelectedX ? selectedImage : deselectedImage, for: .normal)
-        }
-    }
-    var selectedImage:UIImage = #imageLiteral(resourceName: "position-checkbox-on")
-    var deselectedImage:UIImage = #imageLiteral(resourceName: "position-checkbox-off")
-    
     @IBInspectable var isRounded: Bool = false
     @IBInspectable var cornerRadius: CGFloat = -1
     @IBInspectable var hasShadow: Bool = false

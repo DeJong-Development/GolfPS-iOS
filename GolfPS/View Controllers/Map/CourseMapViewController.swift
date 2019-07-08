@@ -26,9 +26,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     @IBOutlet weak var currentHoleLabel: UIButton!
     
     var embeddedMapViewController:GoogleMapViewController!
-    let todayExtensionValues = UserDefaults.init(suiteName: "group.dejongdevelopment.golfps")
-    
-    var course:Course!
     
     override var prefersStatusBarHidden: Bool {
         return false
@@ -40,15 +37,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-        course = (self.tabBarController as! TabParentViewController).selectedCourse;
-        courseNameButton.setTitle("SELECT COURSE", for: .normal)
-        
-        if (course != nil) {
-            todayExtensionValues?.setValue(course.name, forKey: "test_courseName")
-            self.embeddedMapViewController.setCourse(course);
-            courseNameButton.setTitle(course.name, for: .normal)
-        }
+        courseNameButton.setTitle(AppSingleton.shared.course?.name ?? "SELECT COURSE", for: .normal)
     }
     
     override func viewDidLoad() {
@@ -84,28 +73,26 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     
     internal func updateCurrentHole(num: Int) {
         currentHoleLabel.setTitle("#\(num)", for: .normal)
-        todayExtensionValues?.setValue("Hole #\(num)", forKey: "test_holeNum")
     }
     internal func updateDistanceToPin(distance: Int) {
         distanceToPinLabel.text = "\(distance) yds"
-        todayExtensionValues?.setValue("\(distance) yds", forKey: "test_yards")
     }
     internal func updateSelectedClub(club: Club) {
         selectedClubLabel.text = club.name
     }
     
     @IBAction func nextHoleButton(_ sender: UIButton) {
-        if (course != nil) {
+        if (AppSingleton.shared.course != nil) {
             embeddedMapViewController.goToHole(increment: 1)
         }
     }
     @IBAction func previousHoleButton(_ sender: UIButton) {
-        if (course != nil) {
+        if (AppSingleton.shared.course != nil) {
             embeddedMapViewController.goToHole(increment: -1)
         }
     }
     @IBAction func clickCourseName(_ sender: UIButton) {
-        if (course == nil) {
+        if (AppSingleton.shared.course == nil) {
            (self.tabBarController as! TabParentViewController).selectedIndex = 0
         }
     }

@@ -11,16 +11,21 @@ import FirebaseAnalytics
 import SCSDKLoginKit
 import SCSDKBitmojiKit
 
+extension SettingsViewController: SettingsActionDelegate {
+    func removeAvatar() {
+        self.avatarURLToShare = nil
+    }
+    func updateAvatar() {
+        getAvatar(replaceImage: false)
+    }
+}
+
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var snapLink: UIButton!
     @IBOutlet weak var bitmojiImage: UIImageView!
     
-    @IBOutlet weak var locationShareSwitch: UISwitch!
-    @IBOutlet weak var bitmojiShareSwitch: UISwitch!
-    
-    @IBOutlet weak var bitmojiShareTitle: UILabel!
-    @IBOutlet weak var bitmojiShareDescription: UILabel!
+    var embeddedTableViewController: SettingsTableViewController!
     
     var avatarURLToShare:URL? = nil {
         didSet {
@@ -45,16 +50,8 @@ class SettingsViewController: UIViewController {
         self.bitmojiImage.contentMode = .scaleAspectFit
         snapLink.layer.cornerRadius = 8
         
-        locationShareSwitch.setOn(AppSingleton.shared.me.shareLocation, animated: false)
         if (!AppSingleton.shared.me.shareLocation) {
-            AppSingleton.shared.db.collection("players").document(AppSingleton.shared.me.id).delete()
-            AppSingleton.shared.me.location = nil
-            bitmojiShareSwitch.setOn(false, animated: false)
-            
-            AppSingleton.shared.me.shareBitmoji = false
             self.avatarURLToShare = nil
-        } else {
-            bitmojiShareSwitch.setOn(AppSingleton.shared.me.shareBitmoji, animated: false)
         }
         
         if (SCSDKLoginClient.isUserLoggedIn) {
@@ -63,12 +60,11 @@ class SettingsViewController: UIViewController {
         }
         
         updateButtonLabel()
-        updateBitSwitch()
     }
     
     @IBAction func clickSnapLink(_ sender: Any) {
         if (SCSDKLoginClient.isUserLoggedIn) {
-            self.bitmojiShareSwitch.setOn(false, animated: true)
+            self.embeddedTableViewController.bitmojiShareSwitch.setOn(false, animated: true)
             AppSingleton.shared.me.shareBitmoji = false
             self.avatarURLToShare = nil
             
@@ -76,7 +72,7 @@ class SettingsViewController: UIViewController {
             SCSDKLoginClient.unlinkAllSessions { (success: Bool) in
                 DispatchQueue.main.async() {
                     self.updateButtonLabel()
-                    self.updateBitSwitch()
+                    self.embeddedTableViewController.updateBitSwitch()
                 }
                 if success {
                     DispatchQueue.main.async {
@@ -92,52 +88,11 @@ class SettingsViewController: UIViewController {
             SCSDKLoginClient.login(from: self, completion: { success, error in
                 DispatchQueue.main.async() {
                     self.updateButtonLabel()
-                    self.updateBitSwitch()
+                    self.embeddedTableViewController.updateBitSwitch()
                 }
                 
                 self.getAvatar()
             })
-        }
-    }
-    
-    @IBAction func switchMapShare(_ sender: UISwitch) {
-        //update in app preferences
-        AppSingleton.shared.me.shareLocation = sender.isOn
-        updateBitSwitch()
-        
-        if (!AppSingleton.shared.me.shareLocation) {
-            AppSingleton.shared.db.collection("players").document(AppSingleton.shared.me.id).delete()
-            AppSingleton.shared.me.location = nil
-            
-            self.bitmojiShareSwitch.setOn(false, animated: true)
-            AppSingleton.shared.me.shareBitmoji = false
-            self.avatarURLToShare = nil
-        }
-    }
-    @IBAction func switchBitmojiShare(_ sender: UISwitch) {
-        //update in app preferences
-        AppSingleton.shared.me.shareBitmoji = sender.isOn
-        
-        if (sender.isOn) {
-            //get up to date bitmoji avatar url
-            getAvatar(replaceImage: false)
-        } else {
-            self.avatarURLToShare = nil
-            AppSingleton.shared.db.collection("players")
-                .document(AppSingleton.shared.me.id)
-                .setData(["image": ""], merge: true)
-        }
-    }
-    
-    private func updateBitSwitch() {
-        if (AppSingleton.shared.me.shareLocation && SCSDKLoginClient.isUserLoggedIn) {
-            bitmojiShareSwitch.isEnabled = true
-            bitmojiShareTitle.alpha = 1
-            bitmojiShareDescription.alpha = 1
-        } else {
-            bitmojiShareSwitch.isEnabled = false
-            bitmojiShareTitle.alpha = 0.5
-            bitmojiShareDescription.alpha = 0.5
         }
     }
     
@@ -193,8 +148,8 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    //get bitmoji avatar
     private func getAvatar(replaceImage:Bool = true) {
-        //get bitmoji avatar
         SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
             if let error = error {
                 print(error.localizedDescription)
@@ -214,6 +169,13 @@ class SettingsViewController: UIViewController {
                     }
                 }
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? SettingsTableViewController {
+            self.embeddedTableViewController = vc
+            self.embeddedTableViewController.actionDelegate = self;
         }
     }
 }

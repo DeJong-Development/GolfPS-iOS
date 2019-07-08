@@ -11,8 +11,6 @@ import FirebaseAuth
 
 class TabParentViewController: UITabBarController {
     
-    var selectedCourse:Course?
-    
     let gradient: CAGradientLayer = CAGradientLayer()
 
     override var prefersStatusBarHidden: Bool {

@@ -16,8 +16,18 @@ extension CourseSelectionViewController: CoursePickerDelegate {
     }
     internal func goToCourse(_ course: Course) {
         //tell tab parent controller to change tabs...
-        (self.tabBarController as! TabParentViewController).selectedCourse = course;
-        self.tabBarController?.selectedIndex = 1;
+        course.updateHoleInfo() { (success, err) in
+            if (success) {
+                AppSingleton.shared.course = course;
+                self.tabBarController?.selectedIndex = 1;
+            } else {
+                DispatchQueue.main.async {
+                    let ac = UIAlertController(title: "Error!", message: "Unable to load hole information for selected course.", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(ac, animated: true)
+                }
+            }
+        }
     }
 }
 
