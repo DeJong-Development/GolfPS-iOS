@@ -52,9 +52,12 @@ class SettingsTableViewController: UITableViewController {
         updateBitSwitch()
 
         if (!AppSingleton.shared.me.shareLocation) {
+            //if user elects to stop sharing location
+            //remove all data on server
             AppSingleton.shared.db.collection("players").document(AppSingleton.shared.me.id).delete()
             AppSingleton.shared.me.location = nil
 
+            //remove bitmoji and turn off sharing option
             self.bitmojiShareSwitch.setOn(false, animated: true)
             AppSingleton.shared.me.shareBitmoji = false
             
@@ -70,9 +73,6 @@ class SettingsTableViewController: UITableViewController {
             actionDelegate?.updateAvatar()
         } else {
             actionDelegate?.removeAvatar()
-            AppSingleton.shared.db.collection("players")
-                .document(AppSingleton.shared.me.id)
-                .setData(["image": ""], merge: true)
         }
     }
     
@@ -87,12 +87,12 @@ class SettingsTableViewController: UITableViewController {
     }
 
     @IBAction func clickLocationShareInfo(_ sender: UIButton) {
-        let ac = UIAlertController(title: "Location Share Info", message: "By enabling this option, your location on the course will be shared with other players on the same golf course.", preferredStyle: .alert)
+        let ac = UIAlertController(title: "Location Share Info", message: "By enabling this option, your location on the course will be shared with other golfers on the same golf course. If you are not near the course when using the app, you will be shown at the clubhouse in app.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(ac, animated: true)
     }
     @IBAction func clickBitmojiShareInfo(_ sender: UIButton) {
-        let ac = UIAlertController(title: "Bitmoji Share Info", message: "By enabling this option, your Bitmoji will be used in to display your location.", preferredStyle: .alert)
+        let ac = UIAlertController(title: "Bitmoji Share Info", message: "By enabling this option, your Bitmoji will be used in to display your location to other golfers on the same course.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(ac, animated: true)
     }
@@ -108,5 +108,4 @@ class SettingsTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 2
     }
-
 }

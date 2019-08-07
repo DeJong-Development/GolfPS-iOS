@@ -23,7 +23,7 @@ class Player {
     var shareLocation:Bool {
         get { return self.preferences.bool(forKey: "player_share_location") }
         set(newSharePreference) {
-               self.preferences.setValue(newSharePreference, forKey: "player_share_location")
+            self.preferences.setValue(newSharePreference, forKey: "player_share_location")
             self.preferences.synchronize()
         }
     }

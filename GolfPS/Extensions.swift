@@ -17,6 +17,13 @@ extension CLLocationCoordinate2D {
     }
 }
 
+extension GeoPoint {
+    var location: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: self.latitude,
+                                      longitude: self.longitude)
+    }
+}
+
 extension CLLocation {
     var geopoint: GeoPoint {
         return GeoPoint(latitude: self.coordinate.latitude,

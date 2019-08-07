@@ -12,10 +12,15 @@ import SCSDKLoginKit
 import SCSDKBitmojiKit
 
 extension SettingsViewController: SettingsActionDelegate {
+    
+    ///Changed permissions - so lets remove the bitmoji avatar
     func removeAvatar() {
         self.avatarURLToShare = nil
     }
+    
+    ///Changed permissions - so lets make sure we are properly displaying the bitmoji avatar.
     func updateAvatar() {
+        //Do not need to force update the avatar image
         getAvatar(replaceImage: false)
     }
 }
@@ -27,12 +32,17 @@ class SettingsViewController: UIViewController {
     
     var embeddedTableViewController: SettingsTableViewController!
     
+    ///If nil, removes shared url from firestore, else updates value on server.
     var avatarURLToShare:URL? = nil {
         didSet {
             if (AppSingleton.shared.me.shareBitmoji && avatarURLToShare != nil) {
                 AppSingleton.shared.db.collection("players")
                     .document(AppSingleton.shared.me.id)
                     .setData(["image": avatarURLToShare!.absoluteString], merge: true)
+            } else {
+                AppSingleton.shared.db.collection("players")
+                    .document(AppSingleton.shared.me.id)
+                    .setData(["image": ""], merge: true)
             }
         }
     }
@@ -125,7 +135,7 @@ class SettingsViewController: UIViewController {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
-    private func updateButtonLabel(loggedIn:Bool? = nil) {
+    private func updateButtonLabel() {
         DispatchQueue.main.async {
             if (SCSDKLoginClient.isUserLoggedIn) {
                 Analytics.setUserProperty("true", forName: "snapchat")
@@ -135,11 +145,15 @@ class SettingsViewController: UIViewController {
                 
             } else {
                 Analytics.setUserProperty("false", forName: "snapchat")
+                
                 self.snapLink.setTitle("Link Snapchat", for: .normal)
                 self.snapLink.backgroundColor = UIColor(red: 1, green: 0.753, blue: 0, alpha: 1)
                 
+                //remove image
                 self.bitmojiImage.image = nil
                 self.avatarURLToShare = nil
+                
+                //remove shared image from firestore
                 AppSingleton.shared.db.collection("players")
                     .document(AppSingleton.shared.me.id)
                     .setData(["image": ""], merge: true)
@@ -148,7 +162,11 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    //get bitmoji avatar
+    /**
+     Gets bitmoji avatar url from Snapchat and updates value stored in firestore.
+     This ensures we always have the most up to date bitmoji from the user.
+     - Parameter replaceImage: If true, the image will be replaced with the most up to date image from the Snapchat bitmoji url
+     */
     private func getAvatar(replaceImage:Bool = true) {
         SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
             if let error = error {
@@ -156,11 +174,13 @@ class SettingsViewController: UIViewController {
             } else if let urlString = avatarURL, let url = URL(string: urlString) {
                 self.avatarURLToShare = url;
                 if (AppSingleton.shared.me.shareBitmoji) {
+                    //if user has elected to share bitmoji on the map - put url in firestore
                     AppSingleton.shared.db.collection("players")
                         .document(AppSingleton.shared.me.id)
                         .setData(["image": url.absoluteString], merge: true)
                 }
                 if (replaceImage) {
+                    //get the image data and display in the UIImage
                     self.getData(from: url) { data, response, error in
                         guard let data = data, error == nil else { return }
                         DispatchQueue.main.async() {

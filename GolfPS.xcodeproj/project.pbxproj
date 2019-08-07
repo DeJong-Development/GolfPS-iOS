@@ -31,6 +31,7 @@
 		896D148222A6D1D100873D15 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148122A6D1D100873D15 /* GradientView.swift */; };
 		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
 		896D148622A6D1D600873D15 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148522A6D1D600873D15 /* GradientButton.swift */; };
+		8984584122FB50840077BB72 /* CourseTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8984584022FB50840077BB72 /* CourseTools.swift */; };
 		898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */; };
 		898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA922AC5D6A00C7815A /* Player.swift */; };
 		898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */; };
@@ -93,6 +94,7 @@
 		896D148122A6D1D100873D15 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		896D148322A6D1D300873D15 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		896D148522A6D1D600873D15 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		8984584022FB50840077BB72 /* CourseTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTools.swift; sourceTree = "<group>"; };
 		898A20B121026D80005FCA7A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdateTimer.swift; sourceTree = "<group>"; };
 		898C2DA922AC5D6A00C7815A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				8904F348208E705800B9CCE5 /* ClubTools.swift */,
 				898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */,
 				898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */,
+				8984584022FB50840077BB72 /* CourseTools.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				89996EC1210A5CE200E0E290 /* SettingsViewController.swift in Sources */,
 				89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */,
 				896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */,
+				8984584122FB50840077BB72 /* CourseTools.swift in Sources */,
 				8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */,
 				898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */,
 				896D147E22A6D1B500873D15 /* Emitter.swift in Sources */,
@@ -640,6 +644,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

@@ -15,12 +15,20 @@ extension CourseSelectionViewController: CoursePickerDelegate {
         queryCourses(isTableRefresh: true)
     }
     internal func goToCourse(_ course: Course) {
-        //tell tab parent controller to change tabs...
-        course.updateHoleInfo() { (success, err) in
+        AppSingleton.shared.course = course;
+        
+        loadingView.startAnimating()
+        loadingBackground.isHidden = false
+        
+        CourseTools.updateHoleInfo(for: course) { (success, err) in
+            self.loadingView.stopAnimating()
+            self.loadingBackground.isHidden = true
+            
             if (success) {
-                AppSingleton.shared.course = course;
+                //tell tab parent controller to change tabs...
                 self.tabBarController?.selectedIndex = 1;
             } else {
+                AppSingleton.shared.course = nil;
                 DispatchQueue.main.async {
                     let ac = UIAlertController(title: "Error!", message: "Unable to load hole information for selected course.", preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title: "OK", style: .default))
@@ -43,7 +51,7 @@ class CourseSelectionViewController: UIViewController {
     
     var embeddedCourseTableViewController:CoursePickerTableViewController?
     
-    var db:Firestore {
+    private var db:Firestore {
         return AppSingleton.shared.db;
     }
     

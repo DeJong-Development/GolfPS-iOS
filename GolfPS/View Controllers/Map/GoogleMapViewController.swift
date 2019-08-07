@@ -13,6 +13,12 @@ import AudioToolbox
 import SCSDKBitmojiKit
 import SCSDKLoginKit
 
+extension GoogleMapViewController: HoleUpdateDelegate {
+    func didUpdateLongDrive() {
+        updateLongDriveMarkers()
+    }
+}
+
 extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTimerDelegate {
     func updatePlayersNow() {
         updateOtherPlayerMarkers();
@@ -52,18 +58,20 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentPlayerLocation = locations.last
         
-        if let cpl = currentPlayerLocation, currentPinMarker != nil {
-            let yardsToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: currentPinMarker.position)
-            delegate.updateDistanceToPin(distance: yardsToPin)
-            
-            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: yardsToPin)
-            delegate.updateSelectedClub(club: suggestedClub)
+        if let cpl = currentPlayerLocation {
+            if let pm = currentPinMarker {
+                let yardsToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
+                delegate.updateDistanceToPin(distance: yardsToPin)
+                
+                let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: yardsToPin)
+                delegate.updateSelectedClub(club: suggestedClub)
+                
+                //update any suggestion lines
+                updateSuggestionLines(with: suggestedClub)
+            }
             
             //update any distance markers we already have displayed when we update our location
             updateDistanceMarker()
-            
-            //update any suggestion lines
-            updateSuggestionLines(with: suggestedClub)
         }
     }
 }
@@ -97,8 +105,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    private var currentHoleNumber:Int = 1;
-    private var currentHole:Hole!
+    internal var currentHole:Hole!
     
     private var playerListener:ListenerRegistration? = nil
     
@@ -115,6 +122,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var currentPinMarker:GMSMarker!
     private var currentTeeMarker:GMSMarker!
     private var currentBunkerMarkers:[GMSMarker] = [GMSMarker]();
+    private var currentLongDriveMarkers:[GMSMarker] = [GMSMarker]();
     private var currentDistanceMarker:GMSMarker?
     
     private var isDraggingDistanceMarker:Bool = false
@@ -128,20 +136,23 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var lineToPin:GMSPolyline?
     
     private var yardsToPressFromLocation:Int? {
-        if let playerLocation = currentPlayerLocation, let pressLocation = currentDistanceMarker?.position {
+        if let playerLocation = currentPlayerLocation,
+            let pressLocation = currentDistanceMarker?.position {
             return mapTools.distanceFrom(first: playerLocation.coordinate, second: pressLocation)
         }
         return nil
     }
     private var yardsToPressFromTee:Int? {
-        if let pressLocation = currentDistanceMarker?.position {
-            return mapTools.distanceFrom(first: currentTeeMarker.position, second: pressLocation)
+        if let pressLocation = currentDistanceMarker?.position,
+            let teeLocation = currentTeeMarker?.position {
+            return mapTools.distanceFrom(first: teeLocation, second: pressLocation)
         }
         return nil
     }
     private var yardsToPinFromMyLocation:Int? {
-        if let playerLocation = currentPlayerLocation {
-            return mapTools.distanceFrom(first: playerLocation.coordinate, second: currentPinMarker.position)
+        if let playerLocation = currentPlayerLocation,
+            let pinLocation = currentPinMarker?.position {
+            return mapTools.distanceFrom(first: playerLocation.coordinate, second: pinLocation)
         }
         return nil
     }
@@ -153,7 +164,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         return nil
     }
     private var yardsToPinFromTee:Int? {
-        if let tp = currentTeeMarker?.position, let pp = currentPinMarker?.position {
+        if let tp = currentTeeMarker?.position,
+            let pp = currentPinMarker?.position {
             return mapTools.distanceFrom(first: tp, second: pp)
         }
         return nil
@@ -333,25 +345,35 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         lineToPin?.map = nil;
         lineToMyLocation?.map = nil;
         
-        currentHoleNumber += increment;
-        if (currentHoleNumber > course.holeInfo.count) {
-            currentHoleNumber = 1;
-        } else if currentHoleNumber <= 0 {
-            currentHoleNumber = course.holeInfo.count
-        }
-        delegate.updateCurrentHole(num: currentHoleNumber);
+        //remove old listener just in case we are still loading the driving distance markers
+        //could result in a race condition while we are searching for the new current hole?
+        currentHole?.updateDelegate = nil
         
+        var holeNum = currentHole?.number ?? 1 //default to hole number 1
+        holeNum += increment;
+        if (holeNum > course.holeInfo.count) {
+            holeNum = 1;
+        } else if holeNum <= 0 {
+            holeNum = course.holeInfo.count
+        }
         for hole in course.holeInfo {
-            if (hole.number == currentHoleNumber) {
+            if (hole.number == holeNum) {
                 currentHole = hole
                 break;
             }
         }
         
+        currentHole.updateDelegate = self
+        
+        delegate.updateCurrentHole(hole: currentHole);
+        
         if (currentHole != nil) {
             updatePinMarker();
             updateTeeMarker();
             updateBunkerMarkers();
+            updateLongDriveMarkers();
+            
+            //TODO update ui if hole is long drive hole
             
             moveCamera(to: currentHole.bounds, orientToHole: true);
             
@@ -530,17 +552,50 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             if let loc:CLLocationCoordinate2D = self.currentPlayerLocation?.coordinate {
                 let yardsToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
                 
-                self.myDrivingDistanceMarker = GMSMarker(position: loc)
-                self.myDrivingDistanceMarker!.title = "My Drive"
-                self.myDrivingDistanceMarker!.snippet = "\(yardsToTee) yds"
-                self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance").toNewSize(CGSize(width: 30, height: 30))
-                self.myDrivingDistanceMarker!.userData = "Drive";
-                self.myDrivingDistanceMarker!.map = self.mapView;
-                self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
+                if (yardsToTee > 500) {
+                    //prompt some sort of alert saying this is just ridiculous
+                } else {
+                    self.myDrivingDistanceMarker = GMSMarker(position: loc)
+                    self.myDrivingDistanceMarker!.title = "My Drive"
+                    self.myDrivingDistanceMarker!.snippet = "\(yardsToTee) yds"
+                    self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
+                    self.myDrivingDistanceMarker!.userData = "Drive";
+                    self.myDrivingDistanceMarker!.map = self.mapView;
+                    self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
+                    
+                    //update my drive data on hole object
+                    self.currentHole.myLongestDrive = yardsToTee
+                    self.currentHole.longestDrives[AppSingleton.shared.me.id] = loc.geopoint
+                    
+                    //send drive data to the firestore
+                    self.updateFirestoreLongDrive(distance: yardsToTee, location: loc.geopoint)
+                    
+                    //inform delegate of new hole characteristics
+                    self.delegate?.updateCurrentHole(hole: self.currentHole)
+                }
             }
         })
         ac.addAction(UIAlertAction(title: "No", style: .default))
         self.present(ac, animated: true)
+    }
+    
+    private func updateFirestoreLongDrive(distance:Int, location: GeoPoint) {
+        let userId = AppSingleton.shared.me.id
+        
+        if let holeDocRef = currentHole.docReference {
+            let myLongDriveDoc = holeDocRef.collection("drives").document(userId);
+            myLongDriveDoc.setData([
+                "location": location,
+                "distance": distance,
+                "date": Date().iso8601
+            ]) { (error) in
+                if let err = error {
+                    print("Error adding long drive: \(err)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
+        }
     }
     
     private func createPlayerMarker() {
@@ -561,31 +616,31 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         if (currentTeeMarker != nil) {
             currentTeeMarker.map = nil
         }
-        let teeLocation:GeoPoint = currentHole.teeLocations[0];
-        let loc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: teeLocation.latitude, longitude: teeLocation.longitude)
+        let teePoint:GeoPoint = currentHole.teeLocations[0];
+        let loc:CLLocationCoordinate2D = teePoint.location
         
         currentTeeMarker = GMSMarker(position: loc)
-        currentTeeMarker.title = "Tee #\(currentHoleNumber)"
+        currentTeeMarker.title = "Tee #\(currentHole.number)"
         currentTeeMarker.icon = #imageLiteral(resourceName: "tee_marker").toNewSize(CGSize(width: 55, height: 55))
-        currentTeeMarker.userData = "\(currentHoleNumber):T";
+        currentTeeMarker.userData = "\(currentHole.number):T";
         currentTeeMarker.map = mapView;
     }
     private func updatePinMarker() {
-        let pinLocation:GeoPoint = currentHole.pinLocation!
-        let pinLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
+        let pinPoint:GeoPoint = currentHole.pinLocation!
+        let pinLoc:CLLocationCoordinate2D = pinPoint.location
         
-        let teeLocation:GeoPoint = currentHole.teeLocations[0]
-        let teeLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: teeLocation.latitude, longitude: teeLocation.longitude)
+        let teePoint:GeoPoint = currentHole.teeLocations[0]
+        let teeLoc:CLLocationCoordinate2D = teePoint.location
         let yardsToPin:Int = mapTools.distanceFrom(first: pinLoc, second: teeLoc)
         
         if (currentPinMarker != nil) {
             currentPinMarker.map = nil
         }
         currentPinMarker = GMSMarker(position: pinLoc)
-        currentPinMarker.title = "Pin #\(currentHoleNumber)"
+        currentPinMarker.title = "Pin #\(currentHole.number)"
         currentPinMarker.snippet = "\(yardsToPin) yds"
         currentPinMarker.icon = #imageLiteral(resourceName: "flag_marker").toNewSize(CGSize(width: 55, height: 55))
-        currentPinMarker.userData = "\(currentHoleNumber):P";
+        currentPinMarker.userData = "\(currentHole.number):P";
         currentPinMarker.map = mapView;
     }
     private func updateBunkerMarkers() {
@@ -596,21 +651,70 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         let bunkerLocationsForHole:[GeoPoint] = currentHole.bunkerLocations
         for (bunkerIndex,bunkerLocation) in bunkerLocationsForHole.enumerated() {
-            let bunkerLoc = CLLocationCoordinate2D(latitude: bunkerLocation.latitude,
-                                                   longitude: bunkerLocation.longitude)
-            let teeLoc = CLLocationCoordinate2D(latitude: currentTeeMarker.position.latitude,
-                                                longitude: currentTeeMarker.position.longitude)
+            let bunkerLoc = bunkerLocation.location
+            let teeLoc = currentTeeMarker.position
             let yardsToBunker:Int = mapTools.distanceFrom(first: bunkerLoc, second: teeLoc)
             
             let bunkerMarker = GMSMarker(position: bunkerLoc)
             bunkerMarker.title = "Hazard"
             bunkerMarker.snippet = "\(yardsToBunker) yds"
             bunkerMarker.icon = #imageLiteral(resourceName: "hazard_marker").toNewSize(CGSize(width: 35, height: 35))
-            bunkerMarker.userData = "\(currentHoleNumber):B\(bunkerIndex)";
+            bunkerMarker.userData = "\(currentHole.number):B\(bunkerIndex)";
             bunkerMarker.map = mapView;
             
             currentBunkerMarkers.append(bunkerMarker);
         }
+    }
+    private func updateLongDriveMarkers() {
+        for ldMarker in currentLongDriveMarkers {
+            ldMarker.map = nil
+        }
+        currentLongDriveMarkers.removeAll()
+        
+        //remove my drive marker from the map
+        if (self.myDrivingDistanceMarker != nil) {
+            self.myDrivingDistanceMarker!.map = nil
+        }
+        self.myDrivingDistanceMarker = nil
+        
+        for longDrive in currentHole.longestDrives {
+            let longDriveUser = longDrive.key
+            let longDriveLocation = longDrive.value
+            
+            let ldLoc = longDriveLocation.location
+            let teeLoc = currentTeeMarker.position
+            
+            let yardsToTee:Int = mapTools.distanceFrom(first: ldLoc, second: teeLoc)
+            
+            if (longDriveUser == AppSingleton.shared.me.id) {
+                self.myDrivingDistanceMarker = GMSMarker(position: ldLoc)
+                self.myDrivingDistanceMarker!.title = "My Drive"
+                self.myDrivingDistanceMarker!.snippet = "\(yardsToTee) yds"
+                self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
+                self.myDrivingDistanceMarker!.userData = "Drive";
+                self.myDrivingDistanceMarker!.map = self.mapView;
+                currentLongDriveMarkers.append(myDrivingDistanceMarker!);
+            } else {
+                let driveMarker = GMSMarker(position: ldLoc)
+                driveMarker.title = "Long Drive"
+                driveMarker.snippet = "\(yardsToTee) yds"
+                driveMarker.icon = #imageLiteral(resourceName: "marker-distance").toNewSize(CGSize(width: 25, height: 25))
+                driveMarker.userData = "Drive";
+                driveMarker.map = self.mapView;
+                currentLongDriveMarkers.append(driveMarker);
+            }
+        }
+    }
+    
+    internal func removeMyDriveMarker() {
+        if (self.myDrivingDistanceMarker != nil) {
+            self.myDrivingDistanceMarker!.map = nil
+        }
+        self.myDrivingDistanceMarker = nil
+        
+        //remove any data associated with my drive
+        self.currentHole.myLongestDrive = nil
+        self.currentHole.longestDrives.removeValue(forKey: AppSingleton.shared.me.id)
     }
     
     internal func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
@@ -621,8 +725,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             currentDistanceMarker = GMSMarker(position: coordinate)
             currentDistanceMarker!.isDraggable = true
             currentDistanceMarker!.map = mapView;
-            let markerImage = #imageLiteral(resourceName: "golf_ball_blank")
-            currentDistanceMarker!.icon = markerImage.toNewSize(CGSize(width: 30, height: 30))
+            currentDistanceMarker!.icon = #imageLiteral(resourceName: "golf_ball_blank").toNewSize(CGSize(width: 30, height: 30))
             currentDistanceMarker!.userData = "distance_marker";
             
             mapView.selectedMarker = currentDistanceMarker;
@@ -646,7 +749,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     internal func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if (marker == myPlayerMarker) {
+        if (marker == myPlayerMarker && currentHole.isLongDrive) {
             addDrivePrompt();
         } else {
             mapView.selectedMarker = marker;
@@ -664,7 +767,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     internal func mapView(_ mapView: GMSMapView, didTapMyLocation location: CLLocationCoordinate2D) {
-        addDrivePrompt();
+        if currentHole.isLongDrive {
+            addDrivePrompt();
+        }
     }
     
     private func updateSuggestionLines(with club:Club) {
@@ -686,13 +791,17 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     private func updateDistanceMarker() {
-        guard let ydsPressTee = yardsToPressFromTee, let cDistanceMarker = currentDistanceMarker else {
+        guard let cDistanceMarker = currentDistanceMarker else {
             return
         }
             
         var usingMyLocation:Bool = false;
-        if let ydsPressMe = yardsToPressFromLocation {
-            usingMyLocation = ydsPressMe < ydsPressTee + 25
+        if let ydsPressTee = yardsToPressFromTee {
+            if let ydsPressMe = yardsToPressFromLocation {
+                usingMyLocation = ydsPressMe < ydsPressTee + 25
+            }
+        } else {
+            usingMyLocation = true
         }
         
         let playerPath = GMSMutablePath()
@@ -704,27 +813,31 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             playerPath.add(currentPlayerLocation!.coordinate)
             playerPath.add(currentDistanceMarker!.position)
         } else {
-            suggestedClub = clubTools.getClubSuggestion(ydsTo: ydsPressTee);
-            cDistanceMarker.title = "\(ydsPressTee) yds"
+            suggestedClub = clubTools.getClubSuggestion(ydsTo: yardsToPressFromTee!);
+            cDistanceMarker.title = "\(yardsToPressFromTee!) yds"
             
             playerPath.add(currentTeeMarker.position)
             playerPath.add(currentDistanceMarker!.position)
         }
         cDistanceMarker.snippet = suggestedClub.name
         
-        let pinPath = GMSMutablePath()
-        pinPath.add(cDistanceMarker.position)
-        pinPath.add(currentPinMarker.position)
-        if (lineToPin == nil) {
-            lineToPin = GMSPolyline(path: pinPath)
-            lineToPin!.strokeWidth = 2
-            lineToPin!.strokeColor = UIColor.white
-            lineToPin!.geodesic = true
-            lineToPin!.map = mapView
-        } else {
-            lineToPin!.map = mapView
-            lineToPin!.path = pinPath
+        if let pm = currentPinMarker {
+            let pinPath = GMSMutablePath()
+            pinPath.add(cDistanceMarker.position)
+            pinPath.add(pm.position)
+            
+            if (lineToPin == nil) {
+                lineToPin = GMSPolyline(path: pinPath)
+                lineToPin!.strokeWidth = 2
+                lineToPin!.strokeColor = UIColor.white
+                lineToPin!.geodesic = true
+                lineToPin!.map = mapView
+            } else {
+                lineToPin!.map = mapView
+                lineToPin!.path = pinPath
+            }
         }
+        
         if (lineToMyLocation == nil) {
             lineToMyLocation = GMSPolyline(path: playerPath)
             lineToMyLocation!.strokeWidth = 2

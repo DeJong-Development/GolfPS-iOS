@@ -14,11 +14,17 @@ class ButtonX: UIButton {
     @IBInspectable var isRounded: Bool = false
     @IBInspectable var cornerRadius: CGFloat = -1
     @IBInspectable var hasShadow: Bool = false
-    @IBInspectable var isFaded: Bool = false
+    @IBInspectable var glowColor: UIColor? = nil
+    @IBInspectable var hasGlow: Bool = false
     @IBInspectable var borderColor: UIColor = UIColor.clear
     @IBInspectable var borderWidth: CGFloat = 1
+    @IBInspectable var layerBackgroundColor: UIColor? {
+        didSet {
+            self.setNeedsDisplay()
+        }
+    }
     
-    var maskLayer = CAGradientLayer()
+    var cornersToRound:UIRectCorner = .allCorners
     
     override var frame: CGRect {
         didSet {
@@ -29,6 +35,12 @@ class ButtonX: UIButton {
         didSet {
             self.setNeedsDisplay()
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        setupView()
     }
     
     override func awakeFromNib() {
@@ -45,31 +57,30 @@ class ButtonX: UIButton {
     }
     
     internal func setupView() {
-        self.imageView?.contentMode = .scaleAspectFit
-        
-        if (isFaded) {
-            maskLayer.shadowRadius = 3
-            maskLayer.shadowOpacity = 1
-            maskLayer.shadowOffset = CGSize.zero
-            maskLayer.shadowColor = self.backgroundColor?.cgColor ?? UIColor.white.cgColor
-            self.layer.mask = maskLayer
-        }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
-        if (isRounded) {
-            layer.cornerRadius = (cornerRadius > 0) ? cornerRadius : frame.height / 2
-            layer.masksToBounds = true
+        
+        if let customBackgroundColor = layerBackgroundColor {
+            layer.backgroundColor = customBackgroundColor.cgColor
         }
-        if (isFaded) {
-            maskLayer.frame = self.bounds
-            if ((isRounded && cornerRadius > 0) || !isRounded) {
-                maskLayer.shadowPath = CGPath(roundedRect: self.bounds.insetBy(dx: 5, dy: 5), cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
+        
+        if (hasGlow && self.glowColor != nil) {
+            self.layer.masksToBounds = false
+            self.layer.shadowColor = self.glowColor!.cgColor
+            self.layer.shadowRadius = 5
+            self.layer.shadowOpacity = 1
+            self.layer.shadowOffset = .zero
+        }
+        
+        if (isRounded) {
+            let cornerRad = (cornerRadius > 0) ? cornerRadius : frame.height / 2
+            if !cornersToRound.contains(.allCorners) {
+                let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: cornerRad, height: cornerRad))
+                let mask = CAShapeLayer()
+                mask.path = path.cgPath
+                layer.mask = mask
             } else {
-                maskLayer.shadowPath = CGPath(ellipseIn: self.bounds, transform: nil)
+                layer.cornerRadius = cornerRad
             }
         }
     }

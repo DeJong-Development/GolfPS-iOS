@@ -19,12 +19,12 @@ class ViewX: UIView {
     
     override var frame: CGRect {
         didSet {
-            self.setNeedsDisplay()
+            setupView()
         }
     }
     override var bounds: CGRect {
         didSet {
-            self.setNeedsDisplay()
+            setupView()
         }
     }
     
@@ -42,13 +42,6 @@ class ViewX: UIView {
     }
     
     internal func setupView() {
-        layer.borderWidth = borderWidth
-        layer.borderColor = borderColor.cgColor
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
         
