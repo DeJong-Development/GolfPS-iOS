@@ -86,9 +86,9 @@ class CoursePickerTableViewController: UITableViewController {
         }
         
         //cell style
-        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        cell.contentView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-        cell.courseNameLabel.textColor = UIColor.black
+//        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+//        cell.contentView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+//        cell.courseNameLabel.textColor = UIColor.black
         
         if (courseList.count == 0) {
             //do nothing - this is a placeholder cell
@@ -96,6 +96,12 @@ class CoursePickerTableViewController: UITableViewController {
             cell.courseStateLabel.text = ""
             cell.courseNameLabel.textColor = UIColor.red
         } else {
+            if #available(iOS 13.0, *) {
+                cell.courseNameLabel.textColor = UIColor.label
+            } else {
+                // Fallback on earlier versions
+                cell.courseNameLabel.textColor = UIColor.black
+            }
             cell.courseNameLabel.text = courseList[indexPath.row].name;
             cell.courseStateLabel.text = courseList[indexPath.row].state.uppercased()
         }

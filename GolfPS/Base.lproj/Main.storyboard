@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
+    <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,10 +17,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="SUw-36-JKM">
-                                <rect key="frame" x="20" y="28" width="335" height="582"/>
+                                <rect key="frame" x="20" y="8" width="335" height="602"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="DmB-fi-Xw8">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="94"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="DmB-fi-Xw8">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="62"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="hBz-2h-eh9">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="26"/>
@@ -41,25 +39,47 @@
                                                     </label>
                                                 </subviews>
                                             </stackView>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Hickory Knoll" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="c4M-tE-Gok">
-                                                <rect key="frame" x="0.0" y="28" width="335" height="66"/>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" textContentType="name"/>
-                                                <connections>
-                                                    <action selector="courseNameFilterChanged:" destination="hjg-UV-4kJ" eventType="editingChanged" id="OK7-9K-Uj4"/>
-                                                </connections>
-                                            </textField>
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="UIF-d9-1eq">
+                                                <rect key="frame" x="0.0" y="28" width="335" height="34"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-gold" translatesAutoresizingMaskIntoConstraints="NO" id="irn-lL-tuM">
+                                                        <rect key="frame" x="0.0" y="7" width="20" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="CAl-Xx-enc"/>
+                                                            <constraint firstAttribute="width" secondItem="irn-lL-tuM" secondAttribute="height" multiplier="1:1" id="W85-BK-0aI"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Hickory Knoll" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="c4M-tE-Gok">
+                                                        <rect key="frame" x="28" y="0.0" width="307" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" textContentType="name"/>
+                                                        <connections>
+                                                            <action selector="courseNameFilterChanged:" destination="hjg-UV-4kJ" eventType="editingChanged" id="OK7-9K-Uj4"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y95-Wm-Z3d" customClass="DottedLine" customModule="GolfPS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="66" width="335" height="3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="3" id="hTO-FG-jSI"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="dotColor">
+                                                <color key="value" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rqg-4F-71p">
-                                        <rect key="frame" x="0.0" y="98" width="335" height="430"/>
+                                        <rect key="frame" x="0.0" y="73" width="335" height="475"/>
                                         <connections>
                                             <segue destination="jYd-HR-a0k" kind="embed" identifier="EmbedCourseTable" id="Mgt-R0-vKU"/>
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4y-uD-6Wy">
-                                        <rect key="frame" x="0.0" y="532" width="335" height="50"/>
+                                        <rect key="frame" x="0.0" y="552" width="335" height="50"/>
                                         <color key="backgroundColor" red="0.76470588240000004" green="0.65490196079999996" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="f3l-NZ-wla"/>
@@ -120,11 +140,11 @@
             <objects>
                 <viewController id="BeE-Hh-e8c" customClass="RequestViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uld-XN-21l">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Doc-Qb-M0t">
-                                <rect key="frame" x="19" y="68.5" width="337.5" height="248"/>
+                                <rect key="frame" x="19" y="48.5" width="337.5" height="248"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="pj1-qd-4SH">
                                         <rect key="frame" x="0.0" y="0.0" width="337.5" height="57.5"/>
@@ -140,7 +160,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="dx6-6U-A3u"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" textContentType="name"/>
                                                 <connections>
@@ -164,7 +183,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="YZ1-gO-Zje"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" textContentType="name"/>
                                                 <connections>
@@ -188,7 +206,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="Umw-1f-Rve"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="next" textContentType="name"/>
                                                 <connections>
@@ -212,7 +229,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="ea2-hJ-ab5"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" returnKeyType="done" textContentType="name"/>
                                                 <connections>
@@ -225,13 +241,13 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COURSE INFORMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxq-ij-OUI">
-                                <rect key="frame" x="62.5" y="28" width="250.5" height="32.5"/>
+                                <rect key="frame" x="62.5" y="8" width="250.5" height="32.5"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3R-s6-fXR">
-                                <rect key="frame" x="137.5" y="351.5" width="100" height="45"/>
+                                <rect key="frame" x="137.5" y="331.5" width="100" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.47197808159999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="jUk-cF-sxh"/>
@@ -246,7 +262,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLV-1i-alf">
-                                <rect key="frame" x="137.5" y="408.5" width="100" height="45"/>
+                                <rect key="frame" x="137.5" y="388.5" width="100" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="17"/>
                                 <state key="normal" title="CANCEL">
@@ -258,7 +274,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oIP-2K-reF">
-                                <rect key="frame" x="150.5" y="296.5" width="74" height="74"/>
+                                <rect key="frame" x="150.5" y="286.5" width="74" height="74"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hwX-E0-oF1">
                                         <rect key="frame" x="18.5" y="18.5" width="37" height="37"/>
@@ -273,7 +289,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Et2-qu-9vV">
-                                <rect key="frame" x="62.5" y="478.5" width="250" height="57.5"/>
+                                <rect key="frame" x="62.5" y="458.5" width="250" height="57.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="snC-Ky-hk3"/>
                                 </constraints>
@@ -325,12 +341,12 @@ Patience please!</string>
             <objects>
                 <tableViewController id="jYd-HR-a0k" customClass="CoursePickerTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wh5-iP-fOK">
-                        <rect key="frame" x="0.0" y="0.0" width="335" height="430"/>
+                        <rect key="frame" x="0.0" y="0.0" width="335" height="475"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.19566031678082191" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GCTableCell" id="XzO-Qg-s1v" customClass="CourseTableViewCell" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="335" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="335" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XzO-Qg-s1v" id="Qg0-aG-6Kj">
                                     <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
@@ -404,7 +420,7 @@ Patience please!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOD-mc-DML">
-                                <rect key="frame" x="0.0" y="28" width="375" height="537"/>
+                                <rect key="frame" x="0.0" y="8" width="375" height="557"/>
                                 <connections>
                                     <segue destination="uBb-u3-RS0" kind="embed" identifier="GoogleMapEmbed" id="ZXW-nZ-FTI"/>
                                 </connections>
@@ -555,7 +571,7 @@ Patience please!</string>
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fHj-J0-bI4">
-                                <rect key="frame" x="16" y="60" width="18" height="50"/>
+                                <rect key="frame" x="16" y="40" width="18" height="50"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="45"/>
                                 <color key="textColor" red="0.93722427218203086" green="0.95955170665910605" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -563,7 +579,7 @@ Patience please!</string>
                                 <size key="shadowOffset" width="1" height="-1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
-                                <rect key="frame" x="16" y="110" width="9" height="23"/>
+                                <rect key="frame" x="16" y="90" width="9" height="23"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                 <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -571,7 +587,7 @@ Patience please!</string>
                                 <size key="shadowOffset" width="1" height="-1"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPu-K7-rob" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="16" y="20" width="143" height="32"/>
+                                <rect key="frame" x="16" y="0.0" width="143" height="32"/>
                                 <color key="backgroundColor" red="0.0" green="0.47197808159999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                 <inset key="contentEdgeInsets" minX="20" minY="5" maxX="20" maxY="5"/>
@@ -664,7 +680,7 @@ Patience please!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Golf Bag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZk-sp-qat">
-                                <rect key="frame" x="133.5" y="28" width="108.5" height="30"/>
+                                <rect key="frame" x="133.5" y="8" width="108.5" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="fk9-sh-0Hg"/>
                                 </constraints>
@@ -673,7 +689,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="QYh-v7-fSn">
-                                <rect key="frame" x="20" y="66" width="335" height="544"/>
+                                <rect key="frame" x="20" y="46" width="335" height="564"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify these values to get accurate club recommendations!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sy-T4-vMf">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="13.5"/>
@@ -682,7 +698,7 @@ Patience please!</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J97-Px-f20">
-                                        <rect key="frame" x="0.0" y="14.5" width="335" height="529.5"/>
+                                        <rect key="frame" x="0.0" y="14.5" width="335" height="549.5"/>
                                         <connections>
                                             <segue destination="NuW-7G-wT0" kind="embed" id="hXV-A6-Ewv"/>
                                         </connections>
@@ -720,7 +736,7 @@ Patience please!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxW-QG-3nJ">
-                                <rect key="frame" x="151.5" y="28" width="72" height="30"/>
+                                <rect key="frame" x="151.5" y="8" width="72" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Z99-55-RqO"/>
                                 </constraints>
@@ -729,7 +745,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFit" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XcB-tf-0iP">
-                                <rect key="frame" x="37.5" y="158" width="300" height="50"/>
+                                <rect key="frame" x="37.5" y="138" width="300" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.75294117650000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="gpv-dF-4SS"/>
@@ -746,19 +762,19 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snap-ghost" translatesAutoresizingMaskIntoConstraints="NO" id="d2s-ya-r7j">
-                                <rect key="frame" x="275" y="164.5" width="37.5" height="37.5"/>
+                                <rect key="frame" x="275" y="144.5" width="37.5" height="37.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="d2s-ya-r7j" secondAttribute="height" multiplier="1:1" id="NvT-ks-c20"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SEV-Hy-NMi">
-                                <rect key="frame" x="106" y="70" width="163" height="80"/>
+                                <rect key="frame" x="106" y="50" width="163" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="SEV-Hy-NMi" secondAttribute="height" multiplier="163:80" id="9gh-X9-fQZ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link your Snapchat account to display your Bitmoji character on the map at your current location." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReD-vQ-44z">
-                                <rect key="frame" x="87.5" y="218" width="200" height="36"/>
+                                <rect key="frame" x="87.5" y="198" width="200" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="48b-n0-Lvq"/>
                                 </constraints>
@@ -783,7 +799,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpz-Ce-hFo">
-                                <rect key="frame" x="37.5" y="269" width="300" height="219"/>
+                                <rect key="frame" x="37.5" y="249" width="300" height="239"/>
                                 <connections>
                                     <segue destination="SD1-NX-MJV" kind="embed" id="5vO-qe-hnd"/>
                                 </connections>
@@ -830,17 +846,17 @@ Patience please!</string>
             <objects>
                 <tableViewController id="SD1-NX-MJV" customClass="SettingsTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CBc-80-qHy">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="219"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="239"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
                             <tableViewSection id="Yxx-fL-Wzn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Iw9-b3-6XF">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Iw9-b3-6XF" id="E2Q-Px-naV">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="TTk-Kb-LNf">
@@ -856,7 +872,7 @@ Patience please!</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTO-Tc-Fjg">
-                                                    <rect key="frame" x="193" y="11" width="22" height="22"/>
+                                                    <rect key="frame" x="190" y="10" width="25" height="24"/>
                                                     <connections>
                                                         <action selector="clickLocationShareInfo:" destination="SD1-NX-MJV" eventType="touchUpInside" id="gMt-Sa-vA2"/>
                                                     </connections>
@@ -874,10 +890,10 @@ Patience please!</string>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HU9-Gz-L2O">
-                                        <rect key="frame" x="0.0" y="44" width="300" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HU9-Gz-L2O" id="VLy-FT-rER">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SHARE BITMOJI" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sb-P1-BlR">
@@ -893,7 +909,7 @@ Patience please!</string>
                                                     </connections>
                                                 </switch>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADy-qB-mtk">
-                                                    <rect key="frame" x="193" y="11" width="22" height="22"/>
+                                                    <rect key="frame" x="190" y="10" width="25" height="24"/>
                                                     <connections>
                                                         <action selector="clickBitmojiShareInfo:" destination="SD1-NX-MJV" eventType="touchUpInside" id="JTe-so-2WJ"/>
                                                     </connections>
@@ -935,26 +951,24 @@ Patience please!</string>
             <objects>
                 <tableViewController id="NuW-7G-wT0" customClass="MyBagTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WMP-E4-qdC">
-                        <rect key="frame" x="0.0" y="0.0" width="335" height="529.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="335" height="549.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ClubTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClubTableCell" id="XDM-yX-M2M" customClass="ClubTableViewCell" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="335" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="335" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XDM-yX-M2M" id="yXX-mj-SCQ">
                                     <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Club Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6B-7P-qY7">
-                                            <rect key="frame" x="8" y="7" width="167.5" height="30"/>
-                                            <nil key="textColor"/>
+                                            <rect key="frame" x="8" y="5" width="167.5" height="34"/>
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Avg Distance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITN-UP-6aP">
-                                            <rect key="frame" x="183.5" y="7" width="143.5" height="30"/>
-                                            <nil key="textColor"/>
+                                            <rect key="frame" x="183.5" y="5" width="143.5" height="34"/>
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
@@ -989,7 +1003,7 @@ Patience please!</string>
             <objects>
                 <viewController id="uBb-u3-RS0" customClass="GoogleMapViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qhs-1S-jpn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="537"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="557"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vu0-Zu-isM"/>
@@ -1007,6 +1021,7 @@ Patience please!</string>
         <image name="golf_bag_white" width="22.5" height="22.5"/>
         <image name="golf_hole_black" width="22.5" height="22.5"/>
         <image name="golf_hole_white" width="22.5" height="22.5"/>
+        <image name="search-gold" width="20" height="20"/>
         <image name="settings-black" width="22.5" height="22.5"/>
         <image name="settings-white" width="22.5" height="22.5"/>
         <image name="snap-ghost" width="432" height="432"/>

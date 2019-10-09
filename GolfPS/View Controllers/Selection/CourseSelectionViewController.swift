@@ -26,6 +26,7 @@ extension CourseSelectionViewController: CoursePickerDelegate {
             
             if (success) {
                 //tell tab parent controller to change tabs...
+                //go to first hole if we are at new course??
                 self.tabBarController?.selectedIndex = 1;
             } else {
                 AppSingleton.shared.course = nil;

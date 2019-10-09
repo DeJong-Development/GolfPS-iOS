@@ -111,6 +111,13 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         selectedClubLabel.text = club.name
     }
     
+    internal func goToHole1() {
+        if let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first {
+            embeddedMapViewController.currentHole = firstHole
+            embeddedMapViewController.goToHole()
+        }
+    }
+    
     @IBAction func nextHoleButton(_ sender: UIButton) {
         if (AppSingleton.shared.course != nil) {
             embeddedMapViewController.goToHole(increment: 1)

@@ -221,6 +221,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     override func loadView() {
         super.loadView()
         GMSServices.provideAPIKey(valueForAPIKey(keyname: "GoogleMaps"))
+
+        self.view = mapView
         
         let camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 2.0)
         self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
