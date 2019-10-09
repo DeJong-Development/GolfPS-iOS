@@ -52,6 +52,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         
         if let course = AppSingleton.shared.course {
             courseNameButton.setTitle(course.name, for: .normal)
+            courseNameButton.isHidden = false
             distanceToPinLabel.isHidden = false
             selectedClubLabel.isHidden = false
         } else {

@@ -420,7 +420,7 @@ Patience please!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOD-mc-DML">
-                                <rect key="frame" x="0.0" y="8" width="375" height="557"/>
+                                <rect key="frame" x="0.0" y="24" width="375" height="541"/>
                                 <connections>
                                     <segue destination="uBb-u3-RS0" kind="embed" identifier="GoogleMapEmbed" id="ZXW-nZ-FTI"/>
                                 </connections>
@@ -571,7 +571,7 @@ Patience please!</string>
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fHj-J0-bI4">
-                                <rect key="frame" x="16" y="40" width="18" height="50"/>
+                                <rect key="frame" x="16" y="48" width="18" height="50"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="45"/>
                                 <color key="textColor" red="0.93722427218203086" green="0.95955170665910605" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -579,7 +579,7 @@ Patience please!</string>
                                 <size key="shadowOffset" width="1" height="-1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
-                                <rect key="frame" x="16" y="90" width="9" height="23"/>
+                                <rect key="frame" x="16" y="98" width="9" height="23"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                 <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -587,7 +587,7 @@ Patience please!</string>
                                 <size key="shadowOffset" width="1" height="-1"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPu-K7-rob" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="16" y="0.0" width="143" height="32"/>
+                                <rect key="frame" x="16" y="8" width="143" height="32"/>
                                 <color key="backgroundColor" red="0.0" green="0.47197808159999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                 <inset key="contentEdgeInsets" minX="20" minY="5" maxX="20" maxY="5"/>
@@ -625,7 +625,6 @@ Patience please!</string>
                             <constraint firstItem="fHj-J0-bI4" firstAttribute="leading" secondItem="PPu-K7-rob" secondAttribute="leading" id="VYi-7n-9hW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Bn-rn-ruU" secondAttribute="trailing" symbolic="YES" id="XiT-WZ-WtE"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YOA-DG-r0v"/>
-                            <constraint firstItem="nOD-mc-DML" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="Zxt-Ho-4V3"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="a57-5H-mMn"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="gSy-sB-JAX" secondAttribute="bottom" id="e0f-Kx-8a4"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="top" secondItem="nOD-mc-DML" secondAttribute="bottom" id="eFz-T0-taY"/>
@@ -635,7 +634,8 @@ Patience please!</string>
                             <constraint firstItem="PPu-K7-rob" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="iQV-02-ebL"/>
                             <constraint firstItem="gSy-sB-JAX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kv4-1w-Lcw"/>
                             <constraint firstItem="OPt-JS-cAK" firstAttribute="centerX" secondItem="gSy-sB-JAX" secondAttribute="centerX" id="noV-RH-MSn"/>
-                            <constraint firstItem="PPu-K7-rob" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qQD-2j-oPk"/>
+                            <constraint firstItem="nOD-mc-DML" firstAttribute="top" secondItem="PPu-K7-rob" secondAttribute="centerY" id="orl-oG-8Gt"/>
+                            <constraint firstItem="PPu-K7-rob" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="qQD-2j-oPk"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="top" secondItem="fHj-J0-bI4" secondAttribute="bottom" id="ves-af-ztn"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="width" secondItem="fHj-J0-bI4" secondAttribute="width" multiplier="0.5" id="xSf-uw-BnF"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="xdX-oB-pB7"/>
@@ -1003,7 +1003,7 @@ Patience please!</string>
             <objects>
                 <viewController id="uBb-u3-RS0" customClass="GoogleMapViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qhs-1S-jpn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="557"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="541"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vu0-Zu-isM"/>
