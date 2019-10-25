@@ -7,6 +7,7 @@ target 'GolfPS' do
     pod 'GooglePlaces'
     pod 'Firebase/Auth'
     pod 'Firebase/Firestore'
+    pod 'Firebase/Performance'
     pod 'Firebase/Core'
     pod 'Fabric'
     pod 'Crashlytics'

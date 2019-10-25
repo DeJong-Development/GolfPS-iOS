@@ -136,7 +136,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     }
     
     @IBAction func clickLongDrive(_ sender: Any) {
-        
         if longDriveButtonStack.isHidden { //show
             showLongDrive(hideStack: false)
         } else { //hide

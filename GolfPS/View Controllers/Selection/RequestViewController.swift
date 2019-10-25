@@ -88,6 +88,7 @@ class RequestViewController: UIViewController {
             "name": name,
             "city": city,
             "state": state,
+            "user": AppSingleton.shared.me.id,
             "requestDate": Date().iso8601
         ]) { err in
             

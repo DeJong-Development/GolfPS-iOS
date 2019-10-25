@@ -53,10 +53,7 @@ class TabParentViewController: UITabBarController {
         
         Auth.auth().signInAnonymously() { (authResult, error) in
             if let user = authResult?.user {
-                let isAnonymous = user.isAnonymous  // true
-                let uid = user.uid
-                
-                AppSingleton.shared.me.id = uid;
+                AppSingleton.shared.me.id = user.uid;
             } else if let err = error {
                 print(err.localizedDescription)
             }
