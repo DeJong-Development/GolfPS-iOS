@@ -60,7 +60,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
             distanceToPinLabel.isHidden = true
             selectedClubLabel.isHidden = true
         }
-        
     }
     
     override func viewDidLoad() {

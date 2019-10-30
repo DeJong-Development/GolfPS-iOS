@@ -375,7 +375,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             updateBunkerMarkers();
             updateLongDriveMarkers();
             
-            //TODO update ui if hole is long drive hole
+            //check if we have played at this course before
+            updateDidPlayHere()
             
             moveCamera(to: currentHole.bounds, orientToHole: true);
             
@@ -541,6 +542,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         //update the array
         otherPlayerMarkers = newPlayerMarkers.filter { $0.map != nil }
+    }
+    
+    //assign the fact that we played at this course, push to server
+    private func updateDidPlayHere() {
+        if let course = AppSingleton.shared.course,
+            let myLocation = currentPlayerLocation?.coordinate,
+            course.bounds.contains(myLocation) && !course.didPlayHere {
+            course.didPlayHere = true
+        }
     }
     
     internal func addDrivePrompt() {

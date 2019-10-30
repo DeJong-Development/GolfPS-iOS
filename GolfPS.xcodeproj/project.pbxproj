@@ -32,6 +32,10 @@
 		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
 		896D148622A6D1D600873D15 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148522A6D1D600873D15 /* GradientButton.swift */; };
 		8984584122FB50840077BB72 /* CourseTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8984584022FB50840077BB72 /* CourseTools.swift */; };
+		8986E46F2369C8AC00E76224 /* BadgesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986E46E2369C8AC00E76224 /* BadgesViewController.swift */; };
+		8986E4722369CA7A00E76224 /* BadgeBlockCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986E4702369CA7900E76224 /* BadgeBlockCollectionViewCell.swift */; };
+		8986E4732369CA7A00E76224 /* BadgeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986E4712369CA7900E76224 /* BadgeDetailViewController.swift */; };
+		8986E4762369CA9C00E76224 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986E4752369CA9C00E76224 /* Badge.swift */; };
 		898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */; };
 		898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DA922AC5D6A00C7815A /* Player.swift */; };
 		898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */; };
@@ -95,6 +99,10 @@
 		896D148322A6D1D300873D15 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		896D148522A6D1D600873D15 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		8984584022FB50840077BB72 /* CourseTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTools.swift; sourceTree = "<group>"; };
+		8986E46E2369C8AC00E76224 /* BadgesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesViewController.swift; sourceTree = "<group>"; };
+		8986E4702369CA7900E76224 /* BadgeBlockCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBlockCollectionViewCell.swift; sourceTree = "<group>"; };
+		8986E4712369CA7900E76224 /* BadgeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailViewController.swift; sourceTree = "<group>"; };
+		8986E4752369CA9C00E76224 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		898A20B121026D80005FCA7A /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationUpdateTimer.swift; sourceTree = "<group>"; };
 		898C2DA922AC5D6A00C7815A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -142,6 +150,7 @@
 				8904F343208E548900B9CCE5 /* Course.swift */,
 				8904F346208E555700B9CCE5 /* Hole.swift */,
 				89F474F722B1D6CA007D044A /* Club.swift */,
+				8986E4752369CA9C00E76224 /* Badge.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -234,11 +243,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8986E4742369CA7E00E76224 /* Badges */ = {
+			isa = PBXGroup;
+			children = (
+				8986E46E2369C8AC00E76224 /* BadgesViewController.swift */,
+				8986E4702369CA7900E76224 /* BadgeBlockCollectionViewCell.swift */,
+				8986E4712369CA7900E76224 /* BadgeDetailViewController.swift */,
+			);
+			path = Badges;
+			sourceTree = "<group>";
+		};
 		89996EBF210A5CD400E0E290 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				89996EC0210A5CE200E0E290 /* SettingsViewController.swift */,
 				8906414222B941B4006AFDC8 /* SettingsTableViewController.swift */,
+				8986E4742369CA7E00E76224 /* Badges */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -455,10 +475,14 @@
 				898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */,
 				896D147E22A6D1B500873D15 /* Emitter.swift in Sources */,
 				8906414322B941B4006AFDC8 /* SettingsTableViewController.swift in Sources */,
+				8986E46F2369C8AC00E76224 /* BadgesViewController.swift in Sources */,
 				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
 				896D148222A6D1D100873D15 /* GradientView.swift in Sources */,
 				896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */,
 				8915E6762088FB6700A20258 /* GoogleMapViewController.swift in Sources */,
+				8986E4722369CA7A00E76224 /* BadgeBlockCollectionViewCell.swift in Sources */,
+				8986E4762369CA9C00E76224 /* Badge.swift in Sources */,
+				8986E4732369CA7A00E76224 /* BadgeDetailViewController.swift in Sources */,
 				896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */,
 				89C32DFD20B5FCCA0036C151 /* TabParentViewController.swift in Sources */,
 				896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */,

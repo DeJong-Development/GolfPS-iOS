@@ -19,6 +19,9 @@ class Player {
     var avatarURL:URL?
     
     var numStrokes:Int = 0
+    var numUniqueCourses:Int = 0
+    
+    var badges:[Badge] = [Badge]()
     
     var shareLocation:Bool {
         get { return self.preferences.bool(forKey: "player_share_location") }
@@ -33,5 +36,10 @@ class Player {
             self.preferences.setValue(newSharePreference, forKey: "player_share_bitmoji")
             self.preferences.synchronize()
         }
+    }
+    
+    init() {
+        let explorerBadge:ExplorerBadge = ExplorerBadge(id: "explorer")
+        self.badges.append(explorerBadge)
     }
 }

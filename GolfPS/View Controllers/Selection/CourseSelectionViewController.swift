@@ -107,21 +107,7 @@ class CourseSelectionViewController: UIViewController {
                     
                     //get all the courses and add to a course list
                     for document in querySnapshot!.documents {
-                        let course:Course = Course(id: document.documentID)
-                        
-                        let data = document.data();
-                        if let realCourseName:String = data["name"] as? String {
-                            course.name = realCourseName;
-                        }
-                        if let city:String = data["city"] as? String {
-                            course.city = city;
-                        }
-                        if let state:String = data["state"] as? String {
-                            course.state = state;
-                        }
-                        if let spectationSpot:GeoPoint = data["spectation"] as? GeoPoint {
-                            course.spectation = spectationSpot;
-                        }
+                        let course:Course = Course(id: document.documentID, data: document.data())
                         self.embeddedCourseTableViewController?.courseList.append(course);
                     }
                 }

@@ -12,6 +12,7 @@ enum TextFieldInputType: String {
     case email = "email"
     case name = "name"
     case password = "password"
+    case birthdate = "birthdate"
 }
 
 @IBDesignable
@@ -19,12 +20,12 @@ class TextFieldX: UITextField {
     
     @IBInspectable var hasBottomBorder: Bool = true
     @IBInspectable var hasBorder: Bool = false
+    @IBInspectable var borderWidth: CGFloat = 1
     @IBInspectable var borderColor: UIColor = UIColor.clear {
         didSet {
             self.setNeedsDisplay()
         }
     }
-    @IBInspectable var borderWidth: CGFloat = 1
     
     @IBInspectable var placeholderText: String? = "TEST"
     @IBInspectable var placeholderColor: UIColor = UIColor.white
@@ -36,15 +37,69 @@ class TextFieldX: UITextField {
         return NSAttributedString(string: placeholderText ?? "", attributes: placeholderAttrs)
     }
     
-    var acceptImage:UIImage = #imageLiteral(resourceName: "check-gold")
-    var invalidImage:UIImage = #imageLiteral(resourceName: "x-red-2")
-    var acceptStateImageView: UIImageView?
+    var acceptImage:UIImage =  #imageLiteral(resourceName: "marker-distance-longdrive")
+    var invalidImage:UIImage =  #imageLiteral(resourceName: "marker-distance")
+    var acceptStateImageView: UIImageView!
     
-    var customPlaceholderView: UILabel?
+    var customPlaceholderView: UILabel!
     var phCenterYConstraint:NSLayoutConstraint!
     var phBottomConstraint:NSLayoutConstraint!
     
     var inputType: TextFieldInputType = .email
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        if (hasBottomBorder) {
+            layer.addBorder(edge: .bottom, color: borderColor, thickness: borderWidth)
+        } else if (hasBorder) {
+            layer.borderWidth = borderWidth
+            layer.borderColor = borderColor.cgColor
+        } else {
+            layer.borderWidth = 0
+            layer.borderColor = nil
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupView()
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+    
+    private func setupView() {
+        
+        customPlaceholderView?.removeFromSuperview()
+        customPlaceholderView = UILabel(frame: .zero)
+        customPlaceholderView.attributedText = attributedHint
+        customPlaceholderView.alpha = 0.25
+        customPlaceholderView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(customPlaceholderView)
+        
+        acceptStateImageView?.removeFromSuperview()
+        acceptStateImageView = UIImageView(image: invalidImage)
+        acceptStateImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(acceptStateImageView)
+        
+        customPlaceholderView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        phCenterYConstraint = customPlaceholderView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        phBottomConstraint = customPlaceholderView.bottomAnchor.constraint(equalTo: self.topAnchor)
+        phCenterYConstraint.isActive = true
+        
+        acceptStateImageView.contentMode = .scaleAspectFit
+        acceptStateImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        acceptStateImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        acceptStateImageView.heightAnchor.constraint(equalTo: acceptStateImageView.widthAnchor).isActive = true
+        acceptStateImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5).isActive = true
+        
+        self.setNeedsDisplay()
+    }
     
     public func toggleVisibility(isVisible:Bool, forceCorrectState:Bool? = nil, correctOnly:Bool = false) {
         var displayImage:UIImage? = nil
@@ -56,13 +111,14 @@ class TextFieldX: UITextField {
                 
                 var pattern:String = "^[a-zA-Z0-9]{3,}$"
                 switch inputType {
+                case .birthdate:
+                    pattern = "^(0[1-9]|1[012])[-/.](0[1-9]|[12][0-9]|3[01])[-/.](19|20)\\d\\d$"
                 case .email:
                     pattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
                 case .password:
                     pattern = "^(?=.*[0-9a-zA-Z]).{6,64}$"
-//                    pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$"
                 case .name:
-                    pattern = "^[a-zA-Z' -]{3,}$"
+                    pattern = "^([a-zA-Z]+[’' -]*){2,64}$"
                 }
                 
                 let regex = try! NSRegularExpression(pattern: pattern, options: [])
@@ -81,70 +137,16 @@ class TextFieldX: UITextField {
             phCenterYConstraint.isActive = true
             phBottomConstraint.isActive = false
             UIView.animate(withDuration: 0.1) {
-                self.customPlaceholderView?.heightAnchor.constraint(equalToConstant: 20)
-                self.customPlaceholderView?.transform = .identity
+                self.customPlaceholderView.transform = .identity
                 self.layoutIfNeeded()
             }
         } else { //moving hint up
             phCenterYConstraint.isActive = false
             phBottomConstraint.isActive = true
             UIView.animate(withDuration: 0.1) {
-                self.customPlaceholderView?.heightAnchor.constraint(equalToConstant: 15)
-                self.customPlaceholderView?.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+                self.customPlaceholderView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
                 self.layoutIfNeeded()
             }
         }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        if (hasBottomBorder) {
-            layer.addBorder(edge: .bottom, color: borderColor, thickness: borderWidth)
-        } else if (hasBorder) {
-            layer.borderWidth = borderWidth
-            layer.borderColor = borderColor.cgColor
-        }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupView()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupView()
-    }
-    
-    private func setupView() {
-        
-        customPlaceholderView?.removeFromSuperview()
-        customPlaceholderView = UILabel(frame: .zero)
-        customPlaceholderView!.attributedText = attributedHint
-        customPlaceholderView!.alpha = 0.25
-        customPlaceholderView!.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(customPlaceholderView!)
-        customPlaceholderView!.heightAnchor.constraint(equalToConstant: 20)
-        customPlaceholderView!.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        phCenterYConstraint = customPlaceholderView!.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        phBottomConstraint = customPlaceholderView?.bottomAnchor.constraint(equalTo: self.topAnchor)
-        phCenterYConstraint.isActive = true
-        
-        acceptStateImageView?.removeFromSuperview()
-        acceptStateImageView = UIImageView(image: invalidImage)
-        acceptStateImageView!.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(acceptStateImageView!)
-        acceptStateImageView!.contentMode = .scaleAspectFit
-        acceptStateImageView!.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        acceptStateImageView!.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        acceptStateImageView!.heightAnchor.constraint(equalTo: acceptStateImageView!.widthAnchor).isActive = true
-        acceptStateImageView!.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5).isActive = true
-        
-        self.setNeedsDisplay()
     }
 }

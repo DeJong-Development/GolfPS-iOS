@@ -28,6 +28,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.delegate = self
 
         locationShareSwitch.setOn(AppSingleton.shared.me.shareLocation, animated: false)
         if (!AppSingleton.shared.me.shareLocation) {
@@ -95,17 +97,5 @@ class SettingsTableViewController: UITableViewController {
         let ac = UIAlertController(title: "Bitmoji Share Info", message: "By enabling this option, your Bitmoji will be used in to display your location to other golfers on the same course.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(ac, animated: true)
-    }
-    
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 2
     }
 }
