@@ -29,7 +29,8 @@ public class Hole {
     var pinLocation:GeoPoint?
     var dogLegLocation:GeoPoint?
     var isLongDrive:Bool = false
-    var myLongestDrive:Int? = nil
+    var myLongestDriveInYards:Int?
+    var myLongestDriveInMeters:Int?
     
     var longestDrives:[String:GeoPoint] = [String:GeoPoint]()
     
@@ -52,6 +53,22 @@ public class Hole {
             bounds = bounds.includingCoordinate(pinCoordinate);
         }
         return bounds;
+    }
+    
+    func setLongestDrive(distance:Int?) {
+        guard let d = distance else {
+            myLongestDriveInMeters = nil
+            myLongestDriveInYards = nil
+            return
+        }
+        
+        if AppSingleton.shared.metric {
+            myLongestDriveInMeters = d
+            myLongestDriveInYards = Int(Double(d) * 1.09361)
+        } else {
+            myLongestDriveInMeters = Int(Double(d) / 1.09361)
+            myLongestDriveInYards = d
+        }
     }
     
     init?(number:Int, data:[String:Any]) {

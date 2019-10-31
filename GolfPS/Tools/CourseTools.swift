@@ -55,7 +55,8 @@ class CourseTools {
                             
                             if let driveDistance = driveData["distance"] as? Int {
                                 if (driveUser == AppSingleton.shared.me.id) {
-                                    hole.myLongestDrive = driveDistance
+                                    hole.myLongestDriveInYards = driveDistance
+                                    hole.myLongestDriveInMeters = Int(Double(driveDistance) / 1.09361)
                                 }
                             }
                             if let driveLocation = driveData["location"] as? GeoPoint {

@@ -45,15 +45,20 @@ class MapTools {
         
         let latZoom = zoom(mapPx: Double(screenSize.height), worldPx: WORLD_DIM.height, fraction: latFraction);
         let lngZoom = zoom(mapPx: Double(screenSize.width), worldPx: WORLD_DIM.width, fraction: lngFraction);
-//        let latZoom = zoom(mapPx: 300, worldPx: WORLD_DIM.height, fraction: latFraction);
-//        let lngZoom = zoom(mapPx: 200, worldPx: WORLD_DIM.width, fraction: lngFraction);
         
         return min(latZoom, lngZoom, ZOOM_MAX);
     }
     
     public func coordinates(startingCoordinates: CLLocationCoordinate2D, atDistance: Double, atAngle: Double) -> CLLocationCoordinate2D {
         let earthsRadiusInYards:Double = 6371 * 1093.6133;
-        let angularDistance:Double = atDistance / earthsRadiusInYards;
+        let earthsRadiusInMeters:Double = 6371 * 1000;
+        
+        var angularDistance:Double = 0
+        if (AppSingleton.shared.metric) {
+            angularDistance = atDistance / earthsRadiusInMeters;
+        } else {
+            angularDistance = atDistance / earthsRadiusInYards;
+        }
         
         let bearingRadians = self.degreesToRadians(degrees: atAngle)
         let fromLatRadians = self.degreesToRadians(degrees: startingCoordinates.latitude)
@@ -104,7 +109,12 @@ class MapTools {
         
         let a:Double = sin(dLat / 2) * sin(dLat / 2) + sin(dLon / 2) * sin(dLon / 2) * cos(lat1) * cos(lat2);
         let c:Double = 2 * atan2(sqrt(a), sqrt(1-a));
-        return Int(earthRadiusKm * c * 1093.61); //convert km to yards
+        
+        if (AppSingleton.shared.metric) {
+            return Int(earthRadiusKm * c * 1000); //convert km to meters
+        } else {
+            return Int(earthRadiusKm * c * 1093.61); //convert km to yards
+        }
     }
     public func distanceFrom(first:CLLocationCoordinate2D, second:CLLocationCoordinate2D) -> Int {
         return distanceFrom(first: first.geopoint, second: second.geopoint)

@@ -150,7 +150,7 @@ class SettingsViewController: UIViewController {
                 self.snapLink.backgroundColor = UIColor(red: 1, green: 0.753, blue: 0, alpha: 1)
                 
                 //remove image
-                self.bitmojiImage.image = nil
+                self.bitmojiImage.image = #imageLiteral(resourceName: "golf_ball_blank")
                 self.avatarURLToShare = nil
                 
                 //remove shared image from firestore

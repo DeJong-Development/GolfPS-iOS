@@ -19,5 +19,14 @@ class AppSingleton {
     var db:Firestore!
     let me:Player = Player()
     var course:Course? = nil
+    
+    var metric:Bool {
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: "using_metric")
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: "using_metric")
+        }
+    }
 }
 

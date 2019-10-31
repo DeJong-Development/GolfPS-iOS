@@ -57,10 +57,6 @@ class MyBagTableViewController: UITableViewController {
         
         cell.clubName.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
         cell.clubDistance.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-
-        //cell style
-//        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-//        cell.contentView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         
         if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
             cell.separatorInset = .zero

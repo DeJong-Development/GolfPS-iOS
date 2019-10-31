@@ -19,7 +19,7 @@ class ClubTools {
         }
     }
     
-    public func getClubSuggestion(ydsTo: Int) -> Club {
+    public func getClubSuggestion(distanceTo: Int) -> Club {
         var avgDistances:[Int] = [Int]()
         
         for c in myClubs {
@@ -27,7 +27,7 @@ class ClubTools {
         }
         
         var clubNum:Int = 0;
-        while (ydsTo < avgDistances[clubNum] && clubNum < 12) { clubNum += 1; } //iterate until we hit the appropriate club
+        while (distanceTo < avgDistances[clubNum] && clubNum < 12) { clubNum += 1; } //iterate until we hit the appropriate club
         
         return myClubs[clubNum]
     }

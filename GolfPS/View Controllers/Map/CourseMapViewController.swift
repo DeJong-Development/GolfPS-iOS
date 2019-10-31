@@ -105,7 +105,11 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         }
     }
     internal func updateDistanceToPin(distance: Int) {
-        distanceToPinLabel.text = "\(distance) yds"
+        if AppSingleton.shared.metric {
+            distanceToPinLabel.text = "\(distance) m"
+        } else {
+            distanceToPinLabel.text = "\(distance) yds"
+        }
     }
     internal func updateSelectedClub(club: Club) {
         selectedClubLabel.text = club.name
@@ -163,9 +167,20 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     private func showLongDrive(hideStack:Bool) {
         longDriveButton.isHidden = false
         
-        if let myDrive = embeddedMapViewController.currentHole.myLongestDrive {
+        var driveDistance:Int? = nil
+        if AppSingleton.shared.metric {
+            driveDistance = embeddedMapViewController.currentHole.myLongestDriveInMeters
+        } else {
+            driveDistance = embeddedMapViewController.currentHole.myLongestDriveInYards
+        }
+            
+        if let myDrive = driveDistance {
             myDriveLabel.isHidden = false
-            myDriveLabel.text = "\(myDrive) yds"
+            if AppSingleton.shared.metric {
+                myDriveLabel.text = "\(myDrive) m"
+            } else {
+                myDriveLabel.text = "\(myDrive) yds"
+            }
             markButton.isHidden = true
             clearButton.isHidden = false
             
@@ -189,6 +204,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
                 showDriveStackConstraint.isActive = true
             }
         }
+        
         self.view.layoutIfNeeded()
     }
     

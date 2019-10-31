@@ -24,12 +24,16 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var locationShareInfoButton: UIButton!
     @IBOutlet weak var bitmojiShareInfoButton: UIButton!
     
+    @IBOutlet weak var metricControl: UISegmentedControl!
+    
     weak var actionDelegate: SettingsActionDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.delegate = self
+        
+        metricControl.selectedSegmentIndex = AppSingleton.shared.metric ? 1 : 0
 
         locationShareSwitch.setOn(AppSingleton.shared.me.shareLocation, animated: false)
         if (!AppSingleton.shared.me.shareLocation) {
@@ -46,6 +50,10 @@ class SettingsTableViewController: UITableViewController {
         updateBitSwitch()
         
         self.tableView.tableFooterView = UIView()
+    }
+    
+    @IBAction func switchUnits(_ sender: UISegmentedControl) {
+        AppSingleton.shared.metric = (sender.selectedSegmentIndex == 1)
     }
     
     @IBAction func switchMapShare(_ sender: UISwitch) {
@@ -89,7 +97,7 @@ class SettingsTableViewController: UITableViewController {
     }
 
     @IBAction func clickLocationShareInfo(_ sender: UIButton) {
-        let ac = UIAlertController(title: "Location Share Info", message: "By enabling this option, your location on the course will be shared with other golfers on the same golf course. If you are not near the course when using the app, you will be shown at the clubhouse in app.", preferredStyle: .alert)
+        let ac = UIAlertController(title: "Location Share Info", message: "By enabling this option, your location on the course will be shared with other golfers on the same golf course. If you are not near the course when using the app, your location in app will be at the clubhouse.", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(ac, animated: true)
     }

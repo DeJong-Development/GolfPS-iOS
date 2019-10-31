@@ -27,14 +27,14 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
     func updateLocationsNow() {
         if let cpl = currentPlayerLocation {
             
-            //get difference in yards between old and new locations
-            var yardsBetweenLocations:Int = 25
+            //get difference between old and new locations
+            var distanceBetweenLocations:Int = 25
             if let ppl = previousPlayerLocation {
-                yardsBetweenLocations = mapTools.distanceFrom(first: cpl, second: ppl)
+                distanceBetweenLocations = mapTools.distanceFrom(first: cpl, second: ppl)
             }
             
             //if we are in different location then update the position of the player
-            if (cpl != previousPlayerLocation && yardsBetweenLocations >= 25) {
+            if (cpl != previousPlayerLocation && distanceBetweenLocations >= 25) {
                 updateFirestorePlayerPosition(with: cpl.geopoint)
             }
             
@@ -60,10 +60,10 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
         
         if let cpl = currentPlayerLocation {
             if let pm = currentPinMarker {
-                let yardsToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
-                delegate.updateDistanceToPin(distance: yardsToPin)
+                let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
+                delegate.updateDistanceToPin(distance: distanceToPin)
                 
-                let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: yardsToPin)
+                let suggestedClub:Club = clubTools.getClubSuggestion(distanceTo: distanceToPin)
                 delegate.updateSelectedClub(club: suggestedClub)
                 
                 //update any suggestion lines
@@ -135,35 +135,35 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var lineToMyLocation:GMSPolyline?
     private var lineToPin:GMSPolyline?
     
-    private var yardsToPressFromLocation:Int? {
+    private var distanceToPressFromLocation:Int? {
         if let playerLocation = currentPlayerLocation,
             let pressLocation = currentDistanceMarker?.position {
             return mapTools.distanceFrom(first: playerLocation.coordinate, second: pressLocation)
         }
         return nil
     }
-    private var yardsToPressFromTee:Int? {
+    private var distanceToPressFromTee:Int? {
         if let pressLocation = currentDistanceMarker?.position,
             let teeLocation = currentTeeMarker?.position {
             return mapTools.distanceFrom(first: teeLocation, second: pressLocation)
         }
         return nil
     }
-    private var yardsToPinFromMyLocation:Int? {
+    private var distanceToPinFromMyLocation:Int? {
         if let playerLocation = currentPlayerLocation,
             let pinLocation = currentPinMarker?.position {
             return mapTools.distanceFrom(first: playerLocation.coordinate, second: pinLocation)
         }
         return nil
     }
-    private var yardsToTeeFromMyLocation:Int? {
+    private var distanceToTeeFromMyLocation:Int? {
         if let playerCoord = currentPlayerLocation?.coordinate,
             let teeCoord = currentTeeMarker?.position {
             return mapTools.distanceFrom(first: playerCoord, second: teeCoord)
         }
         return nil
     }
-    private var yardsToPinFromTee:Int? {
+    private var distanceToPinFromTee:Int? {
         if let tp = currentTeeMarker?.position,
             let pp = currentPinMarker?.position {
             return mapTools.distanceFrom(first: tp, second: pp)
@@ -382,16 +382,16 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             mapView.selectedMarker = currentPinMarker
             
-            var ydsToUseInSuggestion:Int = 300
-            if let ydsPinMe = yardsToPinFromMyLocation {
-                ydsToUseInSuggestion = ydsPinMe
-                delegate.updateDistanceToPin(distance: ydsPinMe)
-            } else if let ydsPinTee = yardsToPinFromTee {
-                ydsToUseInSuggestion = ydsPinTee
-                delegate.updateDistanceToPin(distance: ydsPinTee)
+            var distanceToUseInSuggestion:Int = 300
+            if let distancePinMe = distanceToPinFromMyLocation {
+                distanceToUseInSuggestion = distancePinMe
+                delegate.updateDistanceToPin(distance: distancePinMe)
+            } else if let distancePinTee = distanceToPinFromTee {
+                distanceToUseInSuggestion = distancePinTee
+                delegate.updateDistanceToPin(distance: distancePinTee)
             }
             
-            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: ydsToUseInSuggestion)
+            let suggestedClub:Club = clubTools.getClubSuggestion(distanceTo: distanceToUseInSuggestion)
             delegate.updateSelectedClub(club: suggestedClub)
             
             updateSuggestionLines(with: suggestedClub)
@@ -410,9 +410,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             bearing = mapTools.calcBearing(start: teeLocation, finish: pinLocation) - 20
             viewingAngle = 45
         }
-//        if let dlLocation = currentHole.dogLegLocation {
-//            bearing = mapTools.calcBearing(start: teeLocation, finish: dlLocation)
-//        }
         let newCameraView:GMSCameraPosition = GMSCameraPosition(target: center,
                                                                 zoom: zoom,
                                                                 bearing: bearing,
@@ -562,25 +559,29 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             }
             
             if let loc:CLLocationCoordinate2D = self.currentPlayerLocation?.coordinate {
-                let yardsToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
+                let distanceToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
                 
-                if (yardsToTee > 500) {
+                if (distanceToTee > 500) {
                     //prompt some sort of alert saying this is just ridiculous
                 } else {
                     self.myDrivingDistanceMarker = GMSMarker(position: loc)
                     self.myDrivingDistanceMarker!.title = "My Drive"
-                    self.myDrivingDistanceMarker!.snippet = "\(yardsToTee) yds"
+                    if (AppSingleton.shared.metric) {
+                        self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) m"
+                    } else {
+                        self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) yds"
+                    }
                     self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
                     self.myDrivingDistanceMarker!.userData = "Drive";
                     self.myDrivingDistanceMarker!.map = self.mapView;
                     self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
                     
                     //update my drive data on hole object
-                    self.currentHole.myLongestDrive = yardsToTee
+                    self.currentHole.setLongestDrive(distance: distanceToTee)
                     self.currentHole.longestDrives[AppSingleton.shared.me.id] = loc.geopoint
                     
                     //send drive data to the firestore
-                    self.updateFirestoreLongDrive(distance: yardsToTee, location: loc.geopoint)
+                    self.updateFirestoreLongDrive(distance: distanceToTee, location: loc.geopoint)
                     
                     //inform delegate of new hole characteristics
                     self.delegate?.updateCurrentHole(hole: self.currentHole)
@@ -591,14 +592,21 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         self.present(ac, animated: true)
     }
     
+    ///Always store distance in same units so we can be consistent
     private func updateFirestoreLongDrive(distance:Int, location: GeoPoint) {
         let userId = AppSingleton.shared.me.id
+        
+        var yards:Double = Double(distance);
+        if AppSingleton.shared.metric {
+            //convert distance to yards
+            yards = Double(distance) * 1.09361
+        }
         
         if let holeDocRef = currentHole.docReference {
             let myLongDriveDoc = holeDocRef.collection("drives").document(userId);
             myLongDriveDoc.setData([
                 "location": location,
-                "distance": distance,
+                "distance": yards.rounded(),
                 "date": Date().iso8601
             ]) { (error) in
                 if let err = error {
@@ -643,14 +651,18 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         let teePoint:GeoPoint = currentHole.teeLocations[0]
         let teeLoc:CLLocationCoordinate2D = teePoint.location
-        let yardsToPin:Int = mapTools.distanceFrom(first: pinLoc, second: teeLoc)
+        let distanceToPin:Int = mapTools.distanceFrom(first: pinLoc, second: teeLoc)
         
         if (currentPinMarker != nil) {
             currentPinMarker.map = nil
         }
         currentPinMarker = GMSMarker(position: pinLoc)
         currentPinMarker.title = "Pin #\(currentHole.number)"
-        currentPinMarker.snippet = "\(yardsToPin) yds"
+        if (AppSingleton.shared.metric) {
+            currentPinMarker.snippet = "\(distanceToPin) m"
+        } else {
+            currentPinMarker.snippet = "\(distanceToPin) yds"
+        }
         currentPinMarker.icon = #imageLiteral(resourceName: "flag_marker").toNewSize(CGSize(width: 55, height: 55))
         currentPinMarker.userData = "\(currentHole.number):P";
         currentPinMarker.map = mapView;
@@ -665,11 +677,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         for (bunkerIndex,bunkerLocation) in bunkerLocationsForHole.enumerated() {
             let bunkerLoc = bunkerLocation.location
             let teeLoc = currentTeeMarker.position
-            let yardsToBunker:Int = mapTools.distanceFrom(first: bunkerLoc, second: teeLoc)
+            let distanceToBunker:Int = mapTools.distanceFrom(first: bunkerLoc, second: teeLoc)
             
             let bunkerMarker = GMSMarker(position: bunkerLoc)
             bunkerMarker.title = "Hazard"
-            bunkerMarker.snippet = "\(yardsToBunker) yds"
+            if (AppSingleton.shared.metric) {
+                bunkerMarker.snippet = "\(distanceToBunker) m"
+            } else {
+                bunkerMarker.snippet = "\(distanceToBunker) yds"
+            }
             bunkerMarker.icon = #imageLiteral(resourceName: "hazard_marker").toNewSize(CGSize(width: 35, height: 35))
             bunkerMarker.userData = "\(currentHole.number):B\(bunkerIndex)";
             bunkerMarker.map = mapView;
@@ -696,12 +712,16 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             let ldLoc = longDriveLocation.location
             let teeLoc = currentTeeMarker.position
             
-            let yardsToTee:Int = mapTools.distanceFrom(first: ldLoc, second: teeLoc)
+            let distanceToTee:Int = mapTools.distanceFrom(first: ldLoc, second: teeLoc)
             
             if (longDriveUser == AppSingleton.shared.me.id) {
                 self.myDrivingDistanceMarker = GMSMarker(position: ldLoc)
                 self.myDrivingDistanceMarker!.title = "My Drive"
-                self.myDrivingDistanceMarker!.snippet = "\(yardsToTee) yds"
+                if (AppSingleton.shared.metric) {
+                    self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) m"
+                } else {
+                    self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) yds"
+                }
                 self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
                 self.myDrivingDistanceMarker!.userData = "Drive";
                 self.myDrivingDistanceMarker!.map = self.mapView;
@@ -709,7 +729,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             } else {
                 let driveMarker = GMSMarker(position: ldLoc)
                 driveMarker.title = "Long Drive"
-                driveMarker.snippet = "\(yardsToTee) yds"
+                if (AppSingleton.shared.metric) {
+                    driveMarker.snippet = "\(distanceToTee) m"
+                } else {
+                    driveMarker.snippet = "\(distanceToTee) yds"
+                }
                 driveMarker.icon = #imageLiteral(resourceName: "marker-distance").toNewSize(CGSize(width: 25, height: 25))
                 driveMarker.userData = "Drive";
                 driveMarker.map = self.mapView;
@@ -725,7 +749,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         self.myDrivingDistanceMarker = nil
         
         //remove any data associated with my drive
-        self.currentHole.myLongestDrive = nil
+        self.currentHole.setLongestDrive(distance: nil)
         self.currentHole.longestDrives.removeValue(forKey: AppSingleton.shared.me.id)
     }
     
@@ -786,9 +810,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private func updateSuggestionLines(with club:Club) {
         //if recommending club that is not driver - show recommended club lines
-        if let ydsPinTee = yardsToPinFromTee, let ydsPinMe = yardsToPinFromMyLocation, let ydsTeeMe = yardsToTeeFromMyLocation {
-            let meIsCloseToPin:Bool = ydsPinMe < ydsPinTee - 30
-            let meIsCloseToSelectedHole:Bool = ydsTeeMe + ydsPinMe < ydsPinTee + 75
+        if let distancePinTee = distanceToPinFromTee,
+            let distancePinMe = distanceToPinFromMyLocation,
+            let distanceTeeMe = distanceToTeeFromMyLocation {
+            let meIsCloseToPin:Bool = distancePinMe < distancePinTee - 30
+            let meIsCloseToSelectedHole:Bool = distanceTeeMe + distancePinMe < distancePinTee + 75
             
             //if we are not being suggested the driver -> show the resulting suggested club arcs
             if meIsCloseToPin && meIsCloseToSelectedHole {
@@ -808,9 +834,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
             
         var usingMyLocation:Bool = false;
-        if let ydsPressTee = yardsToPressFromTee {
-            if let ydsPressMe = yardsToPressFromLocation {
-                usingMyLocation = ydsPressMe < ydsPressTee + 25
+        if let distancePressTee = distanceToPressFromTee {
+            if let distancePressMe = distanceToPressFromLocation {
+                usingMyLocation = distancePressMe < distancePressTee + 25
             }
         } else {
             usingMyLocation = true
@@ -819,14 +845,22 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let playerPath = GMSMutablePath()
         var suggestedClub:Club!
         if usingMyLocation {
-            suggestedClub = clubTools.getClubSuggestion(ydsTo: yardsToPressFromLocation!);
-            cDistanceMarker.title = "\(yardsToPressFromLocation!) yds"
+            suggestedClub = clubTools.getClubSuggestion(distanceTo: distanceToPressFromLocation!);
+            if AppSingleton.shared.metric {
+                cDistanceMarker.title = "\(distanceToPressFromLocation!) m"
+            } else {
+                cDistanceMarker.title = "\(distanceToPressFromLocation!) yds"
+            }
             
             playerPath.add(currentPlayerLocation!.coordinate)
             playerPath.add(currentDistanceMarker!.position)
         } else {
-            suggestedClub = clubTools.getClubSuggestion(ydsTo: yardsToPressFromTee!);
-            cDistanceMarker.title = "\(yardsToPressFromTee!) yds"
+            suggestedClub = clubTools.getClubSuggestion(distanceTo: distanceToPressFromTee!);
+            if AppSingleton.shared.metric {
+                cDistanceMarker.title = "\(distanceToPressFromTee!) m"
+            } else {
+                cDistanceMarker.title = "\(distanceToPressFromTee!) yds"
+            }
             
             playerPath.add(currentTeeMarker.position)
             playerPath.add(currentDistanceMarker!.position)
@@ -914,7 +948,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateRecommendedClubLines() {
         clearDistanceLines()
         
-        guard let myLocation = currentPlayerLocation, let ydsPinMe = yardsToPinFromMyLocation else {
+        guard let myLocation = currentPlayerLocation,
+            let distancePinMe = distanceToPinFromMyLocation else {
             return
         }
         
@@ -927,8 +962,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         let shortestWedge:Club = Club(number: 13)
         //only show suggestion line if the min distance is less than current distance
-        if (shortestWedge.distance < ydsPinMe) {
-            let suggestedClub:Club = clubTools.getClubSuggestion(ydsTo: ydsPinMe)
+        if (shortestWedge.distance < distancePinMe) {
+            let suggestedClub:Club = clubTools.getClubSuggestion(distanceTo: distancePinMe)
             
             //show up to 2 club ups - if suggesting driver then 0 change allowed
             let clubUps:Int = -min(suggestedClub.number - 1, 2)
