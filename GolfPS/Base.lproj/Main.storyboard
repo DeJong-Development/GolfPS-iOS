@@ -1160,7 +1160,7 @@ Patience please!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tDx-He-t6t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3054" y="-382"/>
+            <point key="canvasLocation" x="3053" y="-397"/>
         </scene>
         <!--Badge Detail View Controller-->
         <scene sceneID="PDt-yP-GwS">
