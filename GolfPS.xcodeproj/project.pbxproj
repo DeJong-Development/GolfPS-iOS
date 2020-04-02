@@ -49,6 +49,7 @@
 		89D68DBC21E97C090026BD7F /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89D68DBB21E97C090026BD7F /* ApiKeys.plist */; };
 		89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DFFE4E21E96B9B0096AC3C /* Extensions.swift */; };
 		89F474F822B1D6CA007D044A /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F474F722B1D6CA007D044A /* Club.swift */; };
+		89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F49A9E2432837000C0B9A0 /* Colors.xcassets */; };
 		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,7 @@
 		89D68DBB21E97C090026BD7F /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		89DFFE4E21E96B9B0096AC3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		89F474F722B1D6CA007D044A /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
+		89F49A9E2432837000C0B9A0 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,20 +179,21 @@
 		8915E65E2088F8C800A20258 /* GolfPS */ = {
 			isa = PBXGroup;
 			children = (
-				896D147522A6D16700873D15 /* Views */,
 				89C32DFE20B6110A0036C151 /* GolfPS.entitlements */,
-				896D147122A59BE600873D15 /* GoogleService-Info.plist */,
-				89D68DBB21E97C090026BD7F /* ApiKeys.plist */,
-				8915E65F2088F8C800A20258 /* AppDelegate.swift */,
-				8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */,
-				8915E6632088F8C800A20258 /* Main.storyboard */,
-				8915E6682088F8CA00A20258 /* LaunchScreen.storyboard */,
-				8915E66B2088F8CA00A20258 /* Info.plist */,
+				896D147522A6D16700873D15 /* Views */,
 				8904F342208E53F700B9CCE5 /* Models */,
 				89D078B8208ADBCA00B97690 /* Tools */,
 				8915E67F208A32B500A20258 /* View Controllers */,
 				89DFFE4E21E96B9B0096AC3C /* Extensions.swift */,
 				896D147322A5A0FE00873D15 /* AppSingleton.swift */,
+				896D147122A59BE600873D15 /* GoogleService-Info.plist */,
+				89D68DBB21E97C090026BD7F /* ApiKeys.plist */,
+				8915E65F2088F8C800A20258 /* AppDelegate.swift */,
+				8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */,
+				89F49A9E2432837000C0B9A0 /* Colors.xcassets */,
+				8915E6632088F8C800A20258 /* Main.storyboard */,
+				8915E6682088F8CA00A20258 /* LaunchScreen.storyboard */,
+				8915E66B2088F8CA00A20258 /* Info.plist */,
 			);
 			path = GolfPS;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				8915E6652088F8C800A20258 /* Main.storyboard in Resources */,
 				8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */,
 				896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */,
+				89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,12 +646,12 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -665,12 +669,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

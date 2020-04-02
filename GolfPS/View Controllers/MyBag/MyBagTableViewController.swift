@@ -83,6 +83,7 @@ class MyBagTableViewController: UITableViewController {
                 club.name = cleanClubName
             }
         }
+        AppSingleton.shared.me.didCustomizeBag = true
     }
     @objc func distanceChanged(textField: UITextField) {
         let clubNum = textField.tag;
@@ -92,6 +93,7 @@ class MyBagTableViewController: UITableViewController {
                 club.distance = clubDistanceNum
             }
         }
+        AppSingleton.shared.me.didCustomizeBag = true
     }
     
     @objc private func dismissKeyboard() {

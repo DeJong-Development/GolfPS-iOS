@@ -10,18 +10,55 @@ import Foundation
 import FirebaseFirestore
 
 class Player {
-    let preferences = UserDefaults.standard;
     
-    var name:String = "Incognito";
-    var id:String = UUID().uuidString;
+    private(set) var name:String = "Incognito";
+    private(set) var id:String = UUID().uuidString;
+    
     var location:GeoPoint?
     var lastLocationUpdate:Date?
     var avatarURL:URL?
     
-    var numStrokes:Int = 0
-    var numUniqueCourses:Int = 0
+    init(id: String) {
+        self.id = id;
+    }
+}
+
+class MePlayer:Player {
+    private let preferences = UserDefaults.standard;
     
-    var badges:[Badge] = [Badge]()
+    var numStrokes:Int = 0
+    
+    private(set) var badges:[Badge] = [Badge]()
+    
+    var numUniqueCourses:Int {
+        return coursesVisited?.count ?? 0
+    }
+    var coursesVisited:[String]? {
+        return self.preferences.stringArray(forKey: "player_courses_visited")
+    }
+    internal func addCourseVisitation(courseId:String) {
+        var newCoursesVisited:[String] = [String]()
+        if let cv = coursesVisited {
+            newCoursesVisited.append(contentsOf: cv)
+        }
+        newCoursesVisited.append(courseId)
+        self.preferences.setValue(newCoursesVisited, forKey: "player_courses_visited")
+        self.preferences.synchronize()
+    }
+    var didLogLongDrive:Bool {
+        get { return self.preferences.bool(forKey: "player_logged_long_drive") }
+        set(didLongDrive) {
+           self.preferences.setValue(didLongDrive, forKey: "player_logged_long_drive")
+           self.preferences.synchronize()
+        }
+    }
+    var didCustomizeBag:Bool {
+        get { return self.preferences.bool(forKey: "player_customize_bag") }
+        set(didLongDrive) {
+           self.preferences.setValue(didLongDrive, forKey: "player_customize_bag")
+           self.preferences.synchronize()
+        }
+    }
     
     var shareLocation:Bool {
         get { return self.preferences.bool(forKey: "player_share_location") }
@@ -38,8 +75,12 @@ class Player {
         }
     }
     
-    init() {
-        let explorerBadge:ExplorerBadge = ExplorerBadge(id: "explorer")
-        self.badges.append(explorerBadge)
+    override init(id: String) {
+        super.init(id: id)
+        
+        self.badges = [ExplorerBadge(id: "explorer"),
+                       LongDriveBadge(id: "longdrive"),
+                       CustomizerBadge(id: "bagcustomize")
+        ]
     }
 }

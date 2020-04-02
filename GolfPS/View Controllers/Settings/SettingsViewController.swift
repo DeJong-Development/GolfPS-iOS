@@ -77,21 +77,29 @@ class SettingsViewController: UIViewController {
             self.embeddedTableViewController.bitmojiShareSwitch.setOn(false, animated: true)
             AppSingleton.shared.me.shareBitmoji = false
             self.avatarURLToShare = nil
-            
             //change to "Unlink" after we are all logged in
-            SCSDKLoginClient.unlinkAllSessions { (success: Bool) in
-                DispatchQueue.main.async() {
-                    self.updateButtonLabel()
-                    self.embeddedTableViewController.updateBitSwitch()
-                }
-                if success {
-                    DispatchQueue.main.async {
-                        let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "OK", style: .default))
-                        self.present(ac, animated: true)
-                    }
-                }
-            }
+            SCSDKLoginClient.clearToken()
+            
+            self.updateButtonLabel()
+            self.embeddedTableViewController.updateBitSwitch()
+            
+            let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(ac, animated: true)
+            
+//            SCSDKLoginClient.unlinkAllSessions { (success: Bool) in
+//                DispatchQueue.main.async() {
+//                    self.updateButtonLabel()
+//                    self.embeddedTableViewController.updateBitSwitch()
+//                }
+//                if success {
+//                    DispatchQueue.main.async {
+//                        let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
+//                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+//                        self.present(ac, animated: true)
+//                    }
+//                }
+//            }
         } else {
             //once this is linked - it will always be linked
             //set up with a "Link Snapchat Bitmoji" button or something like that

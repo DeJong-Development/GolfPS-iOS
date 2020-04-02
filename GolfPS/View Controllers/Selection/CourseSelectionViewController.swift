@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseFirestore
 
 extension CourseSelectionViewController: CoursePickerDelegate {
     internal func refreshCourseList() {

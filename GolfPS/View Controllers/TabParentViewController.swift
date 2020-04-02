@@ -53,7 +53,7 @@ class TabParentViewController: UITabBarController {
         
         Auth.auth().signInAnonymously() { (authResult, error) in
             if let user = authResult?.user {
-                AppSingleton.shared.me.id = user.uid;
+                AppSingleton.shared.me = MePlayer(id: user.uid)
             } else if let err = error {
                 print(err.localizedDescription)
             }

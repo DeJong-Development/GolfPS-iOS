@@ -16,7 +16,7 @@ class Badge {
     var icon:UIImage?
     var background:UIImage!
     
-    fileprivate var me:Player {
+    fileprivate var me:MePlayer {
         return AppSingleton.shared.me
     }
     
@@ -57,6 +57,44 @@ class ExplorerBadge: Badge {
         self.title = "EXPLORER"
         self.description = "Go to 5 or more unique courses and explore using the app! Spectating a round from a distance doesn't count..."
         self.icon = #imageLiteral(resourceName: "explorer_achievement")
+        self.background = #imageLiteral(resourceName: "golf_ball_blank")
+    }
+}
+
+class LongDriveBadge: Badge {
+    
+    override var progress:CGFloat {
+        return me.didLogLongDrive ? 100 : 0
+    }
+    override var isUnlocked:Bool {
+        return me.didLogLongDrive
+    }
+    
+    override init(id: String) {
+        super.init(id: id)
+        
+        self.title = "DRIVER"
+        self.description = "Play a course with a valid long drive hole, tap the Longest Drive button, tap Mark, and successfully record a long drive."
+        self.icon = #imageLiteral(resourceName: "golf_hole_black")
+        self.background = #imageLiteral(resourceName: "golf_ball_blank")
+    }
+}
+
+class CustomizerBadge: Badge {
+    
+    override var progress:CGFloat {
+        return me.didCustomizeBag ? 100 : 0
+    }
+    override var isUnlocked:Bool {
+        return me.didCustomizeBag
+    }
+    
+    override init(id: String) {
+        super.init(id: id)
+        
+        self.title = "CUSTOMIZER"
+        self.description = "Update your golf bag with your clubs and distances. Get better club suggestions."
+        self.icon = #imageLiteral(resourceName: "customize")
         self.background = #imageLiteral(resourceName: "golf_ball_blank")
     }
 }

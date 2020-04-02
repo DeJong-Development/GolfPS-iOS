@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 
 class AppSingleton {
     static let shared = AppSingleton()
@@ -17,7 +17,7 @@ class AppSingleton {
     var appPath: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
     var db:Firestore!
-    let me:Player = Player()
+    var me:MePlayer!
     var course:Course? = nil
     
     var metric:Bool {

@@ -8,7 +8,7 @@
 
 import UIKit
 import GoogleMaps
-import Firebase
+import FirebaseFirestore
 import AudioToolbox
 import SCSDKBitmojiKit
 import SCSDKLoginKit
@@ -68,6 +68,13 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
                 
                 //update any suggestion lines
                 updateSuggestionLines(with: suggestedClub)
+            }
+            
+            //add course visitation
+            if let course = AppSingleton.shared.course,
+                !(AppSingleton.shared.me.coursesVisited?.contains(course.id) ?? false),
+                course.bounds.contains(cpl.coordinate) {
+                AppSingleton.shared.me.addCourseVisitation(courseId: course.id)
             }
             
             //update any distance markers we already have displayed when we update our location
@@ -317,8 +324,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 
                 self.otherPlayers.removeAll()
                 for document in documents {
-                    let otherPlayer = Player()
-                    otherPlayer.id = document.documentID;
+                    let otherPlayer = Player(id: document.documentID)
                     otherPlayer.location = document["location"] as? GeoPoint
                     otherPlayer.lastLocationUpdate = (document["updateTime"] as? String)?.dateFromISO8601
                     
@@ -579,6 +585,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     //update my drive data on hole object
                     self.currentHole.setLongestDrive(distance: distanceToTee)
                     self.currentHole.longestDrives[AppSingleton.shared.me.id] = loc.geopoint
+                    
+                    AppSingleton.shared.me.didLogLongDrive = true
                     
                     //send drive data to the firestore
                     self.updateFirestoreLongDrive(distance: distanceToTee, location: loc.geopoint)
