@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="16096" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="16012"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="GolfPS_Companion" customModuleProvider="target">
+                    <items>
+                        <group width="1" alignment="center" layout="vertical" id="cmW-hC-9qY">
+                            <items>
+                                <group width="1" alignment="center" spacing="4" id="2wd-Ns-zF2">
+                                    <items>
+                                        <label height="39" alignment="center" verticalAlignment="center" textAlignment="center" id="g3w-jh-zqH">
+                                            <fontDescription key="font" style="UICTFontTextStyleTitle0"/>
+                                        </label>
+                                        <label alignment="center" verticalAlignment="center" textAlignment="center" id="Wr4-Tu-6Kz">
+                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                        </label>
+                                    </items>
+                                </group>
+                                <label alignment="center" verticalAlignment="bottom" textAlignment="center" id="IGv-WA-EYS"/>
+                            </items>
+                        </group>
+                        <group width="1" alignment="center" verticalAlignment="bottom" id="75K-rs-2wx">
+                            <items>
+                                <button width="40" height="40" alignment="left" verticalAlignment="bottom" title="↢" id="KIm-Ss-ahY">
+                                    <fontDescription key="font" type="boldSystem" pointSize="25"/>
+                                    <connections>
+                                        <action selector="clickPreviousHole" destination="AgC-eL-Hgc" id="Rnp-BN-mkt"/>
+                                    </connections>
+                                </button>
+                                <label alignment="center" verticalAlignment="center" text="#" id="Ldk-zV-IZw"/>
+                                <button width="40" height="40" alignment="right" verticalAlignment="bottom" title="↣" id="xUt-4E-e6S">
+                                    <fontDescription key="font" type="system" pointSize="25"/>
+                                    <connections>
+                                        <action selector="clickNextHole" destination="AgC-eL-Hgc" id="DFf-tf-uGZ"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="clubRecommendationLabel" destination="IGv-WA-EYS" id="Sh7-Ng-bad"/>
+                        <outlet property="holeNumberLabel" destination="Ldk-zV-IZw" id="gk7-k6-zae"/>
+                        <outlet property="lengthUnitLabel" destination="Wr4-Tu-6Kz" id="CJc-5H-Vl9"/>
+                        <outlet property="nextHoleButton" destination="xUt-4E-e6S" id="5Ar-Oy-Efl"/>
+                        <outlet property="previousHoleButton" destination="KIm-Ss-ahY" id="gRu-gy-esN"/>
+                        <outlet property="yardageLabel" destination="g3w-jh-zqH" id="BYi-Ts-jH6"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="345"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="AEw-b0-oYE">
+            <objects>
+                <notificationController id="YCC-NB-fut">
+                    <items>
+                        <label alignment="left" text="Alert Label" numberOfLines="0" id="IdU-wH-bcW"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
+                        <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
+                        <segue destination="eXb-UN-Cd0" kind="relationship" relationship="dynamicInteractiveNotificationInterface" id="mpB-YA-K8N"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="220" y="643"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="ZPc-GJ-vnh">
+            <objects>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="GolfPS_Companion" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="468" y="643"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="Niz-AI-uX2">
+            <objects>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="GolfPS_Companion" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="468" y="345"/>
+        </scene>
+    </scenes>
+</document>

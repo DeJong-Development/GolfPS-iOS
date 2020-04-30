@@ -31,6 +31,14 @@
 		896D148222A6D1D100873D15 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148122A6D1D100873D15 /* GradientView.swift */; };
 		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
 		896D148622A6D1D600873D15 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148522A6D1D600873D15 /* GradientButton.swift */; };
+		89726002245B3B2C00A85FEE /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89726000245B3B2C00A85FEE /* Interface.storyboard */; };
+		89726004245B3B2E00A85FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89726003245B3B2E00A85FEE /* Assets.xcassets */; };
+		8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		89726010245B3B2E00A85FEE /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972600F245B3B2E00A85FEE /* InterfaceController.swift */; };
+		89726012245B3B2E00A85FEE /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89726011245B3B2E00A85FEE /* ExtensionDelegate.swift */; };
+		89726014245B3B2E00A85FEE /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89726013245B3B2E00A85FEE /* NotificationController.swift */; };
+		89726016245B3B2F00A85FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89726015245B3B2F00A85FEE /* Assets.xcassets */; };
+		8972601B245B3B2F00A85FEE /* GolfPS Companion.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 89725FFE245B3B2C00A85FEE /* GolfPS Companion.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8984584122FB50840077BB72 /* CourseTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8984584022FB50840077BB72 /* CourseTools.swift */; };
 		8986E46F2369C8AC00E76224 /* BadgesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986E46E2369C8AC00E76224 /* BadgesViewController.swift */; };
 		8986E4722369CA7A00E76224 /* BadgeBlockCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8986E4702369CA7900E76224 /* BadgeBlockCollectionViewCell.swift */; };
@@ -53,7 +61,46 @@
 		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8972600C245B3B2E00A85FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8915E6542088F8C800A20258 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 89726009245B3B2E00A85FEE;
+			remoteInfo = "GolfPS Companion Extension";
+		};
+		89726019245B3B2F00A85FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8915E6542088F8C800A20258 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 89725FFD245B3B2C00A85FEE;
+			remoteInfo = "GolfPS Companion";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		8972601C245B3B2F00A85FEE /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				8972601B245B3B2F00A85FEE /* GolfPS Companion.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8972601F245B3B2F00A85FEE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		898A20C021026D80005FCA7A /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,6 +146,17 @@
 		896D148122A6D1D100873D15 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		896D148322A6D1D300873D15 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		896D148522A6D1D600873D15 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		89725FFE245B3B2C00A85FEE /* GolfPS Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GolfPS Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		89726001245B3B2C00A85FEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		89726003245B3B2E00A85FEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		89726005245B3B2E00A85FEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GolfPS Companion Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8972600F245B3B2E00A85FEE /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		89726011245B3B2E00A85FEE /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		89726013245B3B2E00A85FEE /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		89726015245B3B2F00A85FEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		89726017245B3B2F00A85FEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89726018245B3B2F00A85FEE /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		8984584022FB50840077BB72 /* CourseTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTools.swift; sourceTree = "<group>"; };
 		8986E46E2369C8AC00E76224 /* BadgesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesViewController.swift; sourceTree = "<group>"; };
 		8986E4702369CA7900E76224 /* BadgeBlockCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBlockCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -132,6 +190,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89726007245B3B2E00A85FEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -161,6 +226,8 @@
 			isa = PBXGroup;
 			children = (
 				8915E65E2088F8C800A20258 /* GolfPS */,
+				89725FFF245B3B2C00A85FEE /* GolfPS Companion */,
+				8972600E245B3B2E00A85FEE /* GolfPS Companion Extension */,
 				8915E65D2088F8C800A20258 /* Products */,
 				8915E6732088F9AE00A20258 /* Podfile */,
 				F2952F7C429A150259B45E6E /* Pods */,
@@ -172,6 +239,8 @@
 			isa = PBXGroup;
 			children = (
 				8915E65C2088F8C800A20258 /* GolfPS.app */,
+				89725FFE245B3B2C00A85FEE /* GolfPS Companion.app */,
+				8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +315,29 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		89725FFF245B3B2C00A85FEE /* GolfPS Companion */ = {
+			isa = PBXGroup;
+			children = (
+				89726000245B3B2C00A85FEE /* Interface.storyboard */,
+				89726003245B3B2E00A85FEE /* Assets.xcassets */,
+				89726005245B3B2E00A85FEE /* Info.plist */,
+			);
+			path = "GolfPS Companion";
+			sourceTree = "<group>";
+		};
+		8972600E245B3B2E00A85FEE /* GolfPS Companion Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8972600F245B3B2E00A85FEE /* InterfaceController.swift */,
+				89726011245B3B2E00A85FEE /* ExtensionDelegate.swift */,
+				89726013245B3B2E00A85FEE /* NotificationController.swift */,
+				89726015245B3B2F00A85FEE /* Assets.xcassets */,
+				89726017245B3B2F00A85FEE /* Info.plist */,
+				89726018245B3B2F00A85FEE /* PushNotificationPayload.apns */,
+			);
+			path = "GolfPS Companion Extension";
+			sourceTree = "<group>";
+		};
 		8986E4742369CA7E00E76224 /* Badges */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,15 +406,51 @@
 				ECED2BF15C4390BFF343AB3E /* [CP] Copy Pods Resources */,
 				898A20C021026D80005FCA7A /* Embed App Extensions */,
 				89AD88DB211E219F00AA8D02 /* ShellScript */,
+				8972601C245B3B2F00A85FEE /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8972601A245B3B2F00A85FEE /* PBXTargetDependency */,
 			);
 			name = GolfPS;
 			productName = "Golf Ace";
 			productReference = 8915E65C2088F8C800A20258 /* GolfPS.app */;
 			productType = "com.apple.product-type.application";
+		};
+		89725FFD245B3B2C00A85FEE /* GolfPS Companion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89726023245B3B2F00A85FEE /* Build configuration list for PBXNativeTarget "GolfPS Companion" */;
+			buildPhases = (
+				89725FFC245B3B2C00A85FEE /* Resources */,
+				8972601F245B3B2F00A85FEE /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8972600D245B3B2E00A85FEE /* PBXTargetDependency */,
+			);
+			name = "GolfPS Companion";
+			productName = "GolfPS Companion";
+			productReference = 89725FFE245B3B2C00A85FEE /* GolfPS Companion.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		89726009245B3B2E00A85FEE /* GolfPS Companion Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89726022245B3B2F00A85FEE /* Build configuration list for PBXNativeTarget "GolfPS Companion Extension" */;
+			buildPhases = (
+				89726006245B3B2E00A85FEE /* Sources */,
+				89726007245B3B2E00A85FEE /* Frameworks */,
+				89726008245B3B2E00A85FEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GolfPS Companion Extension";
+			productName = "GolfPS Companion Extension";
+			productReference = 8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -330,7 +458,7 @@
 		8915E6542088F8C800A20258 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1000;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "DeJong Development";
 				TargetAttributes = {
@@ -349,6 +477,12 @@
 							};
 						};
 					};
+					89725FFD245B3B2C00A85FEE = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					89726009245B3B2E00A85FEE = {
+						CreatedOnToolsVersion = 11.4;
+					};
 				};
 			};
 			buildConfigurationList = 8915E6572088F8C800A20258 /* Build configuration list for PBXProject "GolfPS" */;
@@ -365,6 +499,8 @@
 			projectRoot = "";
 			targets = (
 				8915E65B2088F8C800A20258 /* GolfPS */,
+				89725FFD245B3B2C00A85FEE /* GolfPS Companion */,
+				89726009245B3B2E00A85FEE /* GolfPS Companion Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -381,6 +517,23 @@
 				8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */,
 				896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */,
 				89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89725FFC245B3B2C00A85FEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89726004245B3B2E00A85FEE /* Assets.xcassets in Resources */,
+				89726002245B3B2C00A85FEE /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89726008245B3B2E00A85FEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89726016245B3B2F00A85FEE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,7 +652,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		89726006245B3B2E00A85FEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89726014245B3B2E00A85FEE /* NotificationController.swift in Sources */,
+				89726012245B3B2E00A85FEE /* ExtensionDelegate.swift in Sources */,
+				89726010245B3B2E00A85FEE /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8972600D245B3B2E00A85FEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 89726009245B3B2E00A85FEE /* GolfPS Companion Extension */;
+			targetProxy = 8972600C245B3B2E00A85FEE /* PBXContainerItemProxy */;
+		};
+		8972601A245B3B2F00A85FEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 89725FFD245B3B2C00A85FEE /* GolfPS Companion */;
+			targetProxy = 89726019245B3B2F00A85FEE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8915E6632088F8C800A20258 /* Main.storyboard */ = {
@@ -516,6 +692,14 @@
 				8915E6692088F8CA00A20258 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		89726000245B3B2C00A85FEE /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				89726001245B3B2C00A85FEE /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -682,6 +866,98 @@
 			};
 			name = Release;
 		};
+		8972601D245B3B2F00A85FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				IBSC_MODULE = GolfPS_Companion_Extension;
+				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
+				MARKETING_VERSION = 1.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		8972601E245B3B2F00A85FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				IBSC_MODULE = GolfPS_Companion_Extension;
+				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
+				MARKETING_VERSION = 1.3;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
+		89726020245B3B2F00A85FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		89726021245B3B2F00A85FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JJEJU2G45A;
+				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -699,6 +975,24 @@
 			buildConfigurations = (
 				8915E66F2088F8CA00A20258 /* Debug */,
 				8915E6702088F8CA00A20258 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		89726022245B3B2F00A85FEE /* Build configuration list for PBXNativeTarget "GolfPS Companion Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89726020245B3B2F00A85FEE /* Debug */,
+				89726021245B3B2F00A85FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		89726023245B3B2F00A85FEE /* Build configuration list for PBXNativeTarget "GolfPS Companion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8972601D245B3B2F00A85FEE /* Debug */,
+				8972601E245B3B2F00A85FEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

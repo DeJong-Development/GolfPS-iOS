@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import Firebase
+import WatchConnectivity
 
 protocol ViewUpdateDelegate: class {
     func updateDistanceToPin(distance: Int);
@@ -16,7 +17,7 @@ protocol ViewUpdateDelegate: class {
     func updateCurrentHole(hole: Hole);
 }
 
-class CourseMapViewController: UIViewController, ViewUpdateDelegate {
+class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDelegate {
     
     @IBOutlet weak var prevHoleButton: UIButton!
     @IBOutlet weak var nextHoleButton: UIButton!
@@ -35,6 +36,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     @IBOutlet weak var showDriveStackConstraint: NSLayoutConstraint!
     @IBOutlet weak var hideDriveStackConstraint: NSLayoutConstraint!
     
+    var wcSession : WCSession! = nil
     var embeddedMapViewController:GoogleMapViewController!
     
     override var prefersStatusBarHidden: Bool {
@@ -42,6 +44,15 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     }
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if (wcSession.isReachable) {
+            wcSession.sendMessage(["course": ""], replyHandler: nil) { (error) in
+                print(error.localizedDescription)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,6 +90,12 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         nextHoleButton.layer.masksToBounds = true
         
         longDriveButton.cornersToRound = [.topLeft, .topRight]
+        
+        if (WCSession.isSupported()) {
+            wcSession = WCSession.default
+            wcSession.delegate = self
+            wcSession.activate()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -98,6 +115,12 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
     internal func updateCurrentHole(hole: Hole) {
         currentHoleLabel.setTitle("#\(hole.number)", for: .normal)
         
+        if (wcSession.isReachable) {
+            wcSession.sendMessage(["hole": hole.number], replyHandler: nil) { (error) in
+                print(error.localizedDescription)
+            }
+        }
+        
         if (hole.isLongDrive) {
             showLongDrive(hideStack: true)
         } else {
@@ -105,14 +128,29 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         }
     }
     internal func updateDistanceToPin(distance: Int) {
+        var message:[String:Any] = ["distance": distance, "hole": self.embeddedMapViewController.currentHole.number]
         if AppSingleton.shared.metric {
             distanceToPinLabel.text = "\(distance) m"
+            message["units"] = "m"
         } else {
             distanceToPinLabel.text = "\(distance) yds"
+            message["units"] = "yds"
+        }
+        
+        if (wcSession.isReachable) {
+            wcSession.sendMessage(message, replyHandler: nil) { (error) in
+                print(error.localizedDescription)
+            }
         }
     }
     internal func updateSelectedClub(club: Club) {
         selectedClubLabel.text = club.name
+        
+        if (wcSession.isReachable) {
+            wcSession.sendMessage(["club": club.name], replyHandler: nil) { (error) in
+                print(error.localizedDescription)
+            }
+        }
     }
     
     internal func goToHole1() {
@@ -122,12 +160,12 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         }
     }
     
-    @IBAction func nextHoleButton(_ sender: UIButton) {
+    @IBAction func nextHoleButton(_ sender: UIButton?) {
         if (AppSingleton.shared.course != nil) {
             embeddedMapViewController.goToHole(increment: 1)
         }
     }
-    @IBAction func previousHoleButton(_ sender: UIButton) {
+    @IBAction func previousHoleButton(_ sender: UIButton?) {
         if (AppSingleton.shared.course != nil) {
             embeddedMapViewController.goToHole(increment: -1)
         }
@@ -216,6 +254,32 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate {
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
+    }
+    
+    // MARK: WCSession Methods
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        if message["gotonext"] != nil {
+            DispatchQueue.main.async {
+                self.nextHoleButton(nil)
+            }
+            
+        } else if message["gotoprevious"] != nil {
+            DispatchQueue.main.async {
+                self.previousHoleButton(nil)
+            }
+        }
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        
     }
 }
 
