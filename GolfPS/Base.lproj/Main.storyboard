@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -83,7 +84,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="dotColor">
-                                                <color key="value" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="value" systemColor="separatorColor"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -93,7 +94,7 @@
                                             <segue destination="jYd-HR-a0k" kind="embed" identifier="EmbedCourseTable" id="Mgt-R0-vKU"/>
                                         </connections>
                                     </containerView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4y-uD-6Wy">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4y-uD-6Wy">
                                         <rect key="frame" x="0.0" y="552" width="335" height="50"/>
                                         <color key="backgroundColor" red="0.76470588240000004" green="0.65490196079999996" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -121,6 +122,7 @@
                                 <rect key="frame" x="169" y="290.5" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Aqv-qC-Yzf"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="obI-k2-VJh" firstAttribute="height" secondItem="77w-tU-hDT" secondAttribute="height" multiplier="2" id="0sl-UF-fpQ"/>
@@ -134,7 +136,6 @@
                             <constraint firstItem="obI-k2-VJh" firstAttribute="width" secondItem="77w-tU-hDT" secondAttribute="width" multiplier="2" id="lgb-Pk-3Xe"/>
                             <constraint firstItem="77w-tU-hDT" firstAttribute="centerY" secondItem="YSO-B8-Drc" secondAttribute="centerY" id="v3V-ab-nxN"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Aqv-qC-Yzf"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Course" image="golf_hole_black" selectedImage="golf_hole_white" id="VK0-I9-JzX"/>
@@ -261,7 +262,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3R-s6-fXR">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3R-s6-fXR">
                                 <rect key="frame" x="137.5" y="331.5" width="100" height="45"/>
                                 <color key="backgroundColor" red="0.0" green="0.47197808159999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -276,7 +277,7 @@
                                     <action selector="clickSubmit:" destination="BeE-Hh-e8c" eventType="touchUpInside" id="bTX-Xo-aCD"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLV-1i-alf">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLV-1i-alf">
                                 <rect key="frame" x="137.5" y="388.5" width="100" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="17"/>
@@ -315,6 +316,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="zb7-8o-GbZ"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yxq-ij-OUI" firstAttribute="top" secondItem="uld-XN-21l" secondAttribute="topMargin" constant="8" id="4J9-zH-sTG"/>
@@ -333,7 +335,6 @@ Patience please!</string>
                             <constraint firstItem="p3R-s6-fXR" firstAttribute="top" secondItem="Doc-Qb-M0t" secondAttribute="bottom" constant="35" id="szX-oR-KH5"/>
                             <constraint firstItem="Doc-Qb-M0t" firstAttribute="top" secondItem="yxq-ij-OUI" secondAttribute="bottom" constant="8" id="z55-6x-mtd"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="zb7-8o-GbZ"/>
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="cLV-1i-alf" id="o6y-Ih-fQ7"/>
@@ -358,7 +359,7 @@ Patience please!</string>
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wh5-iP-fOK">
                         <rect key="frame" x="0.0" y="0.0" width="335" height="474"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GCTableCell" id="XzO-Qg-s1v" customClass="CourseTableViewCell" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="335" height="43.5"/>
@@ -546,7 +547,7 @@ Patience please!</string>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6zZ-Li-gyD">
                                 <rect key="frame" x="6" y="565" width="363" height="45"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncN-hV-8Pq">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncN-hV-8Pq">
                                         <rect key="frame" x="0.0" y="5" width="121" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="nJQ-hB-fam"/>
@@ -559,7 +560,7 @@ Patience please!</string>
                                             <action selector="previousHoleButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Ph-ws-AXX"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EG6-7R-9ZQ">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EG6-7R-9ZQ">
                                         <rect key="frame" x="121" y="0.0" width="121" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="zMe-an-ZhK"/>
@@ -570,7 +571,7 @@ Patience please!</string>
                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKD-CZ-jCe">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKD-CZ-jCe">
                                         <rect key="frame" x="242" y="5" width="121" height="35"/>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
                                         <state key="normal" title="Next ↣">
@@ -601,7 +602,7 @@ Patience please!</string>
                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <size key="shadowOffset" width="1" height="-1"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPu-K7-rob" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPu-K7-rob" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="8" width="143" height="32"/>
                                 <color key="backgroundColor" name="Grass"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
@@ -626,6 +627,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="6zZ-Li-gyD" secondAttribute="top" id="42N-4I-hO5"/>
@@ -657,7 +659,6 @@ Patience please!</string>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="leading" secondItem="fHj-J0-bI4" secondAttribute="leading" id="xkf-x2-SHO"/>
                             <constraint firstItem="fHj-J0-bI4" firstAttribute="top" secondItem="PPu-K7-rob" secondAttribute="bottom" constant="8" id="zvi-yi-gkJ"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="C0z-Il-Pob"/>
@@ -704,7 +705,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="QYh-v7-fSn">
-                                <rect key="frame" x="20" y="46" width="335" height="564"/>
+                                <rect key="frame" x="20" y="46" width="335" height="526"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify these values to get accurate club recommendations!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sy-T4-vMf">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="13.5"/>
@@ -713,28 +714,87 @@ Patience please!</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J97-Px-f20">
-                                        <rect key="frame" x="0.0" y="14.5" width="335" height="549.5"/>
+                                        <rect key="frame" x="0.0" y="14.5" width="335" height="511.5"/>
                                         <connections>
                                             <segue destination="NuW-7G-wT0" kind="embed" id="hXV-A6-Ewv"/>
                                         </connections>
                                     </containerView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6v4-LH-NQX" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="148" y="580" width="79" height="26"/>
+                                <color key="backgroundColor" name="Grass"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="20"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="5" maxX="20" maxY="5"/>
+                                <state key="normal" title="EDIT">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layerBackgroundColor">
+                                        <color key="value" name="Grass"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickEdit:" destination="wjM-U8-Nre" eventType="touchUpInside" id="Ddh-L4-Up1"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTL-fe-aeO" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="321" y="576" width="34" height="34"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="uTL-fe-aeO" secondAttribute="height" multiplier="1:1" id="rDr-RP-KQM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" name="Grass"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layerBackgroundColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" name="Grass"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickAddClub:" destination="wjM-U8-Nre" eventType="touchUpInside" id="Wcx-CF-qbe"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="4bj-E3-6SU"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fZk-sp-qat" firstAttribute="top" secondItem="4bj-E3-6SU" secondAttribute="top" constant="8" id="1Sa-Qe-zGB"/>
+                            <constraint firstItem="4bj-E3-6SU" firstAttribute="bottom" secondItem="6v4-LH-NQX" secondAttribute="bottom" constant="12" id="1b9-dC-mSp"/>
                             <constraint firstItem="fZk-sp-qat" firstAttribute="centerX" secondItem="hyJ-QP-Boi" secondAttribute="centerX" id="3ea-j2-TbV"/>
-                            <constraint firstItem="4bj-E3-6SU" firstAttribute="bottom" secondItem="QYh-v7-fSn" secondAttribute="bottom" constant="8" id="Ibz-zJ-hnE"/>
+                            <constraint firstItem="uTL-fe-aeO" firstAttribute="centerY" secondItem="6v4-LH-NQX" secondAttribute="centerY" id="Bca-Oq-Pjn"/>
                             <constraint firstItem="QYh-v7-fSn" firstAttribute="leading" secondItem="4bj-E3-6SU" secondAttribute="leading" constant="20" id="Nh5-V1-ETe"/>
                             <constraint firstItem="QYh-v7-fSn" firstAttribute="centerX" secondItem="hyJ-QP-Boi" secondAttribute="centerX" id="QdK-cI-MFt"/>
+                            <constraint firstItem="6v4-LH-NQX" firstAttribute="centerX" secondItem="hyJ-QP-Boi" secondAttribute="centerX" id="Ra7-Ma-dMH"/>
+                            <constraint firstItem="uTL-fe-aeO" firstAttribute="trailing" secondItem="J97-Px-f20" secondAttribute="trailing" id="WBL-bd-Rjh"/>
+                            <constraint firstItem="6v4-LH-NQX" firstAttribute="top" secondItem="QYh-v7-fSn" secondAttribute="bottom" constant="8" id="drs-Gw-1KA"/>
                             <constraint firstItem="QYh-v7-fSn" firstAttribute="top" secondItem="fZk-sp-qat" secondAttribute="bottom" constant="8" id="weB-3j-n7h"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="4bj-E3-6SU"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="My Bag" image="golf_bag_black" selectedImage="golf_bag_white" id="ady-yI-5Am"/>
                     <connections>
+                        <outlet property="addClubButton" destination="uTL-fe-aeO" id="nsC-aJ-pvs"/>
+                        <outlet property="editButton" destination="6v4-LH-NQX" id="uWu-AI-tl4"/>
                         <outlet property="tableViewContainer" destination="J97-Px-f20" id="tta-YX-kgX"/>
                     </connections>
                 </viewController>
@@ -797,7 +857,7 @@ Patience please!</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZIk-hs-8il" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZIk-hs-8il" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="122" y="531" width="131" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
@@ -815,7 +875,7 @@ Patience please!</string>
                                     <action selector="clickPrivacy:" destination="dS7-Dt-uS5" eventType="touchUpInside" id="tW2-Me-ZmP"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="loV-ZL-Phz" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="loV-ZL-Phz" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="92" y="573" width="191" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
@@ -845,6 +905,7 @@ Patience please!</string>
                                 </connections>
                             </containerView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="dzP-ch-zpj"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="loV-ZL-Phz" firstAttribute="top" secondItem="ZIk-hs-8il" secondAttribute="bottom" constant="5" id="1HW-yY-Rim"/>
@@ -868,7 +929,6 @@ Patience please!</string>
                             <constraint firstItem="SEV-Hy-NMi" firstAttribute="top" secondItem="cxW-QG-3nJ" secondAttribute="bottom" constant="12" id="qhw-3W-Uc8"/>
                             <constraint firstItem="cxW-QG-3nJ" firstAttribute="top" secondItem="dzP-ch-zpj" secondAttribute="top" constant="8" id="uys-ZR-HVt"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="dzP-ch-zpj"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="settings-black" selectedImage="settings-white" id="Vsp-tp-zch"/>
                     <connections>
@@ -889,8 +949,8 @@ Patience please!</string>
                         <rect key="frame" x="0.0" y="0.0" width="355" height="267"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="sectionIndexColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <color key="sectionIndexBackgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="sectionIndexColor" systemColor="labelColor"/>
+                        <color key="sectionIndexBackgroundColor" systemColor="systemBackgroundColor"/>
                         <sections>
                             <tableViewSection id="Yxx-fL-Wzn">
                                 <cells>
@@ -929,7 +989,7 @@ Patience please!</string>
                                                 <constraint firstAttribute="trailing" secondItem="TTk-Kb-LNf" secondAttribute="trailing" constant="16" id="mVb-eK-utn"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="HU9-Gz-L2O">
                                         <rect key="frame" x="0.0" y="72" width="355" height="44"/>
@@ -966,7 +1026,7 @@ Patience please!</string>
                                                 <constraint firstItem="05m-ld-L2j" firstAttribute="leading" secondItem="ADy-qB-mtk" secondAttribute="trailing" constant="20" id="zDj-nP-I3Y"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -984,10 +1044,10 @@ Patience please!</string>
                                                     <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tc-sK-ubQ">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tc-sK-ubQ">
                                                     <rect key="frame" x="309" y="7" width="30" height="30"/>
                                                     <state key="normal" title="↣">
-                                                        <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="titleColor" systemColor="labelColor"/>
                                                     </state>
                                                     <connections>
                                                         <segue destination="B1g-gZ-Tbn" kind="show" id="xWZ-xi-Ehc"/>
@@ -1002,7 +1062,7 @@ Patience please!</string>
                                                 <constraint firstItem="7Tc-sK-ubQ" firstAttribute="centerY" secondItem="OvQ-qV-vi6" secondAttribute="centerY" id="jEa-HG-KhZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <connections>
                                             <segue destination="B1g-gZ-Tbn" kind="show" id="Txg-DT-rOH"/>
                                         </connections>
@@ -1031,7 +1091,7 @@ Patience please!</string>
                                                     </connections>
                                                 </segmentedControl>
                                             </subviews>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="X4L-P0-zbX" firstAttribute="centerY" secondItem="d12-ij-2fY" secondAttribute="centerY" id="CUo-zj-WNa"/>
                                                 <constraint firstAttribute="trailing" secondItem="X1A-Ns-5iI" secondAttribute="trailing" constant="16" id="In7-qv-T6Q"/>
@@ -1072,9 +1132,9 @@ Patience please!</string>
             <objects>
                 <tableViewController id="NuW-7G-wT0" customClass="MyBagTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WMP-E4-qdC">
-                        <rect key="frame" x="0.0" y="0.0" width="335" height="549.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="335" height="511.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ClubTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClubTableCell" id="XDM-yX-M2M" customClass="ClubTableViewCell" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="335" height="43.5"/>
@@ -1126,8 +1186,8 @@ Patience please!</string>
                     <view key="view" contentMode="scaleToFill" id="qhs-1S-jpn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="541"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vu0-Zu-isM"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gpv-C6-Ivk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1153,7 +1213,7 @@ Patience please!</string>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b30-oH-IeT">
                                 <rect key="frame" x="10" y="45" width="335" height="212"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYu-PJ-CJK">
                                     <size key="itemSize" width="100" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1216,7 +1276,7 @@ Patience please!</string>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nb-cU-wpm">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nb-cU-wpm">
                                 <rect key="frame" x="10" y="5" width="47" height="30"/>
                                 <state key="normal" title="↢ Back">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1226,6 +1286,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="hu1-3y-jJP"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Sf9-qt-dIH" firstAttribute="top" secondItem="hu1-3y-jJP" secondAttribute="top" constant="5" id="XNZ-DH-c3l"/>
@@ -1237,7 +1298,6 @@ Patience please!</string>
                             <constraint firstItem="6nb-cU-wpm" firstAttribute="leading" secondItem="b30-oH-IeT" secondAttribute="leading" id="rQe-Fr-MHQ"/>
                             <constraint firstItem="Sf9-qt-dIH" firstAttribute="centerX" secondItem="J1o-aL-isS" secondAttribute="centerX" id="rcv-8Y-G6L"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="hu1-3y-jJP"/>
                     </view>
                     <navigationItem key="navigationItem" id="v2y-Nr-UdL"/>
                     <connections>
@@ -1306,7 +1366,7 @@ Patience please!</string>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="KJy-7b-ySM"/>
                                         </constraints>
-                                        <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
                                         <state key="normal" image="xmark" catalog="system"/>
                                         <connections>
                                             <action selector="clickClose:" destination="Yoi-uT-aJD" eventType="touchUpInside" id="rZP-g8-WRG"/>
@@ -1337,12 +1397,12 @@ Patience please!</string>
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iO6-g1-1Jl" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iO6-g1-1Jl" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                         <rect key="frame" x="122" y="213" width="56" height="26"/>
                                         <fontDescription key="fontDescription" name="SFCompactText-Bold" family="SF Compact Text" pointSize="17"/>
                                         <inset key="contentEdgeInsets" minX="5" minY="3" maxX="5" maxY="3"/>
                                         <state key="normal" title="100%">
-                                            <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleColor" systemColor="labelColor"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
@@ -1355,7 +1415,7 @@ Patience please!</string>
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Cl1-jM-0d5" secondAttribute="trailing" constant="8" id="17z-cL-WjG"/>
                                     <constraint firstItem="sEC-ML-OcA" firstAttribute="width" secondItem="uuq-ht-1v8" secondAttribute="width" multiplier="0.75" id="207-TH-xnz"/>
@@ -1392,6 +1452,7 @@ Patience please!</string>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="OsX-FM-X66"/>
                         <constraints>
                             <constraint firstItem="4Lr-on-2ug" firstAttribute="centerX" secondItem="1yN-T3-N4V" secondAttribute="centerX" id="DKk-V8-gjV"/>
                             <constraint firstItem="4Lr-on-2ug" firstAttribute="centerY" secondItem="1yN-T3-N4V" secondAttribute="centerY" id="c3s-N7-Iwo"/>
@@ -1401,7 +1462,6 @@ Patience please!</string>
                             <constraint firstItem="uuq-ht-1v8" firstAttribute="centerY" secondItem="1yN-T3-N4V" secondAttribute="centerY" id="pg4-Yz-mCg"/>
                             <constraint firstItem="4Lr-on-2ug" firstAttribute="height" secondItem="1yN-T3-N4V" secondAttribute="height" id="yS1-dv-5oR"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="OsX-FM-X66"/>
                     </view>
                     <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
@@ -1417,6 +1477,35 @@ Patience please!</string>
             <point key="canvasLocation" x="3054" y="342"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="6v4-LH-NQX">
+            <size key="intrinsicContentSize" width="79" height="36"/>
+        </designable>
+        <designable name="LAh-mD-6c3">
+            <size key="intrinsicContentSize" width="58" height="27"/>
+        </designable>
+        <designable name="PPu-K7-rob">
+            <size key="intrinsicContentSize" width="143" height="32"/>
+        </designable>
+        <designable name="ZIk-hs-8il">
+            <size key="intrinsicContentSize" width="131" height="37"/>
+        </designable>
+        <designable name="iO6-g1-1Jl">
+            <size key="intrinsicContentSize" width="56" height="26"/>
+        </designable>
+        <designable name="ivE-1M-Lti">
+            <size key="intrinsicContentSize" width="116" height="29"/>
+        </designable>
+        <designable name="loV-ZL-Phz">
+            <size key="intrinsicContentSize" width="191" height="37"/>
+        </designable>
+        <designable name="oD7-PW-aKp">
+            <size key="intrinsicContentSize" width="62" height="27"/>
+        </designable>
+        <designable name="uTL-fe-aeO">
+            <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="dCD-AP-2Be"/>
         <segue reference="Txg-DT-rOH"/>
@@ -1439,5 +1528,14 @@ Patience please!</string>
         <namedColor name="Grass">
             <color red="0.0" green="0.47843137254901963" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

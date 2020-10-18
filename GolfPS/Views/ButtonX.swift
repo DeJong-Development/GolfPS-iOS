@@ -12,18 +12,26 @@ import UIKit
 class ButtonX: UIButton {
     
     @IBInspectable var isRounded: Bool = false
+    @IBInspectable var isMasked: Bool = false
     @IBInspectable var cornerRadius: CGFloat = -1
     @IBInspectable var hasShadow: Bool = false
+    @IBInspectable var isFaded: Bool = false
+    @IBInspectable var borderColor: UIColor = UIColor.clear {
+        didSet {
+           layer.borderColor = borderColor.cgColor
+        }
+    }
+    @IBInspectable var borderWidth: CGFloat = 1
     @IBInspectable var glowColor: UIColor? = nil
     @IBInspectable var hasGlow: Bool = false
-    @IBInspectable var borderColor: UIColor = UIColor.clear
-    @IBInspectable var borderWidth: CGFloat = 1
     @IBInspectable var layerBackgroundColor: UIColor? {
         didSet {
-            self.setNeedsDisplay()
+           layer.backgroundColor = layerBackgroundColor?.cgColor
         }
     }
     
+    //needs to be var so it can be deallocated
+    var maskLayer = CAGradientLayer()
     var cornersToRound:UIRectCorner = .allCorners
     
     override var frame: CGRect {
@@ -36,11 +44,8 @@ class ButtonX: UIButton {
             self.setNeedsDisplay()
         }
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        setupView()
+    override var buttonType: UIButton.ButtonType {
+        return .custom
     }
     
     override func awakeFromNib() {
@@ -56,12 +61,22 @@ class ButtonX: UIButton {
         setupView()
     }
     
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        setupView()
+//    }
+    
     internal func setupView() {
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
+        layer.backgroundColor = layerBackgroundColor?.cgColor
         
-        if let customBackgroundColor = layerBackgroundColor {
-            layer.backgroundColor = customBackgroundColor.cgColor
+        if (isFaded) {
+            maskLayer.shadowRadius = 3
+            maskLayer.shadowOpacity = 1
+            maskLayer.shadowOffset = CGSize.zero
+            maskLayer.shadowColor = self.backgroundColor?.cgColor ?? UIColor.white.cgColor
+            self.layer.mask = maskLayer
         }
         
         if (hasGlow && self.glowColor != nil) {
@@ -80,8 +95,12 @@ class ButtonX: UIButton {
                 mask.path = path.cgPath
                 layer.mask = mask
             } else {
+                if isMasked {
+                    layer.masksToBounds = true
+                }
                 layer.cornerRadius = cornerRad
             }
         }
     }
+    
 }

@@ -21,6 +21,7 @@ class MyBagTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
+//        self.tableView.setEditing(true, animated: false)
     }
     
     override func didReceiveMemoryWarning() {
@@ -37,7 +38,6 @@ class MyBagTableViewController: UITableViewController {
         // number of clubs in the bag except the putter
         return 13
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ClubTableViewCell else {
@@ -71,6 +71,25 @@ class MyBagTableViewController: UITableViewController {
         }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if self.tableView.isEditing {
+            return .delete
+        }
+        return .none
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//        let rowToMove = self.section.plays[sourceIndexPath.row]
+//        self.section.plays.remove(at: sourceIndexPath.row)
+//        self.section.plays.insert(rowToMove, at: destinationIndexPath.row)
     }
     
     //connected via cell delegate

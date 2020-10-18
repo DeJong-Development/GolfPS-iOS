@@ -25,6 +25,15 @@ extension CourseSelectionViewController: CoursePickerDelegate {
             self.loadingBackground.isHidden = true
             
             if (success) {
+                
+                //update selected course
+                AppSingleton.shared.db.collection("players")
+                    .document(AppSingleton.shared.me.id)
+                    .setData([
+                        "course": course.id,
+                        "updateTime": Date().iso8601
+                        ], merge: true)
+                
                 //tell tab parent controller to change tabs...
                 //go to first hole if we are at new course??
                 self.tabBarController?.selectedIndex = 1;
