@@ -9,8 +9,7 @@ target 'GolfPS' do
     pod 'Firebase/Firestore'
     pod 'Firebase/Performance'
     pod 'Firebase/Core'
-    pod 'Fabric'
-    pod 'Crashlytics'
+    pod 'Firebase/Crashlytics'
 
     pod 'SnapSDK'
 end
