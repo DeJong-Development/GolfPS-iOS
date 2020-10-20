@@ -8,11 +8,10 @@
 
 import UIKit
 
-
 class MyBagTableViewController: UITableViewController {
     
     final let cellIdentifier = "ClubTableCell"
-    let clubTools:ClubTools = ClubTools();
+    private var myBag:Bag = AppSingleton.shared.me.bag
     
     override func viewWillLayoutSubviews() {
         self.tableView.layer.cornerRadius = 6
@@ -20,13 +19,13 @@ class MyBagTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tableView.tableFooterView = UIView()
-//        self.tableView.setEditing(true, animated: false)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    internal func addClub(_ club:Club) {
+        myBag.addClub(club)
+        self.tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -36,7 +35,7 @@ class MyBagTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // number of clubs in the bag except the putter
-        return 13
+        return myBag.myClubs.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -44,31 +43,7 @@ class MyBagTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of \(cellIdentifier).")
         }
         
-        let clubNumber:Int = indexPath.row + 1;
-        let club:Club = Club(number: clubNumber)
-        cell.clubName.text = club.name
-        cell.clubDistance.text = String(club.distance)
-        
-        cell.clubName.tag = clubNumber;
-        cell.clubDistance.tag = clubNumber;
-        
-        cell.clubName.addTarget(self, action: #selector(nameChanged(textField:)), for: .editingChanged)
-        cell.clubDistance.addTarget(self, action: #selector(distanceChanged(textField:)), for: .editingChanged)
-        
-        cell.clubName.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-        cell.clubDistance.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        
-        if cell.responds(to: #selector(setter: UIView.preservesSuperviewLayoutMargins))  {
-            cell.preservesSuperviewLayoutMargins = false
-        }
-        
-        if cell.responds(to: #selector(setter: UIView.layoutMargins))  {
-            cell.layoutMargins = .zero
-        }
+        cell.club = myBag.myClubs[indexPath.row]
         
         return cell
     }
@@ -82,37 +57,14 @@ class MyBagTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            self.myBag.removeClubFromBag(withNumber: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        let rowToMove = self.section.plays[sourceIndexPath.row]
-//        self.section.plays.remove(at: sourceIndexPath.row)
-//        self.section.plays.insert(rowToMove, at: destinationIndexPath.row)
-    }
-    
-    //connected via cell delegate
-    @objc func nameChanged(textField: UITextField) {
-        let clubNum = textField.tag;
-        if let clubName = textField.text {
-            let cleanClubName = clubName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            if (cleanClubName != "") {
-                var club = Club(number: clubNum)
-                club.name = cleanClubName
-            }
-        }
-        AppSingleton.shared.me.didCustomizeBag = true
-    }
-    @objc func distanceChanged(textField: UITextField) {
-        let clubNum = textField.tag;
-        if let clubDistance = textField.text {
-            if let clubDistanceNum = Int(clubDistance) {
-                var club = Club(number: clubNum)
-                club.distance = clubDistanceNum
-            }
-        }
-        AppSingleton.shared.me.didCustomizeBag = true
+        let clubToMove = self.myBag.myClubs[sourceIndexPath.row]
+        self.myBag.moveClub(clubToMove, from: sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
     @objc private func dismissKeyboard() {

@@ -54,6 +54,17 @@ class SettingsViewController: UIViewController {
         return .lightContent
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (SCSDKLoginClient.isUserLoggedIn) {
+            //get bitmoji avatar
+            getAvatar()
+        }
+        
+        updateButtonLabel()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,13 +74,6 @@ class SettingsViewController: UIViewController {
         if (!AppSingleton.shared.me.shareLocation) {
             self.avatarURLToShare = nil
         }
-        
-        if (SCSDKLoginClient.isUserLoggedIn) {
-            //get bitmoji avatar
-            getAvatar()
-        }
-        
-        updateButtonLabel()
     }
     
     @IBAction func clickSnapLink(_ sender: Any) {

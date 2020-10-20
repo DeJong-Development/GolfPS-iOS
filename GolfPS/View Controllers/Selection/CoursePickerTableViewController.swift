@@ -85,11 +85,6 @@ class CoursePickerTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of GCTableCell.")
         }
         
-        //cell style
-//        cell.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-//        cell.contentView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-//        cell.courseNameLabel.textColor = UIColor.black
-        
         if (courseList.count == 0) {
             //do nothing - this is a placeholder cell
             cell.courseNameLabel.text = "NO COURSES FOUND!"
@@ -103,19 +98,18 @@ class CoursePickerTableViewController: UITableViewController {
                 cell.courseNameLabel.textColor = UIColor.black
             }
             cell.courseNameLabel.text = courseList[indexPath.row].name;
-            cell.courseStateLabel.text = courseList[indexPath.row].state.uppercased()
-        }
-        
-        if cell.responds(to: #selector(setter: UITableViewCell.separatorInset)) {
-            cell.separatorInset = .zero
-        }
-        
-        if cell.responds(to: #selector(setter: UIView.preservesSuperviewLayoutMargins))  {
-            cell.preservesSuperviewLayoutMargins = false
-        }
-        
-        if cell.responds(to: #selector(setter: UIView.layoutMargins))  {
-            cell.layoutMargins = .zero
+            
+            let stateInitials = courseList[indexPath.row].state.uppercased()
+            cell.courseStateLabel.text = stateInitials
+            
+            switch stateInitials {
+            case "MI": cell.stateImage.image = #imageLiteral(resourceName: "noun_Michigan_3180612")
+            case "NC": cell.stateImage.image = #imageLiteral(resourceName: "noun_North Carolina_3180579")
+            case "OH": cell.stateImage.image = #imageLiteral(resourceName: "noun_Ohio_3180618")
+            case "IL": cell.stateImage.image = #imageLiteral(resourceName: "noun_Illinois_3180635")
+            case "TN": cell.stateImage.image = #imageLiteral(resourceName: "noun_Tennessee_3180631")
+            default: cell.stateImage.image = nil
+            }
         }
         
         return cell

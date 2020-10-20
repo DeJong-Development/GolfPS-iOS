@@ -93,6 +93,7 @@ class SettingsTableViewController: UITableViewController {
         } else {
             bitmojiShareSwitch.isEnabled = false
             bitmojiShareTitle.alpha = 0.5
+            bitmojiShareSwitch.isOn = false
         }
     }
 

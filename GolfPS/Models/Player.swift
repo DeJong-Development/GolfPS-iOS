@@ -29,6 +29,7 @@ class MePlayer:Player {
     var numStrokes:Int = 0
     
     private(set) var badges:[Badge] = [Badge]()
+    private(set) var bag:Bag = Bag()
     
     var numUniqueCourses:Int {
         return coursesVisited?.count ?? 0

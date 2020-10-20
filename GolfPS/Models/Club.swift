@@ -10,6 +10,12 @@ import Foundation
 
 public struct Club {
     
+    private let prefs:UserDefaults = UserDefaults.standard
+    
+    private var isMetric:Bool {
+        return AppSingleton.shared.metric
+    }
+    
     private(set) var number:Int = 1;
     private var defaultName:String {
         switch number {
@@ -30,44 +36,47 @@ public struct Club {
         default: return "22";
         }
     }
-    private var defaultDistance:Int {
+    private var defaultYards:Int {
         switch number {
-        case 1: return AppSingleton.shared.metric ? 230 : 250;
-        case 2: return AppSingleton.shared.metric ? Int(230 * 0.9144) : 230;
-        case 3: return AppSingleton.shared.metric ? Int(220 * 0.9144) : 220;
-        case 4: return AppSingleton.shared.metric ? Int(205 * 0.9144) : 205;
-        case 5: return AppSingleton.shared.metric ? Int(192 * 0.9144) : 192;
-        case 6: return AppSingleton.shared.metric ? Int(184 * 0.9144) : 184;
-        case 7: return AppSingleton.shared.metric ? Int(173 * 0.9144) : 173;
-        case 8: return AppSingleton.shared.metric ? Int(164 * 0.9144) : 164;
-        case 9: return AppSingleton.shared.metric ? Int(156 * 0.9144) : 156;
-        case 10: return AppSingleton.shared.metric ? Int(140 * 0.9144) : 140;
-        case 11: return AppSingleton.shared.metric ? Int(130 * 0.9144) : 130;
-        case 12: return AppSingleton.shared.metric ? Int(110 * 0.9144) : 110;
-        case 13: return AppSingleton.shared.metric ? Int(80 * 0.9144) : 80;
-        case 14: return AppSingleton.shared.metric ? 4 : 5;
+        case 1: return 250;
+        case 2: return 230;
+        case 3: return 220;
+        case 4: return 205;
+        case 5: return 192;
+        case 6: return 184;
+        case 7: return 173;
+        case 8: return 164;
+        case 9: return 156;
+        case 10: return 140;
+        case 11: return 130;
+        case 12: return 110;
+        case 13: return 80;
+        case 14: return 5;
         default: return -1;
         }
+    }
+    private var defaultDistance:Int {
+        return isMetric ? Int(Double(defaultYards) * 0.9144) : defaultYards
     }
     
     var name:String {
         get {
-            return UserDefaults.standard.string(forKey: "clubname\(number)") ?? defaultName;
+            return prefs.string(forKey: "clubname\(number)") ?? defaultName;
         }
         set(newName) {
-            UserDefaults.standard.set(newName, forKey: "clubname\(number)")
-            UserDefaults.standard.synchronize()
+            prefs.set(newName, forKey: "clubname\(number)")
+            prefs.synchronize()
         }
     }
     var distance:Int {
         get {
-            let d = UserDefaults.standard.integer(forKey: "clubdistance\(number)")
+            let d = prefs.integer(forKey: "clubdistance\(number)")
             if d > 0 { return d }
             return defaultDistance
         }
         set(newDistance) {
-            UserDefaults.standard.set(newDistance, forKey: "clubdistance\(number)")
-            UserDefaults.standard.synchronize()
+            prefs.set(newDistance, forKey: "clubdistance\(number)")
+            prefs.synchronize()
         }
     }
     

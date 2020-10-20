@@ -8,8 +8,15 @@
 
 import UIKit
 
-class RequestViewController: UIViewController {
+class RequestViewController: BaseKeyboardViewController {
 
+    @IBOutlet weak var entireStack: UIStackView!
+    
+    @IBOutlet weak var nameStack: UIStackView!
+    @IBOutlet weak var cityStack: UIStackView!
+    @IBOutlet weak var stateStack: UIStackView!
+    @IBOutlet weak var countryStack: UIStackView!
+    
     @IBOutlet weak var courseNameField: UITextField!
     @IBOutlet weak var courseCityField: UITextField!
     @IBOutlet weak var courseStateField: UITextField!
@@ -120,7 +127,24 @@ class RequestViewController: UIViewController {
         //tied to unwind segue back to course selection
     }
     
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
+    override func performKeyboardShowActions() {
+        guard UIDevice.current.userInterfaceIdiom != .pad else {
+            return
+        }
+        entireStack.spacing = 4
+        nameStack.spacing = 0
+        cityStack.spacing = 0
+        stateStack.spacing = 0
+        countryStack.spacing = 0
+    }
+    override func performKeyboardHideActions() {
+        guard UIDevice.current.userInterfaceIdiom != .pad else {
+            return
+        }
+        entireStack.spacing = 6
+        nameStack.spacing = 4
+        cityStack.spacing = 4
+        stateStack.spacing = 4
+        countryStack.spacing = 4
     }
 }

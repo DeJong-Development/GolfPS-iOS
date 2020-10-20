@@ -39,7 +39,7 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
             }
             
             //update previous location on device regardless of distance
-            AppSingleton.shared.me.location = cpl.geopoint
+            self.me.location = cpl.geopoint
         }
     }
 }
@@ -63,7 +63,7 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
                 let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
                 delegate.updateDistanceToPin(distance: distanceToPin)
                 
-                let suggestedClub:Club = clubTools.getClubSuggestion(distanceTo: distanceToPin)
+                let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin)
                 delegate.updateSelectedClub(club: suggestedClub)
                 
                 //update any suggestion lines
@@ -72,9 +72,9 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             
             //add course visitation
             if let course = AppSingleton.shared.course,
-                !(AppSingleton.shared.me.coursesVisited?.contains(course.id) ?? false),
+                !(self.me.coursesVisited?.contains(course.id) ?? false),
                 course.bounds.contains(cpl.coordinate) {
-                AppSingleton.shared.me.addCourseVisitation(courseId: course.id)
+                self.me.addCourseVisitation(courseId: course.id)
             }
             
             //update any distance markers we already have displayed when we update our location
@@ -85,24 +85,26 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
 
 class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
-    let mapTools:MapTools = MapTools();
-    let clubTools:ClubTools = ClubTools();
+    private let me:MePlayer = AppSingleton.shared.me
     
-    var db:Firestore { return AppSingleton.shared.db }
-    var mapView:GMSMapView!
-    var delegate:ViewUpdateDelegate!
+    private let mapTools:MapTools = MapTools();
+    private let clubTools:ClubTools = ClubTools();
     
-    var locationTimer:LocationUpdateTimer!
-    var otherPlayerTimer:PlayerUpdateTimer!
+    private var db:Firestore { return AppSingleton.shared.db }
+    private var mapView:GMSMapView!
+    weak var delegate:ViewUpdateDelegate!
     
-    let locationManager = CLLocationManager()
-    var previousPlayerLocation:CLLocation? {
-        if let gp = AppSingleton.shared.me.location {
+    private var locationTimer:LocationUpdateTimer!
+    private var otherPlayerTimer:PlayerUpdateTimer!
+    
+    private let locationManager = CLLocationManager()
+    private var previousPlayerLocation:CLLocation? {
+        if let gp = self.me.location {
             return CLLocation(latitude: gp.latitude, longitude: gp.longitude)
         }
         return nil
     }
-    var currentPlayerLocation:CLLocation? {
+    private var currentPlayerLocation:CLLocation? {
         didSet {
             if let myMarker = myPlayerMarker, let location = currentPlayerLocation?.coordinate {
                 myMarker.position = location
@@ -205,8 +207,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             downloadBitmojiImage()
         }
         
-        AppSingleton.shared.me.lastLocationUpdate = nil
-        AppSingleton.shared.me.location = nil
+        self.me.lastLocationUpdate = nil
+        self.me.location = nil
         
         if let course = AppSingleton.shared.course {
             locationTimer.invalidate()
@@ -277,9 +279,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     private func updateFirestorePlayerPosition(with location: GeoPoint) {
-        let userId = AppSingleton.shared.me.id
+        let userId = self.me.id
         
-        if AppSingleton.shared.me.shareLocation {
+        if self.me.shareLocation {
             if let id = AppSingleton.shared.course?.id {
                 db.collection("players")
                     .document(userId)
@@ -319,8 +321,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     print("Error fetching documents: \(error!)")
                     return
                 }
-                let location = documents.map { $0["location"]! }
-                print("Current players on course: \(location)")
+//                let location = documents.map { $0["location"]! }
+//                print("Current players on course: \(location)")
                 
                 self.otherPlayers.removeAll()
                 for document in documents {
@@ -397,7 +399,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 delegate.updateDistanceToPin(distance: distancePinTee)
             }
             
-            let suggestedClub:Club = clubTools.getClubSuggestion(distanceTo: distanceToUseInSuggestion)
+            let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion)
             delegate.updateSelectedClub(club: suggestedClub)
             
             updateSuggestionLines(with: suggestedClub)
@@ -463,7 +465,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         for player in self.otherPlayers {
             if let playerGeoPoint:GeoPoint = player.location,
-                player.id != AppSingleton.shared.me.id {
+                player.id != self.me.id {
                 
                 var markerTitle:String = "Golfer"
                 
@@ -584,9 +586,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     
                     //update my drive data on hole object
                     self.currentHole.setLongestDrive(distance: distanceToTee)
-                    self.currentHole.longestDrives[AppSingleton.shared.me.id] = loc.geopoint
+                    self.currentHole.longestDrives[self.me.id] = loc.geopoint
                     
-                    AppSingleton.shared.me.didLogLongDrive = true
+                    self.me.didLogLongDrive = true
                     
                     //send drive data to the firestore
                     self.updateFirestoreLongDrive(distance: distanceToTee, location: loc.geopoint)
@@ -602,7 +604,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     ///Always store distance in same units so we can be consistent
     private func updateFirestoreLongDrive(distance:Int, location: GeoPoint) {
-        let userId = AppSingleton.shared.me.id
+        let userId = self.me.id
         
         var yards:Double = Double(distance);
         if AppSingleton.shared.metric {
@@ -722,7 +724,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             let distanceToTee:Int = mapTools.distanceFrom(first: ldLoc, second: teeLoc)
             
-            if (longDriveUser == AppSingleton.shared.me.id) {
+            if (longDriveUser == self.me.id) {
                 self.myDrivingDistanceMarker = GMSMarker(position: ldLoc)
                 self.myDrivingDistanceMarker!.title = "My Drive"
                 if (AppSingleton.shared.metric) {
@@ -758,7 +760,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         //remove any data associated with my drive
         self.currentHole.setLongestDrive(distance: nil)
-        self.currentHole.longestDrives.removeValue(forKey: AppSingleton.shared.me.id)
+        self.currentHole.longestDrives.removeValue(forKey: self.me.id)
     }
     
     internal func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
@@ -853,7 +855,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let playerPath = GMSMutablePath()
         var suggestedClub:Club!
         if usingMyLocation {
-            suggestedClub = clubTools.getClubSuggestion(distanceTo: distanceToPressFromLocation!);
+            suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromLocation!);
             if AppSingleton.shared.metric {
                 cDistanceMarker.title = "\(distanceToPressFromLocation!) m"
             } else {
@@ -863,7 +865,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             playerPath.add(currentPlayerLocation!.coordinate)
             playerPath.add(currentDistanceMarker!.position)
         } else {
-            suggestedClub = clubTools.getClubSuggestion(distanceTo: distanceToPressFromTee!);
+            suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromTee!);
             if AppSingleton.shared.metric {
                 cDistanceMarker.title = "\(distanceToPressFromTee!) m"
             } else {
@@ -968,42 +970,43 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let minBearing:Int = Int(bearingToPin - 12)
         let maxBearing:Int = Int(bearingToPin + 12)
         
-        let shortestWedge:Club = Club(number: 13)
         //only show suggestion line if the min distance is less than current distance
-        if (shortestWedge.distance < distancePinMe) {
-            let suggestedClub:Club = clubTools.getClubSuggestion(distanceTo: distancePinMe)
+        guard let shortestWedge:Club = self.me.bag.myClubs.last, shortestWedge.distance < distancePinMe else {
+            return
+        }
+        
+        let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distancePinMe)
+        
+        //show up to 2 club ups - if suggesting driver then 0 change allowed
+        let clubUps:Int = -min(suggestedClub.number - 1, 2)
+        
+        //show up to 2 club downs but not past smallest club
+        let clubDowns:Int = min(self.me.bag.myClubs.count - suggestedClub.number, 2) + 1
+        
+        for i in clubUps..<clubDowns {
+            let clubSelectionToShow:Club = Club(number: suggestedClub.number + i)
             
-            //show up to 2 club ups - if suggesting driver then 0 change allowed
-            let clubUps:Int = -min(suggestedClub.number - 1, 2)
-            
-            //show up to 2 club downs but not past smallest club
-            let clubDowns:Int = min(13 - suggestedClub.number, 2) + 1
-            
-            for i in clubUps..<clubDowns {
-                let clubSelectionToShow:Club = Club(number: suggestedClub.number + i)
-                
-                var lineColor:UIColor = UIColor.white
-                switch i {
-                case -1: lineColor = UIColor.red;
-                case 0: lineColor = UIColor.green;
-                case 1: lineColor = UIColor.yellow;
-                default: lineColor = UIColor(white: 1, alpha: 0.25)
-                }
-                
-                let distancePath = GMSMutablePath()
-                for angle in minBearing..<maxBearing {
-                    let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate,
-                                                              atDistance: Double(clubSelectionToShow.distance),
-                                                              atAngle: Double(angle))
-                    distancePath.add(distanceCoords)
-                }
-                let distanceLine = GMSPolyline(path: distancePath)
-                distanceLine.strokeColor = lineColor;
-                distanceLine.strokeWidth = 2
-                distanceLine.map = mapView
-                
-                suggestedDistanceLines.append(distanceLine)
+            var lineColor:UIColor = UIColor.white
+            switch i {
+            case -1: lineColor = UIColor.red;
+            case 0: lineColor = UIColor.green;
+            case 1: lineColor = UIColor.yellow;
+            default: lineColor = UIColor(white: 1, alpha: 0.25)
             }
+            
+            let distancePath = GMSMutablePath()
+            for angle in minBearing..<maxBearing {
+                let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate,
+                                                          atDistance: Double(clubSelectionToShow.distance),
+                                                          atAngle: Double(angle))
+                distancePath.add(distanceCoords)
+            }
+            let distanceLine = GMSPolyline(path: distancePath)
+            distanceLine.strokeColor = lineColor;
+            distanceLine.strokeWidth = 2
+            distanceLine.map = mapView
+            
+            suggestedDistanceLines.append(distanceLine)
         }
     }
 }

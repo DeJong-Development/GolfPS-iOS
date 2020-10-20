@@ -21,6 +21,10 @@
 		8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */; };
 		8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E680208A330F00A20258 /* CourseSelectionViewController.swift */; };
 		8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */; };
+		895C0AEF253F647F002B189B /* Bag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895C0AEE253F647F002B189B /* Bag.swift */; };
+		896856CD253C9AC600EB3FE6 /* ViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147622A6D19B00873D15 /* ViewX.swift */; };
+		896856D2253C9CB300EB3FE6 /* AddClubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */; };
+		896856D7253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896856D6253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift */; };
 		896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 896D147122A59BE600873D15 /* GoogleService-Info.plist */; };
 		896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147322A5A0FE00873D15 /* AppSingleton.swift */; };
 		896D147822A6D1A200873D15 /* ImageViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147722A6D1A200873D15 /* ImageViewX.swift */; };
@@ -135,6 +139,9 @@
 		8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePickerTableViewController.swift; sourceTree = "<group>"; };
 		8915E680208A330F00A20258 /* CourseSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseSelectionViewController.swift; sourceTree = "<group>"; };
 		8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		895C0AEE253F647F002B189B /* Bag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bag.swift; sourceTree = "<group>"; };
+		896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClubViewController.swift; sourceTree = "<group>"; };
+		896856D6253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseKeyboardViewController.swift; sourceTree = "<group>"; };
 		896D147122A59BE600873D15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		896D147322A5A0FE00873D15 /* AppSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSingleton.swift; sourceTree = "<group>"; };
 		896D147622A6D19B00873D15 /* ViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewX.swift; sourceTree = "<group>"; };
@@ -223,6 +230,7 @@
 				898C2DA922AC5D6A00C7815A /* Player.swift */,
 				8904F343208E548900B9CCE5 /* Course.swift */,
 				8904F346208E555700B9CCE5 /* Hole.swift */,
+				895C0AEE253F647F002B189B /* Bag.swift */,
 				89F474F722B1D6CA007D044A /* Club.swift */,
 				8986E4752369CA9C00E76224 /* Badge.swift */,
 			);
@@ -298,10 +306,11 @@
 			isa = PBXGroup;
 			children = (
 				89C32DFC20B5FCCA0036C151 /* TabParentViewController.swift */,
-				89996EBF210A5CD400E0E290 /* Settings */,
+				896856D6253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift */,
 				89C32DF520B5F3BF0036C151 /* MyBag */,
 				8915E67E208A32A400A20258 /* Map */,
 				8915E67D208A329200A20258 /* Selection */,
+				89996EBF210A5CD400E0E290 /* Settings */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -368,9 +377,10 @@
 		89C32DF520B5F3BF0036C151 /* MyBag */ = {
 			isa = PBXGroup;
 			children = (
+				89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */,
 				89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */,
 				89C32DF820B5F3F90036C151 /* ClubTableViewCell.swift */,
-				89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */,
+				896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */,
 			);
 			path = MyBag;
 			sourceTree = "<group>";
@@ -627,7 +637,9 @@
 				89D078BA208ADBD500B97690 /* MapTools.swift in Sources */,
 				8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */,
 				898C2DAA22AC5D6A00C7815A /* Player.swift in Sources */,
+				896856D7253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift in Sources */,
 				8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */,
+				896856CD253C9AC600EB3FE6 /* ViewX.swift in Sources */,
 				8915E67A208A2FE300A20258 /* CourseTableViewCell.swift in Sources */,
 				89F474F822B1D6CA007D044A /* Club.swift in Sources */,
 				8904F347208E555700B9CCE5 /* Hole.swift in Sources */,
@@ -650,11 +662,13 @@
 				8986E4762369CA9C00E76224 /* Badge.swift in Sources */,
 				8986E4732369CA7A00E76224 /* BadgeDetailViewController.swift in Sources */,
 				896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */,
+				895C0AEF253F647F002B189B /* Bag.swift in Sources */,
 				89C32DFD20B5FCCA0036C151 /* TabParentViewController.swift in Sources */,
 				896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */,
 				89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */,
 				896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */,
 				896D148622A6D1D600873D15 /* GradientButton.swift in Sources */,
+				896856D2253C9CB300EB3FE6 /* AddClubViewController.swift in Sources */,
 				89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */,
 				898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */,
 				89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */,
@@ -844,7 +858,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -867,7 +881,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -884,7 +898,7 @@
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
@@ -906,7 +920,7 @@
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -930,7 +944,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
@@ -955,7 +969,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";

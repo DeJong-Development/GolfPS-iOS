@@ -11,24 +11,36 @@ import Foundation
 class ClubTools {
     
     let preferences = UserDefaults.standard
-    var myClubs:[Club] = [Club]()
     
-    init() {
-        for i in 1..<14 {
-            myClubs.append(Club(number: i));
+    static public func cleanClubName(_ name: String?) -> String {
+        guard let n = name else {
+            return ""
+        }
+        let regexPattern = "[^a-zA-Z0-9$#! ]"
+        do {
+            let cleanName:NSMutableString = NSMutableString(string: n)
+            let regex = try NSRegularExpression(pattern: regexPattern, options: .caseInsensitive)
+            let range = NSMakeRange(0, n.count)
+            regex.replaceMatches(in: cleanName, options: .withTransparentBounds, range: range, withTemplate: "")
+            return String(cleanName)
+        } catch {
+            fatalError("invalid section name clean")
         }
     }
-    
-    public func getClubSuggestion(distanceTo: Int) -> Club {
-        var avgDistances:[Int] = [Int]()
-        
-        for c in myClubs {
-            avgDistances.append(c.distance)
+    static public func cleanClubDistance(_ distance: String?) -> String  {
+        guard let d = distance else {
+            return ""
         }
         
-        var clubNum:Int = 0;
-        while (distanceTo < avgDistances[clubNum] && clubNum < 12) { clubNum += 1; } //iterate until we hit the appropriate club
-        
-        return myClubs[clubNum]
+        let regexPattern = "[^0-9]"
+        do {
+            let cleanName:NSMutableString = NSMutableString(string: d)
+            let regex = try NSRegularExpression(pattern: regexPattern, options: .caseInsensitive)
+            let range = NSMakeRange(0, d.count)
+            regex.replaceMatches(in: cleanName, options: .withTransparentBounds, range: range, withTemplate: "")
+            return String(cleanName)
+        } catch {
+            fatalError("invalid section name clean")
+        }
     }
 }

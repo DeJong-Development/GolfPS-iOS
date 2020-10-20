@@ -14,7 +14,11 @@ class MyBagViewController: UIViewController {
     @IBOutlet weak var editButton: ButtonX!
     @IBOutlet weak var addClubButton: ButtonX!
     
+    @IBOutlet weak var editImage: UIImageView!
+    
     private var myBagTVC:MyBagTableViewController!
+    
+    internal var additionalClub:Club!
     
     override var prefersStatusBarHidden: Bool {
         return false
@@ -31,11 +35,6 @@ class MyBagViewController: UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
@@ -47,18 +46,35 @@ class MyBagViewController: UIViewController {
             editButton.setTitle("EDIT", for: .normal)
             editButton.backgroundColor = .grass
             editButton.setTitleColor(.white, for: .normal)
-            editButton.borderWidth = 1
+            editImage.image = #imageLiteral(resourceName: "customize")
             addClubButton.isHidden = true
+            
+            //bag info autosaved within club model
+            //sort bag with provided average distances
+            AppSingleton.shared.me.bag.sortClubs()
+            
+            //show in proper order
+            self.myBagTVC.tableView.reloadData()
         } else {
             myBagTVC.tableView.setEditing(true, animated: true)
             editButton.setTitle("SAVE", for: .normal)
             editButton.backgroundColor = .gold
             editButton.setTitleColor(.black, for: .normal)
-            editButton.borderWidth = 0
+            editImage.image = #imageLiteral(resourceName: "noun_Save_1409370")
+            editImage.tintColor = .black
             addClubButton.isHidden = false
         }
     }
     @IBAction func clickAddClub(_ sender: Any) {
+        //show the add club dialog
+    }
+    
+    @IBAction func unwindToMyBag(unwindSegue: UIStoryboardSegue) {
+        guard let addedNewClub = additionalClub else {
+            return
+        }
+        
+        self.myBagTVC.addClub(addedNewClub)
     }
     
     // MARK: - Navigation
