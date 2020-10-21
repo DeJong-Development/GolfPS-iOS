@@ -36,8 +36,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     @IBOutlet weak var showDriveStackConstraint: NSLayoutConstraint!
     @IBOutlet weak var hideDriveStackConstraint: NSLayoutConstraint!
     
-    var wcSession : WCSession! = nil
-    var embeddedMapViewController:GoogleMapViewController!
+    private var wcSession : WCSession? = nil
+    private var embeddedMapViewController:GoogleMapViewController!
     
     override var prefersStatusBarHidden: Bool {
         return false
@@ -48,8 +48,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if (wcSession.isReachable) {
-            wcSession.sendMessage(["course": ""], replyHandler: nil) { (error) in
+        if let wcs = wcSession, wcs.isReachable {
+            wcs.sendMessage(["course": ""], replyHandler: nil) { (error) in
                 print(error.localizedDescription)
             }
         }
@@ -93,8 +93,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         
         if (WCSession.isSupported()) {
             wcSession = WCSession.default
-            wcSession.delegate = self
-            wcSession.activate()
+            wcSession!.delegate = self
+            wcSession!.activate()
         }
     }
 
@@ -115,8 +115,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     internal func updateCurrentHole(hole: Hole) {
         currentHoleLabel.setTitle("#\(hole.number)", for: .normal)
         
-        if (wcSession.isReachable) {
-            wcSession.sendMessage(["hole": hole.number], replyHandler: nil) { (error) in
+        if let wcs = wcSession, wcs.isReachable {
+            wcs.sendMessage(["hole": hole.number], replyHandler: nil) { (error) in
                 print(error.localizedDescription)
             }
         }
@@ -137,8 +137,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             message["units"] = "yds"
         }
         
-        if (wcSession.isReachable) {
-            wcSession.sendMessage(message, replyHandler: nil) { (error) in
+        if let wcs = wcSession, wcs.isReachable {
+            wcs.sendMessage(message, replyHandler: nil) { (error) in
                 print(error.localizedDescription)
             }
         }
@@ -146,8 +146,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     internal func updateSelectedClub(club: Club) {
         selectedClubLabel.text = club.name
         
-        if (wcSession.isReachable) {
-            wcSession.sendMessage(["club": club.name], replyHandler: nil) { (error) in
+        if let wcs = wcSession, wcs.isReachable {
+            wcs.sendMessage(["club": club.name], replyHandler: nil) { (error) in
                 print(error.localizedDescription)
             }
         }
