@@ -187,16 +187,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     // Wrapper for obtaining keys from keys.plist
     private func valueForAPIKey(keyname:String) -> String {
         // Get the file path for keys.plist
-        if let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist") {
-            // Put the keys in a dictionary
-            if let plist = NSDictionary(contentsOfFile: filePath) {
-                // Pull the value for the key
-                if let value:String = plist.object(forKey: keyname) as? String {
-                    return value
-                }
-            }
+        guard let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let plist = NSDictionary(contentsOfFile: filePath), let value:String = plist.object(forKey: keyname) as? String else {
+            return "no-key-found"
         }
-        return "no-key-found"
+        return value
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -281,27 +275,28 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateFirestorePlayerPosition(with location: GeoPoint) {
         let userId = self.me.id
         
-        if self.me.shareLocation {
-            if let id = AppSingleton.shared.course?.id {
-                db.collection("players")
-                    .document(userId)
-                    .setData([
-                        "course": id,
-                        "location": location,
-                        "updateTime": Date().iso8601
-                        ], merge: true, completion: { (err) in
-                            if let err = err {
-                                print("Error updating location: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
-                    })
-            } else {
-                //no course so delete
-                db.collection("players").document(userId).delete()
-                locationTimer.invalidate()
-            }
+        guard self.me.shareLocation else {
+            locationTimer.invalidate()
+            return
+        }
+        
+        if let id = AppSingleton.shared.course?.id {
+            db.collection("players")
+                .document(userId)
+                .setData([
+                    "course": id,
+                    "location": location,
+                    "updateTime": Date().iso8601
+                    ], merge: true, completion: { (err) in
+                        if let err = err {
+                            print("Error updating location: \(err)")
+                        } else {
+                            print("Document successfully written!")
+                        }
+                })
         } else {
+            //no course so delete
+            db.collection("players").document(userId).delete()
             locationTimer.invalidate()
         }
     }
@@ -321,8 +316,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     print("Error fetching documents: \(error!)")
                     return
                 }
-//                let location = documents.map { $0["location"]! }
-//                print("Current players on course: \(location)")
                 
                 self.otherPlayers.removeAll()
                 for document in documents {
@@ -366,44 +359,40 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         } else if holeNum <= 0 {
             holeNum = course.holeInfo.count
         }
-        for hole in course.holeInfo {
-            if (hole.number == holeNum) {
-                currentHole = hole
-                break;
-            }
+        
+        guard let nextHole = course.holeInfo.first(where: {$0.number == holeNum}) else {
+            return
         }
         
+        currentHole = nextHole
         currentHole.updateDelegate = self
-        
         delegate.updateCurrentHole(hole: currentHole);
         
-        if (currentHole != nil) {
-            updatePinMarker();
-            updateTeeMarker();
-            updateBunkerMarkers();
-            updateLongDriveMarkers();
-            
-            //check if we have played at this course before
-            updateDidPlayHere()
-            
-            moveCamera(to: currentHole.bounds, orientToHole: true);
-            
-            mapView.selectedMarker = currentPinMarker
-            
-            var distanceToUseInSuggestion:Int = 300
-            if let distancePinMe = distanceToPinFromMyLocation {
-                distanceToUseInSuggestion = distancePinMe
-                delegate.updateDistanceToPin(distance: distancePinMe)
-            } else if let distancePinTee = distanceToPinFromTee {
-                distanceToUseInSuggestion = distancePinTee
-                delegate.updateDistanceToPin(distance: distancePinTee)
-            }
-            
-            let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion)
-            delegate.updateSelectedClub(club: suggestedClub)
-            
-            updateSuggestionLines(with: suggestedClub)
+        updatePinMarker();
+        updateTeeMarker();
+        updateBunkerMarkers();
+        updateLongDriveMarkers();
+        
+        //check if we have played at this course before
+        updateDidPlayHere()
+        
+        moveCamera(to: currentHole.bounds, orientToHole: true);
+        
+        mapView.selectedMarker = currentPinMarker
+        
+        var distanceToUseInSuggestion:Int = 300
+        if let distancePinMe = distanceToPinFromMyLocation {
+            distanceToUseInSuggestion = distancePinMe
+            delegate.updateDistanceToPin(distance: distancePinMe)
+        } else if let distancePinTee = distanceToPinFromTee {
+            distanceToUseInSuggestion = distancePinTee
+            delegate.updateDistanceToPin(distance: distancePinTee)
         }
+        
+        let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion)
+        delegate.updateSelectedClub(club: suggestedClub)
+        
+        updateSuggestionLines(with: suggestedClub)
     }
     
     private func moveCamera(to bounds:GMSCoordinateBounds, orientToHole:Bool) {
@@ -428,26 +417,26 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private func removeOldPlayerMarkers() {
         for marker in otherPlayerMarkers {
-            if let markerUserData = marker.userData as? [String:Any],
-                let markerPlayerId = markerUserData["userId"] as? String {
+            guard let markerUserData = marker.userData as? [String:Any],
+                let markerPlayerId = markerUserData["userId"] as? String else {
+                marker.map = nil
+                continue
+            }
                 
-                var foundValidPlayer:Bool = false
-                for player in self.otherPlayers {
-                    if player.id == markerPlayerId {
-                        if let updateDate = player.lastLocationUpdate {
-                            let timeSinceLastLocationUpdate = updateDate.timeIntervalSinceNow
-                            if (timeSinceLastLocationUpdate > -14400) { //remove after 4 hours
-                                foundValidPlayer = true
-                            }
+            var foundValidPlayer:Bool = false
+            for player in self.otherPlayers {
+                if player.id == markerPlayerId {
+                    if let updateDate = player.lastLocationUpdate {
+                        let timeSinceLastLocationUpdate = updateDate.timeIntervalSinceNow
+                        if (timeSinceLastLocationUpdate > -14400) { //remove after 4 hours
+                            foundValidPlayer = true
                         }
-                        break;
                     }
+                    break;
                 }
-                
-                if (!foundValidPlayer) {
-                    marker.map = nil
-                }
-            } else {
+            }
+            
+            if (!foundValidPlayer) {
                 marker.map = nil
             }
         }
@@ -464,85 +453,86 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         var newPlayerMarkers:[GMSMarker] = otherPlayerMarkers.filter { $0.map != nil }
         
         for player in self.otherPlayers {
-            if let playerGeoPoint:GeoPoint = player.location,
-                player.id != self.me.id {
-                
-                var markerTitle:String = "Golfer"
-                
-                var playerLocation = CLLocationCoordinate2D(latitude: playerGeoPoint.latitude, longitude: playerGeoPoint.longitude)
-                if let courseSpec = course.spectation, !course.bounds.contains(playerLocation) {
-                    //not within course bounds - lets put them as spectator
-                    let randomDoubleLat = Double.random(in: -0.00001...0.00001)
-                    let randomDoubleLng = Double.random(in: -0.00001...0.00001)
-                    playerLocation = CLLocationCoordinate2D(latitude: courseSpec.latitude + randomDoubleLat,
-                                                            longitude: courseSpec.longitude + randomDoubleLng)
-                    markerTitle = "Spectator"
-                }
-                
-                var userDataForMarker:[String:Any] = ["userId":player.id, "snap":false]
-                var opMarker:GMSMarker! = nil
-                
-                //check for existing markers first
-                //update icon if there was some sort of change to the player
-                for marker in newPlayerMarkers {
-                    if let data = marker.userData as? [String:Any], data["userId"] as? String == player.id {
-                        opMarker = marker;
-                        
-                        marker.position = playerLocation
-                        if let avatar = player.avatarURL, data["snap"] == nil || data["snap"] as? Bool == false {
-                            //did not store icon on marker initially but now have player avatar url
-                            //add snap icon
-                            userDataForMarker["snap"] = true
-                            self.getData(from: avatar) { data, response, error in
-                                guard let data = data, error == nil else { return }
-                                DispatchQueue.main.async() {
-                                    opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
-                                }
-                            }
-                        } else if data["snap"] as? Bool == true && player.avatarURL == nil {
-                            //did store icon on marker initially but now have no player avatar url
-                            //remove snap icon
-                            userDataForMarker["snap"] = false
-                            opMarker.icon =  #imageLiteral(resourceName: "player_marker").toNewSize(CGSize(width: 35, height: 35))
-                        } else {
-                            userDataForMarker["snap"] = data["snap"] as? Bool ?? false
-                        }
-                        break;
-                    }
-                }
-            
-                //if no existing marker was found for this player, then create a new one
-                if opMarker == nil {
-                    
-                    opMarker = GMSMarker(position: playerLocation)
-                    opMarker.icon =  #imageLiteral(resourceName: "player_marker").toNewSize(CGSize(width: 35, height: 35))
-                    
-                    //if player has specified avatar then add the icon to the marker
-                    if let avatar = player.avatarURL {
-                        userDataForMarker["snap"] = true
-                        self.getData(from: avatar) { data, response, error in
-                            guard let data = data, error == nil else { return }
-                            DispatchQueue.main.async() {
-                                opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
-                            }
-                        }
-                    } else {
-                        userDataForMarker["snap"] = false
-                    }
-                    
-                    newPlayerMarkers.append(opMarker)
-                }
-                
-                //attached the potentially updated user data to the marker
-                opMarker.userData = userDataForMarker
-                opMarker.title = markerTitle
-                
-                let timeSinceLastLocationUpdate = player.lastLocationUpdate?.timeIntervalSinceNow ?? 1000
-                opMarker.opacity = timeSinceLastLocationUpdate < -60 ? 0.75 : 1
-                opMarker.map = self.mapView
-            } else {
+            guard let playerGeoPoint:GeoPoint = player.location,
+                player.id != self.me.id else {
                 //no location data available for user or myself
+                continue
             }
+                
+            var markerTitle:String = "Golfer"
+            
+            var playerLocation = CLLocationCoordinate2D(latitude: playerGeoPoint.latitude, longitude: playerGeoPoint.longitude)
+            if let courseSpec = course.spectation, !course.bounds.contains(playerLocation) {
+                //not within course bounds - lets put them as spectator
+                let randomDoubleLat = Double.random(in: -0.00001...0.00001)
+                let randomDoubleLng = Double.random(in: -0.00001...0.00001)
+                playerLocation = CLLocationCoordinate2D(latitude: courseSpec.latitude + randomDoubleLat, longitude: courseSpec.longitude + randomDoubleLng)
+                markerTitle = "Spectator"
+            }
+            
+            var userDataForMarker:[String:Any] = ["userId":player.id, "snap":false]
+            var opMarker:GMSMarker! = nil
+            
+            //check for existing markers first
+            //update icon if there was some sort of change to the player
+            for marker in newPlayerMarkers {
+                guard let data = marker.userData as? [String:Any], data["userId"] as? String == player.id else {
+                    continue
+                }
+                
+                opMarker = marker;
+                
+                marker.position = playerLocation
+                if let avatar = player.avatarURL, data["snap"] == nil || data["snap"] as? Bool == false {
+                    //did not store icon on marker initially but now have player avatar url
+                    //add snap icon
+                    userDataForMarker["snap"] = true
+                    self.getData(from: avatar) { data, response, error in
+                        guard let data = data, error == nil else { return }
+                        DispatchQueue.main.async() {
+                            opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
+                        }
+                    }
+                } else if data["snap"] as? Bool == true && player.avatarURL == nil {
+                    //did store icon on marker initially but now have no player avatar url
+                    //remove snap icon
+                    userDataForMarker["snap"] = false
+                    opMarker.icon =  #imageLiteral(resourceName: "player_marker").toNewSize(CGSize(width: 35, height: 35))
+                } else {
+                    userDataForMarker["snap"] = data["snap"] as? Bool ?? false
+                }
+                break;
+            }
+        
+            //if no existing marker was found for this player, then create a new one
+            if opMarker == nil {
+                
+                opMarker = GMSMarker(position: playerLocation)
+                opMarker.icon =  #imageLiteral(resourceName: "player_marker").toNewSize(CGSize(width: 35, height: 35))
+                
+                //if player has specified avatar then add the icon to the marker
+                if let avatar = player.avatarURL {
+                    userDataForMarker["snap"] = true
+                    self.getData(from: avatar) { data, response, error in
+                        guard let data = data, error == nil else { return }
+                        DispatchQueue.main.async() {
+                            opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
+                        }
+                    }
+                } else {
+                    userDataForMarker["snap"] = false
+                }
+                
+                newPlayerMarkers.append(opMarker)
+            }
+            
+            //attached the potentially updated user data to the marker
+            opMarker.userData = userDataForMarker
+            opMarker.title = markerTitle
+            
+            let timeSinceLastLocationUpdate = player.lastLocationUpdate?.timeIntervalSinceNow ?? 1000
+            opMarker.opacity = timeSinceLastLocationUpdate < -60 ? 0.75 : 1
+            opMarker.map = self.mapView
         }
         
         //update the array
@@ -551,11 +541,12 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     //assign the fact that we played at this course, push to server
     private func updateDidPlayHere() {
-        if let course = AppSingleton.shared.course,
+        guard let course = AppSingleton.shared.course,
             let myLocation = currentPlayerLocation?.coordinate,
-            course.bounds.contains(myLocation) && !course.didPlayHere {
-            course.didPlayHere = true
+            course.bounds.contains(myLocation) && !course.didPlayHere else {
+            return
         }
+        course.didPlayHere = true
     }
     
     internal func addDrivePrompt() {
@@ -566,36 +557,39 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 self.myDrivingDistanceMarker!.map = nil
             }
             
-            if let loc:CLLocationCoordinate2D = self.currentPlayerLocation?.coordinate {
-                let distanceToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
-                
-                if (distanceToTee > 500) {
-                    //prompt some sort of alert saying this is just ridiculous
+            guard let loc:CLLocationCoordinate2D = self.currentPlayerLocation?.coordinate else {
+                //do not have current location for player
+                return
+            }
+            
+            let distanceToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
+            
+            if (distanceToTee > 500) {
+                //prompt some sort of alert saying this is just ridiculous
+            } else {
+                self.myDrivingDistanceMarker = GMSMarker(position: loc)
+                self.myDrivingDistanceMarker!.title = "My Drive"
+                if (AppSingleton.shared.metric) {
+                    self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) m"
                 } else {
-                    self.myDrivingDistanceMarker = GMSMarker(position: loc)
-                    self.myDrivingDistanceMarker!.title = "My Drive"
-                    if (AppSingleton.shared.metric) {
-                        self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) m"
-                    } else {
-                        self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) yds"
-                    }
-                    self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
-                    self.myDrivingDistanceMarker!.userData = "Drive";
-                    self.myDrivingDistanceMarker!.map = self.mapView;
-                    self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
-                    
-                    //update my drive data on hole object
-                    self.currentHole.setLongestDrive(distance: distanceToTee)
-                    self.currentHole.longestDrives[self.me.id] = loc.geopoint
-                    
-                    self.me.didLogLongDrive = true
-                    
-                    //send drive data to the firestore
-                    self.updateFirestoreLongDrive(distance: distanceToTee, location: loc.geopoint)
-                    
-                    //inform delegate of new hole characteristics
-                    self.delegate?.updateCurrentHole(hole: self.currentHole)
+                    self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) yds"
                 }
+                self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
+                self.myDrivingDistanceMarker!.userData = "Drive";
+                self.myDrivingDistanceMarker!.map = self.mapView;
+                self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
+                
+                //update my drive data on hole object
+                self.currentHole.setLongestDrive(distance: distanceToTee)
+                self.currentHole.longestDrives[self.me.id] = loc.geopoint
+                
+                self.me.didLogLongDrive = true
+                
+                //send drive data to the firestore
+                self.updateFirestoreLongDrive(distance: distanceToTee, location: loc.geopoint)
+                
+                //inform delegate of new hole characteristics
+                self.delegate?.updateCurrentHole(hole: self.currentHole)
             }
         })
         ac.addAction(UIAlertAction(title: "No", style: .default))
@@ -988,17 +982,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             var lineColor:UIColor = UIColor.white
             switch i {
-            case -1: lineColor = UIColor.red;
-            case 0: lineColor = UIColor.green;
-            case 1: lineColor = UIColor.yellow;
-            default: lineColor = UIColor(white: 1, alpha: 0.25)
+                case -1: lineColor = UIColor.red;
+                case 0: lineColor = UIColor.green;
+                case 1: lineColor = UIColor.yellow;
+                default: lineColor = UIColor(white: 1, alpha: 0.25)
             }
             
             let distancePath = GMSMutablePath()
             for angle in minBearing..<maxBearing {
-                let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate,
-                                                          atDistance: Double(clubSelectionToShow.distance),
-                                                          atAngle: Double(angle))
+                let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate, atDistance: Double(clubSelectionToShow.distance), atAngle: Double(angle))
                 distancePath.add(distanceCoords)
             }
             let distanceLine = GMSPolyline(path: distancePath)
