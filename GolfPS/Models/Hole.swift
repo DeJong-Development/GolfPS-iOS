@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 import GoogleMaps
 
 protocol HoleUpdateDelegate:class {
@@ -27,6 +27,7 @@ public class Hole {
     var bunkerLocations:[GeoPoint] = [GeoPoint]()
     var teeLocations:[GeoPoint] = [GeoPoint]()
     var pinLocation:GeoPoint?
+    var pinElevation:Double?
     var dogLegLocation:GeoPoint?
     var isLongDrive:Bool = false
     var myLongestDriveInYards:Int?
@@ -98,6 +99,9 @@ public class Hole {
         }
         if let dlObj = data["dogLeg"] as? GeoPoint {
             self.dogLegLocation = dlObj
+        }
+        if let pinElevation = data["pinElevation"] as? Double {
+            self.pinElevation = pinElevation
         }
         if let ld = data["longDrive"] as? Bool {
             self.isLongDrive = ld

@@ -14,7 +14,7 @@ class Player {
     private(set) var name:String = "Incognito";
     private(set) var id:String = UUID().uuidString;
     
-    var location:GeoPoint?
+    var geoPoint:GeoPoint?
     var lastLocationUpdate:Date?
     var avatarURL:URL?
     

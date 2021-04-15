@@ -38,7 +38,7 @@ class SettingsTableViewController: UITableViewController {
         locationShareSwitch.setOn(AppSingleton.shared.me.shareLocation, animated: false)
         if (!AppSingleton.shared.me.shareLocation) {
             AppSingleton.shared.db.collection("players").document(AppSingleton.shared.me.id).delete()
-            AppSingleton.shared.me.location = nil
+            AppSingleton.shared.me.geoPoint = nil
             bitmojiShareSwitch.setOn(false, animated: false)
 
             AppSingleton.shared.me.shareBitmoji = false
@@ -65,7 +65,7 @@ class SettingsTableViewController: UITableViewController {
             //if user elects to stop sharing location
             //remove all data on server
             AppSingleton.shared.db.collection("players").document(AppSingleton.shared.me.id).delete()
-            AppSingleton.shared.me.location = nil
+            AppSingleton.shared.me.geoPoint = nil
 
             //remove bitmoji and turn off sharing option
             self.bitmojiShareSwitch.setOn(false, animated: true)

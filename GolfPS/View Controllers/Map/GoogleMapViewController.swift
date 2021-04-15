@@ -24,23 +24,41 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
         updateOtherPlayerMarkers();
     }
     
+    //update our location on server every 30 seconds
     func updateLocationsNow() {
-        if let cpl = currentPlayerLocation {
-            
-            //get difference between old and new locations
-            var distanceBetweenLocations:Int = 25
-            if let ppl = previousPlayerLocation {
-                distanceBetweenLocations = mapTools.distanceFrom(first: cpl, second: ppl)
-            }
-            
-            //if we are in different location then update the position of the player
-            if (cpl != previousPlayerLocation && distanceBetweenLocations >= 25) {
-                updateFirestorePlayerPosition(with: cpl.geopoint)
-            }
-            
-            //update previous location on device regardless of distance
-            self.me.location = cpl.geopoint
+        guard let cpgp = self.me.geoPoint else {
+            return
         }
+            
+        //get difference between old and new locations
+        var distanceBetweenLocations:Int = 0
+        if let ppgp = previousPlayerGeoPoint {
+            distanceBetweenLocations = mapTools.distanceFrom(first: cpgp, second: ppgp)
+        }
+        
+        //if we are in different location then update the position of the player
+        if (cpgp != previousPlayerGeoPoint && distanceBetweenLocations >= 25) {
+            
+            if let hole = currentHole {
+                //update elevation numbers since we changed places!
+                if let pinElevation = hole.pinElevation {
+                    ShotTools.getElevationChange(start: cpgp, finishElevation: pinElevation) { (distanceEffect, elevation, error) in
+                        self.delegate.updateElevationEffect(height: elevation, distance: distanceEffect)
+                    }
+                } else if let pinPosition = hole.pinLocation {
+                    ShotTools.getElevationChange(start: cpgp, finish: pinPosition) { (distanceEffect, elevation, error) in
+                        self.delegate.updateElevationEffect(height: elevation, distance: distanceEffect)
+                    }
+                }
+            }
+            
+            updateFirestorePlayerPosition(with: cpgp)
+        }
+        
+        
+        
+        //update previous location on device regardless of distance
+        self.me.geoPoint = cpgp
     }
 }
 
@@ -51,35 +69,44 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
         mapView.settings.myLocationButton = isAuthorized
         
         //remove information associated with current locatino if we become unauthorized
-        if (!isAuthorized) {
-            currentPlayerLocation = nil
+        if !isAuthorized {
+            self.me.geoPoint = nil
         }
     }
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentPlayerLocation = locations.last
         
-        if let cpl = currentPlayerLocation {
-            if let pm = currentPinMarker {
-                let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
-                delegate.updateDistanceToPin(distance: distanceToPin)
-                
-                let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin)
-                delegate.updateSelectedClub(club: suggestedClub)
-                
-                //update any suggestion lines
-                updateSuggestionLines(with: suggestedClub)
-            }
-            
-            //add course visitation
-            if let course = AppSingleton.shared.course,
-                !(self.me.coursesVisited?.contains(course.id) ?? false),
-                course.bounds.contains(cpl.coordinate) {
-                self.me.addCourseVisitation(courseId: course.id)
-            }
-            
-            //update any distance markers we already have displayed when we update our location
-            updateDistanceMarker()
+        guard let cpl = locations.last else {
+            return
         }
+        
+        self.me.geoPoint = cpl.geopoint
+        
+        if let myMarker = myPlayerMarker {
+            myMarker.position = cpl.coordinate
+        } else {
+            createPlayerMarker()
+        }
+        
+        if let pm = currentPinMarker {
+            let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
+            delegate.updateDistanceToPin(distance: distanceToPin)
+            
+            let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin)
+            delegate.updateSelectedClub(club: suggestedClub)
+            
+            //update any suggestion lines
+            updateSuggestionLines(with: suggestedClub)
+        }
+        
+        //add course visitation
+        if let course = AppSingleton.shared.course,
+            !(self.me.coursesVisited?.contains(course.id) ?? false),
+            course.bounds.contains(cpl.coordinate) {
+            self.me.addCourseVisitation(courseId: course.id)
+        }
+        
+        //update any distance markers we already have displayed when we update our location
+        updateDistanceMarker()
     }
 }
 
@@ -98,21 +125,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var otherPlayerTimer:PlayerUpdateTimer!
     
     private let locationManager = CLLocationManager()
-    private var previousPlayerLocation:CLLocation? {
-        if let gp = self.me.location {
-            return CLLocation(latitude: gp.latitude, longitude: gp.longitude)
-        }
-        return nil
-    }
-    private var currentPlayerLocation:CLLocation? {
-        didSet {
-            if let myMarker = myPlayerMarker, let location = currentPlayerLocation?.coordinate {
-                myMarker.position = location
-            } else if (currentPlayerLocation?.coordinate) != nil {
-                createPlayerMarker()
-            }
-        }
-    }
+    private var previousPlayerGeoPoint:GeoPoint?
     
     internal var currentHole:Hole!
     
@@ -145,9 +158,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var lineToPin:GMSPolyline?
     
     private var distanceToPressFromLocation:Int? {
-        if let playerLocation = currentPlayerLocation,
+        if let playerLocation = self.me.geoPoint,
             let pressLocation = currentDistanceMarker?.position {
-            return mapTools.distanceFrom(first: playerLocation.coordinate, second: pressLocation)
+            return mapTools.distanceFrom(first: playerLocation.location, second: pressLocation)
         }
         return nil
     }
@@ -159,16 +172,16 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         return nil
     }
     private var distanceToPinFromMyLocation:Int? {
-        if let playerLocation = currentPlayerLocation,
+        if let playerLocation = self.me.geoPoint,
             let pinLocation = currentPinMarker?.position {
-            return mapTools.distanceFrom(first: playerLocation.coordinate, second: pinLocation)
+            return mapTools.distanceFrom(first: playerLocation.location, second: pinLocation)
         }
         return nil
     }
     private var distanceToTeeFromMyLocation:Int? {
-        if let playerCoord = currentPlayerLocation?.coordinate,
+        if let playerCoord = self.me.geoPoint,
             let teeCoord = currentTeeMarker?.position {
-            return mapTools.distanceFrom(first: playerCoord, second: teeCoord)
+            return mapTools.distanceFrom(first: playerCoord.location, second: teeCoord)
         }
         return nil
     }
@@ -201,13 +214,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             downloadBitmojiImage()
         }
         
-        self.me.lastLocationUpdate = nil
-        self.me.location = nil
+//        self.me.lastLocationUpdate = nil
+//        self.me.location = nil
         
         if let course = AppSingleton.shared.course {
             locationTimer.invalidate()
             locationTimer.delegate = self
-            locationTimer.startNewTimer(interval: 15)
+            locationTimer.startNewTimer(interval: 5)
             
             listenToPlayerLocationsOnCourse(with: course.id)
             
@@ -220,7 +233,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         playerListener?.remove()
     }
     
-    //first
     override func loadView() {
         super.loadView()
         GMSServices.provideAPIKey(valueForAPIKey(keyname: "GoogleMaps"))
@@ -233,7 +245,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         view = mapView
     }
     
-    //second
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -252,11 +263,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         otherPlayerTimer = PlayerUpdateTimer()
         otherPlayerTimer.delegate = self
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     private func downloadBitmojiImage() {
@@ -304,7 +310,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func listenToPlayerLocationsOnCourse(with id: String) {
         otherPlayerTimer.invalidate()
         otherPlayerTimer.delegate = self
-        otherPlayerTimer.startNewTimer(interval: 15)
+        otherPlayerTimer.startNewTimer(interval: 30)
         
         playerListener?.remove();
         
@@ -320,7 +326,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 self.otherPlayers.removeAll()
                 for document in documents {
                     let otherPlayer = Player(id: document.documentID)
-                    otherPlayer.location = document["location"] as? GeoPoint
+                    otherPlayer.geoPoint = document["location"] as? GeoPoint
                     otherPlayer.lastLocationUpdate = (document["updateTime"] as? String)?.dateFromISO8601
                     
                     if let imageStr = document["image"] as? String, imageStr != "" {
@@ -380,19 +386,41 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         mapView.selectedMarker = currentPinMarker
         
-        var distanceToUseInSuggestion:Int = 300
-        if let distancePinMe = distanceToPinFromMyLocation {
-            distanceToUseInSuggestion = distancePinMe
-            delegate.updateDistanceToPin(distance: distancePinMe)
-        } else if let distancePinTee = distanceToPinFromTee {
-            distanceToUseInSuggestion = distancePinTee
-            delegate.updateDistanceToPin(distance: distancePinTee)
+        //location manager will update elevation effect
+        //trigger once in case we haven't moved yet
+        guard let hole = currentHole else {
+            return
         }
-        
-        let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion)
-        delegate.updateSelectedClub(club: suggestedClub)
-        
-        updateSuggestionLines(with: suggestedClub)
+        if let myGeoPoint = self.me.geoPoint {
+            //update elevation numbers since we changed places!
+            if let pinElevation = hole.pinElevation {
+                ShotTools.getElevationChange(start: myGeoPoint, finishElevation: pinElevation, completion: calculateElevation)
+            } else if let pinPosition = hole.pinLocation {
+                ShotTools.getElevationChange(start: myGeoPoint, finish: pinPosition, completion: calculateElevation)
+            }
+        } else if let pinElevation = currentHole.pinElevation {
+            ShotTools.getElevationChange(start: hole.teeLocations.first!, finishElevation: pinElevation, completion: calculateElevation)
+        } else {
+            ShotTools.getElevationChange(start: hole.teeLocations.first!, finish: hole.pinLocation!, completion: calculateElevation)
+        }
+    }
+    
+    private func calculateElevation(_ distance:Double, _ elevation:Double, _ error:String?) {
+        DispatchQueue.main.async {
+            self.delegate.updateElevationEffect(height: elevation, distance: distance)
+            
+            var distanceToUseInSuggestion:Int = 300
+            if let distancePinMe = self.distanceToPinFromMyLocation {
+                distanceToUseInSuggestion = distancePinMe
+            } else if let distancePinTee = self.distanceToPinFromTee {
+                distanceToUseInSuggestion = distancePinTee
+            }
+            self.delegate.updateDistanceToPin(distance: distanceToUseInSuggestion)
+            
+            let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion + Int(distance))
+            self.delegate.updateSelectedClub(club: suggestedClub)
+            self.updateSuggestionLines(with: suggestedClub)
+        }
     }
     
     private func moveCamera(to bounds:GMSCoordinateBounds, orientToHole:Bool) {
@@ -413,7 +441,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                                                                 viewingAngle: viewingAngle)
         mapView.animate(to: newCameraView)
     }
-    
     
     private func removeOldPlayerMarkers() {
         for marker in otherPlayerMarkers {
@@ -453,7 +480,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         var newPlayerMarkers:[GMSMarker] = otherPlayerMarkers.filter { $0.map != nil }
         
         for player in self.otherPlayers {
-            guard let playerGeoPoint:GeoPoint = player.location,
+            guard let playerGeoPoint:GeoPoint = player.geoPoint,
                 player.id != self.me.id else {
                 //no location data available for user or myself
                 continue
@@ -542,8 +569,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     //assign the fact that we played at this course, push to server
     private func updateDidPlayHere() {
         guard let course = AppSingleton.shared.course,
-            let myLocation = currentPlayerLocation?.coordinate,
-            course.bounds.contains(myLocation) && !course.didPlayHere else {
+            let myGeoPoint = self.me.geoPoint,
+            course.bounds.contains(myGeoPoint.location) && !course.didPlayHere else {
             return
         }
         course.didPlayHere = true
@@ -557,7 +584,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 self.myDrivingDistanceMarker!.map = nil
             }
             
-            guard let loc:CLLocationCoordinate2D = self.currentPlayerLocation?.coordinate else {
+            guard let loc:CLLocationCoordinate2D = self.me.geoPoint?.location else {
                 //do not have current location for player
                 return
             }
@@ -626,7 +653,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         if (myPlayerMarker != nil) {
             myPlayerMarker!.map = nil
         }
-        if let loc:CLLocationCoordinate2D = currentPlayerLocation?.coordinate,
+        if let loc:CLLocationCoordinate2D = self.me.geoPoint?.location,
             let bitmojiImage = self.myPlayerImage {
             myPlayerMarker = GMSMarker(position: loc)
             myPlayerMarker!.title = "Me"
@@ -822,7 +849,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             //if we are not being suggested the driver -> show the resulting suggested club arcs
             if meIsCloseToPin && meIsCloseToSelectedHole {
-                updateRecommendedClubLines()
+                updateRecommendedClubLines(club)
             } else {
                 //not close to the pin OR not close to the selected hole
                 updateDrivingDistanceLines()
@@ -856,7 +883,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 cDistanceMarker.title = "\(distanceToPressFromLocation!) yds"
             }
             
-            playerPath.add(currentPlayerLocation!.coordinate)
+            playerPath.add(self.me.geoPoint!.location)
             playerPath.add(currentDistanceMarker!.position)
         } else {
             suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromTee!);
@@ -949,15 +976,14 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             }
         }
     }
-    private func updateRecommendedClubLines() {
+    private func updateRecommendedClubLines(_ suggestedClub:Club) {
         clearDistanceLines()
         
-        guard let myLocation = currentPlayerLocation,
+        guard let myGeopoint = self.me.geoPoint,
             let distancePinMe = distanceToPinFromMyLocation else {
             return
         }
         
-        let myGeopoint:GeoPoint = GeoPoint(latitude: myLocation.coordinate.latitude, longitude: myLocation.coordinate.longitude)
         let pinGeopoint:GeoPoint = currentHole.pinLocation!;
         let bearingToPin:Double = mapTools.calcBearing(start: myGeopoint, finish: pinGeopoint)
         
@@ -968,8 +994,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         guard let shortestWedge:Club = self.me.bag.myClubs.last, shortestWedge.distance < distancePinMe else {
             return
         }
-        
-        let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distancePinMe)
         
         //show up to 2 club ups - if suggesting driver then 0 change allowed
         let clubUps:Int = -min(suggestedClub.number - 1, 2)
@@ -990,7 +1014,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             let distancePath = GMSMutablePath()
             for angle in minBearing..<maxBearing {
-                let distanceCoords = mapTools.coordinates(startingCoordinates: myLocation.coordinate, atDistance: Double(clubSelectionToShow.distance), atAngle: Double(angle))
+                let distanceCoords = mapTools.coordinates(startingCoordinates: myGeopoint.location, atDistance: Double(clubSelectionToShow.distance), atAngle: Double(angle))
                 distancePath.add(distanceCoords)
             }
             let distanceLine = GMSPolyline(path: distancePath)

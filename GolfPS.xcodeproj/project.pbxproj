@@ -53,6 +53,7 @@
 		898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */; };
 		89996EC1210A5CE200E0E290 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89996EC0210A5CE200E0E290 /* SettingsViewController.swift */; };
 		89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89996EC3210A5F7B00E0E290 /* RequestViewController.swift */; };
+		89B89FF2261E028300BB78D4 /* ShotTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B89FF1261E028300BB78D4 /* ShotTools.swift */; };
 		89C32DF720B5F3DB0036C151 /* MyBagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */; };
 		89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DF820B5F3F90036C151 /* ClubTableViewCell.swift */; };
 		89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */; };
@@ -175,6 +176,7 @@
 		898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUpdateTimer.swift; sourceTree = "<group>"; };
 		89996EC0210A5CE200E0E290 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		89996EC3210A5F7B00E0E290 /* RequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
+		89B89FF1261E028300BB78D4 /* ShotTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShotTools.swift; sourceTree = "<group>"; };
 		89C32DF620B5F3DB0036C151 /* MyBagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBagViewController.swift; sourceTree = "<group>"; };
 		89C32DF820B5F3F90036C151 /* ClubTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubTableViewCell.swift; sourceTree = "<group>"; };
 		89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyBagTableViewController.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				898C2DA522AC2F5D00C7815A /* LocationUpdateTimer.swift */,
 				898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */,
 				8984584022FB50840077BB72 /* CourseTools.swift */,
+				89B89FF1261E028300BB78D4 /* ShotTools.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				89C32DF920B5F3F90036C151 /* ClubTableViewCell.swift in Sources */,
 				896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */,
 				8984584122FB50840077BB72 /* CourseTools.swift in Sources */,
+				89B89FF2261E028300BB78D4 /* ShotTools.swift in Sources */,
 				8915E6602088F8C800A20258 /* AppDelegate.swift in Sources */,
 				898C2DA622AC2F5D00C7815A /* LocationUpdateTimer.swift in Sources */,
 				896D147E22A6D1B500873D15 /* Emitter.swift in Sources */,

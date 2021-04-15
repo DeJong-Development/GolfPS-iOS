@@ -22,8 +22,8 @@ class MapTools {
         return CLLocationCoordinate2D(latitude: latCenter, longitude: longCenter)
     }
     public func getBoundsZoomLevel(bounds:GMSCoordinateBounds, screenSize:CGRect) -> Float {
-        var WORLD_DIM:(width:Double,height:Double) = (width: 256, height: 256);
-        var ZOOM_MAX:Float = 20;
+        let WORLD_DIM:(width:Double,height:Double) = (width: 256, height: 256);
+        let ZOOM_MAX:Float = 20;
     
         func latRad(lat:Double) -> Double {
             let sinRad = sin(lat * .pi / 180);

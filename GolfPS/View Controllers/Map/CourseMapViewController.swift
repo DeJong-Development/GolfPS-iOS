@@ -15,6 +15,8 @@ protocol ViewUpdateDelegate: class {
     func updateDistanceToPin(distance: Int);
     func updateSelectedClub(club: Club);
     func updateCurrentHole(hole: Hole);
+    func updateElevationEffect(height: Double, distance: Double);
+    func updateWindEffect(speed: Double, distance: Double);
 }
 
 class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDelegate {
@@ -25,6 +27,9 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     @IBOutlet weak var distanceToPinLabel: UILabel!
     @IBOutlet weak var selectedClubLabel: UILabel!
     @IBOutlet weak var currentHoleLabel: UIButton!
+    
+    @IBOutlet weak var elevationLabel: UILabel!
+    @IBOutlet weak var windLabel: UILabel!
     
     @IBOutlet weak var longDriveButton: ButtonX!
     @IBOutlet weak var longDriveButtonStack: UIStackView!
@@ -97,11 +102,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             wcSession!.activate()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "GoogleMapEmbed") {
@@ -149,6 +149,27 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         if let wcs = wcSession, wcs.isReachable {
             wcs.sendMessage(["club": club.name], replyHandler: nil) { (error) in
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    internal func updateElevationEffect(height: Double, distance: Double) {
+        print("height reported: \(height)")
+        DispatchQueue.main.async {
+            if (AppSingleton.shared.metric) {
+                self.elevationLabel.text = "\(Int(distance)) m"
+            } else {
+                self.elevationLabel.text = "\(Int(distance)) yds"
+            }
+            
+        }
+    }
+    internal func updateWindEffect(speed: Double, distance: Double) {
+        DispatchQueue.main.async {
+            if (AppSingleton.shared.metric) {
+                self.windLabel.text = "\(Int(distance)) m"
+            } else {
+                self.windLabel.text = "\(Int(distance)) yds"
             }
         }
     }
