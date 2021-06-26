@@ -108,6 +108,13 @@ class CoursePickerTableViewController: UITableViewController {
             case "OH": cell.stateImage.image = #imageLiteral(resourceName: "noun_Ohio_3180618")
             case "IL": cell.stateImage.image = #imageLiteral(resourceName: "noun_Illinois_3180635")
             case "TN": cell.stateImage.image = #imageLiteral(resourceName: "noun_Tennessee_3180631")
+            case "CA": cell.stateImage.image = #imageLiteral(resourceName: "noun_California_3180613")
+            case "FL": cell.stateImage.image = #imageLiteral(resourceName: "noun_Florida_3180625")
+            case "KY": cell.stateImage.image = #imageLiteral(resourceName: "noun_Kentucky_3180628")
+            case "UT": cell.stateImage.image = #imageLiteral(resourceName: "noun_Utah_3180614")
+            case "UK": cell.stateImage.image = #imageLiteral(resourceName: "noun_United Kingdom_258578")
+            case "QC": cell.stateImage.image = #imageLiteral(resourceName: "noun_Quebec_12783")
+            case "ON": cell.stateImage.image = #imageLiteral(resourceName: "noun_ontario_12781")
             default: cell.stateImage.image = nil
             }
         }

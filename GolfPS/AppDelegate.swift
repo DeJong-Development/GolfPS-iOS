@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import SCSDKLoginKit
 import WatchConnectivity
+import BuyMeACoffee
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         AppSingleton.shared.db = Firestore.firestore();
+        
+        BMCManager.shared.configure(username: "dejongdev")
         
         return true
     }

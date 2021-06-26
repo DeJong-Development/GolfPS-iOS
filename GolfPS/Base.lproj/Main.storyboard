@@ -1073,7 +1073,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpz-Ce-hFo">
-                                <rect key="frame" x="10" y="297" width="394" height="414"/>
+                                <rect key="frame" x="10" y="297" width="394" height="383"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="500" id="cHC-yc-4Tx"/>
                                 </constraints>
@@ -1086,17 +1086,22 @@ Patience please!</string>
                                     <segue destination="SD1-NX-MJV" kind="embed" id="5vO-qe-hnd"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x48-8q-zzQ" customClass="BMCButton" customModule="BuyMeACoffee">
+                                <rect key="frame" x="150" y="688" width="114" height="30"/>
+                                <state key="normal" title="Buy Me a Coffee"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dzP-ch-zpj"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="loV-ZL-Phz" firstAttribute="top" secondItem="ZIk-hs-8il" secondAttribute="bottom" constant="5" id="1HW-yY-Rim"/>
                             <constraint firstItem="ReD-vQ-44z" firstAttribute="top" secondItem="XcB-tf-0iP" secondAttribute="bottom" constant="10" id="33l-Tj-OVG"/>
+                            <constraint firstItem="x48-8q-zzQ" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="Eag-Wd-RoK"/>
                             <constraint firstItem="Wpz-Ce-hFo" firstAttribute="width" secondItem="dzP-ch-zpj" secondAttribute="width" priority="750" constant="-20" id="Gem-VU-p5o"/>
+                            <constraint firstItem="ZIk-hs-8il" firstAttribute="top" secondItem="x48-8q-zzQ" secondAttribute="bottom" constant="8" id="Hbx-Jh-BtI"/>
                             <constraint firstItem="XcB-tf-0iP" firstAttribute="trailing" secondItem="d2s-ya-r7j" secondAttribute="trailing" constant="25" id="LGc-Go-ONG"/>
                             <constraint firstItem="Wpz-Ce-hFo" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="OEI-Th-EMm"/>
                             <constraint firstItem="SEV-Hy-NMi" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="Rww-MM-lHC"/>
-                            <constraint firstItem="ZIk-hs-8il" firstAttribute="top" secondItem="Wpz-Ce-hFo" secondAttribute="bottom" constant="15" id="S7T-yi-5bW"/>
                             <constraint firstItem="d2s-ya-r7j" firstAttribute="height" secondItem="XcB-tf-0iP" secondAttribute="height" multiplier="0.75" id="SaW-vg-1Ff"/>
                             <constraint firstItem="ReD-vQ-44z" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="TGX-7n-zym"/>
                             <constraint firstItem="d2s-ya-r7j" firstAttribute="centerY" secondItem="XcB-tf-0iP" secondAttribute="centerY" id="ahO-ui-dSX"/>
@@ -1109,6 +1114,7 @@ Patience please!</string>
                             <constraint firstItem="cxW-QG-3nJ" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="kMC-na-Ag3"/>
                             <constraint firstItem="Wpz-Ce-hFo" firstAttribute="top" secondItem="ReD-vQ-44z" secondAttribute="bottom" constant="15" id="pG5-u6-u6d"/>
                             <constraint firstItem="SEV-Hy-NMi" firstAttribute="top" secondItem="cxW-QG-3nJ" secondAttribute="bottom" constant="12" id="qhw-3W-Uc8"/>
+                            <constraint firstItem="x48-8q-zzQ" firstAttribute="top" secondItem="Wpz-Ce-hFo" secondAttribute="bottom" constant="8" id="tcE-Hi-LgD"/>
                             <constraint firstItem="cxW-QG-3nJ" firstAttribute="top" secondItem="dzP-ch-zpj" secondAttribute="top" constant="12" id="uys-ZR-HVt">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
@@ -1117,6 +1123,7 @@ Patience please!</string>
                     <tabBarItem key="tabBarItem" title="Profile" image="settings-black" selectedImage="settings-white" id="Vsp-tp-zch"/>
                     <connections>
                         <outlet property="bitmojiImage" destination="SEV-Hy-NMi" id="r87-Rz-HUa"/>
+                        <outlet property="buyCoffeeButton" destination="x48-8q-zzQ" id="73B-dW-6bd"/>
                         <outlet property="snapLink" destination="XcB-tf-0iP" id="QDg-Az-hpa"/>
                     </connections>
                 </viewController>
@@ -1130,7 +1137,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="SD1-NX-MJV" customClass="SettingsTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CBc-80-qHy">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="383"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexColor" systemColor="labelColor"/>
@@ -1146,7 +1153,7 @@ Patience please!</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="TTk-Kb-LNf">
-                                                    <rect key="frame" x="435" y="6.5" width="51" height="31"/>
+                                                    <rect key="frame" x="329" y="6.5" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchMapShare:" destination="SD1-NX-MJV" eventType="valueChanged" id="c16-ep-5N7"/>
                                                     </connections>
@@ -1157,7 +1164,7 @@ Patience please!</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTO-Tc-Fjg">
-                                                    <rect key="frame" x="390" y="10" width="25" height="24"/>
+                                                    <rect key="frame" x="284" y="10" width="25" height="24"/>
                                                     <connections>
                                                         <action selector="clickLocationShareInfo:" destination="SD1-NX-MJV" eventType="touchUpInside" id="gMt-Sa-vA2"/>
                                                     </connections>
@@ -1188,13 +1195,13 @@ Patience please!</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="05m-ld-L2j">
-                                                    <rect key="frame" x="435" y="6.5" width="51" height="31"/>
+                                                    <rect key="frame" x="329" y="6.5" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchBitmojiShare:" destination="SD1-NX-MJV" eventType="valueChanged" id="yGJ-Up-Dc5"/>
                                                     </connections>
                                                 </switch>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADy-qB-mtk">
-                                                    <rect key="frame" x="390" y="10" width="25" height="24"/>
+                                                    <rect key="frame" x="284" y="10" width="25" height="24"/>
                                                     <connections>
                                                         <action selector="clickBitmojiShareInfo:" destination="SD1-NX-MJV" eventType="touchUpInside" id="JTe-so-2WJ"/>
                                                     </connections>
@@ -1229,7 +1236,7 @@ Patience please!</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tc-sK-ubQ">
-                                                    <rect key="frame" x="454" y="7" width="30" height="30"/>
+                                                    <rect key="frame" x="348" y="7" width="30" height="30"/>
                                                     <state key="normal" title="↣">
                                                         <color key="titleColor" systemColor="labelColor"/>
                                                     </state>
@@ -1316,7 +1323,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="NuW-7G-wT0" customClass="MyBagTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WMP-E4-qdC">
-                        <rect key="frame" x="0.0" y="0.0" width="500" height="684"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="684.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -1551,7 +1558,7 @@ Patience please!</string>
             <objects>
                 <viewController id="B1g-gZ-Tbn" customClass="BadgesViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J1o-aL-isS">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="383"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Golf Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sf9-qt-dIH">
@@ -1563,7 +1570,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b30-oH-IeT">
-                                <rect key="frame" x="10" y="104" width="374" height="300"/>
+                                <rect key="frame" x="10" y="104" width="374" height="269"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYu-PJ-CJK">
                                     <size key="itemSize" width="100" height="150"/>
@@ -1867,6 +1874,9 @@ Patience please!</string>
         </designable>
         <designable name="uTL-fe-aeO">
             <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+        <designable name="x48-8q-zzQ">
+            <size key="intrinsicContentSize" width="114" height="30"/>
         </designable>
     </designables>
     <inferredMetricsTieBreakers>

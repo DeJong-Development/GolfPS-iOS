@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAnalytics
 import SCSDKLoginKit
 import SCSDKBitmojiKit
+import BuyMeACoffee
 
 extension SettingsViewController: SettingsActionDelegate {
     
@@ -29,6 +30,7 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var snapLink: UIButton!
     @IBOutlet weak var bitmojiImage: UIImageView!
+    @IBOutlet weak var buyCoffeeButton: BMCButton!
     
     var embeddedTableViewController: SettingsTableViewController!
     
@@ -74,6 +76,12 @@ class SettingsViewController: UIViewController {
         if (!AppSingleton.shared.me.shareLocation) {
             self.avatarURLToShare = nil
         }
+        
+        BMCManager.shared.presentingViewController = self
+        // You can also set a custom thank you message
+        BMCManager.shared.thankYouMessage = "Thank you for supporting 🎉 DeJong Development"
+        
+        buyCoffeeButton.configuration = BMCButton.Configuration.init(color: .blue, font: .cookie)
     }
     
     @IBAction func clickSnapLink(_ sender: Any) {
