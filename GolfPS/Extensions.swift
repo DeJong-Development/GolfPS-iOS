@@ -98,6 +98,20 @@ extension Date {
 }
 
 extension String {
+    
+    //https://www.objc.io/blog/2020/08/18/fuzzy-search/
+    func fuzzyMatch(_ query: String) -> Bool {
+        if query.isEmpty { return true }
+        var remainder = query[...]
+        for char in self {
+            if char == remainder[remainder.startIndex] {
+                remainder.removeFirst()
+                if remainder.isEmpty { return true }
+            }
+        }
+        return false
+    }
+        
     var dateFromISO8601: Date? {
         return Date.iso8601Formatter.date(from: self)
     }
@@ -142,6 +156,7 @@ extension String {
 extension UIColor {
     static var grass:UIColor = UIColor(named: "Grass")!
     static var gold:UIColor = UIColor(named: "Gold")!
+    static var text:UIColor = UIColor(named: "Text")!
     
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")

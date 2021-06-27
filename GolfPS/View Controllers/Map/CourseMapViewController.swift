@@ -104,11 +104,11 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "GoogleMapEmbed") {
-            if let vc = segue.destination as? GoogleMapViewController {
-                self.embeddedMapViewController = vc
-                self.embeddedMapViewController.delegate = self;
-            }
+        switch segue.destination {
+        case let vc as GoogleMapViewController:
+            self.embeddedMapViewController = vc
+            self.embeddedMapViewController.delegate = self
+        default: ()
         }
     }
     
@@ -128,7 +128,11 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         }
     }
     internal func updateDistanceToPin(distance: Int) {
-        var message:[String:Any] = ["distance": distance, "hole": self.embeddedMapViewController.currentHole.number]
+        var message:[String:Any] = [
+            "distance": distance,
+            "hole": self.embeddedMapViewController.currentHole.number
+        ]
+        
         if AppSingleton.shared.metric {
             distanceToPinLabel.text = "\(distance) m"
             message["units"] = "m"
@@ -161,7 +165,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             } else {
                 self.elevationLabel.text = "\(Int(distance)) yds"
             }
-            
         }
     }
     internal func updateWindEffect(speed: Double, distance: Double) {
@@ -175,32 +178,36 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     }
     
     internal func goToHole1() {
-        if let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first {
-            embeddedMapViewController.currentHole = firstHole
-            embeddedMapViewController.goToHole()
+        guard let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first else {
+            return
         }
+        embeddedMapViewController.currentHole = firstHole
+        embeddedMapViewController.goToHole()
     }
     
     @IBAction func nextHoleButton(_ sender: UIButton?) {
-        if (AppSingleton.shared.course != nil) {
-            embeddedMapViewController.goToHole(increment: 1)
+        guard (AppSingleton.shared.course != nil) else {
+            return
         }
+        embeddedMapViewController.goToHole(increment: 1)
     }
     @IBAction func previousHoleButton(_ sender: UIButton?) {
-        if (AppSingleton.shared.course != nil) {
-            embeddedMapViewController.goToHole(increment: -1)
+        guard (AppSingleton.shared.course != nil) else {
+            return
         }
+        embeddedMapViewController.goToHole(increment: -1)
     }
     @IBAction func clickCourseName(_ sender: UIButton) {
-        if (AppSingleton.shared.course == nil) {
-           (self.tabBarController as! TabParentViewController).selectedIndex = 0
+        guard AppSingleton.shared.course == nil else {
+            return
         }
+       (self.tabBarController as! TabParentViewController).selectedIndex = 0
     }
     
     @IBAction func clickLongDrive(_ sender: Any) {
-        if longDriveButtonStack.isHidden { //show
+        if longDriveButtonStack.isHidden {
             showLongDrive(hideStack: false)
-        } else { //hide
+        } else {
             hideLongDrive(hideButton: false)
         }
     }
@@ -279,28 +286,20 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     
     // MARK: WCSession Methods
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        if message["gotonext"] != nil {
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            if message["gotonext"] != nil {
                 self.nextHoleButton(nil)
-            }
-            
-        } else if message["gotoprevious"] != nil {
-            DispatchQueue.main.async {
+            } else if message["gotoprevious"] != nil {
                 self.previousHoleButton(nil)
             }
         }
     }
     
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        
-    }
+    func sessionDidBecomeInactive(_ session: WCSession) { }
     
-    func sessionDidDeactivate(_ session: WCSession) {
-        
-    }
+    func sessionDidDeactivate(_ session: WCSession) { }
 }
 

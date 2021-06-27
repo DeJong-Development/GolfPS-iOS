@@ -12,7 +12,7 @@ import FirebaseFirestore
 extension CourseSelectionViewController: CoursePickerDelegate {
     internal func refreshCourseList() {
         courseNameSearch.text = ""
-        queryCourses(isTableRefresh: true)
+        getCourses(isTableRefresh: true)
     }
     internal func goToCourse(_ course: Course) {
         AppSingleton.shared.course = course;
@@ -61,6 +61,8 @@ class CourseSelectionViewController: UIViewController {
     
     var embeddedCourseTableViewController:CoursePickerTableViewController?
     
+    private var allGolfCourses:[Course] = [Course]()
+    
     private var db:Firestore {
         return AppSingleton.shared.db;
     }
@@ -75,11 +77,11 @@ class CourseSelectionViewController: UIViewController {
         requestCourseButton.layer.masksToBounds = true
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        queryCourses()
+        //get all courses at load
+        getCourses()
     }
     override var prefersStatusBarHidden: Bool {
         return false
@@ -88,53 +90,75 @@ class CourseSelectionViewController: UIViewController {
         return .lightContent
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     @IBAction func courseNameFilterChanged(_ sender: UITextField) {
-        if let courseName = sender.text {
-            queryCourses(with: courseName)
+        guard let queryText = sender.text, queryText.count > 1 else {
+            self.embeddedCourseTableViewController?.courseList = Array(allGolfCourses)
+            self.embeddedCourseTableViewController?.tableView.reloadData()
+            return
         }
+        queryCourses(with: queryText)
     }
     
-    private func queryCourses(with name: String = "", isTableRefresh:Bool = false) {
+    private func getCourses(isTableRefresh:Bool = false) {
         if (!isTableRefresh) {
             loadingView.startAnimating()
             loadingBackground.isHidden = false
         }
         
+        var golfCourses:[Course] = [Course]()
+        
         db.collection("courses")
-            .whereField("name", isGreaterThanOrEqualTo: name)
-            .whereField("name", isLessThan: "\(name)z")
             .order(by: "name")
-            .getDocuments() { (querySnapshot, err) in
+            .getDocuments() { [weak self] (querySnapshot, err) in
+                guard let self = self else { return }
                 if let err = err {
                     print("Error getting documents: \(err)")
-                } else {
-                    self.embeddedCourseTableViewController?.courseList.removeAll()
-                    
+                } else if let snapshot = querySnapshot {
                     //get all the courses and add to a course list
-                    for document in querySnapshot!.documents {
-                        let course:Course = Course(id: document.documentID, data: document.data())
-                        self.embeddedCourseTableViewController?.courseList.append(course);
+                    for document in snapshot.documents {
+                        guard let course = Course(id: document.documentID, data: document.data()) else {
+                            continue
+                        }
+                        golfCourses.append(course)
                     }
                 }
                 
+                self.allGolfCourses = golfCourses.sorted { $0.name < $1.name }
+                
                 self.loadingView.stopAnimating()
                 self.loadingBackground.isHidden = true
+                self.embeddedCourseTableViewController?.courseList = self.allGolfCourses
                 self.embeddedCourseTableViewController?.endRefresh()
-                self.embeddedCourseTableViewController?.tableView.reloadData()
         }
+    }
+    
+    private func queryCourses(with query: String = "") {
+        let q = query.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        var coursesThatMatch = Set<Course>()
+        for course in allGolfCourses {
+            let name = course.name.lowercased()
+            let abbrev = course.state.lowercased()
+            let state = course.fullStateName?.lowercased()
+            
+            if (name.contains(q) || abbrev.contains(q) || q.starts(with: name) || q.starts(with: abbrev)) {
+                coursesThatMatch.insert(course)
+            } else if let stateName = state, stateName.contains(q) || q.starts(with: stateName.lowercased()) || query.fuzzyMatch(stateName) {
+                coursesThatMatch.insert(course)
+            } else if query.fuzzyMatch(name) || query.fuzzyMatch(abbrev) {
+                coursesThatMatch.insert(course)
+            }
+        }
+        let courseArray = Array(coursesThatMatch).sorted { $0.name < $1.name }
+        self.embeddedCourseTableViewController?.courseList = courseArray
     }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "EmbedCourseTable") {
-            if let vc = segue.destination as? CoursePickerTableViewController {
-                self.embeddedCourseTableViewController = vc
-                self.embeddedCourseTableViewController?.delegate = self;
-            }
+        switch segue.destination {
+        case let vc as CoursePickerTableViewController:
+            self.embeddedCourseTableViewController = vc
+            self.embeddedCourseTableViewController?.delegate = self
+        default: ()
         }
     }
     

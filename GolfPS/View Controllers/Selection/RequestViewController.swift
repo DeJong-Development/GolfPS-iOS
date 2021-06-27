@@ -49,7 +49,6 @@ class RequestViewController: BaseKeyboardViewController {
         cancelButton.layer.masksToBounds = true
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
@@ -72,7 +71,6 @@ class RequestViewController: BaseKeyboardViewController {
     
     @IBAction func clickSubmit(_ sender: UIButton) {
         progressBackground.isHidden = false
-        
         
         guard let name = courseNameField.text,
             name.trimmingCharacters(in: .whitespacesAndNewlines) != "",

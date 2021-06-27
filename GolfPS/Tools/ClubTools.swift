@@ -10,7 +10,7 @@ import Foundation
 
 class ClubTools {
     
-    let preferences = UserDefaults.standard
+    private let preferences = UserDefaults.standard
     
     static public func cleanClubName(_ name: String?) -> String {
         guard let n = name else {

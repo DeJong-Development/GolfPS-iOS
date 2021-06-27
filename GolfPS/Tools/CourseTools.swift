@@ -12,22 +12,29 @@ import FirebaseFirestore
 class CourseTools {
     
     static public func updateHoleInfo(for course:Course, completion: @escaping (Bool, Error?) -> ()) {
-        AppSingleton.shared.db.collection("courses").document(course.id)
-            .collection("holes").getDocuments() { (querySnapshot, error) in
-                course.holeInfo.removeAll();
+        
+        guard let courseDocRef = course.docReference else {
+            completion(false, nil)
+            return
+        }
+        
+        courseDocRef.collection("holes")
+            .getDocuments() { (querySnapshot, error) in
                 
                 if let err = error {
                     print("Error getting documents: \(err)")
                     completion(false, err)
                 } else {
+                    course.holeInfo.removeAll()
                     for document in querySnapshot!.documents {
                         //get all the courses and add to a course list
                         let data = document.data();
                         
                         if let holeNumber:Int = Int(document.documentID) {
-                            if let hole:Hole = Hole(number: holeNumber, data: data) {
-                                course.holeInfo.append(hole)
+                            guard let hole:Hole = Hole(number: holeNumber, data: data) else {
+                                continue
                             }
+                            course.holeInfo.append(hole)
                         }
                     }
                     completion(true, nil)
@@ -38,36 +45,37 @@ class CourseTools {
     ///get the long drive data asscociated with this hole
     static public func getLongestDrives(for hole: Hole, completion: @escaping (Bool, Error?) -> ()) {
         
-        if let holeDocRef = hole.docReference {
-            holeDocRef.collection("drives")
-                .order(by: "distance", descending: true)
-                .limit(to: 3)
-                .getDocuments { (snapshot, error) in
-                    if let err = error {
-                        print("Error adding long drive: \(err)")
-                        completion(false, err)
-                    } else if let snap = snapshot {
+        guard let holeDocRef = hole.docReference else {
+            completion(false, nil)
+            return
+        }
+        
+        holeDocRef.collection("drives")
+            .order(by: "distance", descending: true)
+            .limit(to: 3)
+            .getDocuments { (snapshot, error) in
+                if let err = error {
+                    print("Error adding long drive: \(err)")
+                    completion(false, err)
+                } else if let snap = snapshot {
+                    
+                    hole.longestDrives = [String:GeoPoint]()
+                    for driveDoc in snap.documents {
+                        let driveData = driveDoc.data()
+                        let driveUser = driveDoc.documentID;
                         
-                        hole.longestDrives = [String:GeoPoint]()
-                        for driveDoc in snap.documents {
-                            let driveData = driveDoc.data()
-                            let driveUser = driveDoc.documentID;
-                            
-                            if let driveDistance = driveData["distance"] as? Int {
-                                if (driveUser == AppSingleton.shared.me.id) {
-                                    hole.myLongestDriveInYards = driveDistance
-                                    hole.myLongestDriveInMeters = Int(Double(driveDistance) / 1.09361)
-                                }
-                            }
-                            if let driveLocation = driveData["location"] as? GeoPoint {
-                                hole.longestDrives[driveUser] = driveLocation
+                        if let driveDistance = driveData["distance"] as? Int {
+                            if (driveUser == AppSingleton.shared.me.id) {
+                                hole.myLongestDriveInYards = driveDistance
+                                hole.myLongestDriveInMeters = Int(Double(driveDistance) / 1.09361)
                             }
                         }
-                        completion(true, nil)
+                        if let driveLocation = driveData["location"] as? GeoPoint {
+                            hole.longestDrives[driveUser] = driveLocation
+                        }
                     }
-            }
-        } else {
-            completion(false, nil)
+                    completion(true, nil)
+                }
         }
     }
 }

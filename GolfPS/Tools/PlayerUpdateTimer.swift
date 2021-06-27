@@ -8,17 +8,14 @@
 
 import Foundation
 
-protocol PlayerUpdateTimerDelegate: class {
+protocol PlayerUpdateTimerDelegate: AnyObject {
     func updatePlayersNow();
 }
 
 class PlayerUpdateTimer {
-    var timer:Timer!
+    private var timer:Timer!
     
-    var delegate:PlayerUpdateTimerDelegate?
-    
-    init() {
-    }
+    weak var delegate:PlayerUpdateTimerDelegate?
     
     internal func startNewTimer(interval: Double, triggerImmediately:Bool = false) {
         self.timer = Timer.scheduledTimer(timeInterval: interval,
@@ -36,7 +33,8 @@ class PlayerUpdateTimer {
     }
     
     internal func invalidate() {
-        delegate = nil;
-        timer?.invalidate();
+        delegate = nil
+        timer?.invalidate()
+        timer = nil
     }
 }

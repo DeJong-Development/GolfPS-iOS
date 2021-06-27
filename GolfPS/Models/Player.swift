@@ -15,11 +15,21 @@ class Player {
     private(set) var id:String = UUID().uuidString;
     
     var geoPoint:GeoPoint?
-    var lastLocationUpdate:Date?
-    var avatarURL:URL?
+    private(set) var lastLocationUpdate:Date?
+    private(set) var avatarURL:URL?
     
-    init(id: String) {
-        self.id = id;
+    init(id:String) {
+        self.id = id
+    }
+    init(id: String, data:[String:Any]) {
+        self.id = id
+        
+        self.geoPoint = data["location"] as? GeoPoint
+        self.lastLocationUpdate = (data["updateTime"] as? String)?.dateFromISO8601
+        
+        if let imageStr = data["image"] as? String, imageStr != "" {
+            self.avatarURL = URL(string: imageStr)
+        }
     }
 }
 

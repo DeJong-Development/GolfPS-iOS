@@ -10,7 +10,7 @@ import Foundation
 import FirebaseFirestore
 import GoogleMaps
 
-protocol HoleUpdateDelegate:class {
+protocol HoleUpdateDelegate:AnyObject {
     func didUpdateLongDrive()
 }
 
@@ -18,17 +18,17 @@ public class Hole {
     
     weak var updateDelegate:HoleUpdateDelegate?
     
-    var number:Int = 1;
+    private(set) var number:Int = 1
     
     var docReference:DocumentReference? {
         return AppSingleton.shared.course?.docReference?.collection("holes").document("\(self.number)");
     }
     
-    var bunkerLocations:[GeoPoint] = [GeoPoint]()
-    var teeLocations:[GeoPoint] = [GeoPoint]()
-    var pinLocation:GeoPoint?
+    private(set) var bunkerLocations:[GeoPoint] = [GeoPoint]()
+    private(set) var teeLocations:[GeoPoint] = [GeoPoint]()
+    private(set) var pinLocation:GeoPoint?
+    private(set) var dogLegLocation:GeoPoint?
     var pinElevation:Double?
-    var dogLegLocation:GeoPoint?
     var isLongDrive:Bool = false
     var myLongestDriveInYards:Int?
     var myLongestDriveInMeters:Int?
@@ -38,20 +38,16 @@ public class Hole {
     var bounds:GMSCoordinateBounds {
         var bounds:GMSCoordinateBounds = GMSCoordinateBounds();
         for tPoint in self.teeLocations {
-            let coordinate = CLLocationCoordinate2D(latitude: tPoint.latitude, longitude: tPoint.longitude)
-            bounds = bounds.includingCoordinate(coordinate);
+            bounds = bounds.includingCoordinate(tPoint.location)
         }
         for blPoint in self.bunkerLocations {
-            let coordinate = CLLocationCoordinate2D(latitude: blPoint.latitude, longitude: blPoint.longitude)
-            bounds = bounds.includingCoordinate(coordinate);
+            bounds = bounds.includingCoordinate(blPoint.location)
         }
         if let dlPoint = self.dogLegLocation {
-            let coordinate = CLLocationCoordinate2D(latitude: dlPoint.latitude, longitude: dlPoint.longitude)
-            bounds = bounds.includingCoordinate(coordinate);
+            bounds = bounds.includingCoordinate(dlPoint.location)
         }
         if let pinLocation:GeoPoint = self.pinLocation {
-            let pinCoordinate = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
-            bounds = bounds.includingCoordinate(pinCoordinate);
+            bounds = bounds.includingCoordinate(pinLocation.location);
         }
         return bounds;
     }

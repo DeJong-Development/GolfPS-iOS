@@ -55,8 +55,6 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
             updateFirestorePlayerPosition(with: cpgp)
         }
         
-        
-        
         //update previous location on device regardless of distance
         self.me.geoPoint = cpgp
     }
@@ -158,39 +156,39 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var lineToPin:GMSPolyline?
     
     private var distanceToPressFromLocation:Int? {
-        if let playerLocation = self.me.geoPoint,
-            let pressLocation = currentDistanceMarker?.position {
-            return mapTools.distanceFrom(first: playerLocation.location, second: pressLocation)
+        guard let playerLocation = self.me.geoPoint,
+            let pressLocation = currentDistanceMarker?.position else {
+            return nil
         }
-        return nil
+        return mapTools.distanceFrom(first: playerLocation.location, second: pressLocation)
     }
     private var distanceToPressFromTee:Int? {
-        if let pressLocation = currentDistanceMarker?.position,
-            let teeLocation = currentTeeMarker?.position {
-            return mapTools.distanceFrom(first: teeLocation, second: pressLocation)
+        guard let pressLocation = currentDistanceMarker?.position,
+              let teeLocation = currentTeeMarker?.position else {
+            return nil
         }
-        return nil
+        return mapTools.distanceFrom(first: teeLocation, second: pressLocation)
     }
     private var distanceToPinFromMyLocation:Int? {
-        if let playerLocation = self.me.geoPoint,
-            let pinLocation = currentPinMarker?.position {
-            return mapTools.distanceFrom(first: playerLocation.location, second: pinLocation)
+        guard let playerLocation = self.me.geoPoint,
+            let pinLocation = currentPinMarker?.position else {
+            return nil
         }
-        return nil
+        return mapTools.distanceFrom(first: playerLocation.location, second: pinLocation)
     }
     private var distanceToTeeFromMyLocation:Int? {
-        if let playerCoord = self.me.geoPoint,
-            let teeCoord = currentTeeMarker?.position {
-            return mapTools.distanceFrom(first: playerCoord.location, second: teeCoord)
+        guard let playerCoord = self.me.geoPoint,
+            let teeCoord = currentTeeMarker?.position else {
+            return nil
         }
-        return nil
+        return mapTools.distanceFrom(first: playerCoord.location, second: teeCoord)
     }
     private var distanceToPinFromTee:Int? {
-        if let tp = currentTeeMarker?.position,
-            let pp = currentPinMarker?.position {
-            return mapTools.distanceFrom(first: tp, second: pp)
+        guard let tp = currentTeeMarker?.position,
+            let pp = currentPinMarker?.position else {
+            return nil
         }
-        return nil
+        return mapTools.distanceFrom(first: tp, second: pp)
     }
     
     private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
@@ -213,9 +211,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         } else if myPlayerImage == nil {
             downloadBitmojiImage()
         }
-        
-//        self.me.lastLocationUpdate = nil
-//        self.me.location = nil
         
         if let course = AppSingleton.shared.course {
             locationTimer.invalidate()
@@ -293,13 +288,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     "course": id,
                     "location": location,
                     "updateTime": Date().iso8601
-                    ], merge: true, completion: { (err) in
-                        if let err = err {
-                            print("Error updating location: \(err)")
-                        } else {
-                            print("Document successfully written!")
-                        }
-                })
+                    ], merge: true)
         } else {
             //no course so delete
             db.collection("players").document(userId).delete()
@@ -312,33 +301,30 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         otherPlayerTimer.delegate = self
         otherPlayerTimer.startNewTimer(interval: 30)
         
-        playerListener?.remove();
+        playerListener?.remove()
+        
+        var playersOnCourse:[Player] = [Player]()
         
         //grab course hole information
         playerListener = db.collection("players")
             .whereField("course", isEqualTo: id)
             .addSnapshotListener { querySnapshot, error in
-                guard let documents = querySnapshot?.documents else {
+                
+                if let documents = querySnapshot?.documents {
+                    for document in documents {
+                        let otherPlayer = Player(id: document.documentID, data: document.data())
+                        
+                        if let timeSinceLastLocationUpdate = otherPlayer.lastLocationUpdate?.timeIntervalSinceNow,
+                            timeSinceLastLocationUpdate > -14400 {
+                            //only add player to array if they are within the correct time period
+                            playersOnCourse.append(otherPlayer)
+                        }
+                    }
+                } else {
                     print("Error fetching documents: \(error!)")
-                    return
                 }
                 
-                self.otherPlayers.removeAll()
-                for document in documents {
-                    let otherPlayer = Player(id: document.documentID)
-                    otherPlayer.geoPoint = document["location"] as? GeoPoint
-                    otherPlayer.lastLocationUpdate = (document["updateTime"] as? String)?.dateFromISO8601
-                    
-                    if let imageStr = document["image"] as? String, imageStr != "" {
-                        otherPlayer.avatarURL = URL(string: imageStr)
-                    }
-                    
-                    if let timeSinceLastLocationUpdate = otherPlayer.lastLocationUpdate?.timeIntervalSinceNow,
-                        timeSinceLastLocationUpdate > -14400 {
-                        //only add player to array if they are within the correct time period
-                        self.otherPlayers.append(otherPlayer)
-                    }
-                }
+                self.otherPlayers = playersOnCourse
                 
                 self.updateOtherPlayerMarkers()
         }
@@ -580,9 +566,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let ac = UIAlertController(title: "Add Long Drive Here?", message: "Your drive will be added to this hole and potentially be used in future long drive competitions (testing this feature).", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Yes", style: .default) { action in
             //add a driving distance marker and select it
-            if (self.myDrivingDistanceMarker != nil) {
-                self.myDrivingDistanceMarker!.map = nil
-            }
+            self.myDrivingDistanceMarker?.map = nil
             
             guard let loc:CLLocationCoordinate2D = self.me.geoPoint?.location else {
                 //do not have current location for player
@@ -639,20 +623,12 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 "location": location,
                 "distance": yards.rounded(),
                 "date": Date().iso8601
-            ]) { (error) in
-                if let err = error {
-                    print("Error adding long drive: \(err)")
-                } else {
-                    print("Document successfully written!")
-                }
-            }
+            ])
         }
     }
     
     private func createPlayerMarker() {
-        if (myPlayerMarker != nil) {
-            myPlayerMarker!.map = nil
-        }
+        myPlayerMarker?.map = nil
         if let loc:CLLocationCoordinate2D = self.me.geoPoint?.location,
             let bitmojiImage = self.myPlayerImage {
             myPlayerMarker = GMSMarker(position: loc)
@@ -664,12 +640,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     private func updateTeeMarker() {
-        if (currentTeeMarker != nil) {
-            currentTeeMarker.map = nil
-        }
         let teePoint:GeoPoint = currentHole.teeLocations[0];
         let loc:CLLocationCoordinate2D = teePoint.location
         
+        currentTeeMarker?.map = nil
         currentTeeMarker = GMSMarker(position: loc)
         currentTeeMarker.title = "Tee #\(currentHole.number)"
         currentTeeMarker.icon = #imageLiteral(resourceName: "tee_marker").toNewSize(CGSize(width: 55, height: 55))
@@ -684,8 +658,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let teeLoc:CLLocationCoordinate2D = teePoint.location
         let distanceToPin:Int = mapTools.distanceFrom(first: pinLoc, second: teeLoc)
         
-        if (currentPinMarker != nil) {
-            currentPinMarker.map = nil
+        if let pinMarker = currentPinMarker {
+            pinMarker.map = nil
         }
         currentPinMarker = GMSMarker(position: pinLoc)
         currentPinMarker.title = "Pin #\(currentHole.number)"
@@ -731,9 +705,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         currentLongDriveMarkers.removeAll()
         
         //remove my drive marker from the map
-        if (self.myDrivingDistanceMarker != nil) {
-            self.myDrivingDistanceMarker!.map = nil
-        }
+        self.myDrivingDistanceMarker?.map = nil
         self.myDrivingDistanceMarker = nil
         
         for longDrive in currentHole.longestDrives {
@@ -774,9 +746,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     internal func removeMyDriveMarker() {
-        if (self.myDrivingDistanceMarker != nil) {
-            self.myDrivingDistanceMarker!.map = nil
-        }
+        self.myDrivingDistanceMarker?.map = nil
         self.myDrivingDistanceMarker = nil
         
         //remove any data associated with my drive

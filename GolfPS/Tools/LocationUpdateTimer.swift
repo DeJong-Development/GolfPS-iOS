@@ -8,17 +8,14 @@
 
 import Foundation
 
-protocol LocationUpdateTimerDelegate: class {
+protocol LocationUpdateTimerDelegate: AnyObject {
     func updateLocationsNow();
 }
 
 class LocationUpdateTimer {
-    var timer:Timer!
+    private var timer:Timer!
     
-    var delegate:LocationUpdateTimerDelegate?
-    
-    init() {
-    }
+    weak var delegate:LocationUpdateTimerDelegate?
     
     internal func startNewTimer(interval: Double, triggerImmediately:Bool = true) {
         self.timer = Timer.scheduledTimer(timeInterval: interval,
@@ -36,7 +33,8 @@ class LocationUpdateTimer {
     }
     
     internal func invalidate() {
-        delegate = nil;
-        timer?.invalidate();
+        delegate = nil
+        timer?.invalidate()
+        timer = nil
     }
 }
