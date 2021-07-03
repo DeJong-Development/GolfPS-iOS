@@ -153,6 +153,28 @@ extension String {
     }
 }
 
+extension Int {
+    ///distance in yards or meters depending on user preference
+    var distance: String {
+        if (AppSingleton.shared.metric) {
+            return "\(self) m"
+        } else {
+            return "\(self) yds"
+        }
+    }
+}
+
+extension Double {
+    ///distance in yards or meters depending on user preference
+    var distance: String {
+        if (AppSingleton.shared.metric) {
+            return "\(Int(self)) m"
+        } else {
+            return "\(Int(self)) yds"
+        }
+    }
+}
+
 extension UIColor {
     static var grass:UIColor = UIColor(named: "Grass")!
     static var gold:UIColor = UIColor(named: "Gold")!

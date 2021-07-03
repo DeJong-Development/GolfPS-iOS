@@ -124,10 +124,9 @@ class CourseSelectionViewController: UIViewController {
                 }
                 
                 self.allGolfCourses = golfCourses.sorted { $0.name < $1.name }
-                
+                self.queryCourses()
                 self.loadingView.stopAnimating()
                 self.loadingBackground.isHidden = true
-                self.embeddedCourseTableViewController?.courseList = self.allGolfCourses
                 self.embeddedCourseTableViewController?.endRefresh()
         }
     }
@@ -139,6 +138,13 @@ class CourseSelectionViewController: UIViewController {
             let name = course.name.lowercased()
             let abbrev = course.state.lowercased()
             let state = course.fullStateName?.lowercased()
+            
+            if (name == "test course") {
+                continue
+            } else if (query == "") {
+                coursesThatMatch.insert(course)
+                continue
+            }
             
             if (name.contains(q) || abbrev.contains(q) || q.starts(with: name) || q.starts(with: abbrev)) {
                 coursesThatMatch.insert(course)

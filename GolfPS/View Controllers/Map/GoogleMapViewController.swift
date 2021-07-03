@@ -42,11 +42,11 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
             if let hole = currentHole {
                 //update elevation numbers since we changed places!
                 if let pinElevation = hole.pinElevation {
-                    ShotTools.getElevationChange(start: cpgp, finishElevation: pinElevation) { (distanceEffect, elevation, error) in
+                    ShotTools.getElevationChange(start: cpgp, finishElevation: pinElevation) { (start, finish, distanceEffect, elevation, error) in
                         self.delegate.updateElevationEffect(height: elevation, distance: distanceEffect)
                     }
                 } else if let pinPosition = hole.pinLocation {
-                    ShotTools.getElevationChange(start: cpgp, finish: pinPosition) { (distanceEffect, elevation, error) in
+                    ShotTools.getElevationChange(start: cpgp, finish: pinPosition) { (start, finish, distanceEffect, elevation, error) in
                         self.delegate.updateElevationEffect(height: elevation, distance: distanceEffect)
                     }
                 }
@@ -391,7 +391,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    private func calculateElevation(_ distance:Double, _ elevation:Double, _ error:String?) {
+    private func calculateElevation(_ start:Double, _ finish: Double, _ distance:Double, _ elevation:Double, _ error:String?) {
         DispatchQueue.main.async {
             self.delegate.updateElevationEffect(height: elevation, distance: distance)
             
@@ -580,11 +580,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             } else {
                 self.myDrivingDistanceMarker = GMSMarker(position: loc)
                 self.myDrivingDistanceMarker!.title = "My Drive"
-                if (AppSingleton.shared.metric) {
-                    self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) m"
-                } else {
-                    self.myDrivingDistanceMarker!.snippet = "\(distanceToTee) yds"
-                }
+                self.myDrivingDistanceMarker!.snippet = distanceToTee.distance
                 self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
                 self.myDrivingDistanceMarker!.userData = "Drive";
                 self.myDrivingDistanceMarker!.map = self.mapView;
@@ -663,11 +659,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
         currentPinMarker = GMSMarker(position: pinLoc)
         currentPinMarker.title = "Pin #\(currentHole.number)"
-        if (AppSingleton.shared.metric) {
-            currentPinMarker.snippet = "\(distanceToPin) m"
-        } else {
-            currentPinMarker.snippet = "\(distanceToPin) yds"
-        }
+        currentPinMarker.snippet = distanceToPin.distance
         currentPinMarker.icon = #imageLiteral(resourceName: "flag_marker").toNewSize(CGSize(width: 55, height: 55))
         currentPinMarker.userData = "\(currentHole.number):P";
         currentPinMarker.map = mapView;
@@ -686,11 +678,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             let bunkerMarker = GMSMarker(position: bunkerLoc)
             bunkerMarker.title = "Hazard"
-            if (AppSingleton.shared.metric) {
-                bunkerMarker.snippet = "\(distanceToBunker) m"
-            } else {
-                bunkerMarker.snippet = "\(distanceToBunker) yds"
-            }
+            bunkerMarker.snippet = distanceToBunker.distance
             bunkerMarker.icon = #imageLiteral(resourceName: "hazard_marker").toNewSize(CGSize(width: 35, height: 35))
             bunkerMarker.userData = "\(currentHole.number):B\(bunkerIndex)";
             bunkerMarker.map = mapView;
@@ -732,11 +720,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             } else {
                 let driveMarker = GMSMarker(position: ldLoc)
                 driveMarker.title = "Long Drive"
-                if (AppSingleton.shared.metric) {
-                    driveMarker.snippet = "\(distanceToTee) m"
-                } else {
-                    driveMarker.snippet = "\(distanceToTee) yds"
-                }
+                driveMarker.snippet = distanceToTee.distance
                 driveMarker.icon = #imageLiteral(resourceName: "marker-distance").toNewSize(CGSize(width: 25, height: 25))
                 driveMarker.userData = "Drive";
                 driveMarker.map = self.mapView;
@@ -846,22 +830,14 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let playerPath = GMSMutablePath()
         var suggestedClub:Club!
         if usingMyLocation {
-            suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromLocation!);
-            if AppSingleton.shared.metric {
-                cDistanceMarker.title = "\(distanceToPressFromLocation!) m"
-            } else {
-                cDistanceMarker.title = "\(distanceToPressFromLocation!) yds"
-            }
+            suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromLocation!)
+            cDistanceMarker.title = distanceToPressFromLocation!.distance
             
             playerPath.add(self.me.geoPoint!.location)
             playerPath.add(currentDistanceMarker!.position)
         } else {
-            suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromTee!);
-            if AppSingleton.shared.metric {
-                cDistanceMarker.title = "\(distanceToPressFromTee!) m"
-            } else {
-                cDistanceMarker.title = "\(distanceToPressFromTee!) yds"
-            }
+            suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromTee!)
+            cDistanceMarker.title = distanceToPressFromTee!.distance
             
             playerPath.add(currentTeeMarker.position)
             playerPath.add(currentDistanceMarker!.position)

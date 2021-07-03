@@ -680,17 +680,6 @@ Patience please!</string>
                                     <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="50"/>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
-                                <rect key="frame" x="16" y="146" width="9" height="23"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
-                                <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <size key="shadowOffset" width="1" height="-1"/>
-                                <variation key="heightClass=regular-widthClass=regular">
-                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
-                                </variation>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPu-K7-rob" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="56" width="143" height="32"/>
                                 <color key="backgroundColor" name="Grass"/>
@@ -719,7 +708,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2Ec-Ot-HEe">
-                                <rect key="frame" x="16" y="169" width="63.5" height="23"/>
+                                <rect key="frame" x="16" y="146" width="63.5" height="23"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rcq-d6-ekt">
                                         <rect key="frame" x="0.0" y="4.5" width="51" height="14.5"/>
@@ -746,7 +735,7 @@ Patience please!</string>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Gli-Lc-sDF">
-                                <rect key="frame" x="16" y="192" width="43" height="23"/>
+                                <rect key="frame" x="16" y="169" width="43" height="23"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wind:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evc-VU-jSt">
                                         <rect key="frame" x="0.0" y="4.5" width="30.5" height="14.5"/>
@@ -772,11 +761,23 @@ Patience please!</string>
                                     </label>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
+                                <rect key="frame" x="16" y="192" width="9" height="23"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="1" height="-1"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                </variation>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="6zZ-Li-gyD" secondAttribute="top" id="42N-4I-hO5"/>
+                            <constraint firstItem="2Ec-Ot-HEe" firstAttribute="top" secondItem="fHj-J0-bI4" secondAttribute="bottom" id="6Q8-Dr-yiL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fHj-J0-bI4" secondAttribute="trailing" symbolic="YES" id="84x-ha-24P"/>
                             <constraint firstAttribute="bottom" secondItem="6zZ-Li-gyD" secondAttribute="bottom" constant="8" id="989-fc-C8T"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PPu-K7-rob" secondAttribute="trailing" symbolic="YES" id="BqB-34-lHZ"/>
@@ -790,6 +791,7 @@ Patience please!</string>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Bn-rn-ruU" secondAttribute="trailing" symbolic="YES" id="XiT-WZ-WtE"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YOA-DG-r0v"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="a57-5H-mMn"/>
+                            <constraint firstItem="7Bn-rn-ruU" firstAttribute="top" secondItem="Gli-Lc-sDF" secondAttribute="bottom" id="dF9-OG-UFZ"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="gSy-sB-JAX" secondAttribute="bottom" id="e0f-Kx-8a4"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="top" secondItem="nOD-mc-DML" secondAttribute="bottom" id="eFz-T0-taY"/>
                             <constraint firstItem="OPt-JS-cAK" firstAttribute="width" secondItem="gSy-sB-JAX" secondAttribute="width" id="fIW-fU-pNt"/>
@@ -802,8 +804,6 @@ Patience please!</string>
                             <constraint firstItem="2Ec-Ot-HEe" firstAttribute="leading" secondItem="7Bn-rn-ruU" secondAttribute="leading" id="oiH-4H-LVk"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="top" secondItem="PPu-K7-rob" secondAttribute="centerY" id="orl-oG-8Gt"/>
                             <constraint firstItem="PPu-K7-rob" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="qQD-2j-oPk"/>
-                            <constraint firstItem="2Ec-Ot-HEe" firstAttribute="top" secondItem="7Bn-rn-ruU" secondAttribute="bottom" id="qqp-uc-xPV"/>
-                            <constraint firstItem="7Bn-rn-ruU" firstAttribute="top" secondItem="fHj-J0-bI4" secondAttribute="bottom" id="ves-af-ztn"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="width" secondItem="fHj-J0-bI4" secondAttribute="width" multiplier="0.5" id="xSf-uw-BnF"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="xdX-oB-pB7"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="leading" secondItem="fHj-J0-bI4" secondAttribute="leading" id="xkf-x2-SHO"/>

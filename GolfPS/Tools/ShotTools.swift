@@ -11,31 +11,31 @@ import FirebaseFirestore
 
 class ShotTools {
     
-    static public func getElevationChange(start: GeoPoint, finish: GeoPoint, completion: @escaping (_ distance:Double, _ elevation:Double, _ error:String?) -> ()) {
+    static public func getElevationChange(start: GeoPoint, finish: GeoPoint, completion: @escaping (_ startElevation:Double, _ finishElevation:Double, _ distance:Double, _ elevation:Double, _ error:String?) -> ()) {
 
         var startElevation:Double = 0
         var finishElevation:Double = 0
-        getElevation2(atLocation: start, completion: { se in
+        getElevation(atLocation: start, completion: { se in
             startElevation = se
-            getElevation2(atLocation: finish, completion: { fe in
+            getElevation(atLocation: finish, completion: { fe in
                 finishElevation = fe
 
                 let elevationChange = finishElevation - startElevation
                 let distance = elevationChange / tan(45)
                 if (AppSingleton.shared.metric) {
-                    completion(distance, elevationChange, nil)
+                    completion(startElevation, finishElevation, distance, elevationChange, nil)
                 } else {
                     //results are in meters, convert to yards
-                    completion(distance * 1.09361, elevationChange, nil)
+                    completion(startElevation, finishElevation, distance * 1.09361, elevationChange, nil)
                 }
             })
         })
     }
-    static public func getElevationChange(start: GeoPoint, finishElevation: Double, completion: @escaping (_ distance:Double, _ elevation:Double, _ error:String?) -> ()) {
+    static public func getElevationChange(start: GeoPoint, finishElevation: Double, completion: @escaping (_ startElevation:Double, _ finishElevation:Double, _ distance:Double, _ elevation:Double, _ error:String?) -> ()) {
         
         func completeElevation(calculatedElevation:Double) {
             if (calculatedElevation < -1000) {
-                completion(0, 0, "Invalid elevation change.")
+                completion(calculatedElevation, finishElevation, 0, 0, "Invalid elevation change.")
                 return
             }
             startElevation = calculatedElevation
@@ -43,10 +43,10 @@ class ShotTools {
             let elevationChange = finishElevation - startElevation
             let distance = elevationChange / tan(45)
             if (AppSingleton.shared.metric) {
-                completion(distance, elevationChange, nil)
+                completion(startElevation, finishElevation, distance, elevationChange, nil)
             } else {
                 //results are in meters, convert to yards
-                completion(distance * 1.09361, elevationChange, nil)
+                completion(startElevation, finishElevation, distance * 1.09361, elevationChange, nil)
             }
         }
         
@@ -71,8 +71,10 @@ class ShotTools {
         let url = URL(string: "https://api.opentopodata.org/v1/ned10m?locations=\(location.latitude),\(location.longitude)")!
 
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let data = data else { return }
-//            print(String(data: data, encoding: .utf8)!)
+            guard let data = data else {
+                completion(-1)
+                return
+            }
             guard let elevationData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
                 completion(-1)
                 return
@@ -90,7 +92,9 @@ class ShotTools {
         let url = URL(string: "https://api.open-elevation.com/api/v1/lookup?locations=\(location.latitude),\(location.longitude)")!
 
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(-1)
+                return }
             guard let elevationData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
                 completion(-1)
                 return
@@ -108,7 +112,10 @@ class ShotTools {
         let url = URL(string: "https://nationalmap.gov/epqs/pqs.php?x=\(location.latitude)&y=\(location.longitude)&units=Meters&output=json")!
 
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(-1)
+                return
+            }
             guard let elevationData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
                 completion(-1)
                 return

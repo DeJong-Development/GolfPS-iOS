@@ -11,16 +11,16 @@ import GoogleMaps
 import Firebase
 import WatchConnectivity
 
-protocol ViewUpdateDelegate: class {
-    func updateDistanceToPin(distance: Int);
-    func updateSelectedClub(club: Club);
-    func updateCurrentHole(hole: Hole);
-    func updateElevationEffect(height: Double, distance: Double);
-    func updateWindEffect(speed: Double, distance: Double);
+protocol ViewUpdateDelegate: AnyObject {
+    func updateDistanceToPin(distance: Int)
+    func updateSelectedClub(club: Club)
+    func updateCurrentHole(hole: Hole)
+    func updateElevationEffect(height: Double, distance: Double)
+    func updateWindEffect(speed: Double, distance: Double)
 }
 
 class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDelegate {
-    
+
     @IBOutlet weak var prevHoleButton: UIButton!
     @IBOutlet weak var nextHoleButton: UIButton!
     @IBOutlet weak var courseNameButton: UIButton!
@@ -133,13 +133,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             "hole": self.embeddedMapViewController.currentHole.number
         ]
         
-        if AppSingleton.shared.metric {
-            distanceToPinLabel.text = "\(distance) m"
-            message["units"] = "m"
-        } else {
-            distanceToPinLabel.text = "\(distance) yds"
-            message["units"] = "yds"
-        }
+        distanceToPinLabel.text = distance.distance
+        message["units"] = AppSingleton.shared.metric ? "m" : "yds"
         
         if let wcs = wcSession, wcs.isReachable {
             wcs.sendMessage(message, replyHandler: nil) { (error) in
@@ -160,20 +155,12 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     internal func updateElevationEffect(height: Double, distance: Double) {
         print("height reported: \(height)")
         DispatchQueue.main.async {
-            if (AppSingleton.shared.metric) {
-                self.elevationLabel.text = "\(Int(distance)) m"
-            } else {
-                self.elevationLabel.text = "\(Int(distance)) yds"
-            }
+            self.elevationLabel.text = distance.distance
         }
     }
     internal func updateWindEffect(speed: Double, distance: Double) {
         DispatchQueue.main.async {
-            if (AppSingleton.shared.metric) {
-                self.windLabel.text = "\(Int(distance)) m"
-            } else {
-                self.windLabel.text = "\(Int(distance)) yds"
-            }
+            self.windLabel.text = distance.distance
         }
     }
     
@@ -242,11 +229,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             
         if let myDrive = driveDistance {
             myDriveLabel.isHidden = false
-            if AppSingleton.shared.metric {
-                myDriveLabel.text = "\(myDrive) m"
-            } else {
-                myDriveLabel.text = "\(myDrive) yds"
-            }
+            myDriveLabel.text = myDrive.distance
             markButton.isHidden = true
             clearButton.isHidden = false
             
