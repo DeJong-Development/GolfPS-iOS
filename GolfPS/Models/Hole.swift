@@ -26,7 +26,7 @@ public class Hole {
     
     private(set) var bunkerLocations:[GeoPoint] = [GeoPoint]()
     private(set) var teeLocations:[GeoPoint] = [GeoPoint]()
-    private(set) var pinLocation:GeoPoint?
+    private(set) var pinLocation:GeoPoint!
     private(set) var dogLegLocation:GeoPoint?
     var pinElevation:Double?
     var isLongDrive:Bool = false
@@ -36,7 +36,7 @@ public class Hole {
     var longestDrives:[String:GeoPoint] = [String:GeoPoint]()
     
     var bounds:GMSCoordinateBounds {
-        var bounds:GMSCoordinateBounds = GMSCoordinateBounds();
+        var bounds:GMSCoordinateBounds = GMSCoordinateBounds()
         for tPoint in self.teeLocations {
             bounds = bounds.includingCoordinate(tPoint.location)
         }
@@ -47,7 +47,7 @@ public class Hole {
             bounds = bounds.includingCoordinate(dlPoint.location)
         }
         if let pinLocation:GeoPoint = self.pinLocation {
-            bounds = bounds.includingCoordinate(pinLocation.location);
+            bounds = bounds.includingCoordinate(pinLocation.location)
         }
         return bounds;
     }

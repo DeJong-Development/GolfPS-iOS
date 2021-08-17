@@ -28,5 +28,14 @@ class AppSingleton {
             return UserDefaults.standard.bool(forKey: "using_metric")
         }
     }
+    
+    // Wrapper for obtaining keys from keys.plist
+    func valueForAPIKey(keyname:String) -> String {
+        // Get the file path for keys.plist
+        guard let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let plist = NSDictionary(contentsOfFile: filePath), let value:String = plist.object(forKey: keyname) as? String else {
+            return "no-key-found"
+        }
+        return value
+    }
 }
 

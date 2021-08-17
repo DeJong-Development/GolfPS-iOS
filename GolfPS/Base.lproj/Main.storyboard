@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -114,7 +114,6 @@
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
                                         </variation>
                                         <connections>
-                                            <action selector="requestCourse:" destination="hjg-UV-4kJ" eventType="touchUpInside" id="WkY-Qg-GQv"/>
                                             <segue destination="BeE-Hh-e8c" kind="presentation" id="wCS-6f-kDh"/>
                                         </connections>
                                     </button>
@@ -158,11 +157,12 @@
                         <outlet property="loadingBackground" destination="obI-k2-VJh" id="atU-nv-Ggq"/>
                         <outlet property="loadingView" destination="77w-tU-hDT" id="jNO-aa-NI5"/>
                         <outlet property="requestCourseButton" destination="B4y-uD-6Wy" id="sOG-L6-tLw"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="GoToCourse" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="vUx-4q-GZg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f25-sz-Vvr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1210.4000000000001" y="-396.25187406296857"/>
+            <point key="canvasLocation" x="-913" y="-396"/>
         </scene>
         <!--Request View Controller-->
         <scene sceneID="tni-Aw-aP6">
@@ -402,7 +402,7 @@ Patience please!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzF-Ri-W5W" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="gS2-1F-aQH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2143" y="28"/>
+            <point key="canvasLocation" x="-1387" y="413"/>
         </scene>
         <!--Course Picker Table View Controller-->
         <scene sceneID="tBr-E4-eMd">
@@ -414,7 +414,7 @@ Patience please!</string>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GCTableCell" id="XzO-Qg-s1v" customClass="CourseTableViewCell" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="374" height="43.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="374" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XzO-Qg-s1v" id="Qg0-aG-6Kj">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -472,7 +472,7 @@ Patience please!</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i4K-kk-fDD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1210.4000000000001" y="255.47226386806599"/>
+            <point key="canvasLocation" x="-220" y="-396"/>
         </scene>
         <!--Tab Parent View Controller-->
         <scene sceneID="7Y1-GN-ZnK">
@@ -486,7 +486,6 @@ Patience please!</string>
                     </tabBar>
                     <connections>
                         <segue destination="hjg-UV-4kJ" kind="relationship" relationship="viewControllers" id="Om1-DA-Ugz"/>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Qcg-ob-ANU"/>
                         <segue destination="wjM-U8-Nre" kind="relationship" relationship="viewControllers" id="2Lw-mq-uoP"/>
                         <segue destination="dS7-Dt-uS5" kind="relationship" relationship="viewControllers" id="VQ2-rF-L9T"/>
                     </connections>
@@ -504,20 +503,20 @@ Patience please!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOD-mc-DML">
-                                <rect key="frame" x="0.0" y="72" width="414" height="688"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="737"/>
                                 <connections>
                                     <segue destination="uBb-u3-RS0" kind="embed" identifier="GoogleMapEmbed" id="ZXW-nZ-FTI"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPt-JS-cAK" customClass="ViewX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="149" y="676.5" width="116" height="83.5"/>
+                                <rect key="frame" x="149" y="725.5" width="116" height="83.5"/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" id="Qzq-HM-Rcn"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gSy-sB-JAX">
-                                <rect key="frame" x="149" y="662" width="116" height="98"/>
+                                <rect key="frame" x="149" y="711" width="116" height="98"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ivE-1M-Lti" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="116" height="29"/>
@@ -614,11 +613,11 @@ Patience please!</string>
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cC6-Al-7hC">
-                                <rect key="frame" x="0.0" y="760" width="414" height="53"/>
+                                <rect key="frame" x="0.0" y="809" width="414" height="53"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6zZ-Li-gyD">
-                                <rect key="frame" x="6" y="760" width="402" height="45"/>
+                                <rect key="frame" x="6" y="809" width="402" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncN-hV-8Pq">
                                         <rect key="frame" x="0.0" y="5" width="134" height="35"/>
@@ -734,35 +733,8 @@ Patience please!</string>
                                     </label>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Gli-Lc-sDF">
-                                <rect key="frame" x="16" y="169" width="43" height="23"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wind:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evc-VU-jSt">
-                                        <rect key="frame" x="0.0" y="4.5" width="30.5" height="14.5"/>
-                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="12"/>
-                                        <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <size key="shadowOffset" width="1" height="-1"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="14"/>
-                                        </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Qp-Wx-Jla">
-                                        <rect key="frame" x="34.5" y="0.0" width="8.5" height="23"/>
-                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
-                                        <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <size key="shadowOffset" width="1" height="-1"/>
-                                        <variation key="heightClass=regular-widthClass=regular">
-                                            <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
-                                        </variation>
-                                    </label>
-                                </subviews>
-                            </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bn-rn-ruU">
-                                <rect key="frame" x="16" y="192" width="9" height="23"/>
+                                <rect key="frame" x="16" y="169" width="9" height="23"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                 <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -772,6 +744,24 @@ Patience please!</string>
                                     <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
                                 </variation>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njH-k3-opW" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="372" y="56" width="32" height="32"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="njH-k3-opW" secondAttribute="height" id="euO-Ev-hKZ"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="arrow.down" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M5l-PN-p8H"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -779,10 +769,9 @@ Patience please!</string>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="6zZ-Li-gyD" secondAttribute="top" id="42N-4I-hO5"/>
                             <constraint firstItem="2Ec-Ot-HEe" firstAttribute="top" secondItem="fHj-J0-bI4" secondAttribute="bottom" id="6Q8-Dr-yiL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fHj-J0-bI4" secondAttribute="trailing" symbolic="YES" id="84x-ha-24P"/>
-                            <constraint firstAttribute="bottom" secondItem="6zZ-Li-gyD" secondAttribute="bottom" constant="8" id="989-fc-C8T"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6zZ-Li-gyD" secondAttribute="bottom" constant="8" id="989-fc-C8T"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PPu-K7-rob" secondAttribute="trailing" symbolic="YES" id="BqB-34-lHZ"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="gSy-sB-JAX" secondAttribute="bottom" constant="10" id="C0z-Il-Pob"/>
-                            <constraint firstItem="Gli-Lc-sDF" firstAttribute="leading" secondItem="2Ec-Ot-HEe" secondAttribute="leading" id="GBb-KL-MAs"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hsw-Bu-mCO"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="OPt-JS-cAK" secondAttribute="bottom" id="MiA-8f-D2p"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" constant="-12" id="MiF-34-IK9"/>
@@ -791,14 +780,15 @@ Patience please!</string>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Bn-rn-ruU" secondAttribute="trailing" symbolic="YES" id="XiT-WZ-WtE"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YOA-DG-r0v"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="a57-5H-mMn"/>
-                            <constraint firstItem="7Bn-rn-ruU" firstAttribute="top" secondItem="Gli-Lc-sDF" secondAttribute="bottom" id="dF9-OG-UFZ"/>
+                            <constraint firstItem="njH-k3-opW" firstAttribute="centerY" secondItem="PPu-K7-rob" secondAttribute="centerY" id="cRr-4A-K9f"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="gSy-sB-JAX" secondAttribute="bottom" id="e0f-Kx-8a4"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="top" secondItem="nOD-mc-DML" secondAttribute="bottom" id="eFz-T0-taY"/>
+                            <constraint firstItem="7Bn-rn-ruU" firstAttribute="top" secondItem="2Ec-Ot-HEe" secondAttribute="bottom" id="eRS-Li-CXi"/>
                             <constraint firstItem="OPt-JS-cAK" firstAttribute="width" secondItem="gSy-sB-JAX" secondAttribute="width" id="fIW-fU-pNt"/>
+                            <constraint firstItem="njH-k3-opW" firstAttribute="height" secondItem="PPu-K7-rob" secondAttribute="height" id="gPK-Wu-HVQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cC6-Al-7hC" secondAttribute="bottom" id="hsx-UV-A4j"/>
                             <constraint firstItem="OPt-JS-cAK" firstAttribute="top" secondItem="ivE-1M-Lti" secondAttribute="centerY" id="huB-qm-pJP"/>
                             <constraint firstItem="PPu-K7-rob" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="iQV-02-ebL"/>
-                            <constraint firstItem="Gli-Lc-sDF" firstAttribute="top" secondItem="2Ec-Ot-HEe" secondAttribute="bottom" id="j0k-k2-Gu8"/>
                             <constraint firstItem="gSy-sB-JAX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kv4-1w-Lcw"/>
                             <constraint firstItem="OPt-JS-cAK" firstAttribute="centerX" secondItem="gSy-sB-JAX" secondAttribute="centerX" id="noV-RH-MSn"/>
                             <constraint firstItem="2Ec-Ot-HEe" firstAttribute="leading" secondItem="7Bn-rn-ruU" secondAttribute="leading" id="oiH-4H-LVk"/>
@@ -807,6 +797,7 @@ Patience please!</string>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="width" secondItem="fHj-J0-bI4" secondAttribute="width" multiplier="0.5" id="xSf-uw-BnF"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="xdX-oB-pB7"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="leading" secondItem="fHj-J0-bI4" secondAttribute="leading" id="xkf-x2-SHO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="njH-k3-opW" secondAttribute="trailing" constant="10" id="yM7-tv-dQ0"/>
                             <constraint firstItem="fHj-J0-bI4" firstAttribute="top" secondItem="PPu-K7-rob" secondAttribute="bottom" constant="8" id="zvi-yi-gkJ"/>
                         </constraints>
                         <variation key="default">
@@ -817,7 +808,9 @@ Patience please!</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Map" image="compass_black" selectedImage="compass_white" id="5oP-zq-tZK"/>
+                    <navigationItem key="navigationItem" id="elT-YM-yDc"/>
                     <connections>
+                        <outlet property="backButton" destination="njH-k3-opW" id="DBB-MO-Y1J"/>
                         <outlet property="clearButton" destination="LAh-mD-6c3" id="yGf-EM-fFA"/>
                         <outlet property="courseNameButton" destination="PPu-K7-rob" id="waP-BF-0ee"/>
                         <outlet property="currentHoleLabel" destination="EG6-7R-9ZQ" id="TXp-pu-Rzi"/>
@@ -832,12 +825,13 @@ Patience please!</string>
                         <outlet property="prevHoleButton" destination="ncN-hV-8Pq" id="Paq-cY-ESp"/>
                         <outlet property="selectedClubLabel" destination="7Bn-rn-ruU" id="7Tl-Yb-Wak"/>
                         <outlet property="showDriveStackConstraint" destination="C0z-Il-Pob" id="yRi-Bi-doX"/>
-                        <outlet property="windLabel" destination="0Qp-Wx-Jla" id="K62-Ij-574"/>
+                        <segue destination="6dv-uI-F2a" kind="unwind" identifier="unwindToSelection" unwindAction="unwindToSelectionWithUnwindSegue:" id="7yZ-S7-syb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="6dv-uI-F2a" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-282.39999999999998" y="-396.25187406296857"/>
+            <point key="canvasLocation" x="-532" y="413"/>
         </scene>
         <!--My Bag-->
         <scene sceneID="DzH-sa-uw2">
@@ -860,10 +854,10 @@ Patience please!</string>
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="QYh-v7-fSn">
-                                <rect key="frame" x="-43" y="106" width="500" height="699"/>
+                                <rect key="frame" x="20" y="106" width="374" height="699"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify these values to get accurate club recommendations!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sy-T4-vMf">
-                                        <rect key="frame" x="0.0" y="0.0" width="500" height="13.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="13.5"/>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -872,7 +866,7 @@ Patience please!</string>
                                         </variation>
                                     </label>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J97-Px-f20">
-                                        <rect key="frame" x="0.0" y="14.5" width="500" height="684.5"/>
+                                        <rect key="frame" x="0.0" y="14.5" width="374" height="684.5"/>
                                         <connections>
                                             <segue destination="NuW-7G-wT0" kind="embed" id="hXV-A6-Ewv"/>
                                         </connections>
@@ -883,7 +877,7 @@ Patience please!</string>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6v4-LH-NQX" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="417" y="51" width="40" height="40"/>
+                                <rect key="frame" x="354" y="51" width="40" height="40"/>
                                 <color key="backgroundColor" name="Grass"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Sf6-zH-NQy"/>
@@ -908,7 +902,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTL-fe-aeO" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="369" y="51" width="40" height="40"/>
+                                <rect key="frame" x="306" y="51" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="uTL-fe-aeO" secondAttribute="height" multiplier="1:1" id="rDr-RP-KQM"/>
@@ -932,7 +926,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="customize" translatesAutoresizingMaskIntoConstraints="NO" id="RTP-6P-LSQ">
-                                <rect key="frame" x="422" y="56" width="30" height="30"/>
+                                <rect key="frame" x="359" y="56" width="30" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RTP-6P-LSQ" secondAttribute="height" multiplier="1:1" id="Quj-6m-N4p"/>
@@ -1037,7 +1031,7 @@ Patience please!</string>
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZIk-hs-8il" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="141.5" y="726" width="131" height="37"/>
+                                <rect key="frame" x="141.5" y="727" width="131" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="PRIVACY POLICY">
@@ -1073,7 +1067,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpz-Ce-hFo">
-                                <rect key="frame" x="10" y="297" width="394" height="383"/>
+                                <rect key="frame" x="10" y="297" width="394" height="384"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="500" id="cHC-yc-4Tx"/>
                                 </constraints>
@@ -1087,14 +1081,14 @@ Patience please!</string>
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x48-8q-zzQ" customClass="BMCButton" customModule="BuyMeACoffee">
-                                <rect key="frame" x="150" y="688" width="114" height="30"/>
+                                <rect key="frame" x="150" y="689" width="114" height="30"/>
                                 <state key="normal" title="Buy Me a Coffee"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dzP-ch-zpj"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="loV-ZL-Phz" firstAttribute="top" secondItem="ZIk-hs-8il" secondAttribute="bottom" constant="5" id="1HW-yY-Rim"/>
+                            <constraint firstItem="loV-ZL-Phz" firstAttribute="top" secondItem="ZIk-hs-8il" secondAttribute="bottom" constant="4" id="1HW-yY-Rim"/>
                             <constraint firstItem="ReD-vQ-44z" firstAttribute="top" secondItem="XcB-tf-0iP" secondAttribute="bottom" constant="10" id="33l-Tj-OVG"/>
                             <constraint firstItem="x48-8q-zzQ" firstAttribute="centerX" secondItem="1C2-cN-MCX" secondAttribute="centerX" id="Eag-Wd-RoK"/>
                             <constraint firstItem="Wpz-Ce-hFo" firstAttribute="width" secondItem="dzP-ch-zpj" secondAttribute="width" priority="750" constant="-20" id="Gem-VU-p5o"/>
@@ -1130,14 +1124,14 @@ Patience please!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="haf-4b-DVk" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="t5n-it-YCg" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1536.8" y="-396.25187406296857"/>
+            <point key="canvasLocation" x="2396" y="-396"/>
         </scene>
         <!--Settings Table View Controller-->
         <scene sceneID="NCF-So-ODw">
             <objects>
                 <tableViewController id="SD1-NX-MJV" customClass="SettingsTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CBc-80-qHy">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="383"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="384"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexColor" systemColor="labelColor"/>
@@ -1146,7 +1140,7 @@ Patience please!</string>
                             <tableViewSection id="Yxx-fL-Wzn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Iw9-b3-6XF">
-                                        <rect key="frame" x="0.0" y="28" width="394" height="44"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="394" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Iw9-b3-6XF" id="E2Q-Px-naV">
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="44"/>
@@ -1164,7 +1158,7 @@ Patience please!</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTO-Tc-Fjg">
-                                                    <rect key="frame" x="284" y="10" width="25" height="24"/>
+                                                    <rect key="frame" x="289" y="12" width="20" height="20"/>
                                                     <connections>
                                                         <action selector="clickLocationShareInfo:" destination="SD1-NX-MJV" eventType="touchUpInside" id="gMt-Sa-vA2"/>
                                                     </connections>
@@ -1183,7 +1177,7 @@ Patience please!</string>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="HU9-Gz-L2O">
-                                        <rect key="frame" x="0.0" y="72" width="394" height="44"/>
+                                        <rect key="frame" x="0.0" y="68.5" width="394" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HU9-Gz-L2O" id="VLy-FT-rER">
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="44"/>
@@ -1201,7 +1195,7 @@ Patience please!</string>
                                                     </connections>
                                                 </switch>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADy-qB-mtk">
-                                                    <rect key="frame" x="284" y="10" width="25" height="24"/>
+                                                    <rect key="frame" x="289" y="12" width="20" height="20"/>
                                                     <connections>
                                                         <action selector="clickBitmojiShareInfo:" destination="SD1-NX-MJV" eventType="touchUpInside" id="JTe-so-2WJ"/>
                                                     </connections>
@@ -1224,7 +1218,7 @@ Patience please!</string>
                             <tableViewSection id="FDe-U2-R7t">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="uMb-Ac-9cp">
-                                        <rect key="frame" x="0.0" y="172" width="394" height="44"/>
+                                        <rect key="frame" x="0.0" y="161.50000034679067" width="394" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uMb-Ac-9cp" id="OvQ-qV-vi6">
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="44"/>
@@ -1259,7 +1253,7 @@ Patience please!</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="7HX-nT-iQ9">
-                                        <rect key="frame" x="0.0" y="216" width="394" height="44"/>
+                                        <rect key="frame" x="0.0" y="205.50000034679067" width="394" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7HX-nT-iQ9" id="d12-ij-2fY">
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="44"/>
@@ -1316,26 +1310,26 @@ Patience please!</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PFl-1S-DRw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2345.5999999999999" y="-396.25187406296857"/>
+            <point key="canvasLocation" x="3204" y="-397"/>
         </scene>
         <!--My Bag Table View Controller-->
         <scene sceneID="JER-t8-b1k">
             <objects>
                 <tableViewController id="NuW-7G-wT0" customClass="MyBagTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WMP-E4-qdC">
-                        <rect key="frame" x="0.0" y="0.0" width="500" height="684.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="684"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ClubTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClubTableCell" id="XDM-yX-M2M" customClass="ClubTableViewCell" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="500" height="43.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="374" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XDM-yX-M2M" id="yXX-mj-SCQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="500" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Club Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L6B-7P-qY7">
-                                            <rect key="frame" x="8" y="5" width="366" height="34"/>
+                                            <rect key="frame" x="8" y="5" width="240" height="34"/>
                                             <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
@@ -1345,7 +1339,7 @@ Patience please!</string>
                                             </connections>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Avg Distance" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ITN-UP-6aP">
-                                            <rect key="frame" x="382" y="5" width="110" height="34"/>
+                                            <rect key="frame" x="256" y="5" width="110" height="34"/>
                                             <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="110" id="SFF-V1-f0j"/>
@@ -1380,7 +1374,7 @@ Patience please!</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dIx-ho-JNZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="600.79999999999995" y="267.61619190404798"/>
+            <point key="canvasLocation" x="1371" y="-396"/>
         </scene>
         <!--Add Club View Controller-->
         <scene sceneID="J7f-wn-LA6">
@@ -1536,14 +1530,14 @@ Patience please!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C2y-HN-sH4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="xPL-Jj-fUX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1284" y="337"/>
+            <point key="canvasLocation" x="600" y="413"/>
         </scene>
         <!--Google Map View Controller-->
         <scene sceneID="Co0-ou-LPc">
             <objects>
                 <viewController id="uBb-u3-RS0" customClass="GoogleMapViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qhs-1S-jpn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="688"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="737"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="vu0-Zu-isM"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1551,14 +1545,14 @@ Patience please!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gpv-C6-Ivk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-282" y="299"/>
+            <point key="canvasLocation" x="-532" y="1108"/>
         </scene>
         <!--Badges View Controller-->
         <scene sceneID="bah-aq-Ew0">
             <objects>
                 <viewController id="B1g-gZ-Tbn" customClass="BadgesViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J1o-aL-isS">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="383"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="384"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Golf Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sf9-qt-dIH">
@@ -1570,7 +1564,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b30-oH-IeT">
-                                <rect key="frame" x="10" y="104" width="374" height="269"/>
+                                <rect key="frame" x="10" y="104" width="374" height="270"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYu-PJ-CJK">
                                     <size key="itemSize" width="100" height="150"/>
@@ -1665,7 +1659,7 @@ Patience please!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tDx-He-t6t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3054" y="-382"/>
+            <point key="canvasLocation" x="3946" y="-397"/>
         </scene>
         <!--Badge Detail View Controller-->
         <scene sceneID="PDt-yP-GwS">
@@ -1832,7 +1826,7 @@ Patience please!</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hg1-29-DSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3054" y="342"/>
+            <point key="canvasLocation" x="3946" y="327"/>
         </scene>
     </scenes>
     <designables>
@@ -1863,6 +1857,9 @@ Patience please!</string>
         <designable name="loV-ZL-Phz">
             <size key="intrinsicContentSize" width="191" height="37"/>
         </designable>
+        <designable name="njH-k3-opW">
+            <size key="intrinsicContentSize" width="27" height="32"/>
+        </designable>
         <designable name="o0J-Mo-GDp">
             <size key="intrinsicContentSize" width="31" height="35"/>
         </designable>
@@ -1885,6 +1882,7 @@ Patience please!</string>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="Grass"/>
     <resources>
+        <image name="arrow.down" catalog="system" width="120" height="128"/>
         <image name="compass_black" width="22.5" height="22.5"/>
         <image name="compass_white" width="22.5" height="22.5"/>
         <image name="customize" width="700" height="700"/>

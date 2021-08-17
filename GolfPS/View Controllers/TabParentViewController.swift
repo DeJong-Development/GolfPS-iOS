@@ -8,10 +8,11 @@
 
 import UIKit
 import FirebaseAuth
+import GoogleMaps
 
 class TabParentViewController: UITabBarController {
     
-    let gradient: CAGradientLayer = CAGradientLayer()
+    private let gradient: CAGradientLayer = CAGradientLayer()
 
     override var prefersStatusBarHidden: Bool {
         return false
@@ -42,7 +43,9 @@ class TabParentViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        GMSServices.provideAPIKey(AppSingleton.shared.valueForAPIKey(keyname: "GoogleMaps"))
+        
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         
@@ -58,11 +61,6 @@ class TabParentViewController: UITabBarController {
                 print(err.localizedDescription)
             }
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }

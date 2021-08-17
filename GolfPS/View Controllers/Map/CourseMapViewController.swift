@@ -21,6 +21,7 @@ protocol ViewUpdateDelegate: AnyObject {
 
 class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDelegate {
 
+    @IBOutlet weak var backButton: ButtonX!
     @IBOutlet weak var prevHoleButton: UIButton!
     @IBOutlet weak var nextHoleButton: UIButton!
     @IBOutlet weak var courseNameButton: UIButton!
@@ -29,7 +30,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     @IBOutlet weak var currentHoleLabel: UIButton!
     
     @IBOutlet weak var elevationLabel: UILabel!
-    @IBOutlet weak var windLabel: UILabel!
     
     @IBOutlet weak var longDriveButton: ButtonX!
     @IBOutlet weak var longDriveButtonStack: UIStackView!
@@ -58,6 +58,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
                 print(error.localizedDescription)
             }
         }
+        wcSession?.delegate = nil
+        wcSession = nil
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,13 +157,17 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     internal func updateElevationEffect(height: Double, distance: Double) {
         print("height reported: \(height)")
         DispatchQueue.main.async {
-            self.elevationLabel.text = distance.distance
+            if (distance > 0) {
+                self.elevationLabel.text = "+\(distance.distance)"
+            } else {
+                self.elevationLabel.text = distance.distance
+            }
         }
     }
     internal func updateWindEffect(speed: Double, distance: Double) {
-        DispatchQueue.main.async {
-            self.windLabel.text = distance.distance
-        }
+//        DispatchQueue.main.async {
+//            self.windLabel.text = distance.distance
+//        }
     }
     
     internal func goToHole1() {
@@ -172,6 +178,9 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         embeddedMapViewController.goToHole()
     }
     
+    @IBAction func clickBack(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBAction func nextHoleButton(_ sender: UIButton?) {
         guard (AppSingleton.shared.course != nil) else {
             return
@@ -188,7 +197,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         guard AppSingleton.shared.course == nil else {
             return
         }
-       (self.tabBarController as! TabParentViewController).selectedIndex = 0
+        
+        self.performSegue(withIdentifier: "unwindToSelection", sender: nil)
     }
     
     @IBAction func clickLongDrive(_ sender: Any) {

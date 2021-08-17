@@ -43,11 +43,11 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
                 //update elevation numbers since we changed places!
                 if let pinElevation = hole.pinElevation {
                     ShotTools.getElevationChange(start: cpgp, finishElevation: pinElevation) { (start, finish, distanceEffect, elevation, error) in
-                        self.delegate.updateElevationEffect(height: elevation, distance: distanceEffect)
+                        self.delegate?.updateElevationEffect(height: elevation, distance: distanceEffect)
                     }
                 } else if let pinPosition = hole.pinLocation {
                     ShotTools.getElevationChange(start: cpgp, finish: pinPosition) { (start, finish, distanceEffect, elevation, error) in
-                        self.delegate.updateElevationEffect(height: elevation, distance: distanceEffect)
+                        self.delegate?.updateElevationEffect(height: elevation, distance: distanceEffect)
                     }
                 }
             }
@@ -87,10 +87,10 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
         
         if let pm = currentPinMarker {
             let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
-            delegate.updateDistanceToPin(distance: distanceToPin)
+            delegate?.updateDistanceToPin(distance: distanceToPin)
             
             let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin)
-            delegate.updateSelectedClub(club: suggestedClub)
+            delegate?.updateSelectedClub(club: suggestedClub)
             
             //update any suggestion lines
             updateSuggestionLines(with: suggestedClub)
@@ -117,7 +117,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private var db:Firestore { return AppSingleton.shared.db }
     private var mapView:GMSMapView!
-    weak var delegate:ViewUpdateDelegate!
+    weak var delegate:ViewUpdateDelegate?
     
     private var locationTimer:LocationUpdateTimer!
     private var otherPlayerTimer:PlayerUpdateTimer!
@@ -195,15 +195,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
-    // Wrapper for obtaining keys from keys.plist
-    private func valueForAPIKey(keyname:String) -> String {
-        // Get the file path for keys.plist
-        guard let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let plist = NSDictionary(contentsOfFile: filePath), let value:String = plist.object(forKey: keyname) as? String else {
-            return "no-key-found"
-        }
-        return value
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !SCSDKLoginClient.isUserLoggedIn {
@@ -211,6 +202,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         } else if myPlayerImage == nil {
             downloadBitmojiImage()
         }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         if let course = AppSingleton.shared.course {
             locationTimer.invalidate()
@@ -230,12 +226,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     override func loadView() {
         super.loadView()
-        GMSServices.provideAPIKey(valueForAPIKey(keyname: "GoogleMaps"))
-
-        self.view = mapView
         
-        let camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 2.0)
-        self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        let camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 3.5)
+        self.mapView = GMSMapView.map(withFrame: .zero, camera: camera)
         self.mapView.mapType = GMSMapViewType.satellite
         view = mapView
     }
@@ -243,14 +236,18 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.mapView.delegate = self;
+        self.mapView.delegate = self
+        
+        //need to set up the camera; there is a bug that exists if we don't do this
+        if let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first(where: {$0.number == 1}) {
+            self.mapView.moveCamera(GMSCameraUpdate.setTarget(firstHole.pinLocation.location))
+        }
         
         locationManager.delegate = self;
         locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.allowsBackgroundLocationUpdates = true
-        
         locationManager.startUpdatingLocation()
         
         locationTimer = LocationUpdateTimer()
@@ -335,10 +332,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             return
         }
         
-        currentDistanceMarker?.map = nil;
-        currentDistanceMarker = nil;
-        lineToPin?.map = nil;
-        lineToMyLocation?.map = nil;
+        currentDistanceMarker?.map = nil
+        currentDistanceMarker = nil
+        lineToPin?.map = nil
+        lineToMyLocation?.map = nil
         
         //remove old listener just in case we are still loading the driving distance markers
         //could result in a race condition while we are searching for the new current hole?
@@ -358,17 +355,17 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         currentHole = nextHole
         currentHole.updateDelegate = self
-        delegate.updateCurrentHole(hole: currentHole);
+        delegate?.updateCurrentHole(hole: currentHole)
         
-        updatePinMarker();
-        updateTeeMarker();
-        updateBunkerMarkers();
-        updateLongDriveMarkers();
+        updatePinMarker()
+        updateTeeMarker()
+        updateBunkerMarkers()
+        updateLongDriveMarkers()
         
         //check if we have played at this course before
         updateDidPlayHere()
         
-        moveCamera(to: currentHole.bounds, orientToHole: true);
+        moveCamera(to: currentHole.bounds, orientToHole: true)
         
         mapView.selectedMarker = currentPinMarker
         
@@ -393,7 +390,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private func calculateElevation(_ start:Double, _ finish: Double, _ distance:Double, _ elevation:Double, _ error:String?) {
         DispatchQueue.main.async {
-            self.delegate.updateElevationEffect(height: elevation, distance: distance)
+            self.delegate?.updateElevationEffect(height: elevation, distance: distance)
             
             var distanceToUseInSuggestion:Int = 300
             if let distancePinMe = self.distanceToPinFromMyLocation {
@@ -401,31 +398,31 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             } else if let distancePinTee = self.distanceToPinFromTee {
                 distanceToUseInSuggestion = distancePinTee
             }
-            self.delegate.updateDistanceToPin(distance: distanceToUseInSuggestion)
+            self.delegate?.updateDistanceToPin(distance: distanceToUseInSuggestion)
             
             let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion + Int(distance))
-            self.delegate.updateSelectedClub(club: suggestedClub)
+            self.delegate?.updateSelectedClub(club: suggestedClub)
             self.updateSuggestionLines(with: suggestedClub)
         }
     }
     
     private func moveCamera(to bounds:GMSCoordinateBounds, orientToHole:Bool) {
-        let zoom:Float = mapTools.getBoundsZoomLevel(bounds: bounds, screenSize: view.frame)
-        let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(bounds);
+        let zoom:Float = mapTools.getBoundsZoomLevel(bounds: bounds, screenSize: view.bounds)
+        let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(bounds)
         
         var bearing:Double = 0
         var viewingAngle:Double = 0
         if (orientToHole) {
             let teeLocation:GeoPoint = currentHole.teeLocations[0]
-            let pinLocation:GeoPoint = currentHole.pinLocation!
+            let pinLocation:GeoPoint = currentHole.pinLocation
             bearing = mapTools.calcBearing(start: teeLocation, finish: pinLocation) - 20
             viewingAngle = 45
         }
-        let newCameraView:GMSCameraPosition = GMSCameraPosition(target: center,
-                                                                zoom: zoom,
-                                                                bearing: bearing,
-                                                                viewingAngle: viewingAngle)
-        mapView.animate(to: newCameraView)
+        let cameraView:GMSCameraPosition = GMSCameraPosition(target: center,
+                                                             zoom: zoom,
+                                                             bearing: bearing,
+                                                             viewingAngle: viewingAngle)
+        mapView.animate(to: cameraView)
     }
     
     private func removeOldPlayerMarkers() {
@@ -552,7 +549,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         otherPlayerMarkers = newPlayerMarkers.filter { $0.map != nil }
     }
     
-    //assign the fact that we played at this course, push to server
+    ///assign the fact that we played at this course, push to server
     private func updateDidPlayHere() {
         guard let course = AppSingleton.shared.course,
             let myGeoPoint = self.me.geoPoint,

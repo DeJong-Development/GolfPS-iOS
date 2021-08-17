@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
+        AppSingleton.shared.me = MePlayer(id: "offline")
         AppSingleton.shared.db = Firestore.firestore();
         
         BMCManager.shared.configure(username: "dejongdev")

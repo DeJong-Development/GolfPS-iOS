@@ -34,9 +34,7 @@ extension CourseSelectionViewController: CoursePickerDelegate {
                         "updateTime": Date().iso8601
                         ], merge: true)
                 
-                //tell tab parent controller to change tabs...
-                //go to first hole if we are at new course??
-                self.tabBarController?.selectedIndex = 1;
+                self.performSegue(withIdentifier: "GoToCourse", sender: nil)
             } else {
                 AppSingleton.shared.course = nil;
                 DispatchQueue.main.async {
@@ -57,14 +55,12 @@ class CourseSelectionViewController: UIViewController {
     @IBOutlet weak var courseTableContainer: UIView!
     @IBOutlet weak var requestCourseButton: UIButton!
     
-    @IBOutlet weak var statePicker: UIPickerView!
-    
     var embeddedCourseTableViewController:CoursePickerTableViewController?
     
     private var allGolfCourses:[Course] = [Course]()
     
     private var db:Firestore {
-        return AppSingleton.shared.db;
+        return AppSingleton.shared.db
     }
     
     override func viewDidLoad() {
@@ -170,10 +166,6 @@ class CourseSelectionViewController: UIViewController {
     
     //use this to pop out of a course request
     @IBAction func unwindToSelection(unwindSegue: UIStoryboardSegue) {
-    }
-    
-    @IBAction func requestCourse(_ sender: UIButton) {
-        
     }
     
     @objc private func dismissKeyboard() {
