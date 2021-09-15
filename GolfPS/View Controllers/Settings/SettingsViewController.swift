@@ -10,7 +10,6 @@ import UIKit
 import FirebaseAnalytics
 import SCSDKLoginKit
 import SCSDKBitmojiKit
-import BuyMeACoffee
 
 extension SettingsViewController: SettingsActionDelegate {
     
@@ -30,7 +29,7 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var snapLink: UIButton!
     @IBOutlet weak var bitmojiImage: UIImageView!
-    @IBOutlet weak var buyCoffeeButton: BMCButton!
+    @IBOutlet weak var buyMeADrinkButton: ButtonX!
     
     var embeddedTableViewController: SettingsTableViewController!
     
@@ -51,9 +50,6 @@ class SettingsViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool {
         return false
-    }
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,12 +72,8 @@ class SettingsViewController: UIViewController {
         if (!AppSingleton.shared.me.shareLocation) {
             self.avatarURLToShare = nil
         }
+
         
-        BMCManager.shared.presentingViewController = self
-        // You can also set a custom thank you message
-        BMCManager.shared.thankYouMessage = "Thank you for supporting 🎉 DeJong Development"
-        
-        buyCoffeeButton.configuration = BMCButton.Configuration.init(color: .blue, font: .cookie)
     }
     
     @IBAction func clickSnapLink(_ sender: Any) {
@@ -98,20 +90,6 @@ class SettingsViewController: UIViewController {
             let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(ac, animated: true)
-            
-//            SCSDKLoginClient.unlinkAllSessions { (success: Bool) in
-//                DispatchQueue.main.async() {
-//                    self.updateButtonLabel()
-//                    self.embeddedTableViewController.updateBitSwitch()
-//                }
-//                if success {
-//                    DispatchQueue.main.async {
-//                        let ac = UIAlertController(title: "Unlinked!", message: "Your Snapchat account has been logged out!", preferredStyle: .alert)
-//                        ac.addAction(UIAlertAction(title: "OK", style: .default))
-//                        self.present(ac, animated: true)
-//                    }
-//                }
-//            }
         } else {
             //once this is linked - it will always be linked
             //set up with a "Link Snapchat Bitmoji" button or something like that
@@ -124,6 +102,9 @@ class SettingsViewController: UIViewController {
                 self.getAvatar()
             })
         }
+    }
+    
+    @IBAction func clickBuyMeADrink(_ sender: Any) {
     }
     
     @IBAction func clickPrivacy(_ sender: UIButton) {

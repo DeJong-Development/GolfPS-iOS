@@ -32,9 +32,7 @@
 		896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147B22A6D1AC00873D15 /* ButtonX.swift */; };
 		896D147E22A6D1B500873D15 /* Emitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147D22A6D1B500873D15 /* Emitter.swift */; };
 		896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147F22A6D1BB00873D15 /* DottedLine.swift */; };
-		896D148222A6D1D100873D15 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148122A6D1D100873D15 /* GradientView.swift */; };
 		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
-		896D148622A6D1D600873D15 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148522A6D1D600873D15 /* GradientButton.swift */; };
 		89726002245B3B2C00A85FEE /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89726000245B3B2C00A85FEE /* Interface.storyboard */; };
 		89726004245B3B2E00A85FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89726003245B3B2E00A85FEE /* Assets.xcassets */; };
 		8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -151,9 +149,7 @@
 		896D147B22A6D1AC00873D15 /* ButtonX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonX.swift; sourceTree = "<group>"; };
 		896D147D22A6D1B500873D15 /* Emitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emitter.swift; sourceTree = "<group>"; };
 		896D147F22A6D1BB00873D15 /* DottedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DottedLine.swift; sourceTree = "<group>"; };
-		896D148122A6D1D100873D15 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		896D148322A6D1D300873D15 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
-		896D148522A6D1D600873D15 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		89725FFE245B3B2C00A85FEE /* GolfPS Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GolfPS Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89726001245B3B2C00A85FEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		89726003245B3B2E00A85FEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -320,9 +316,7 @@
 		896D147522A6D16700873D15 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				896D148122A6D1D100873D15 /* GradientView.swift */,
 				896D148322A6D1D300873D15 /* GradientLabel.swift */,
-				896D148522A6D1D600873D15 /* GradientButton.swift */,
 				896D147622A6D19B00873D15 /* ViewX.swift */,
 				896D147722A6D1A200873D15 /* ImageViewX.swift */,
 				896D147922A6D1AA00873D15 /* TextFieldX.swift */,
@@ -659,7 +653,6 @@
 				8906414322B941B4006AFDC8 /* SettingsTableViewController.swift in Sources */,
 				8986E46F2369C8AC00E76224 /* BadgesViewController.swift in Sources */,
 				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
-				896D148222A6D1D100873D15 /* GradientView.swift in Sources */,
 				896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */,
 				8915E6762088FB6700A20258 /* GoogleMapViewController.swift in Sources */,
 				8986E4722369CA7A00E76224 /* BadgeBlockCollectionViewCell.swift in Sources */,
@@ -671,7 +664,6 @@
 				896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */,
 				89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */,
 				896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */,
-				896D148622A6D1D600873D15 /* GradientButton.swift in Sources */,
 				896856D2253C9CB300EB3FE6 /* AddClubViewController.swift in Sources */,
 				89996EC4210A5F7B00E0E290 /* RequestViewController.swift in Sources */,
 				898C2DAC22AEB50100C7815A /* PlayerUpdateTimer.swift in Sources */,
@@ -855,7 +847,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
@@ -879,7 +871,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -901,7 +893,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
@@ -924,7 +916,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
@@ -945,7 +937,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -971,7 +963,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

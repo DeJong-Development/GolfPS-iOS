@@ -39,7 +39,6 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Course Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wi-EF-iFf">
                                                         <rect key="frame" x="0.0" y="0.0" width="325.5" height="26"/>
                                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="20"/>
-                                                        <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                         <variation key="heightClass=regular-widthClass=regular">
                                                             <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="24"/>
@@ -48,7 +47,6 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RNM-J5-Gig">
                                                         <rect key="frame" x="327.5" y="0.0" width="46.5" height="26"/>
                                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="20"/>
-                                                        <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                         <variation key="heightClass=regular-widthClass=regular">
                                                             <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="24"/>
@@ -131,7 +129,7 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Aqv-qC-Yzf"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="obI-k2-VJh" firstAttribute="height" secondItem="77w-tU-hDT" secondAttribute="height" multiplier="2" id="0sl-UF-fpQ"/>
                             <constraint firstItem="SUw-36-JKM" firstAttribute="top" secondItem="Aqv-qC-Yzf" secondAttribute="top" constant="12" id="8x7-W8-T9I">
@@ -178,7 +176,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="pj1-qd-4SH">
                                         <rect key="frame" x="0.0" y="0.0" width="373" height="57.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nka-ml-slg">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nka-ml-slg">
                                                 <rect key="frame" x="0.0" y="0.0" width="373" height="18.5"/>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
@@ -537,6 +535,8 @@ Patience please!</string>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="1"/>
                                             </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="roundTL" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="roundTR" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="22"/>
@@ -847,7 +847,6 @@ Patience please!</string>
                                     <constraint firstAttribute="height" constant="30" id="fk9-sh-0Hg"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="24"/>
@@ -859,7 +858,6 @@ Patience please!</string>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify these values to get accurate club recommendations!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sy-T4-vMf">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="13.5"/>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="12"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="16"/>
@@ -891,7 +889,7 @@ Patience please!</string>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="value" systemColor="labelColor"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                         <real key="value" value="1"/>
@@ -914,7 +912,7 @@ Patience please!</string>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" name="Grass"/>
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                         <real key="value" value="1"/>
@@ -934,7 +932,7 @@ Patience please!</string>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4bj-E3-6SU"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="fZk-sp-qat" firstAttribute="top" secondItem="4bj-E3-6SU" secondAttribute="top" constant="12" id="1Sa-Qe-zGB">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
@@ -983,7 +981,6 @@ Patience please!</string>
                                     <constraint firstAttribute="height" constant="30" id="Z99-55-RqO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="24"/>
@@ -1024,7 +1021,6 @@ Patience please!</string>
                                     <constraint firstAttribute="width" constant="200" id="48b-n0-Lvq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -1035,7 +1031,7 @@ Patience please!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="PRIVACY POLICY">
-                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" systemColor="systemGrayColor"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
@@ -1053,7 +1049,7 @@ Patience please!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="TERMS AND CONDITIONS">
-                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" systemColor="systemGrayColor"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
@@ -1067,7 +1063,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpz-Ce-hFo">
-                                <rect key="frame" x="10" y="297" width="394" height="384"/>
+                                <rect key="frame" x="10" y="297" width="394" height="378"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="500" id="cHC-yc-4Tx"/>
                                 </constraints>
@@ -1080,13 +1076,27 @@ Patience please!</string>
                                     <segue destination="SD1-NX-MJV" kind="embed" id="5vO-qe-hnd"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x48-8q-zzQ" customClass="BMCButton" customModule="BuyMeACoffee">
-                                <rect key="frame" x="150" y="689" width="114" height="30"/>
-                                <state key="normal" title="Buy Me a Coffee"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x48-8q-zzQ" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="131" y="683" width="152" height="36"/>
+                                <color key="backgroundColor" name="Grass"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="18"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="8" maxX="10" maxY="8"/>
+                                <state key="normal" title="BUY ME A DRINK?">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickBuyMeADrink:" destination="dS7-Dt-uS5" eventType="touchUpInside" id="Bic-3I-P63"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dzP-ch-zpj"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="loV-ZL-Phz" firstAttribute="top" secondItem="ZIk-hs-8il" secondAttribute="bottom" constant="4" id="1HW-yY-Rim"/>
                             <constraint firstItem="ReD-vQ-44z" firstAttribute="top" secondItem="XcB-tf-0iP" secondAttribute="bottom" constant="10" id="33l-Tj-OVG"/>
@@ -1117,7 +1127,7 @@ Patience please!</string>
                     <tabBarItem key="tabBarItem" title="Profile" image="settings-black" selectedImage="settings-white" id="Vsp-tp-zch"/>
                     <connections>
                         <outlet property="bitmojiImage" destination="SEV-Hy-NMi" id="r87-Rz-HUa"/>
-                        <outlet property="buyCoffeeButton" destination="x48-8q-zzQ" id="73B-dW-6bd"/>
+                        <outlet property="buyMeADrinkButton" destination="x48-8q-zzQ" id="kLA-C9-AmX"/>
                         <outlet property="snapLink" destination="XcB-tf-0iP" id="QDg-Az-hpa"/>
                     </connections>
                 </viewController>
@@ -1131,7 +1141,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="SD1-NX-MJV" customClass="SettingsTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CBc-80-qHy">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="384"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="378"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexColor" systemColor="labelColor"/>
@@ -1552,7 +1562,7 @@ Patience please!</string>
             <objects>
                 <viewController id="B1g-gZ-Tbn" customClass="BadgesViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J1o-aL-isS">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="384"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="378"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Golf Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sf9-qt-dIH">
@@ -1564,8 +1574,8 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b30-oH-IeT">
-                                <rect key="frame" x="10" y="104" width="374" height="270"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="10" y="104" width="374" height="264"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYu-PJ-CJK">
                                     <size key="itemSize" width="100" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1588,7 +1598,7 @@ Patience please!</string>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Badge" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Isd-Iw-Rbd">
                                                             <rect key="frame" x="0.0" y="105" width="100" height="14.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -1632,7 +1642,7 @@ Patience please!</string>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nb-cU-wpm">
                                 <rect key="frame" x="10" y="64" width="47" height="30"/>
                                 <state key="normal" title="↢ Back">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" systemColor="systemGrayColor"/>
                                 </state>
                                 <connections>
                                     <action selector="clickBackButton:" destination="B1g-gZ-Tbn" eventType="touchUpInside" id="qkE-gy-dD8"/>
@@ -1873,7 +1883,7 @@ Patience please!</string>
             <size key="intrinsicContentSize" width="30" height="34"/>
         </designable>
         <designable name="x48-8q-zzQ">
-            <size key="intrinsicContentSize" width="114" height="30"/>
+            <size key="intrinsicContentSize" width="152" height="36"/>
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
@@ -1914,6 +1924,9 @@ Patience please!</string>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

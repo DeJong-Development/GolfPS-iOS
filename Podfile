@@ -13,7 +13,5 @@ target 'GolfPS' do
     pod 'Firebase/Crashlytics'
 
     pod 'SnapSDK'
-    
-    pod 'BuyMeACoffee'
 end
 

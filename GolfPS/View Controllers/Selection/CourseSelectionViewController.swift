@@ -82,9 +82,6 @@ class CourseSelectionViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return false
     }
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
     
     @IBAction func courseNameFilterChanged(_ sender: UITextField) {
         guard let queryText = sender.text, queryText.count > 1 else {

@@ -23,9 +23,6 @@ class MyBagViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return false
     }
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +58,6 @@ class MyBagViewController: UIViewController {
             editButton.backgroundColor = .gold
             editButton.setTitleColor(.black, for: .normal)
             editImage.image = #imageLiteral(resourceName: "noun_Save_1409370")
-            editImage.tintColor = .black
             addClubButton.isHidden = false
         }
     }

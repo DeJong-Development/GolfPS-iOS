@@ -17,9 +17,6 @@ class TabParentViewController: UITabBarController {
     override var prefersStatusBarHidden: Bool {
         return false
     }
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

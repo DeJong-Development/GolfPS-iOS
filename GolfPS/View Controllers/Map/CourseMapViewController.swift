@@ -96,8 +96,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         nextHoleButton.layer.cornerRadius = 6
         nextHoleButton.layer.masksToBounds = true
         
-        longDriveButton.cornersToRound = [.topLeft, .topRight]
-        
         if (WCSession.isSupported()) {
             wcSession = WCSession.default
             wcSession!.delegate = self
