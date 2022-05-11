@@ -100,27 +100,35 @@ class CourseSelectionViewController: UIViewController {
         
         var golfCourses:[Course] = [Course]()
         
-        db.collection("courses")
+        var query:Query!
+        #if DEBUG
+        query = db.collection("courses")
             .order(by: "name")
-            .getDocuments() { [weak self] (querySnapshot, err) in
-                guard let self = self else { return }
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else if let snapshot = querySnapshot {
-                    //get all the courses and add to a course list
-                    for document in snapshot.documents {
-                        guard let course = Course(id: document.documentID, data: document.data()) else {
-                            continue
-                        }
-                        golfCourses.append(course)
+            .limit(to: 3)
+        #else
+        query = db.collection("courses")
+            .order(by: "name")
+        #endif
+        
+        query.getDocuments() { [weak self] (querySnapshot, err) in
+            guard let self = self else { return }
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else if let snapshot = querySnapshot {
+                //get all the courses and add to a course list
+                for document in snapshot.documents {
+                    guard let course = Course(id: document.documentID, data: document.data()) else {
+                        continue
                     }
+                    golfCourses.append(course)
                 }
-                
-                self.allGolfCourses = golfCourses.sorted { $0.name < $1.name }
-                self.queryCourses()
-                self.loadingView.stopAnimating()
-                self.loadingBackground.isHidden = true
-                self.embeddedCourseTableViewController?.endRefresh()
+            }
+            
+            self.allGolfCourses = golfCourses.sorted { $0.name < $1.name }
+            self.queryCourses()
+            self.loadingView.stopAnimating()
+            self.loadingBackground.isHidden = true
+            self.embeddedCourseTableViewController?.endRefresh()
         }
     }
     
