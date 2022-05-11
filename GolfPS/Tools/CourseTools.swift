@@ -42,7 +42,7 @@ class CourseTools {
         }
     }
     
-    ///get the long drive data asscociated with this hole
+    ///get the long drive data associated with this hole
     static public func getLongestDrives(for hole: Hole, completion: @escaping (Bool, Error?) -> ()) {
         
         guard let holeDocRef = hole.docReference else {
