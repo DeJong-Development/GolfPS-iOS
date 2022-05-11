@@ -12,6 +12,6 @@ target 'GolfPS' do
     pod 'Firebase/Analytics'
     pod 'Firebase/Crashlytics'
 
-    pod 'SnapSDK'
+    pod 'SnapSDK', '~> 1.12'
 end
 
