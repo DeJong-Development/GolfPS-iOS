@@ -16,9 +16,9 @@ public struct Club {
         return AppSingleton.shared.metric
     }
     
-    private(set) var number:Int = 1;
+    private(set) var id: String = "clubid"
     private var defaultName:String {
-        switch number {
+        switch order {
         case 1: return "Driver";
         case 2: return "5 Wood";
         case 3: return "3 Wood";
@@ -37,7 +37,7 @@ public struct Club {
         }
     }
     private var defaultYards:Int {
-        switch number {
+        switch order {
         case 1: return 250;
         case 2: return 230;
         case 3: return 220;
@@ -59,28 +59,50 @@ public struct Club {
         return isMetric ? Int(Double(defaultYards) * 0.9144) : defaultYards
     }
     
+    var order:Int {
+        get {
+            return prefs.integer(forKey: "cluborder\(id)")
+        }
+        set(newOrder) {
+            prefs.set(newOrder, forKey: "cluborder\(id)")
+        }
+    }
     var name:String {
         get {
-            return prefs.string(forKey: "clubname\(number)") ?? defaultName;
+            return prefs.string(forKey: "clubname\(id)") ?? defaultName;
         }
         set(newName) {
-            prefs.set(newName, forKey: "clubname\(number)")
-            prefs.synchronize()
+            prefs.set(newName, forKey: "clubname\(id)")
         }
     }
     var distance:Int {
         get {
-            let d = prefs.integer(forKey: "clubdistance\(number)")
+            let d = prefs.integer(forKey: "clubdistance\(id)")
             if d > 0 { return d }
             return defaultDistance
         }
         set(newDistance) {
-            prefs.set(newDistance, forKey: "clubdistance\(number)")
-            prefs.synchronize()
+            prefs.set(newDistance, forKey: "clubdistance\(id)")
         }
     }
+    var isActive:Bool {
+        return !prefs.bool(forKey: "clubnotactive\(id)")
+    }
     
-    init(number:Int) {
-        self.number = number
+    init(id:String) {
+        self.id = id
+    }
+    
+    init(name:String, distance:Int) {
+        self.id = UUID().uuidString
+        self.name = name
+        self.distance = distance
+    }
+    
+    func activateClub() {
+        prefs.set(false, forKey: "clubnotactive\(id)")
+    }
+    func deactivateClub() {
+        prefs.set(true, forKey: "clubnotactive\(id)")
     }
 }

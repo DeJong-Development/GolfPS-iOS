@@ -23,55 +23,73 @@ public class Bag {
         }
         set(newNumber) {
             prefs.set(newNumber, forKey: "numberofclubs")
-            prefs.synchronize()
+        }
+    }
+    
+    private var clubIds:[String] {
+        get {
+            return prefs.stringArray(forKey: "assignedclubids") ?? []
+        }
+        set(newIds) {
+            prefs.set(newIds, forKey: "assignedclubids")
         }
     }
     
     private(set) var myClubs:[Club] = [Club]()
     
     init() {
-        for i in 1..<self.numberOfClubs + 1 {
-            myClubs.append(Club(number: i));
+        for clubId in clubIds {
+            let club = Club(id: clubId)
+            if club.isActive {
+                myClubs.append(club)
+            }
         }
         
         sortClubs()
     }
     
-    public func getClubSuggestion(distanceTo: Int) -> Club {
+    public func getClubSuggestion(distanceTo: Int) -> Club? {
         var avgDistances:[Int] = [Int]()
         
         for c in self.myClubs {
             avgDistances.append(c.distance)
         }
         
-        var clubNum:Int = 0;
+        var clubNum:Int = 0
         //iterate until we hit the appropriate club
         //do not select a club num past our number of clubs in the bag
         while (clubNum < avgDistances.count - 1 && distanceTo < avgDistances[clubNum]) {
-            clubNum += 1;
+            clubNum += 1
         }
         
+        guard clubNum < self.myClubs.count else {
+            return nil
+        }
         return self.myClubs[clubNum]
     }
     
-    func removeClubFromBag(withNumber number:Int) {
-        guard let foundIndex = myClubs.firstIndex(where: {$0.number == number}) else {
-            return
-        }
+    func removeClubFromBag(withIndexNumber index:Int) {
+        let clubToDeactivate = myClubs.remove(at: index)
+        clubToDeactivate.deactivateClub()
         
-        myClubs.remove(at: foundIndex)
         self.numberOfClubs = myClubs.count
     }
     func removeClubFromBag(_ club:Club) {
-        guard let foundIndex = myClubs.firstIndex(where: {$0.number == club.number}) else {
+        guard let foundIndex = myClubs.firstIndex(where: {$0.id == club.id}) else {
             return
         }
         
-        myClubs.remove(at: foundIndex)
+        let clubToDeactivate = myClubs.remove(at: foundIndex)
+        clubToDeactivate.deactivateClub()
         self.numberOfClubs = myClubs.count
     }
     
     func addClub(_ club:Club) {
+        var existingIds = self.clubIds
+        existingIds.append(club.id)
+        self.clubIds = existingIds
+        
+        club.activateClub()
         myClubs.append(club)
         self.numberOfClubs = myClubs.count
     }
@@ -82,5 +100,9 @@ public class Bag {
     func sortClubs() {
         //put clubs in proper order
         myClubs.sort(by: {$0.distance > $1.distance })
+        
+        for i in 0..<myClubs.count {
+            myClubs[i].order = i
+        }
     }
 }

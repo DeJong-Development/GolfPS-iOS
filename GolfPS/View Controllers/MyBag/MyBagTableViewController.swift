@@ -57,7 +57,7 @@ class MyBagTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.myBag.removeClubFromBag(withNumber: indexPath.row)
+            self.myBag.removeClubFromBag(withIndexNumber: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

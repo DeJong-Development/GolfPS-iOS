@@ -89,11 +89,12 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
             delegate?.updateDistanceToPin(distance: distanceToPin)
             
-            let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin)
-            delegate?.updateSelectedClub(club: suggestedClub)
-            
-            //update any suggestion lines
-            updateSuggestionLines(with: suggestedClub)
+            if let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin) {
+                delegate?.updateSelectedClub(club: suggestedClub)
+                
+                //update any suggestion lines
+                updateSuggestionLines(with: suggestedClub)
+            }
         }
         
         //add course visitation
@@ -400,9 +401,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             }
             self.delegate?.updateDistanceToPin(distance: distanceToUseInSuggestion)
             
-            let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion + Int(distance))
-            self.delegate?.updateSelectedClub(club: suggestedClub)
-            self.updateSuggestionLines(with: suggestedClub)
+            if let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion + Int(distance)) {
+                self.delegate?.updateSelectedClub(club: suggestedClub)
+                self.updateSuggestionLines(with: suggestedClub)
+            }
         }
     }
     
@@ -825,7 +827,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
         
         let playerPath = GMSMutablePath()
-        var suggestedClub:Club!
+        var suggestedClub:Club?
         if usingMyLocation {
             suggestedClub = me.bag.getClubSuggestion(distanceTo: distanceToPressFromLocation!)
             cDistanceMarker.title = distanceToPressFromLocation!.distance
@@ -839,7 +841,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             playerPath.add(currentTeeMarker.position)
             playerPath.add(currentDistanceMarker!.position)
         }
-        cDistanceMarker.snippet = suggestedClub.name
+        cDistanceMarker.snippet = suggestedClub?.name
         
         if let pm = currentPinMarker {
             let pinPath = GMSMutablePath()
@@ -899,10 +901,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let pinLoc:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: pinLocation.latitude, longitude: pinLocation.longitude)
         let teeYardsToPin:Int = mapTools.distanceFrom(first: teeLoc, second: pinLoc)
         
-        let driver:Club = Club(number: 1)
+        let myClubs = self.me.bag.myClubs
+        guard let driver:Club = myClubs.first else {
+            return
+        }
+        
         if (driver.distance < teeYardsToPin) {
             for i in 0..<3 {
-                let drivingClub:Club = Club(number: i + 1)
+                guard (myClubs.count > i) else { break }
+                let drivingClub:Club = myClubs[i]
                 let lineColor:UIColor = drivingDistanceLineColors[i]
                 
                 let distancePath = GMSMutablePath()
@@ -939,13 +946,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
         
         //show up to 2 club ups - if suggesting driver then 0 change allowed
-        let clubUps:Int = -min(suggestedClub.number - 1, 2)
+        let clubUps:Int = -min(suggestedClub.order - 1, 2)
         
         //show up to 2 club downs but not past smallest club
-        let clubDowns:Int = min(self.me.bag.myClubs.count - suggestedClub.number, 2) + 1
+        let clubDowns:Int = min(self.me.bag.myClubs.count - suggestedClub.order, 2) + 1
         
         for i in clubUps..<clubDowns {
-            let clubSelectionToShow:Club = Club(number: suggestedClub.number + i)
+            guard (self.me.bag.myClubs.count > suggestedClub.order + i) else { break }
+            
+            let clubSelectionToShow:Club = self.me.bag.myClubs[suggestedClub.order + i]
             
             var lineColor:UIColor = UIColor.white
             switch i {

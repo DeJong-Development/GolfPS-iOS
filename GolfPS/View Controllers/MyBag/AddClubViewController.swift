@@ -130,9 +130,7 @@ class AddClubViewController: BaseKeyboardViewController {
             return
         }
         
-        var newClub = Club(number: self.myBag.myClubs.count + 1)
-        newClub.distance = clubDistance
-        newClub.name = clubName
+        let newClub = Club(name: clubName, distance: clubDistance)
         
         AppSingleton.shared.me.didCustomizeBag = true
         
