@@ -21,13 +21,12 @@ class TabParentViewController: UITabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        
         if let tabSublayers = tabBar.layer.sublayers {
             gradient.frame = CGRect(x: CGFloat(0),
                                     y: CGFloat(0),
                                     width: self.tabBar.frame.size.width,
                                     height: self.tabBar.frame.size.height)
-            
+
             if (!tabSublayers.contains(gradient)) {
                 gradient.colors = [UIColor.init(white: 1, alpha: 0.2).cgColor, UIColor.init(white: 0, alpha: 0.2).cgColor]
                 gradient.startPoint = CGPoint(x: 0.5, y: 0)
@@ -50,6 +49,14 @@ class TabParentViewController: UITabBarController {
             tbi.image = tbi.image?.withRenderingMode(.alwaysOriginal)
             tbi.selectedImage = tbi.selectedImage?.withRenderingMode(.alwaysOriginal)
         }
+        
+        if #available(iOS 13.0, *) {
+            self.tabBar.unselectedItemTintColor = UIColor.black
+        }
+        self.tabBar.tintColor = .grass
+        self.tabBar.isTranslucent = false
+        self.tabBar.itemPositioning = .centered
+        self.tabBar.barTintColor = .grass
         
         Auth.auth().signInAnonymously() { (authResult, error) in
             if let user = authResult?.user {

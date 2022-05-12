@@ -10,6 +10,7 @@ import UIKit
 
 class MyBagViewController: UIViewController {
 
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var tableViewContainer: UIView!
     @IBOutlet weak var editButton: ButtonX!
     @IBOutlet weak var addClubButton: ButtonX!
@@ -26,6 +27,13 @@ class MyBagViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if AppSingleton.shared.me.bag.myClubs.isEmpty {
+            messageLabel.text = "Add clubs to your bag for on-course recommendations."
+            showEditBag()
+        } else {
+            messageLabel.text = "Update your clubs for more accurate recommendations!"
+        }
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
@@ -53,14 +61,19 @@ class MyBagViewController: UIViewController {
             //show in proper order
             self.myBagTVC.tableView.reloadData()
         } else {
-            myBagTVC.tableView.setEditing(true, animated: true)
-            editButton.setTitle("SAVE", for: .normal)
-            editButton.backgroundColor = .gold
-            editButton.setTitleColor(.black, for: .normal)
-            editImage.image = #imageLiteral(resourceName: "noun_Save_1409370")
-            addClubButton.isHidden = false
+            showEditBag()
         }
     }
+    
+    private func showEditBag() {
+        myBagTVC.tableView.setEditing(true, animated: true)
+        editButton.setTitle("SAVE", for: .normal)
+        editButton.backgroundColor = .gold
+        editButton.setTitleColor(.black, for: .normal)
+        editImage.image = #imageLiteral(resourceName: "noun_Save_1409370")
+        addClubButton.isHidden = false
+    }
+    
     @IBAction func clickAddClub(_ sender: Any) {
         //show the add club dialog
     }
