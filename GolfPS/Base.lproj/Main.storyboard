@@ -1329,7 +1329,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="NuW-7G-wT0" customClass="MyBagTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WMP-E4-qdC">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="684"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="684.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>

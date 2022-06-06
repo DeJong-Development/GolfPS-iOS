@@ -62,12 +62,12 @@ class CourseTools {
                     hole.longestDrives = [String:GeoPoint]()
                     for driveDoc in snap.documents {
                         let driveData = driveDoc.data()
-                        let driveUser = driveDoc.documentID;
+                        let driveUser = driveDoc.documentID
                         
                         if let driveDistance = driveData["distance"] as? Int {
                             if (driveUser == AppSingleton.shared.me.id) {
                                 hole.myLongestDriveInYards = driveDistance
-                                hole.myLongestDriveInMeters = Int(Double(driveDistance) / 1.09361)
+                                hole.myLongestDriveInMeters = driveDistance.toMeters()
                             }
                         }
                         if let driveLocation = driveData["location"] as? GeoPoint {

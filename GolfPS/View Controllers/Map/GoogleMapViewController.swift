@@ -21,7 +21,7 @@ extension GoogleMapViewController: HoleUpdateDelegate {
 
 extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTimerDelegate {
     func updatePlayersNow() {
-        updateOtherPlayerMarkers();
+        updateOtherPlayerMarkers()
     }
     
     //update our location on server every 30 seconds
@@ -113,8 +113,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private let me:MePlayer = AppSingleton.shared.me
     
-    private let mapTools:MapTools = MapTools();
-    private let clubTools:ClubTools = ClubTools();
+    private let mapTools:MapTools = MapTools()
+    private let clubTools:ClubTools = ClubTools()
     
     private var db:Firestore { return AppSingleton.shared.db }
     private var mapView:GMSMapView!
@@ -131,7 +131,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var playerListener:ListenerRegistration? = nil
     
     private var otherPlayers:[Player] = [Player]()
-    private var otherPlayerMarkers:[GMSMarker] = [GMSMarker]();
+    private var otherPlayerMarkers:[GMSMarker] = [GMSMarker]()
     private var myPlayerMarker:GMSMarker?
     private var myPlayerImage:UIImage? {
         didSet {
@@ -142,16 +142,16 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var myDrivingDistanceMarker:GMSMarker?
     private var currentPinMarker:GMSMarker!
     private var currentTeeMarker:GMSMarker!
-    private var currentBunkerMarkers:[GMSMarker] = [GMSMarker]();
-    private var currentLongDriveMarkers:[GMSMarker] = [GMSMarker]();
+    private var currentBunkerMarkers:[GMSMarker] = [GMSMarker]()
+    private var currentLongDriveMarkers:[GMSMarker] = [GMSMarker]()
     private var currentDistanceMarker:GMSMarker?
     
     private var isDraggingDistanceMarker:Bool = false
     
-    private var drivingDistanceLines:[GMSPolyline] = [GMSPolyline]();
-    private let drivingDistanceLineColors:[UIColor] = [UIColor.green, UIColor.yellow, UIColor.orange];
+    private var drivingDistanceLines:[GMSPolyline] = [GMSPolyline]()
+    private let drivingDistanceLineColors:[UIColor] = [UIColor.green, UIColor.yellow, UIColor.orange]
     
-    private var suggestedDistanceLines:[GMSPolyline] = [GMSPolyline]();
+    private var suggestedDistanceLines:[GMSPolyline] = [GMSPolyline]()
     
     private var lineToMyLocation:GMSPolyline?
     private var lineToPin:GMSPolyline?
@@ -343,9 +343,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         currentHole?.updateDelegate = nil
         
         var holeNum = currentHole?.number ?? 1 //default to hole number 1
-        holeNum += increment;
+        holeNum += increment
         if (holeNum > course.holeInfo.count) {
-            holeNum = 1;
+            holeNum = 1
         } else if holeNum <= 0 {
             holeNum = course.holeInfo.count
         }
@@ -366,7 +366,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         //check if we have played at this course before
         updateDidPlayHere()
         
-        moveCamera(to: currentHole.bounds, orientToHole: true)
+        moveCamera(to: currentHole, orientToHole: true)
         
         mapView.selectedMarker = currentPinMarker
         
@@ -408,20 +408,24 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    private func moveCamera(to bounds:GMSCoordinateBounds, orientToHole:Bool) {
-        let zoom:Float = mapTools.getBoundsZoomLevel(bounds: bounds, screenSize: view.bounds)
-        let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(bounds)
+    private func moveCamera(to hole:Hole, orientToHole:Bool) {
+        let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(hole.bounds)
         
         var bearing:Double = 0
         var viewingAngle:Double = 0
         if (orientToHole) {
-            let teeLocation:GeoPoint = currentHole.teeLocations[0]
-            let pinLocation:GeoPoint = currentHole.pinLocation
+            let teeLocation:GeoPoint = hole.teeLocations[0]
+            let pinLocation:GeoPoint = hole.pinLocation
             bearing = mapTools.calcBearing(start: teeLocation, finish: pinLocation) - 20
             viewingAngle = 45
         }
+        
+        let boxFitZoom:Float = mapTools.getBoundsZoomLevel(bounds: hole.bounds, screenSize: view.bounds)
+        
+        let newZoom:Float = mapTools.getCircularFitZoomLevel(holeLength: Double(hole.distance), holeWidth: 100, screenSize: view.bounds)
+        
         let cameraView:GMSCameraPosition = GMSCameraPosition(target: center,
-                                                             zoom: zoom,
+                                                             zoom: newZoom,
                                                              bearing: bearing,
                                                              viewingAngle: viewingAngle)
         mapView.animate(to: cameraView)
@@ -492,7 +496,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     continue
                 }
                 
-                opMarker = marker;
+                opMarker = marker
                 
                 marker.position = playerLocation
                 if let avatar = player.avatarURL, data["snap"] == nil || data["snap"] as? Bool == false {
@@ -606,14 +610,14 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateFirestoreLongDrive(distance:Int, location: GeoPoint) {
         let userId = self.me.id
         
-        var yards:Double = Double(distance);
+        var yards:Double = Double(distance)
         if AppSingleton.shared.metric {
-            //convert distance to yards
-            yards = Double(distance) * 1.09361
+            //convert distance to meters
+            yards = Double(distance).toMeters()
         }
         
         if let holeDocRef = currentHole.docReference {
-            let myLongDriveDoc = holeDocRef.collection("drives").document(userId);
+            let myLongDriveDoc = holeDocRef.collection("drives").document(userId)
             myLongDriveDoc.setData([
                 "location": location,
                 "distance": yards.rounded(),
@@ -757,7 +761,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     internal func mapView(_ mapView: GMSMapView, didBeginDragging marker: GMSMarker) {
         AudioServicesPlaySystemSound(1519)
         self.isDraggingDistanceMarker = true
-        mapView.selectedMarker = currentDistanceMarker;
+        mapView.selectedMarker = currentDistanceMarker
     }
     internal func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {
         self.isDraggingDistanceMarker = false
@@ -770,9 +774,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     internal func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if (marker == myPlayerMarker && currentHole.isLongDrive) {
-            addDrivePrompt();
+            addDrivePrompt()
         } else {
-            mapView.selectedMarker = marker;
+            mapView.selectedMarker = marker
         }
         return true;
     }
@@ -781,8 +785,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         currentDistanceMarker?.map = nil
         mapView.selectedMarker = nil
         
-        lineToPin?.map = nil;
-        lineToMyLocation?.map = nil;
+        lineToPin?.map = nil
+        lineToMyLocation?.map = nil
         currentDistanceMarker = nil
     }
     
@@ -886,8 +890,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateDrivingDistanceLines() {
         clearDistanceLines()
         
-        let teeLocation:GeoPoint = currentHole.teeLocations[0];
-        let pinLocation:GeoPoint = currentHole.pinLocation!;
+        let teeLocation:GeoPoint = currentHole.teeLocations[0]
+        let pinLocation:GeoPoint = currentHole.pinLocation!
         let bearingToPin:Double = mapTools.calcBearing(start: teeLocation, finish: currentHole.pinLocation!)
         var bearingToDogLeg:Double = bearingToPin
         if let dll = currentHole.dogLegLocation {
@@ -918,7 +922,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     distancePath.add(distanceCoords)
                 }
                 let distanceLine = GMSPolyline(path: distancePath)
-                distanceLine.strokeColor = lineColor;
+                distanceLine.strokeColor = lineColor
                 distanceLine.strokeWidth = 2
                 distanceLine.map = mapView
                 

@@ -102,14 +102,14 @@ public class Course: Hashable {
     }
     
     var bounds:GMSCoordinateBounds {
-        var bounds:GMSCoordinateBounds = GMSCoordinateBounds();
+        var bounds:GMSCoordinateBounds = GMSCoordinateBounds()
         for hole in self.holeInfo {
-            bounds = bounds.includingBounds(hole.bounds);
+            bounds = bounds.includingBounds(hole.bounds)
         }
         if let s = spectation {
             bounds = bounds.includingCoordinate(CLLocationCoordinate2D(latitude: s.latitude, longitude: s.longitude))
         }
-        return bounds;
+        return bounds
     }
     
     init?(id:String, data:[String:Any]) {

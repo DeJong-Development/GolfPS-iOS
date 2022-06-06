@@ -18,10 +18,11 @@ public class Hole {
     
     weak var updateDelegate:HoleUpdateDelegate?
     
+    private lazy var mapTools = MapTools()
     private(set) var number:Int = 1
     
     var docReference:DocumentReference? {
-        return AppSingleton.shared.course?.docReference?.collection("holes").document("\(self.number)");
+        return AppSingleton.shared.course?.docReference?.collection("holes").document("\(self.number)")
     }
     
     private(set) var bunkerLocations:[GeoPoint] = [GeoPoint]()
@@ -33,6 +34,7 @@ public class Hole {
     var myLongestDriveInYards:Int?
     var myLongestDriveInMeters:Int?
     
+    private var timeUpdatedLongDrive:Double = 0
     var longestDrives:[String:GeoPoint] = [String:GeoPoint]()
     
     var bounds:GMSCoordinateBounds {
@@ -49,27 +51,14 @@ public class Hole {
         if let pinLocation:GeoPoint = self.pinLocation {
             bounds = bounds.includingCoordinate(pinLocation.location)
         }
-        return bounds;
+        return bounds
     }
     
-    func setLongestDrive(distance:Int?) {
-        guard let d = distance else {
-            myLongestDriveInMeters = nil
-            myLongestDriveInYards = nil
-            return
-        }
-        
-        if AppSingleton.shared.metric {
-            myLongestDriveInMeters = d
-            myLongestDriveInYards = Int(Double(d) * 1.09361)
-        } else {
-            myLongestDriveInMeters = Int(Double(d) / 1.09361)
-            myLongestDriveInYards = d
-        }
-    }
+    private(set) var distance:Int = 0
+    private(set) var width:Int = 100
     
     init?(number:Int, data:[String:Any]) {
-        self.number = number;
+        self.number = number
         
         bunkerLocations = [GeoPoint]()
         teeLocations = [GeoPoint]()
@@ -82,16 +71,22 @@ public class Hole {
             return nil;
         }
         
-        self.pinLocation = pinObj;
-        if let bunkerObj = data["bunkers"] as? [GeoPoint] {
-            self.bunkerLocations = bunkerObj;
-        } else if let bunkerObj = data["bunkers"] as? GeoPoint {
-            self.bunkerLocations = [bunkerObj];
-        }
+        self.pinLocation = pinObj
+        
         if let teeObj = data["tee"] as? [GeoPoint] {
-            self.teeLocations = teeObj;
+            self.teeLocations = teeObj
         } else if let teeObj = data["tee"] as? GeoPoint {
             self.teeLocations = [teeObj]
+        }
+        
+        guard !self.teeLocations.isEmpty else {
+            return nil
+        }
+        
+        if let bunkerObj = data["bunkers"] as? [GeoPoint] {
+            self.bunkerLocations = bunkerObj
+        } else if let bunkerObj = data["bunkers"] as? GeoPoint {
+            self.bunkerLocations = [bunkerObj]
         }
         if let dlObj = data["dogLeg"] as? GeoPoint {
             self.dogLegLocation = dlObj
@@ -99,16 +94,41 @@ public class Hole {
         if let pinElevation = data["pinElevation"] as? Double {
             self.pinElevation = pinElevation
         }
-        if let ld = data["longDrive"] as? Bool {
-            self.isLongDrive = ld
-            
-            if (ld) {
-                CourseTools.getLongestDrives(for: self) { [weak self] (success, error) in
-                    if (success) {
-                        self?.updateDelegate?.didUpdateLongDrive()
-                    }
-                }
+        
+        self.isLongDrive = data["longDrive"] as? Bool ?? false
+        
+        self.distance = self.mapTools.distanceFrom(first: self.teeLocations[0], second: self.pinLocation)
+    }
+    
+    func setLongestDrive(distance:Int?) {
+        guard let d = distance else {
+            myLongestDriveInMeters = nil
+            myLongestDriveInYards = nil
+            return
+        }
+        
+        if AppSingleton.shared.metric {
+            myLongestDriveInMeters = d
+            myLongestDriveInYards = d.toYards()
+        } else {
+            myLongestDriveInMeters = d.toMeters()
+            myLongestDriveInYards = d
+        }
+    }
+    
+    func getLongestDrives() {
+        guard isLongDrive else { return }
+        guard CACurrentMediaTime() - self.timeUpdatedLongDrive > 60 else {
+            return
+        }
+        
+        CourseTools.getLongestDrives(for: self) { [weak self] (success, error) in
+            self?.timeUpdatedLongDrive = CACurrentMediaTime()
+            if (success) {
+                self?.updateDelegate?.didUpdateLongDrive()
             }
         }
     }
+    
+    
 }

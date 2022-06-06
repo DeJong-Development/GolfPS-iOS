@@ -26,7 +26,7 @@ class ShotTools {
                     completion(startElevation, finishElevation, distance, elevationChange, nil)
                 } else {
                     //results are in meters, convert to yards
-                    completion(startElevation, finishElevation, distance * 1.09361, elevationChange, nil)
+                    completion(startElevation, finishElevation, distance.toYards(), elevationChange, nil)
                 }
             })
         })
@@ -46,7 +46,7 @@ class ShotTools {
                 completion(startElevation, finishElevation, distance, elevationChange, nil)
             } else {
                 //results are in meters, convert to yards
-                completion(startElevation, finishElevation, distance * 1.09361, elevationChange, nil)
+                completion(startElevation, finishElevation, distance.toYards(), elevationChange, nil)
             }
         }
         

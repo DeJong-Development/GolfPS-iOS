@@ -162,6 +162,16 @@ extension Int {
             return "\(self) yds"
         }
     }
+    
+    ///Convert yards to meters
+    func toMeters() -> Int {
+        return Int(Double(self) / 1.09361)
+    }
+    
+    ///Convert meters to yards
+    func toYards() -> Int {
+        return Int(Double(self) * 1.09361)
+    }
 }
 
 extension Double {
@@ -172,6 +182,16 @@ extension Double {
         } else {
             return "\(Int(self)) yds"
         }
+    }
+    
+    ///Convert yards to meters
+    func toMeters() -> Double {
+        return Double(self) / 1.09361
+    }
+    
+    ///Convert meters to yards
+    func toYards() -> Double {
+        return Double(self) * 1.09361
     }
 }
 

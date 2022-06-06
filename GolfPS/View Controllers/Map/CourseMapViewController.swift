@@ -122,7 +122,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         }
         
         if (hole.isLongDrive) {
-            showLongDrive(hideStack: true)
+            hole.getLongestDrives()
+            showLongDrive(hideStack: false)
         } else {
             hideLongDrive(hideButton: true)
         }

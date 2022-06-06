@@ -21,11 +21,12 @@
 		8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */; };
 		8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E680208A330F00A20258 /* CourseSelectionViewController.swift */; };
 		8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */; };
+		89415FFB282D4FF600AA7D7F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89415FF5282D4E3300AA7D7F /* GoogleService-Info.plist */; };
+		89415FFC282D4FF800AA7D7F /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89415FF6282D4E7800AA7D7F /* ApiKeys.plist */; };
 		895C0AEF253F647F002B189B /* Bag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895C0AEE253F647F002B189B /* Bag.swift */; };
 		896856CD253C9AC600EB3FE6 /* ViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147622A6D19B00873D15 /* ViewX.swift */; };
 		896856D2253C9CB300EB3FE6 /* AddClubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */; };
 		896856D7253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896856D6253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift */; };
-		896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 896D147122A59BE600873D15 /* GoogleService-Info.plist */; };
 		896D147422A5A0FE00873D15 /* AppSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147322A5A0FE00873D15 /* AppSingleton.swift */; };
 		896D147822A6D1A200873D15 /* ImageViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147722A6D1A200873D15 /* ImageViewX.swift */; };
 		896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147922A6D1AA00873D15 /* TextFieldX.swift */; };
@@ -57,7 +58,6 @@
 		89C32DFB20B5F4400036C151 /* MyBagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DFA20B5F4400036C151 /* MyBagTableViewController.swift */; };
 		89C32DFD20B5FCCA0036C151 /* TabParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C32DFC20B5FCCA0036C151 /* TabParentViewController.swift */; };
 		89D078BA208ADBD500B97690 /* MapTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D078B9208ADBD500B97690 /* MapTools.swift */; };
-		89D68DBC21E97C090026BD7F /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89D68DBB21E97C090026BD7F /* ApiKeys.plist */; };
 		89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DFFE4E21E96B9B0096AC3C /* Extensions.swift */; };
 		89F474F822B1D6CA007D044A /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F474F722B1D6CA007D044A /* Club.swift */; };
 		89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F49A9E2432837000C0B9A0 /* Colors.xcassets */; };
@@ -131,17 +131,18 @@
 		8915E6612088F8C800A20258 /* CourseMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseMapViewController.swift; sourceTree = "<group>"; };
 		8915E6642088F8C800A20258 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8915E6692088F8CA00A20258 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8915E66B2088F8CA00A20258 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8915E6732088F9AE00A20258 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		8915E6752088FB6700A20258 /* GoogleMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapViewController.swift; sourceTree = "<group>"; };
 		8915E679208A2FE300A20258 /* CourseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePickerTableViewController.swift; sourceTree = "<group>"; };
 		8915E680208A330F00A20258 /* CourseSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseSelectionViewController.swift; sourceTree = "<group>"; };
 		8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		89415FF5282D4E3300AA7D7F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		89415FF6282D4E7800AA7D7F /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = ApiKeys.plist; sourceTree = "<group>"; };
+		89415FF9282D4EF600AA7D7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895C0AEE253F647F002B189B /* Bag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bag.swift; sourceTree = "<group>"; };
 		896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClubViewController.swift; sourceTree = "<group>"; };
 		896856D6253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseKeyboardViewController.swift; sourceTree = "<group>"; };
-		896D147122A59BE600873D15 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		896D147322A5A0FE00873D15 /* AppSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSingleton.swift; sourceTree = "<group>"; };
 		896D147622A6D19B00873D15 /* ViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewX.swift; sourceTree = "<group>"; };
 		896D147722A6D1A200873D15 /* ImageViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewX.swift; sourceTree = "<group>"; };
@@ -179,7 +180,6 @@
 		89C32DFC20B5FCCA0036C151 /* TabParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabParentViewController.swift; sourceTree = "<group>"; };
 		89C32DFE20B6110A0036C151 /* GolfPS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GolfPS.entitlements; sourceTree = "<group>"; };
 		89D078B9208ADBD500B97690 /* MapTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTools.swift; sourceTree = "<group>"; };
-		89D68DBB21E97C090026BD7F /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		89DFFE4E21E96B9B0096AC3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		89F474F722B1D6CA007D044A /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		89F49A9E2432837000C0B9A0 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -268,14 +268,14 @@
 				8915E67F208A32B500A20258 /* View Controllers */,
 				89DFFE4E21E96B9B0096AC3C /* Extensions.swift */,
 				896D147322A5A0FE00873D15 /* AppSingleton.swift */,
-				896D147122A59BE600873D15 /* GoogleService-Info.plist */,
-				89D68DBB21E97C090026BD7F /* ApiKeys.plist */,
+				89415FF5282D4E3300AA7D7F /* GoogleService-Info.plist */,
+				89415FF6282D4E7800AA7D7F /* ApiKeys.plist */,
+				89415FF9282D4EF600AA7D7F /* Info.plist */,
 				8915E65F2088F8C800A20258 /* AppDelegate.swift */,
 				8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */,
 				89F49A9E2432837000C0B9A0 /* Colors.xcassets */,
 				8915E6632088F8C800A20258 /* Main.storyboard */,
 				8915E6682088F8CA00A20258 /* LaunchScreen.storyboard */,
-				8915E66B2088F8CA00A20258 /* Info.plist */,
 			);
 			path = GolfPS;
 			sourceTree = "<group>";
@@ -525,13 +525,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89415FFC282D4FF800AA7D7F /* ApiKeys.plist in Resources */,
 				8915E66A2088F8CA00A20258 /* LaunchScreen.storyboard in Resources */,
 				8915E6742088F9AE00A20258 /* Podfile in Resources */,
-				89D68DBC21E97C090026BD7F /* ApiKeys.plist in Resources */,
 				8915E6652088F8C800A20258 /* Main.storyboard in Resources */,
 				8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */,
-				896D147222A59BE600873D15 /* GoogleService-Info.plist in Resources */,
 				89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */,
+				89415FFB282D4FF600AA7D7F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -847,11 +847,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JJEJU2G45A;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -871,10 +872,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -893,11 +894,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
@@ -916,11 +917,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -937,7 +938,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -945,7 +946,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
@@ -963,7 +964,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -971,7 +972,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.4;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
