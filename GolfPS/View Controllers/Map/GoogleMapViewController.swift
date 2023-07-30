@@ -801,8 +801,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         if let distancePinTee = distanceToPinFromTee,
             let distancePinMe = distanceToPinFromMyLocation,
             let distanceTeeMe = distanceToTeeFromMyLocation {
-            let meIsCloseToPin:Bool = distancePinMe < distancePinTee - 30
-            let meIsCloseToSelectedHole:Bool = distanceTeeMe + distancePinMe < distancePinTee + 75
+            let meIsCloseToPin:Bool = distanceTeeMe < 100
+            let meIsCloseToSelectedHole:Bool = distanceTeeMe + distancePinMe < distancePinTee + 100
             
             //if we are not being suggested the driver -> show the resulting suggested club arcs
             if meIsCloseToPin && meIsCloseToSelectedHole {
