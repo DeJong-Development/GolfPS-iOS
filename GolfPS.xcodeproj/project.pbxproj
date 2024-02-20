@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,8 +21,6 @@
 		8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */; };
 		8915E681208A330F00A20258 /* CourseSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8915E680208A330F00A20258 /* CourseSelectionViewController.swift */; };
 		8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */; };
-		89415FFB282D4FF600AA7D7F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89415FF5282D4E3300AA7D7F /* GoogleService-Info.plist */; };
-		89415FFC282D4FF800AA7D7F /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89415FF6282D4E7800AA7D7F /* ApiKeys.plist */; };
 		895C0AEF253F647F002B189B /* Bag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895C0AEE253F647F002B189B /* Bag.swift */; };
 		896856CD253C9AC600EB3FE6 /* ViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D147622A6D19B00873D15 /* ViewX.swift */; };
 		896856D2253C9CB300EB3FE6 /* AddClubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */; };
@@ -36,7 +34,7 @@
 		896D148422A6D1D300873D15 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896D148322A6D1D300873D15 /* GradientLabel.swift */; };
 		89726002245B3B2C00A85FEE /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89726000245B3B2C00A85FEE /* Interface.storyboard */; };
 		89726004245B3B2E00A85FEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89726003245B3B2E00A85FEE /* Assets.xcassets */; };
-		8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8972600A245B3B2E00A85FEE /* GolfPS Companion Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		89726010245B3B2E00A85FEE /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8972600F245B3B2E00A85FEE /* InterfaceController.swift */; };
 		89726012245B3B2E00A85FEE /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89726011245B3B2E00A85FEE /* ExtensionDelegate.swift */; };
 		89726014245B3B2E00A85FEE /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89726013245B3B2E00A85FEE /* NotificationController.swift */; };
@@ -62,6 +60,8 @@
 		89F474F822B1D6CA007D044A /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F474F722B1D6CA007D044A /* Club.swift */; };
 		89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F49A9E2432837000C0B9A0 /* Colors.xcassets */; };
 		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
+		F7C02D8F2B8553BA00C6AEE2 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */; };
+		F7C02D922B85591400C6AEE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,25 +93,25 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8972601F245B3B2F00A85FEE /* Embed App Extensions */ = {
+		8972601F245B3B2F00A85FEE /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed App Extensions */,
+				8972600B245B3B2E00A85FEE /* GolfPS Companion Extension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		898A20C021026D80005FCA7A /* Embed App Extensions */ = {
+		898A20C021026D80005FCA7A /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -137,9 +137,6 @@
 		8915E67B208A300C00A20258 /* CoursePickerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePickerTableViewController.swift; sourceTree = "<group>"; };
 		8915E680208A330F00A20258 /* CourseSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseSelectionViewController.swift; sourceTree = "<group>"; };
 		8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		89415FF5282D4E3300AA7D7F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		89415FF6282D4E7800AA7D7F /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = ApiKeys.plist; sourceTree = "<group>"; };
-		89415FF9282D4EF600AA7D7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		895C0AEE253F647F002B189B /* Bag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bag.swift; sourceTree = "<group>"; };
 		896856D1253C9CB300EB3FE6 /* AddClubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClubViewController.swift; sourceTree = "<group>"; };
 		896856D6253C9F8D00EB3FE6 /* BaseKeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseKeyboardViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +181,9 @@
 		89F474F722B1D6CA007D044A /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		89F49A9E2432837000C0B9A0 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
+		F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = ApiKeys.plist; sourceTree = "<group>"; };
+		F7C02D902B85546900C6AEE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,9 +268,9 @@
 				8915E67F208A32B500A20258 /* View Controllers */,
 				89DFFE4E21E96B9B0096AC3C /* Extensions.swift */,
 				896D147322A5A0FE00873D15 /* AppSingleton.swift */,
-				89415FF5282D4E3300AA7D7F /* GoogleService-Info.plist */,
-				89415FF6282D4E7800AA7D7F /* ApiKeys.plist */,
-				89415FF9282D4EF600AA7D7F /* Info.plist */,
+				F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */,
+				F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */,
+				F7C02D902B85546900C6AEE2 /* Info.plist */,
 				8915E65F2088F8C800A20258 /* AppDelegate.swift */,
 				8923B5A6216E8CF900CBC9E3 /* Assets.xcassets */,
 				89F49A9E2432837000C0B9A0 /* Colors.xcassets */,
@@ -418,7 +418,7 @@
 				8915E65A2088F8C800A20258 /* Resources */,
 				BACC91256F54FA1CF3FF6808 /* [CP] Embed Pods Frameworks */,
 				ECED2BF15C4390BFF343AB3E /* [CP] Copy Pods Resources */,
-				898A20C021026D80005FCA7A /* Embed App Extensions */,
+				898A20C021026D80005FCA7A /* Embed Foundation Extensions */,
 				89AD88DB211E219F00AA8D02 /* ShellScript */,
 				8972601C245B3B2F00A85FEE /* Embed Watch Content */,
 			);
@@ -437,7 +437,7 @@
 			buildConfigurationList = 89726023245B3B2F00A85FEE /* Build configuration list for PBXNativeTarget "GolfPS Companion" */;
 			buildPhases = (
 				89725FFC245B3B2C00A85FEE /* Resources */,
-				8972601F245B3B2F00A85FEE /* Embed App Extensions */,
+				8972601F245B3B2F00A85FEE /* Embed Foundation Extensions */,
 				55BC266CEB0D6745050D4FD9 /* Frameworks */,
 			);
 			buildRules = (
@@ -473,8 +473,9 @@
 		8915E6542088F8C800A20258 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1520;
 				ORGANIZATIONNAME = "DeJong Development";
 				TargetAttributes = {
 					8915E65B2088F8C800A20258 = {
@@ -525,13 +526,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89415FFC282D4FF800AA7D7F /* ApiKeys.plist in Resources */,
 				8915E66A2088F8CA00A20258 /* LaunchScreen.storyboard in Resources */,
 				8915E6742088F9AE00A20258 /* Podfile in Resources */,
 				8915E6652088F8C800A20258 /* Main.storyboard in Resources */,
 				8923B5A7216E8CF900CBC9E3 /* Assets.xcassets in Resources */,
 				89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */,
-				89415FFB282D4FF600AA7D7F /* GoogleService-Info.plist in Resources */,
+				F7C02D8F2B8553BA00C6AEE2 /* ApiKeys.plist in Resources */,
+				F7C02D922B85591400C6AEE2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,7 +558,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		89AD88DB211E219F00AA8D02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -566,7 +567,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
@@ -757,11 +758,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -776,7 +774,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -818,9 +815,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -831,12 +826,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
