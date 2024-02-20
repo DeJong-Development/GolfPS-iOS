@@ -9,7 +9,7 @@
 import UIKit
 import SCSDKLoginKit
 
-protocol SettingsActionDelegate: class {
+protocol SettingsActionDelegate: AnyObject {
     func removeAvatar()
     func updateAvatar()
 }
