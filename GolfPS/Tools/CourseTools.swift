@@ -22,7 +22,7 @@ class CourseTools {
             .getDocuments() { (querySnapshot, error) in
                 
                 if let err = error {
-                    print("Error getting documents: \(err)")
+                    DebugLogger.report(error: error, message: "Error retrieving holes for course: \(course.id)")
                     completion(false, err)
                 } else {
                     course.holeInfo.removeAll()
@@ -55,7 +55,7 @@ class CourseTools {
             .limit(to: 3)
             .getDocuments { (snapshot, error) in
                 if let err = error {
-                    print("Error adding long drive: \(err)")
+                    DebugLogger.report(error: err, message: "Error adding long drive")
                     completion(false, err)
                 } else if let snap = snapshot {
                     

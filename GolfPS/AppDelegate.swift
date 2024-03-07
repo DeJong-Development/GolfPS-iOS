@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import FirebaseCore
-import FirebaseFirestore
+import Firebase
 import SCSDKLoginKit
 import WatchConnectivity
 
@@ -17,15 +16,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        window = UIApplication.shared.windows.first
         
         FirebaseApp.configure()
+        
+        #if DEBUG
+        guard !CommandLine.arguments.contains("testing") && !AppSingleton.shared.testing else {
+            AppSingleton.shared.testing = true
+            
+            Firestore.firestore().useEmulator(withHost: "localhost", port: 8080)
+            
+            let settings = Firestore.firestore().settings
+            settings.host = "localhost:8080"
+            // Use memory-only cache
+            settings.cacheSettings = MemoryCacheSettings(garbageCollectorSettings: MemoryLRUGCSettings())
+            settings.isSSLEnabled = false
+            Firestore.firestore().settings = settings
+            
+            Auth.auth().useEmulator(withHost:"localhost", port: 9099)
+            Auth.auth().settings!.isAppVerificationDisabledForTesting = CommandLine.arguments.contains("mfa")
+            
+            try? Auth.auth().signOut()
+            AppSingleton.shared.me = MePlayer(id: "offline")
+            AppSingleton.shared.db = Firestore.firestore()
+            
+            return true
+        }
+        #endif
+        
         AppSingleton.shared.me = MePlayer(id: "offline")
         AppSingleton.shared.db = Firestore.firestore()
         
+        #if targetEnvironment(simulator) || DEBUG
+            for family in UIFont.familyNames {
+                //print all fonts
+                print("\(family)")
+
+                for name in UIFont.fontNames(forFamilyName: family) {
+                    print("   \(name)")
+                }
+            }
+
+            Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+        #else
+            Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+        #endif
+        
+        if CommandLine.arguments.contains("NoAnimations") {
+            UIView.setAnimationsEnabled(false)
+        }
+        
         return true
+    }
+    
+    func isRunningLive() -> Bool {
+        #if targetEnvironment(simulator)
+            return false
+        #else
+            let isRunningTestFlightBeta  = (Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt")
+            let hasEmbeddedMobileProvision = Bundle.main.path(forResource: "embedded", ofType: "mobileprovision") != nil
+            if (isRunningTestFlightBeta || hasEmbeddedMobileProvision) {
+                return false
+            } else {
+                return true
+            }
+        #endif
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -50,10 +107,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         WCSession.default.sendMessage(["course": ""], replyHandler: nil) { (error) in
-            print(error.localizedDescription)
+            DebugLogger.report(error: error, message: "Unable to reset course on watch when app terminates.")
         }
     }
-
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return SCSDKLoginClient.application(app, open: url, options: options)

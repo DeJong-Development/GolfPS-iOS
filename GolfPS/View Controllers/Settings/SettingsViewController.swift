@@ -171,7 +171,7 @@ class SettingsViewController: UIViewController {
     private func getAvatar(replaceImage:Bool = true) {
         SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
             if let error = error {
-                print(error.localizedDescription)
+                DebugLogger.report(error: error, message: "Unable to retrieve Bitmoji")
             } else if let urlString = avatarURL, let url = URL(string: urlString) {
                 self.avatarURLToShare = url;
                 if (AppSingleton.shared.me.shareBitmoji) {

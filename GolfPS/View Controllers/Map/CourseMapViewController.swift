@@ -55,7 +55,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         super.viewWillDisappear(animated)
         if let wcs = wcSession, wcs.isReachable {
             wcs.sendMessage(["course": ""], replyHandler: nil) { (error) in
-                print(error.localizedDescription)
+                DebugLogger.report(error: error, message: "Error resetting course on watch.")
             }
         }
         wcSession?.delegate = nil
@@ -117,7 +117,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         
         if let wcs = wcSession, wcs.isReachable {
             wcs.sendMessage(["hole": hole.number], replyHandler: nil) { (error) in
-                print(error.localizedDescription)
+                DebugLogger.report(error: error, message: "Error sending hole to watch")
             }
         }
         
@@ -139,7 +139,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         
         if let wcs = wcSession, wcs.isReachable {
             wcs.sendMessage(message, replyHandler: nil) { (error) in
-                print(error.localizedDescription)
+                DebugLogger.report(error: error, message: "Error updating distance on watch.")
             }
         }
     }
@@ -148,13 +148,13 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         
         if let wcs = wcSession, wcs.isReachable {
             wcs.sendMessage(["club": club.name], replyHandler: nil) { (error) in
-                print(error.localizedDescription)
+                DebugLogger.report(error: error, message: "Error updating club on watch.")
             }
         }
     }
     
     internal func updateElevationEffect(height: Double, distance: Double) {
-        print("height reported: \(height)")
+        DebugLogger.log(message: "Height reported \(height)")
         DispatchQueue.main.async {
             if (distance > 0) {
                 self.elevationLabel.text = "+\(distance.distance)"

@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "E099C04B-A845-4799-8709-B5415D1DBBCA",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "GolfPSUITestsLaunchTests",
+        "UI_Tests"
+      ],
+      "target" : {
+        "containerPath" : "container:GolfPS.xcodeproj",
+        "identifier" : "F7C02DAF2B9A728200C6AEE2",
+        "name" : "GolfPSUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

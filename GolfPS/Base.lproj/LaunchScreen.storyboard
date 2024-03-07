@@ -25,7 +25,7 @@
                         <constraints>
                             <constraint firstItem="1Zx-UL-hGb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="83O-Cv-N5O"/>
                             <constraint firstItem="1Zx-UL-hGb" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="IlE-ml-ZXn"/>
-                            <constraint firstItem="1Zx-UL-hGb" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="NhC-S9-ACP"/>
+                            <constraint firstItem="1Zx-UL-hGb" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Nhk-FD-ZrX"/>
                             <constraint firstItem="1Zx-UL-hGb" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="rdK-xg-Z0X"/>
                         </constraints>
                     </view>

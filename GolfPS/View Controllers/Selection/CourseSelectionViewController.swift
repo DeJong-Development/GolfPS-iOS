@@ -113,7 +113,7 @@ class CourseSelectionViewController: UIViewController {
         query.getDocuments() { [weak self] (querySnapshot, err) in
             guard let self = self else { return }
             if let err = err {
-                print("Error getting documents: \(err)")
+                DebugLogger.report(error: err, message: "Error retrieving courses.")
             } else if let snapshot = querySnapshot {
                 //get all the courses and add to a course list
                 for document in snapshot.documents {

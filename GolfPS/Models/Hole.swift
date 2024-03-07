@@ -67,8 +67,8 @@ public class Hole {
         isLongDrive = false
         
         guard let pinObj = data["pin"] as? GeoPoint else {
-            print("Invalid hole structure!")
-            return nil;
+            DebugLogger.report(error: nil, message: "Invalid hole structure!")
+            return nil
         }
         
         self.pinLocation = pinObj

@@ -20,6 +20,8 @@ class AppSingleton {
     var me:MePlayer!
     var course:Course? = nil
     
+    var testing:Bool = false
+    
     var metric:Bool {
         set(newValue) {
             UserDefaults.standard.set(newValue, forKey: "using_metric")
@@ -36,6 +38,13 @@ class AppSingleton {
             return "no-key-found"
         }
         return value
+    }
+    
+    init() {
+        #if DEBUG
+        #else
+        self.testing = false
+        #endif
     }
 }
 

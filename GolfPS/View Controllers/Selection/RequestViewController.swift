@@ -96,7 +96,7 @@ class RequestViewController: BaseKeyboardViewController {
             
             self.progressBackground.isHidden = true
             if let err = err {
-                print("Error writing document: \(err)")
+                DebugLogger.report(error: err, message: "Unable to send course request.")
                 
                 let alertController = UIAlertController(title: "Error!", message: "Unable to request course. Not quite sure why... Sorry!", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
@@ -106,7 +106,7 @@ class RequestViewController: BaseKeyboardViewController {
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
             } else {
-                print("Document successfully written!")
+                DebugLogger.log(message: "Sent course request!")
                 
                 let alertController = UIAlertController(title: "Course Requested!", message: "Successfully requested a new golf course! Check back in later to see it in the course list.", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {

@@ -319,7 +319,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                         }
                     }
                 } else {
-                    print("Error fetching documents: \(error!)")
+                    DebugLogger.report(error: error, message: "Error fetching other player location information")
                 }
                 
                 self.otherPlayers = playersOnCourse

@@ -55,13 +55,13 @@ class ShotTools {
         //could cause inaccurate answers?
         switch Int.random(in: 0..<2) {
         case 0:
-            print("using 1")
+            DebugLogger.log(message: "Using Elevation API 1")
             getElevation(atLocation: start, completion: completeElevation)
         case 1:
-            print("using 2")
+            DebugLogger.log(message: "Using Elevation API 2")
             getElevation2(atLocation: start, completion: completeElevation)
         case 2:
-            print("using 3")
+            DebugLogger.log(message: "Using Elevation API 3")
             getElevation3(atLocation: start, completion: completeElevation)
         default: ()
         }
