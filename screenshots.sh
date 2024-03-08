@@ -73,24 +73,17 @@ appearances=(
 #REBUILD_WORKSPACE=${REBUILD_WORKSPACE:-N}
     
 for simulator in "${simulators[@]}"
-
+do
     # Boot up the new simulator
-    do
-        if xcrun simctl list devices | grep "$simulator" | grep -q "Booted"; then
+    if xcrun simctl list devices | grep "$simulator" | grep -q "Booted"; then
         echo "Simulator is already booted."
     else
         xcrun simctl boot "$simulator"
         echo "Simulator was not booted, booting now."
     fi
-                        
-#    if [ ! "$(ls -A $derivedDataPath)" ] || [ "$REBUILD_WORKSPACE" == "y" ] || [ "$REBUILD_WORKSPACE" == "Y" ]; then
-#        echo "🚧 Rebuilding derived data. Starting xcodebuild..."
 
     # Build without testing
-    xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build-for-testing -verbose
-#    else
-#        echo "⏩ Skipping xcodebuild."
-#    fi
+#    xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build-for-testing -verbose
             
     for language in "${languages[@]}"
     do
@@ -115,10 +108,10 @@ for simulator in "${simulators[@]}"
             echo "Granting all permissions..."
             
             # Test without building
-            xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" test-without-building
+#            xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" test-without-building
 
             # Build and Test
-#            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme $schemeName -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,name=$simulator" build test
+            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -derivedDataPath "$derivedDataPath" -destination "platform=iOS Simulator,name=$simulator" build test
             
             echo "🖼  Collecting Results..."
             mkdir -p "$targetFolder/$simulator/$language/$appearance"

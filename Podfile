@@ -11,8 +11,19 @@ target 'GolfPS' do
     pod 'Firebase/Core'
     pod 'Firebase/Analytics'
     pod 'Firebase/Crashlytics'
+    pod 'GoogleUtilities'
 
     pod 'SnapSDK', '~> 1.12'
+end
+
+
+target 'GolfPSTests' do
+  use_frameworks!
+
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Auth'
+  pod 'GoogleUtilities'
 end
 
 post_install do |installer|

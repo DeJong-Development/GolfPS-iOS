@@ -7,38 +7,18 @@ import Firebase
 import FirebaseFirestore
 
 enum UserType {
-    case headCoachTeamA, assistantCoachTeamA, headCoachTeamB, assistantCoachTeamB, anonymous, noTeam
+    case anonymous
     
     var userId:String {
         switch self {
-            case .noTeam:
-                return "vRgDRKZCzqA87NXwxJ7XH3WdJuSK"
-            case .headCoachTeamA:
-                return "cpZxHuLlSBfirWnwkKsJnAjLjuLD"
-            case .assistantCoachTeamA:
-                return "Rye2DrJgzWTtyJLswCk410eCBfaD"
-            case .headCoachTeamB:
-                return "ZIdSPdnEPeYEEcqCOaZ2UyTEkFPm"
-            case .assistantCoachTeamB:
-                return "3KXYhkiB7lGWWxH2gJP868DW8hAa"
             case .anonymous:
                 return "PqqBbX1OziLhm518TDmj0ZRNT6vm"
         }
     }
     var email:String {
         switch self {
-            case .headCoachTeamA:
-                return "headcoach@teama.com"
-            case .assistantCoachTeamA:
-                return "assistant@teama.com"
-            case .headCoachTeamB:
-                return "headcoach@teamb.com"
-            case .assistantCoachTeamB:
-                return "assistant@teamb.com"
             case .anonymous:
                 return ""
-            case .noTeam:
-                return "coach@noteam.com"
         }
     }
     var password:String {
@@ -47,11 +27,7 @@ enum UserType {
     
     var teamId:String {
         switch self {
-            case .headCoachTeamA, .assistantCoachTeamA:
-                return "aJGBl6dZIEA1dDLrNrfl"
-            case .headCoachTeamB, .assistantCoachTeamB:
-                return "MTBfmfCGY9Tjj15FZXEz"
-            case .anonymous, .noTeam:
+            case .anonymous:
                 return ""
         }
     }
