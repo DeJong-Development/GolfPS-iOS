@@ -83,7 +83,7 @@ do
     fi
 
     # Build without testing
-#    xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build-for-testing -verbose
+    xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build-for-testing -verbose
             
     for language in "${languages[@]}"
     do
@@ -108,10 +108,10 @@ do
             echo "Granting all permissions..."
             
             # Test without building
-#            xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" test-without-building
+            xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" test-without-building
 
             # Build and Test
-            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -derivedDataPath "$derivedDataPath" -destination "platform=iOS Simulator,name=$simulator" build test
+#            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -derivedDataPath "$derivedDataPath" -destination "platform=iOS Simulator,name=$simulator" build test
             
             echo "🖼  Collecting Results..."
             mkdir -p "$targetFolder/$simulator/$language/$appearance"
