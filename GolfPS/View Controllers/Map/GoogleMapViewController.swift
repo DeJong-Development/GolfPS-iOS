@@ -37,7 +37,7 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
         }
         
         //if we are in different location then update the position of the player
-        if (cpgp != previousPlayerGeoPoint && distanceBetweenLocations >= 25) {
+        if (previousPlayerGeoPoint == nil || distanceBetweenLocations >= 25) {
             
             if let hole = currentHole {
                 //update elevation numbers since we changed places!
@@ -51,6 +51,8 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
                     }
                 }
             }
+            
+            previousPlayerGeoPoint = cpgp
             
             updateFirestorePlayerPosition(with: cpgp)
         }
@@ -285,7 +287,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 .setData([
                     "course": id,
                     "location": location,
-                    "updateTime": Date().iso8601
+                    "updateTime": Timestamp()
                     ], merge: true)
         } else {
             //no course so delete
@@ -309,12 +311,27 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             .addSnapshotListener { querySnapshot, error in
                 
                 if let documents = querySnapshot?.documents {
+                    // Wipe all players and replace with snapshot
+                    playersOnCourse.removeAll()
+                    
                     for document in documents {
                         let otherPlayer = Player(id: document.documentID, data: document.data())
                         
-                        if let timeSinceLastLocationUpdate = otherPlayer.lastLocationUpdate?.timeIntervalSinceNow,
+                        if otherPlayer.id == self.me.id {
+                            print("We found our own position")
+                            continue
+                        }
+                        
+                        if let timeSinceLastLocationUpdate = otherPlayer.lastLocationUpdate?.dateValue().timeIntervalSinceNow,
                             timeSinceLastLocationUpdate > -14400 {
                             //only add player to array if they are within the correct time period
+                            
+                            if otherPlayer.geoPoint != nil {
+                                print("We found a player with a location on course!")
+                            } else {
+                                print("Player with no location found... Stick at clubhouse...")
+                            }
+                            
                             playersOnCourse.append(otherPlayer)
                         }
                     }
@@ -442,13 +459,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             var foundValidPlayer:Bool = false
             for player in self.otherPlayers {
                 if player.id == markerPlayerId {
-                    if let updateDate = player.lastLocationUpdate {
+                    if let updateDate = player.lastLocationUpdate?.dateValue() {
                         let timeSinceLastLocationUpdate = updateDate.timeIntervalSinceNow
                         if (timeSinceLastLocationUpdate > -14400) { //remove after 4 hours
                             foundValidPlayer = true
                         }
                     }
-                    break;
+                    break
                 }
             }
             
@@ -469,21 +486,27 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         var newPlayerMarkers:[GMSMarker] = otherPlayerMarkers.filter { $0.map != nil }
         
         for player in self.otherPlayers {
-            guard let playerGeoPoint:GeoPoint = player.geoPoint,
-                player.id != self.me.id else {
-                //no location data available for user or myself
-                continue
-            }
-                
             var markerTitle:String = "Golfer"
             
-            var playerLocation = CLLocationCoordinate2D(latitude: playerGeoPoint.latitude, longitude: playerGeoPoint.longitude)
-            if let courseSpec = course.spectation, !course.bounds.contains(playerLocation) {
-                //not within course bounds - lets put them as spectator
-                let randomDoubleLat = Double.random(in: -0.00001...0.00001)
-                let randomDoubleLng = Double.random(in: -0.00001...0.00001)
+            let randomDoubleLat = Double.random(in: -0.00001...0.00001)
+            let randomDoubleLng = Double.random(in: -0.00001...0.00001)
+            
+            var playerLocation:CLLocationCoordinate2D!
+            if let playerGeoPoint:GeoPoint = player.geoPoint {
+                playerLocation = playerGeoPoint.location
+                
+                // Check to see if player is within course bounds
+                if let courseSpec = course.spectation, !course.bounds.contains(playerLocation) {
+                    //not within course bounds - lets put them as spectator
+                    playerLocation = CLLocationCoordinate2D(latitude: courseSpec.latitude + randomDoubleLat, longitude: courseSpec.longitude + randomDoubleLng)
+                    markerTitle = "Spectator"
+                }
+            } else if let courseSpec = course.spectation {
                 playerLocation = CLLocationCoordinate2D(latitude: courseSpec.latitude + randomDoubleLat, longitude: courseSpec.longitude + randomDoubleLng)
                 markerTitle = "Spectator"
+            } else {
+                print("No valid player or course location")
+                continue
             }
             
             var userDataForMarker:[String:Any] = ["userId":player.id, "snap":false]
@@ -546,7 +569,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             opMarker.userData = userDataForMarker
             opMarker.title = markerTitle
             
-            let timeSinceLastLocationUpdate = player.lastLocationUpdate?.timeIntervalSinceNow ?? 1000
+            let timeSinceLastLocationUpdate = player.lastLocationUpdate?.dateValue().timeIntervalSinceNow ?? 1000
             opMarker.opacity = timeSinceLastLocationUpdate < -60 ? 0.75 : 1
             opMarker.map = self.mapView
         }

@@ -31,7 +31,7 @@ extension CourseSelectionViewController: CoursePickerDelegate {
                     .document(AppSingleton.shared.me.id)
                     .setData([
                         "course": course.id,
-                        "updateTime": Date().iso8601
+                        "updateTime": Timestamp()
                         ], merge: true)
                 
                 self.performSegue(withIdentifier: "GoToCourse", sender: nil)
@@ -104,7 +104,7 @@ class CourseSelectionViewController: UIViewController {
         #if DEBUG
         query = db.collection("courses")
             .order(by: "name")
-            .limit(to: 3)
+            .limit(to: 30)
         #else
         query = db.collection("courses")
             .order(by: "name")

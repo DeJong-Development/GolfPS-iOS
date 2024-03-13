@@ -11,11 +11,11 @@ import FirebaseFirestore
 
 class Player {
     
-    private(set) var name:String = "Incognito";
-    private(set) var id:String = UUID().uuidString;
+    private(set) var name:String = "Incognito"
+    private(set) var id:String = UUID().uuidString
     
     var geoPoint:GeoPoint?
-    private(set) var lastLocationUpdate:Date?
+    private(set) var lastLocationUpdate:Timestamp?
     private(set) var avatarURL:URL?
     
     init(id:String) {
@@ -25,7 +25,7 @@ class Player {
         self.id = id
         
         self.geoPoint = data["location"] as? GeoPoint
-        self.lastLocationUpdate = (data["updateTime"] as? String)?.dateFromISO8601
+        self.lastLocationUpdate = data["updateTime"] as? Timestamp
         
         if let imageStr = data["image"] as? String, imageStr != "" {
             self.avatarURL = URL(string: imageStr)
