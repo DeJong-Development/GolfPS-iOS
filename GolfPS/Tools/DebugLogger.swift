@@ -18,6 +18,9 @@ class DebugLogger {
     
     static func report(error: Error?, message: String? = nil) {
         guard let error = error else {
+            if let msg = message {
+                os_log("ERROR: %@", msg)
+            }
             return
         }
         self.report(error: error, message: message)
