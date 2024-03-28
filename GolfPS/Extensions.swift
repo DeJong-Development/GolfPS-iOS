@@ -175,7 +175,7 @@ extension Int {
 }
 
 extension Double {
-    ///distance in yards or meters depending on user preference
+    /// Distance in yards or meters depending on user preference
     var distance: String {
         if (AppSingleton.shared.metric) {
             return "\(Int(self)) m"
@@ -184,15 +184,24 @@ extension Double {
         }
     }
     
-    ///Convert yards to meters
+    /// Convert yards to meters
     func toMeters() -> Double {
         return Double(self) / 1.09361
     }
     
-    ///Convert meters to yards
+    /// Convert meters to yards
     func toYards() -> Double {
         return Double(self) * 1.09361
     }
+    
+    /// Calculate gaussian random around value
+    func gaussianRandom(stdDev: Double) -> Double {
+        let u = 1 - Double.random(in: 0..<1)
+        let v = Double.random(in: 0..<1)
+        let z = sqrt(-2 * log(u)) * cos(2 * Double.pi * v)
+        return z * stdDev + self
+    }
+    
 }
 
 extension UIColor {
