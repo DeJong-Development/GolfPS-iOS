@@ -61,6 +61,7 @@
 		89F474F822B1D6CA007D044A /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F474F722B1D6CA007D044A /* Club.swift */; };
 		89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F49A9E2432837000C0B9A0 /* Colors.xcassets */; };
 		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
+		F7378C9A2BB38C340078B46C /* GolfShotRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7378C992BB38C340078B46C /* GolfShotRoute.swift */; };
 		F7C02D8F2B8553BA00C6AEE2 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */; };
 		F7C02D922B85591400C6AEE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */; };
 		F7C02D942B9A6EA200C6AEE2 /* screenshots.sh in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D932B9A6EA200C6AEE2 /* screenshots.sh */; };
@@ -208,6 +209,8 @@
 		89F49A9E2432837000C0B9A0 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		DA555DCB97632F9DA9B7AD72 /* Pods-GolfPSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
+		F7378C972BB38BFE0078B46C /* GeneticAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneticAlgorithm.swift; sourceTree = "<group>"; };
+		F7378C992BB38C340078B46C /* GolfShotRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GolfShotRoute.swift; sourceTree = "<group>"; };
 		F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = ApiKeys.plist; sourceTree = "<group>"; };
 		F7C02D902B85546900C6AEE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -286,6 +289,7 @@
 				895C0AEE253F647F002B189B /* Bag.swift */,
 				89F474F722B1D6CA007D044A /* Club.swift */,
 				8986E4752369CA9C00E76224 /* Badge.swift */,
+				F7378C992BB38C340078B46C /* GolfShotRoute.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -452,6 +456,7 @@
 				898C2DAB22AEB50000C7815A /* PlayerUpdateTimer.swift */,
 				8984584022FB50840077BB72 /* CourseTools.swift */,
 				89B89FF1261E028300BB78D4 /* ShotTools.swift */,
+				F7378C972BB38BFE0078B46C /* GeneticAlgorithm.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -844,6 +849,7 @@
 				8986E46F2369C8AC00E76224 /* BadgesViewController.swift in Sources */,
 				8915E67C208A300C00A20258 /* CoursePickerTableViewController.swift in Sources */,
 				896D148022A6D1BC00873D15 /* DottedLine.swift in Sources */,
+				F7378C9A2BB38C340078B46C /* GolfShotRoute.swift in Sources */,
 				8915E6762088FB6700A20258 /* GoogleMapViewController.swift in Sources */,
 				8986E4722369CA7A00E76224 /* BadgeBlockCollectionViewCell.swift in Sources */,
 				8986E4762369CA9C00E76224 /* Badge.swift in Sources */,
