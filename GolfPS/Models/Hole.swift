@@ -26,9 +26,12 @@ public class Hole {
     }
     
     private(set) var bunkerLocations:[GeoPoint] = [GeoPoint]()
+    private(set) var fairwayLocations:[GeoPoint] = [GeoPoint]()
+    private(set) var fairwayPath: GMSPath? = nil
     private(set) var teeLocations:[GeoPoint] = [GeoPoint]()
     private(set) var pinLocation:GeoPoint!
     private(set) var dogLegLocation:GeoPoint?
+    
     var pinElevation:Double?
     var isLongDrive:Bool = false
     var myLongestDriveInYards:Int?
@@ -61,6 +64,7 @@ public class Hole {
         self.number = number
         
         bunkerLocations = [GeoPoint]()
+        fairwayLocations = [GeoPoint]()
         teeLocations = [GeoPoint]()
         pinLocation = nil
         dogLegLocation = nil
@@ -83,6 +87,11 @@ public class Hole {
             return nil
         }
         
+        if let fairwayObj = data["fairway"] as? [GeoPoint] {
+            self.fairwayLocations = fairwayObj
+        } else if let fairwayObj = data["fairway"] as? GeoPoint {
+            self.fairwayLocations = [fairwayObj]
+        }
         if let bunkerObj = data["bunkers"] as? [GeoPoint] {
             self.bunkerLocations = bunkerObj
         } else if let bunkerObj = data["bunkers"] as? GeoPoint {
@@ -98,6 +107,17 @@ public class Hole {
         self.isLongDrive = data["longDrive"] as? Bool ?? false
         
         self.distance = self.mapTools.distanceFrom(first: self.teeLocations[0], second: self.pinLocation)
+        
+        if !fairwayLocations.isEmpty && fairwayLocations.count > 2 {
+            //create fairway polygon so we can check if we are within it or not
+            let path = GMSMutablePath()
+            for point in fairwayLocations {
+                path.add(point.location)
+            }
+            // close the path
+            path.add(fairwayLocations.first!.location)
+            self.fairwayPath = path
+        }
     }
     
     func setLongestDrive(distance:Int?) {
