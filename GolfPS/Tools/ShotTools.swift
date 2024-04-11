@@ -15,9 +15,18 @@ class ShotTools {
 
         var startElevation:Double = 0
         var finishElevation:Double = 0
-        getElevation(atLocation: start, completion: { se in
+        getElevation2(atLocation: start, completion: { se in
+            if (se < -1000) {
+                completion(0, 0, 0, 0, "Invalid starting elevation")
+                return
+            }
             startElevation = se
-            getElevation(atLocation: finish, completion: { fe in
+            getElevation2(atLocation: finish, completion: { fe in
+                if (fe < -1000) {
+                    completion(0, 0, 0, 0, "Invalid finishing elevation")
+                    return
+                }
+                
                 finishElevation = fe
 
                 let elevationChange = finishElevation - startElevation
@@ -51,20 +60,24 @@ class ShotTools {
         }
         
         var startElevation:Double = 0
+        
+        DebugLogger.log(message: "Using Elevation API 2")
+        getElevation2(atLocation: start, completion: completeElevation)
+        
         //randomly get an elevation api and call it so that we split the load?
         //could cause inaccurate answers?
-        switch Int.random(in: 0..<2) {
-        case 0:
-            DebugLogger.log(message: "Using Elevation API 1")
-            getElevation(atLocation: start, completion: completeElevation)
-        case 1:
-            DebugLogger.log(message: "Using Elevation API 2")
-            getElevation2(atLocation: start, completion: completeElevation)
-        case 2:
-            DebugLogger.log(message: "Using Elevation API 3")
-            getElevation3(atLocation: start, completion: completeElevation)
-        default: ()
-        }
+//        switch Int.random(in: 0..<3) {
+//        case 0:
+//            DebugLogger.log(message: "Using Elevation API 1")
+//            getElevation(atLocation: start, completion: completeElevation)
+//        case 1:
+//            DebugLogger.log(message: "Using Elevation API 2")
+//            getElevation2(atLocation: start, completion: completeElevation)
+//        case 2:
+//            DebugLogger.log(message: "Using Elevation API 3")
+//            getElevation3(atLocation: start, completion: completeElevation)
+//        default: ()
+//        }
     }
     
     static private func getElevation(atLocation location:GeoPoint, completion: @escaping (Double) -> ()) {
@@ -72,18 +85,21 @@ class ShotTools {
 
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else {
-                completion(-1)
+                completion(-100000)
                 return
             }
             guard let elevationData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                completion(-1)
+                completion(-100000)
                 return
             }
             
             if let results = elevationData["results"] as? [[String:Any]], let resultsData = results.first, let elevation = resultsData["elevation"] as? Double {
                 completion(elevation)
+            } else if let error = elevationData["error"] as? String {
+                //do not use elevation any more
+                completion(-100000)
             } else {
-                completion(-1)
+                completion(-100000)
             }
         }
         task.resume()
@@ -93,17 +109,17 @@ class ShotTools {
 
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else {
-                completion(-1)
+                completion(-100000)
                 return }
             guard let elevationData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                completion(-1)
+                completion(-100000)
                 return
             }
             
             if let results = elevationData["results"] as? [[String:Any]], let resultsData = results.first, let elevation = resultsData["elevation"] as? Double {
                 completion(elevation)
             } else {
-                completion(-1)
+                completion(-100000)
             }
         }
         task.resume()
@@ -113,18 +129,18 @@ class ShotTools {
 
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else {
-                completion(-1)
+                completion(-100000)
                 return
             }
             guard let elevationData = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                completion(-1)
+                completion(-100000)
                 return
             }
             
             if let results = elevationData["results"] as? [[String:Any]], let resultsData = results.first, let elevation = resultsData["elevation"] as? Double {
                 completion(elevation)
             } else {
-                completion(-1)
+                completion(-100000)
             }
         }
         task.resume()
