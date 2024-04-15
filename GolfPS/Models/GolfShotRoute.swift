@@ -12,7 +12,9 @@ import GoogleMaps
 
 class GolfShotRoute {
     
-    private let me:MePlayer = AppSingleton.shared.me
+    fileprivate var me:MePlayer {
+        return AppSingleton.shared.me
+    }
     
     private(set) var teeGeopoint:GeoPoint!
     private(set) var dogLegGeopoint:GeoPoint? = nil
@@ -30,8 +32,6 @@ class GolfShotRoute {
     private(set) var secondShotTarget:GeoPoint!
     
     /// The number of shots if every hit was perfect
-    private var perfectTeeTarget:GeoPoint!
-    private var perfectSecondShotTarget:GeoPoint!
     private(set) var optimalNumberOfShots:Int = 0
     
     private let mapTools = MapTools()
@@ -54,19 +54,41 @@ class GolfShotRoute {
         self.club2 = club2
     }
     
+    internal func isTeeShotTargettingFairway() -> Bool {
+        guard let tt = self.teeTarget else {
+            fatalError("Calculate target first")
+        }
+        if let fairway = self.fairway {
+            return GMSGeometryContainsLocation(tt.location, fairway, true)
+        } else {
+            // no fairway defined, lets assume its okay for now
+            return true
+        }
+    }
+    
+    internal func isSecondShotTargettingFairway() -> Bool {
+        guard let sst = self.secondShotTarget else {
+            fatalError("Calculate target first")
+        }
+        if let fairway = self.fairway {
+            return GMSGeometryContainsLocation(sst.location, fairway, true)
+        } else {
+            // no fairway defined, lets assume its okay for now
+            return true
+        }
+    }
+    
     /// Come up with a first best guess at the locations to hit to from the tee and the second shot. Ideally this should be used for Par 4 golf holes as a Par 5 may require optimization on the 3rd shot as well.
     internal func applyInitialBearingDeviations(teeShotDeviation: Double, secondShotDeviation: Double) {
         
         let teeshotDistance:Double = Double(club1.distance)
         let teeshotTarget:GeoPoint = dogLegGeopoint ?? pinGeopoint
         let teeshotBearing = mapTools.calcBearing(start: teeGeopoint, finish: teeshotTarget)
-        self.perfectTeeTarget = mapTools.coordinates(startingCoordinates: teeGeopoint.location, atDistance: teeshotDistance, atAngle: teeshotBearing).geopoint
         self.teeTarget = mapTools.coordinates(startingCoordinates: teeGeopoint.location, atDistance: teeshotDistance, atAngle: teeshotBearing + teeShotDeviation).geopoint
         
         let secondShotTarget:GeoPoint = pinGeopoint
         let secondShotDistance:Double = Double(club2.distance)
         let secondShotBearing = mapTools.calcBearing(start: self.teeTarget, finish: secondShotTarget)
-        self.perfectSecondShotTarget = mapTools.coordinates(startingCoordinates: self.teeTarget.location, atDistance: secondShotDistance, atAngle: secondShotBearing).geopoint
         self.secondShotTarget = mapTools.coordinates(startingCoordinates: self.teeTarget.location, atDistance: secondShotDistance, atAngle: secondShotBearing + secondShotDeviation).geopoint
         
         // Generate optimal number of shots for route
@@ -81,7 +103,7 @@ class GolfShotRoute {
         self.numberOfHits = 0
         self.didPuttOut = false
         
-        self.hitShot(start: self.teeGeopoint, target: self.perfectTeeTarget, shotNum: 1, roundNum: 0, isPerfect: true)
+        self.hitShot(start: self.teeGeopoint, target: self.teeTarget, shotNum: 1, roundNum: 0, isPerfect: true)
         
         self.optimalNumberOfShots = Int(self.totalNumberOfShots)
         self.totalNumberOfIterations = 1
@@ -131,22 +153,23 @@ class GolfShotRoute {
             club = me.bag.getClubSuggestion(distanceTo: distanceToPin)!
         }
         
-        var shotBearing:Double = 0
-        var shotDistance:Double = 0
+        let targetDistance = (distanceToTarget > 90) ? club.distance : distanceToTarget
+        
+        let shotBearing:Double
+        let shotDistance:Double
         if isPerfect {
             shotBearing = bearingToTarget
-            shotDistance = Double((distanceToTarget > 90) ? club.distance : distanceToTarget)
+            shotDistance = Double(targetDistance)
         } else {
-            let angleStdDeviation:Double = 8
+            let angleStdDeviation:Double = 15
             let randomDispersion = Double(0).gaussianRandom(stdDev: angleStdDeviation)
             shotBearing = bearingToTarget + randomDispersion
             
-            let targetDistance = (distanceToTarget > 90) ? club.distance : distanceToTarget
             let clubStdDeviation = 0.08 * Double(targetDistance)
             shotDistance = Double(targetDistance).gaussianRandom(stdDev: clubStdDeviation)
         }
         
-        let shotLandingCoordinates = mapTools.coordinates(startingCoordinates: startGP.location, atDistance: Double(shotDistance), atAngle: shotBearing)
+        let shotLandingCoordinates = mapTools.coordinates(startingCoordinates: startGP.location, atDistance: shotDistance, atAngle: shotBearing)
         let remainingDistanceToPin = mapTools.distanceFrom(first: shotLandingCoordinates.geopoint, second: self.pinGeopoint)
         
         if remainingDistanceToPin < 2 {
@@ -187,8 +210,9 @@ class GolfShotRoute {
                     nextShotStartLocation = dropLocation
                     
                     // extra penalty for missing safe area with first shot
-                    shotPenalty += 2
+                    shotPenalty += 1
                 } else if (shotNum == 2) {
+                    // no distance penalty - just strokes
                     shotPenalty += 1
                 }
             }
@@ -196,7 +220,7 @@ class GolfShotRoute {
             for bunkerGP in self.bunkerGeopoints {
                 let distanceToBunker = mapTools.distanceFrom(first: shotLandingCoordinates, second: bunkerGP.location)
                 if distanceToBunker < 10 {
-                    // landed in hazard
+                    // landed in hazard - add stroke penalty
                     shotPenalty = 3
                     break
                 }
