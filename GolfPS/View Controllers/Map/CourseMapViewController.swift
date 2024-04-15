@@ -37,6 +37,9 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     @IBOutlet weak var markButton: ButtonX!
     @IBOutlet weak var clearButton: ButtonX!
     
+    @IBOutlet weak var calculateDriveLocationButton: ButtonX!
+    @IBOutlet weak var calculateHeatMapButton: ButtonX!
+    
     //use these constraints to add space under long drive options
     @IBOutlet weak var showDriveStackConstraint: NSLayoutConstraint!
     @IBOutlet weak var hideDriveStackConstraint: NSLayoutConstraint!
@@ -73,6 +76,10 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             courseNameButton.isHidden = false
             distanceToPinLabel.isHidden = false
             selectedClubLabel.isHidden = false
+            
+            if course.name.lowercased().contains("hickory") {
+                calculateDriveLocationButton.isHidden = false
+            }
         } else {
             courseNameButton.isHidden = true
             distanceToPinLabel.isHidden = true
@@ -95,6 +102,9 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         nextHoleButton.layer.borderWidth = 1
         nextHoleButton.layer.cornerRadius = 6
         nextHoleButton.layer.masksToBounds = true
+        
+        calculateDriveLocationButton.isHidden = true
+        calculateHeatMapButton.isHidden = true
         
         if (WCSession.isSupported()) {
             wcSession = WCSession.default
@@ -120,6 +130,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
                 DebugLogger.report(error: error, message: "Error sending hole to watch")
             }
         }
+        
+        self.calculateDriveLocationButton.isEnabled = hole.distance > 300
         
         if (hole.isLongDrive) {
             hole.getLongestDrives()
@@ -198,6 +210,14 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         }
         
         self.performSegue(withIdentifier: "unwindToSelection", sender: nil)
+    }
+    
+    @IBAction func clickCalculateDriveLocation(_ sender: Any) {
+        embeddedMapViewController.calculateOptimalDriveLocation()
+    }
+    
+    @IBAction func clickCalculateHeatmap(_ sender: Any) {
+//        embeddedMapViewController.createHeatmap()
     }
     
     @IBAction func clickLongDrive(_ sender: Any) {

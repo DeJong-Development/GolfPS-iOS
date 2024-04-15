@@ -6,8 +6,10 @@
 //  Copyright © 2018 DeJong Development. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import GoogleMaps
+import GoogleMapsUtils
 import FirebaseFirestore
 import AudioToolbox
 import SCSDKBitmojiKit
@@ -113,13 +115,18 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
 
 class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
-    private let me:MePlayer = AppSingleton.shared.me
+    fileprivate var me:MePlayer {
+        return AppSingleton.shared.me
+    }
     
     private let mapTools:MapTools = MapTools()
     private let clubTools:ClubTools = ClubTools()
     
     private var db:Firestore { return AppSingleton.shared.db }
     private var mapView:GMSMapView!
+    private var driverHeatmapLayer: GMUHeatmapTileLayer = GMUHeatmapTileLayer()
+    private var threeWoodHeatmapLayer: GMUHeatmapTileLayer = GMUHeatmapTileLayer()
+    private var threeHybridHeatmapLayer: GMUHeatmapTileLayer = GMUHeatmapTileLayer()
     weak var delegate:ViewUpdateDelegate?
     
     private var locationTimer:LocationUpdateTimer!
@@ -205,21 +212,22 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         } else if myPlayerImage == nil {
             downloadBitmojiImage()
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let course = AppSingleton.shared.course {
-            locationTimer.invalidate()
-            locationTimer.delegate = self
-            locationTimer.startNewTimer(interval: 5)
-            
-            listenToPlayerLocationsOnCourse(with: course.id)
-            
-            self.goToHole()
+        guard let course = AppSingleton.shared.course else {
+            return
         }
+        
+        locationTimer.invalidate()
+        locationTimer.delegate = self
+        locationTimer.startNewTimer(interval: 5)
+        
+        listenToPlayerLocationsOnCourse(with: course.id)
+        
+        self.goToHole()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -234,6 +242,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         self.mapView = GMSMapView.map(withFrame: .zero, camera: camera)
         self.mapView.mapType = GMSMapViewType.satellite
         view = mapView
+        
+        self.goToHole()
     }
     
     override func viewDidLoad() {
@@ -246,7 +256,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             self.mapView.moveCamera(GMSCameraUpdate.setTarget(firstHole.pinLocation.location))
         }
         
-        locationManager.delegate = self;
+        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.pausesLocationUpdatesAutomatically = false
@@ -392,6 +402,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         guard let hole = currentHole else {
             return
         }
+        
+        #if DEBUG
+        //show fairway polygon
+        let fairway = GMSPolyline(path: hole.fairwayPath)
+        fairway.map = mapView
+        #endif
+        
         if let myGeoPoint = self.me.geoPoint {
             //update elevation numbers since we changed places!
             if let pinElevation = hole.pinElevation {
@@ -763,6 +780,174 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         self.currentHole.setLongestDrive(distance: nil)
         self.currentHole.longestDrives.removeValue(forKey: self.me.id)
     }
+    
+    internal func calculateOptimalDriveLocation(showTargets:Bool = false) {
+        let numClubs = me.bag.myClubs.count
+        guard numClubs >= 3 else {
+            DebugLogger.report(error: nil, message: "Not enough clubs to perform optimization")
+            return
+        }
+        
+        let teeClubs = Array(me.bag.myClubs[0..<3])
+        let secondClubs = Array(me.bag.myClubs[1..<me.bag.myClubs.count - 2])
+        
+        let teeAngles = stride(from: -30, to: 30, by: 3)
+        let ssAngles = stride(from: -10, to: 10, by: 3)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            for (teeClubIndex, teeClub) in teeClubs.enumerated() {
+                print("Checking routes with \(teeClub.name) off the tee...")
+                
+                var golfRoutes:[GolfShotRoute] = []
+                
+                for bearing1Adjustment in teeAngles {
+                    
+                    let firstRoute = GolfShotRoute(club1: teeClub, club2: Club(id: ""), hole: self.currentHole)
+                    firstRoute.applyInitialBearingDeviations(teeShotDeviation: Double(bearing1Adjustment), secondShotDeviation: 0)
+                    
+                    // if first shot is not targetting fairway then skip this route
+                    if !firstRoute.isTeeShotTargettingFairway() {
+                        continue
+                    }
+                    
+                    for (_, secondClub) in secondClubs.enumerated() {
+                        for (b2Index, bearing2Adjustment) in ssAngles.enumerated() {
+                            let golfRoute = GolfShotRoute(club1: teeClub, club2: secondClub, hole: self.currentHole)
+                            golfRoute.applyInitialBearingDeviations(teeShotDeviation: Double(bearing1Adjustment), secondShotDeviation: Double(bearing2Adjustment))
+                            
+                            // if second shot is not targetting fairway then skip this route
+                            if !golfRoute.isSecondShotTargettingFairway() {
+                                continue
+                            }
+                            
+                            golfRoutes.append(golfRoute)
+                        }
+                    }
+                }
+                
+                let routes = self.playRoutes(golfRoutes)
+                
+                self.showBestRoutesHeatmap(routes, teeClubIndex: teeClubIndex)
+            }
+        }
+    }
+    
+    private func playRoutes(_ routes:[GolfShotRoute]) -> [GolfShotRoute] {
+        var golfRoutes = routes.sorted { r1, r2 in
+            return r1.optimalNumberOfShots < r2.optimalNumberOfShots
+        }
+        
+        print("Created \(golfRoutes.count) possible routes with target variation.")
+        
+        func playAndSort(routes: [GolfShotRoute], numRounds: Int, percentRemaining: Double) -> [GolfShotRoute] {
+            // Play top candidates a few times
+            for route in routes {
+                route.playHole(numInterations: numRounds)
+            }
+            
+            return Array(golfRoutes.sorted { r1, r2 in
+                return r1.averageNumberOfShots < r2.averageNumberOfShots
+            }[0..<Int(percentRemaining * Double(routes.count))])
+        }
+        
+        golfRoutes = playAndSort(routes: golfRoutes, numRounds: 50, percentRemaining: 0.5)
+        golfRoutes = playAndSort(routes: golfRoutes, numRounds: 100, percentRemaining: 0.5)
+        golfRoutes = playAndSort(routes: golfRoutes, numRounds: 300, percentRemaining: 1)
+        
+        #if DEBUG && targetEnvironment(simulator)
+        let allSortedRoutes = Array(routes.sorted { r1, r2 in
+            return r1.averageNumberOfShots < r2.averageNumberOfShots
+        })
+        for r in allSortedRoutes {
+            print("Iterations: \(r.totalNumberOfIterations), Score: \(r.averageNumberOfShots)")
+        }
+        #endif
+        
+        print("Finished analysis.")
+        return golfRoutes
+    }
+    
+    private func showBestRoutesHeatmap(_ routes:[GolfShotRoute], teeClubIndex: Int) {
+        DispatchQueue.main.async {
+            
+            let golfRoutes = Array(routes.prefix(10))
+            
+            // fill tee shot list with top 10 routes featuring tee club index
+            let teeShotList:[GMUWeightedLatLng] = golfRoutes.map({GMUWeightedLatLng(
+                coordinate: $0.teeTarget.location,
+                intensity: 500
+            )})
+            
+            var heatmapLayer:GMUHeatmapTileLayer = self.driverHeatmapLayer
+            var gradientColors: [UIColor] = [.clear, .green]
+            let gradientStartPoints: [NSNumber] = [0.2, 1.0]
+            
+            var image = #imageLiteral(resourceName: "marker-distance")
+            
+            switch teeClubIndex {
+            case 0:
+                image = #imageLiteral(resourceName: "marker-longest")
+                gradientColors = [.clear, .green]
+                heatmapLayer = self.driverHeatmapLayer
+            case 1:
+                image = #imageLiteral(resourceName: "marker-distance-longdrive")
+                gradientColors = [.clear, .yellow]
+                heatmapLayer = self.threeWoodHeatmapLayer
+            case 2:
+                image = #imageLiteral(resourceName: "marker-shortest")
+                gradientColors = [.clear, .orange]
+                heatmapLayer = self.threeHybridHeatmapLayer
+            default: ()
+            }
+            
+            heatmapLayer.gradient = GMUGradient(
+              colors: gradientColors,
+              startPoints: gradientStartPoints,
+              colorMapSize: 256
+            )
+            heatmapLayer.radius = 200
+            heatmapLayer.opacity = 0.7
+            
+            // Add the latlngs to the heatmap layer.
+            heatmapLayer.weightedData = teeShotList
+        
+            heatmapLayer.map = self.mapView
+            heatmapLayer.clearTileCache()
+            
+            #if DEBUG
+            //get average number of shots for each second club then get the approximate position of the second shot target
+            var shotsForClub = [String:Double]()
+            let secondClubs = routes.compactMap({$0.club2})
+            for club in secondClubs {
+                let secondClubRoutes = routes.filter({$0.club2.id == club.id})
+                let totalNumberOfShots = secondClubRoutes.map({$0.averageNumberOfShots}).reduce(0, +)
+                let averageShotsWithSecondClub = Double(totalNumberOfShots) / Double(secondClubRoutes.count)
+                shotsForClub[club.name] = averageShotsWithSecondClub
+            }
+            print(shotsForClub)
+            #endif
+            
+            guard let bestRoute = golfRoutes.first else {
+                return
+            }
+            let description = "Average of \(bestRoute.averageNumberOfShots) shots. \n \(bestRoute.club1.name) -> \(bestRoute.club2.name)"
+            
+            let target1Marker = GMSMarker(position: bestRoute.teeTarget.location)
+            target1Marker.title = "Optimal Target"
+            target1Marker.snippet = description
+            target1Marker.icon = image.toNewSize(CGSize(width: 35, height: 35))
+            target1Marker.map = self.mapView
+            
+            #if DEBUG
+            let target2Marker = GMSMarker(position: bestRoute.secondShotTarget.location)
+            target2Marker.title = "2nd Shot Target"
+            target2Marker.snippet = description
+            target2Marker.icon = image.toNewSize(CGSize(width: 35, height: 35))
+            target2Marker.map = self.mapView
+            #endif
+        }
+    }
+    
     
     internal func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         //Long press interferes with dragging - make new marker if not already dragging it
