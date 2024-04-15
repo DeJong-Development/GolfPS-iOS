@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -429,8 +429,11 @@ Patience please!</string>
                                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="19"/>
                                             </variation>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yii-hO-YYO">
-                                            <rect key="frame" x="315" y="12.5" width="38" height="18.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="ST" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yii-hO-YYO">
+                                            <rect key="frame" x="323" y="12.5" width="30" height="18.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="30" id="XQf-NV-3sw"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -439,7 +442,7 @@ Patience please!</string>
                                             </variation>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zrf-OO-vw0">
-                                            <rect key="frame" x="277" y="9" width="30" height="30"/>
+                                            <rect key="frame" x="285" y="9" width="30" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="zrf-OO-vw0" secondAttribute="height" multiplier="1:1" id="5cC-Rc-MZE"/>
                                                 <constraint firstAttribute="height" constant="30" id="QAi-fa-U3S"/>
@@ -765,19 +768,57 @@ Patience please!</string>
                                     <action selector="clickBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M5l-PN-p8H"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rHr-Hu-7sK" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="16" y="168" width="35.5" height="35.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="rHr-Hu-7sK" secondAttribute="height" id="iMO-ps-JT0"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="binoculars.fill" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickCalculateDriveLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IMI-qV-hgO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYg-NJ-Ck6" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="16" y="215.5" width="35.5" height="35.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="heat.waves" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickCalculateHeatmap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="USf-wb-qtB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="r26-M7-5Db"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="6zZ-Li-gyD" secondAttribute="top" id="42N-4I-hO5"/>
+                            <constraint firstItem="bYg-NJ-Ck6" firstAttribute="width" secondItem="rHr-Hu-7sK" secondAttribute="width" id="5ds-BY-gNv"/>
                             <constraint firstItem="2Ec-Ot-HEe" firstAttribute="top" secondItem="fHj-J0-bI4" secondAttribute="bottom" id="6Q8-Dr-yiL"/>
                             <constraint firstItem="r26-M7-5Db" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fHj-J0-bI4" secondAttribute="trailing" symbolic="YES" id="84x-ha-24P"/>
                             <constraint firstItem="r26-M7-5Db" firstAttribute="bottom" secondItem="6zZ-Li-gyD" secondAttribute="bottom" constant="8" id="989-fc-C8T"/>
+                            <constraint firstItem="bYg-NJ-Ck6" firstAttribute="top" secondItem="rHr-Hu-7sK" secondAttribute="bottom" constant="12" id="Akc-Ni-Ji8"/>
                             <constraint firstItem="r26-M7-5Db" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PPu-K7-rob" secondAttribute="trailing" constant="20" symbolic="YES" id="BqB-34-lHZ"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="gSy-sB-JAX" secondAttribute="bottom" constant="10" id="C0z-Il-Pob"/>
+                            <constraint firstItem="rHr-Hu-7sK" firstAttribute="width" secondItem="njH-k3-opW" secondAttribute="width" multiplier="1.10938" id="CMB-qn-3I3"/>
+                            <constraint firstItem="bYg-NJ-Ck6" firstAttribute="leading" secondItem="rHr-Hu-7sK" secondAttribute="leading" id="FYn-uo-BL4"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="centerX" secondItem="r26-M7-5Db" secondAttribute="centerX" id="Hsw-Bu-mCO"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="OPt-JS-cAK" secondAttribute="bottom" id="MiA-8f-D2p"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" constant="-12" id="MiF-34-IK9"/>
+                            <constraint firstItem="bYg-NJ-Ck6" firstAttribute="width" secondItem="bYg-NJ-Ck6" secondAttribute="height" id="RaU-gA-0uS"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="centerX" secondItem="r26-M7-5Db" secondAttribute="centerX" id="V2x-o8-O8f"/>
                             <constraint firstItem="fHj-J0-bI4" firstAttribute="leading" secondItem="PPu-K7-rob" secondAttribute="leading" id="VYi-7n-9hW"/>
                             <constraint firstItem="r26-M7-5Db" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Bn-rn-ruU" secondAttribute="trailing" symbolic="YES" id="XiT-WZ-WtE"/>
@@ -797,6 +838,8 @@ Patience please!</string>
                             <constraint firstItem="2Ec-Ot-HEe" firstAttribute="leading" secondItem="7Bn-rn-ruU" secondAttribute="leading" id="oiH-4H-LVk"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="top" secondItem="PPu-K7-rob" secondAttribute="centerY" id="orl-oG-8Gt"/>
                             <constraint firstItem="PPu-K7-rob" firstAttribute="top" secondItem="r26-M7-5Db" secondAttribute="top" constant="12" id="qQD-2j-oPk"/>
+                            <constraint firstItem="rHr-Hu-7sK" firstAttribute="leading" secondItem="7Bn-rn-ruU" secondAttribute="leading" id="s0w-7R-0dC"/>
+                            <constraint firstItem="rHr-Hu-7sK" firstAttribute="top" secondItem="7Bn-rn-ruU" secondAttribute="bottom" constant="20" id="sTC-sI-pKR"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="width" secondItem="fHj-J0-bI4" secondAttribute="width" multiplier="0.5" id="xSf-uw-BnF"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="xdX-oB-pB7"/>
                             <constraint firstItem="7Bn-rn-ruU" firstAttribute="leading" secondItem="fHj-J0-bI4" secondAttribute="leading" id="xkf-x2-SHO"/>
@@ -814,6 +857,8 @@ Patience please!</string>
                     <navigationItem key="navigationItem" id="elT-YM-yDc"/>
                     <connections>
                         <outlet property="backButton" destination="njH-k3-opW" id="DBB-MO-Y1J"/>
+                        <outlet property="calculateDriveLocationButton" destination="rHr-Hu-7sK" id="Sdl-z5-sMJ"/>
+                        <outlet property="calculateHeatMapButton" destination="bYg-NJ-Ck6" id="Vm0-Ty-fWE"/>
                         <outlet property="clearButton" destination="LAh-mD-6c3" id="yGf-EM-fFA"/>
                         <outlet property="courseNameButton" destination="PPu-K7-rob" id="waP-BF-0ee"/>
                         <outlet property="currentHoleLabel" destination="EG6-7R-9ZQ" id="TXp-pu-Rzi"/>
@@ -923,7 +968,6 @@ Patience please!</string>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="clickAddClub:" destination="wjM-U8-Nre" eventType="touchUpInside" id="Wcx-CF-qbe"/>
-                                    <segue destination="eVP-S2-JN5" kind="show" identifier="ShowAddClub" id="lN8-3O-o2O"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="customize" translatesAutoresizingMaskIntoConstraints="NO" id="RTP-6P-LSQ">
@@ -1397,7 +1441,7 @@ Patience please!</string>
             <objects>
                 <viewController id="eVP-S2-JN5" customClass="AddClubViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cYq-eu-mOd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="2IE-hv-cIV">
@@ -1859,6 +1903,9 @@ Patience please!</string>
         <designable name="ZIk-hs-8il">
             <size key="intrinsicContentSize" width="131" height="37"/>
         </designable>
+        <designable name="bYg-NJ-Ck6">
+            <size key="intrinsicContentSize" width="30" height="32"/>
+        </designable>
         <designable name="cLV-1i-alf">
             <size key="intrinsicContentSize" width="59" height="35"/>
         </designable>
@@ -1883,6 +1930,9 @@ Patience please!</string>
         <designable name="p3R-s6-fXR">
             <size key="intrinsicContentSize" width="60" height="35"/>
         </designable>
+        <designable name="rHr-Hu-7sK">
+            <size key="intrinsicContentSize" width="35.5" height="32"/>
+        </designable>
         <designable name="uTL-fe-aeO">
             <size key="intrinsicContentSize" width="30" height="34"/>
         </designable>
@@ -1897,6 +1947,7 @@ Patience please!</string>
     <color key="tintColor" name="Grass"/>
     <resources>
         <image name="arrow.down" catalog="system" width="118" height="128"/>
+        <image name="binoculars.fill" catalog="system" width="128" height="90"/>
         <image name="compass_black" width="22.5" height="22.5"/>
         <image name="compass_white" width="22.5" height="22.5"/>
         <image name="customize" width="700" height="700"/>
@@ -1906,6 +1957,7 @@ Patience please!</string>
         <image name="golf_ball_blank" width="1024" height="1024"/>
         <image name="golf_hole_black" width="22.5" height="22.5"/>
         <image name="golf_hole_white" width="22.5" height="22.5"/>
+        <image name="heat.waves" catalog="system" width="128" height="121"/>
         <image name="search-gold" width="20" height="20"/>
         <image name="settings-black" width="22.5" height="22.5"/>
         <image name="settings-white" width="22.5" height="22.5"/>
