@@ -13,7 +13,7 @@ class UI_Screenshots: UI_Tests {
     override func setUpWithError() throws {
         continueAfterFailure = false
 
-        app.launchArguments = ["testing", "NoAnimations", "screenshots"]
+        app.launchArguments = ["NoAnimations", "screenshots"]
         app.launch()
     }
     

@@ -72,7 +72,7 @@ class UI_Tests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        app.launchArguments = ["testing", "NoAnimations"]
+        app.launchArguments = ["NoAnimations"]
         app.launch()
     }
 
