@@ -789,6 +789,9 @@ Patience please!</string>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYg-NJ-Ck6" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="215.5" width="35.5" height="35.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bYg-NJ-Ck6" secondAttribute="height" id="RaU-gA-0uS"/>
+                                </constraints>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" image="heat.waves" catalog="system">
@@ -818,7 +821,6 @@ Patience please!</string>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="centerX" secondItem="r26-M7-5Db" secondAttribute="centerX" id="Hsw-Bu-mCO"/>
                             <constraint firstItem="cC6-Al-7hC" firstAttribute="top" secondItem="OPt-JS-cAK" secondAttribute="bottom" id="MiA-8f-D2p"/>
                             <constraint firstItem="6zZ-Li-gyD" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" constant="-12" id="MiF-34-IK9"/>
-                            <constraint firstItem="bYg-NJ-Ck6" firstAttribute="width" secondItem="bYg-NJ-Ck6" secondAttribute="height" id="RaU-gA-0uS"/>
                             <constraint firstItem="nOD-mc-DML" firstAttribute="centerX" secondItem="r26-M7-5Db" secondAttribute="centerX" id="V2x-o8-O8f"/>
                             <constraint firstItem="fHj-J0-bI4" firstAttribute="leading" secondItem="PPu-K7-rob" secondAttribute="leading" id="VYi-7n-9hW"/>
                             <constraint firstItem="r26-M7-5Db" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7Bn-rn-ruU" secondAttribute="trailing" symbolic="YES" id="XiT-WZ-WtE"/>
@@ -1010,6 +1012,7 @@ Patience please!</string>
                         <outlet property="editImage" destination="RTP-6P-LSQ" id="C3a-da-Ppe"/>
                         <outlet property="messageLabel" destination="7Sy-T4-vMf" id="ALX-3i-zve"/>
                         <outlet property="tableViewContainer" destination="J97-Px-f20" id="tta-YX-kgX"/>
+                        <segue destination="eVP-S2-JN5" kind="show" identifier="ShowAddClub" id="yTu-w4-T0L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6A-ds-cV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1441,7 +1444,7 @@ Patience please!</string>
             <objects>
                 <viewController id="eVP-S2-JN5" customClass="AddClubViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cYq-eu-mOd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="2IE-hv-cIV">
