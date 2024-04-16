@@ -2,17 +2,16 @@ platform :ios, '14.0'
 use_frameworks!
 
 target 'GolfPS' do
-    pod 'BoringSSL-GRPC', '0.0.24'
     pod 'GoogleMaps'
     pod 'Google-Maps-iOS-Utils'
-    pod 'GooglePlaces'
+    pod 'GoogleUtilities'
+    
+    pod 'Firebase/Core'
     pod 'Firebase/Auth'
     pod 'Firebase/Firestore'
     pod 'Firebase/Performance'
-    pod 'Firebase/Core'
     pod 'Firebase/Analytics'
-    pod 'Firebase/Crashlytics', '10.22.0'
-    pod 'GoogleUtilities'
+    pod 'Firebase/Crashlytics'
 
     pod 'SnapSDK', '~> 1.12'
 end
@@ -20,7 +19,7 @@ end
 
 target 'GolfPSTests' do
   use_frameworks!
-
+  
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
