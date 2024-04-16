@@ -33,11 +33,12 @@ bundleName="com.dejongdevelopment.golfps"
 # "Devices and Simulators" window
 # or from `xcrun simctl list`.
 simulators=(
-    "iPhone 15 Pro Max" #6.7"
+    "iPhone 8 Plus"
 )
     
+#    "iPhone 15 Pro Max" #6.7"
 #    "iPhone 14 Plus" #6.5"
-#    "iPhone 14" #5.8"
+#    "iPhone 15" #5.8"
 #    "iPhone 8 Plus (16.0)" #5.5"
 #    "iPhone SE (3rd generation)" #4.7"
 #    "iPad Pro (12.9-inch) (5th generation)"
@@ -51,7 +52,7 @@ simulators=(
 #    "iPhone 14"
 
 
-os_version="17.2"  #16.0 is the most stable, it allows changes to system
+os_version="16.0"  #16.0 is the most stable, it allows changes to system
 
 # All the languages we want to screenshot (ISO 3166-1 codes)
 languages=(
@@ -83,7 +84,7 @@ do
     fi
 
     # Build without testing
-    xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build-for-testing -verbose
+    xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build-for-testing
             
     for language in "${languages[@]}"
     do
@@ -108,10 +109,10 @@ do
             echo "Granting all permissions..."
             
             # Test without building
-            xcodebuild -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" test-without-building
+            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -sdk iphonesimulator -derivedDataPath $derivedDataPath -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" test-without-building
 
             # Build and Test
-#            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -derivedDataPath "$derivedDataPath" -destination "platform=iOS Simulator,name=$simulator" build test
+#            xcodebuild -testLanguage $language -workspace "$workspaceName" -scheme "$schemeName" -derivedDataPath "$derivedDataPath" -destination "platform=iOS Simulator,OS=$os_version,name=$simulator" build test
             
             echo "🖼  Collecting Results..."
             mkdir -p "$targetFolder/$simulator/$language/$appearance"
