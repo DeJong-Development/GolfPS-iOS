@@ -67,8 +67,8 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
 extension GoogleMapViewController: CLLocationManagerDelegate {
     internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let isAuthorized:Bool = (status == .authorizedWhenInUse || status == .authorizedAlways)
-        self.mapView.isMyLocationEnabled = isAuthorized
-        mapView.settings.myLocationButton = isAuthorized
+        self.mapView?.isMyLocationEnabled = isAuthorized
+        self.mapView?.settings.myLocationButton = isAuthorized
         
         //remove information associated with current locatino if we become unauthorized
         if !isAuthorized {
@@ -236,24 +236,26 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     override func loadView() {
-        super.loadView()
-        
         let camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 3.5)
         self.mapView = GMSMapView.map(withFrame: .zero, camera: camera)
         self.mapView.mapType = GMSMapViewType.satellite
-        view = mapView
         
-        self.goToHole()
+        super.loadView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.mapView.delegate = self
+        guard let mv = mapView else {
+            fatalError("No map after view loaded.")
+        }
+        
+        self.view = mv
+        mv.delegate = self
         
         //need to set up the camera; there is a bug that exists if we don't do this
         if let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first(where: {$0.number == 1}) {
-            self.mapView.moveCamera(GMSCameraUpdate.setTarget(firstHole.pinLocation.location))
+            mv.moveCamera(GMSCameraUpdate.setTarget(firstHole.pinLocation.location))
         }
         
         locationManager.delegate = self
@@ -395,7 +397,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         moveCamera(to: currentHole, orientToHole: true)
         
-        mapView.selectedMarker = currentPinMarker
+        mapView?.selectedMarker = currentPinMarker
         
         //location manager will update elevation effect
         //trigger once in case we haven't moved yet
@@ -462,7 +464,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                                                              zoom: newZoom,
                                                              bearing: bearing,
                                                              viewingAngle: viewingAngle)
-        mapView.animate(to: cameraView)
+        mapView?.animate(to: cameraView)
     }
     
     private func removeOldPlayerMarkers() {
