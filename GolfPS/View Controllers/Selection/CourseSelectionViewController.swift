@@ -100,15 +100,7 @@ class CourseSelectionViewController: UIViewController {
         
         var golfCourses:[Course] = [Course]()
         
-        var query:Query!
-        #if DEBUG
-        query = db.collection("courses")
-            .order(by: "name")
-            .limit(to: 30)
-        #else
-        query = db.collection("courses")
-            .order(by: "name")
-        #endif
+        let query:Query = db.collection("courses").order(by: "name")
         
         query.getDocuments() { [weak self] (querySnapshot, err) in
             guard let self = self else { return }
