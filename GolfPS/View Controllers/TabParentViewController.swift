@@ -57,36 +57,6 @@ class TabParentViewController: UITabBarController {
         self.tabBar.isTranslucent = false
         self.tabBar.itemPositioning = .centered
         self.tabBar.barTintColor = .grass
-        
-        //remove keychain values if we have never run this app
-        //if we do not do this, users will still be signed in even if they uninstalled the app
-        if !UserDefaults.standard.bool(forKey: "hasRunBefore") {
-            try? Auth.auth().signOut()
-            
-            Auth.auth().signInAnonymously() { (authResult, error) in
-                if let user = authResult?.user {
-                    AppSingleton.shared.me = MePlayer(id: user.uid)
-                } else if let err = error {
-                    DebugLogger.report(error: err, message: "Unable to sign in anonymously")
-                }
-            }
-
-            // update the flag indicator
-            UserDefaults.standard.set(true, forKey: "hasRunBefore")
-            UserDefaults.standard.synchronize()
-            
-        } else if let user = Auth.auth().currentUser {
-            AppSingleton.shared.me = MePlayer(id: user.uid)
-        } else {
-            //we have run the app before but we logged out and are restarting the app with no user logged in
-            Auth.auth().signInAnonymously() { (authResult, error) in
-                if let user = authResult?.user {
-                    AppSingleton.shared.me = MePlayer(id: user.uid)
-                } else if let err = error {
-                    DebugLogger.report(error: err, message: "Unable to sign in anonymously")
-                }
-            }
-        }
     }
 
 }

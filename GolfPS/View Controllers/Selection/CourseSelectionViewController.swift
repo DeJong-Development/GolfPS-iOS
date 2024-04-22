@@ -103,7 +103,10 @@ class CourseSelectionViewController: UIViewController {
         let query:Query = db.collection("courses").order(by: "name")
         
         query.getDocuments() { [weak self] (querySnapshot, err) in
-            guard let self = self else { return }
+            guard let self = self else {
+                DebugLogger.report(error: nil, message: "Unable to get courses. No self.")
+                return
+            }
             if let err = err {
                 DebugLogger.report(error: err, message: "Error retrieving courses.")
             } else if let snapshot = querySnapshot {

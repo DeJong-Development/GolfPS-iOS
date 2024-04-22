@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import GoogleMaps
-import GoogleMapsUtils
+//import GoogleMapsUtils
 import FirebaseFirestore
 import AudioToolbox
 import SCSDKBitmojiKit
@@ -124,9 +124,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private var db:Firestore { return AppSingleton.shared.db }
     private var mapView:GMSMapView!
-    private var driverHeatmapLayer: GMUHeatmapTileLayer = GMUHeatmapTileLayer()
-    private var threeWoodHeatmapLayer: GMUHeatmapTileLayer = GMUHeatmapTileLayer()
-    private var threeHybridHeatmapLayer: GMUHeatmapTileLayer = GMUHeatmapTileLayer()
     weak var delegate:ViewUpdateDelegate?
     
     private var locationTimer:LocationUpdateTimer!
@@ -156,6 +153,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var currentDistanceMarker:GMSMarker?
     
     private var isDraggingDistanceMarker:Bool = false
+    private var isDraggingMarker:Bool = false
     
     private var drivingDistanceLines:[GMSPolyline] = [GMSPolyline]()
     private let drivingDistanceLineColors:[UIColor] = [UIColor.green, UIColor.yellow, UIColor.orange]
@@ -236,27 +234,23 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     override func loadView() {
-        let camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 3.5)
-        self.mapView = GMSMapView.map(withFrame: .zero, camera: camera)
-        self.mapView.mapType = GMSMapViewType.satellite
+        let mapOptions = GMSMapViewOptions()
+        mapOptions.frame = .zero
+        mapOptions.camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 3.5)
+        mapOptions.backgroundColor = .systemBackground
         
-        super.loadView()
+        self.mapView = GMSMapView.init(options: mapOptions)
+        self.mapView.mapType = GMSMapViewType.satellite
+        self.view = self.mapView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let mv = mapView else {
+        guard let mv = self.mapView else {
             fatalError("No map after view loaded.")
         }
-        
-        self.view = mv
         mv.delegate = self
-        
-        //need to set up the camera; there is a bug that exists if we don't do this
-        if let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first(where: {$0.number == 1}) {
-            mv.moveCamera(GMSCameraUpdate.setTarget(firstHole.pinLocation.location))
-        }
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -322,33 +316,34 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             .whereField("course", isEqualTo: id)
             .addSnapshotListener { querySnapshot, error in
                 
-                if let documents = querySnapshot?.documents {
-                    // Wipe all players and replace with snapshot
-                    playersOnCourse.removeAll()
-                    
-                    for document in documents {
-                        let otherPlayer = Player(id: document.documentID, data: document.data())
-                        
-                        if otherPlayer.id == self.me.id {
-                            print("We found our own position")
-                            continue
-                        }
-                        
-                        if let timeSinceLastLocationUpdate = otherPlayer.lastLocationUpdate?.dateValue().timeIntervalSinceNow,
-                            timeSinceLastLocationUpdate > -14400 {
-                            //only add player to array if they are within the correct time period
-                            
-                            if otherPlayer.geoPoint != nil {
-                                print("We found a player with a location on course!")
-                            } else {
-                                print("Player with no location found... Stick at clubhouse...")
-                            }
-                            
-                            playersOnCourse.append(otherPlayer)
-                        }
-                    }
-                } else {
+                guard let documents = querySnapshot?.documents else {
                     DebugLogger.report(error: error, message: "Error fetching other player location information")
+                    return
+                }
+                
+                // Wipe all players and replace with snapshot
+                playersOnCourse.removeAll()
+                
+                for document in documents {
+                    let otherPlayer = Player(id: document.documentID, data: document.data())
+                    
+                    if otherPlayer.id == self.me.id {
+                        print("We found our own position")
+                        continue
+                    }
+                    
+                    if let timeSinceLastLocationUpdate = otherPlayer.lastLocationUpdate?.dateValue().timeIntervalSinceNow,
+                        timeSinceLastLocationUpdate > -14400 {
+                        //only add player to array if they are within the correct time period
+                        
+                        if otherPlayer.geoPoint != nil {
+                            print("We found a player with a location on course!")
+                        } else {
+                            print("Player with no location found... Stick at clubhouse...")
+                        }
+                        
+                        playersOnCourse.append(otherPlayer)
+                    }
                 }
                 
                 self.otherPlayers = playersOnCourse
@@ -456,8 +451,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             viewingAngle = 45
         }
         
-        let boxFitZoom:Float = mapTools.getBoundsZoomLevel(bounds: hole.bounds, screenSize: view.bounds)
-        
+        let _:Float = mapTools.getBoundsZoomLevel(bounds: hole.bounds, screenSize: view.bounds)
         let newZoom:Float = mapTools.getCircularFitZoomLevel(holeLength: Double(hole.distance), holeWidth: 100, screenSize: view.bounds)
         
         let cameraView:GMSCameraPosition = GMSCameraPosition(target: center,
@@ -675,8 +669,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             myPlayerMarker = GMSMarker(position: loc)
             myPlayerMarker!.title = "Me"
             myPlayerMarker!.icon = bitmojiImage.toNewSize(CGSize(width: 55, height: 55))
-            myPlayerMarker!.userData = "ME";
-            myPlayerMarker!.map = mapView;
+            myPlayerMarker!.userData = "ME"
+            myPlayerMarker!.map = mapView
         }
     }
     
@@ -688,8 +682,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         currentTeeMarker = GMSMarker(position: loc)
         currentTeeMarker.title = "Tee #\(currentHole.number)"
         currentTeeMarker.icon = #imageLiteral(resourceName: "tee_marker").toNewSize(CGSize(width: 55, height: 55))
-        currentTeeMarker.userData = "\(currentHole.number):T";
-        currentTeeMarker.map = mapView;
+        currentTeeMarker.userData = "\(currentHole.number):T"
+        currentTeeMarker.map = mapView
+        currentTeeMarker.isDraggable = true
     }
     private func updatePinMarker() {
         let pinPoint:GeoPoint = currentHole.pinLocation!
@@ -706,8 +701,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         currentPinMarker.title = "Pin #\(currentHole.number)"
         currentPinMarker.snippet = distanceToPin.distance
         currentPinMarker.icon = #imageLiteral(resourceName: "flag_marker").toNewSize(CGSize(width: 55, height: 55))
-        currentPinMarker.userData = "\(currentHole.number):P";
-        currentPinMarker.map = mapView;
+        currentPinMarker.userData = "\(currentHole.number):P"
+        currentPinMarker.map = mapView
+        currentPinMarker.isDraggable = me.ambassadorCourses.contains(AppSingleton.shared.course!.id)
     }
     private func updateBunkerMarkers() {
         for bunkerMarker in currentBunkerMarkers {
@@ -725,8 +721,9 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             bunkerMarker.title = "Hazard"
             bunkerMarker.snippet = distanceToBunker.distance
             bunkerMarker.icon = #imageLiteral(resourceName: "hazard_marker").toNewSize(CGSize(width: 35, height: 35))
-            bunkerMarker.userData = "\(currentHole.number):B\(bunkerIndex)";
-            bunkerMarker.map = mapView;
+            bunkerMarker.userData = "\(currentHole.number):B\(bunkerIndex)"
+            bunkerMarker.map = mapView
+            bunkerMarker.isDraggable = me.ambassadorCourses.contains(AppSingleton.shared.course!.id)
             
             currentBunkerMarkers.append(bunkerMarker);
         }
@@ -813,7 +810,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     }
                     
                     for (_, secondClub) in secondClubs.enumerated() {
-                        for (b2Index, bearing2Adjustment) in ssAngles.enumerated() {
+                        for (_, bearing2Adjustment) in ssAngles.enumerated() {
                             let golfRoute = GolfShotRoute(club1: teeClub, club2: secondClub, hole: self.currentHole)
                             golfRoute.applyInitialBearingDeviations(teeShotDeviation: Double(bearing1Adjustment), secondShotDeviation: Double(bearing2Adjustment))
                             
@@ -829,7 +826,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 
                 let routes = self.playRoutes(golfRoutes)
                 
-                self.showBestRoutesHeatmap(routes, teeClubIndex: teeClubIndex)
+                self.showBestRoutesTargets(routes, teeClubIndex: teeClubIndex)
             }
         }
     }
@@ -869,52 +866,22 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         return golfRoutes
     }
     
-    private func showBestRoutesHeatmap(_ routes:[GolfShotRoute], teeClubIndex: Int) {
+    private func showBestRoutesTargets(_ routes:[GolfShotRoute], teeClubIndex: Int) {
         DispatchQueue.main.async {
             
             let golfRoutes = Array(routes.prefix(10))
-            
-            // fill tee shot list with top 10 routes featuring tee club index
-            let teeShotList:[GMUWeightedLatLng] = golfRoutes.map({GMUWeightedLatLng(
-                coordinate: $0.teeTarget.location,
-                intensity: 500
-            )})
-            
-            var heatmapLayer:GMUHeatmapTileLayer = self.driverHeatmapLayer
-            var gradientColors: [UIColor] = [.clear, .green]
-            let gradientStartPoints: [NSNumber] = [0.2, 1.0]
             
             var image = #imageLiteral(resourceName: "marker-distance")
             
             switch teeClubIndex {
             case 0:
                 image = #imageLiteral(resourceName: "marker-longest")
-                gradientColors = [.clear, .green]
-                heatmapLayer = self.driverHeatmapLayer
             case 1:
                 image = #imageLiteral(resourceName: "marker-distance-longdrive")
-                gradientColors = [.clear, .yellow]
-                heatmapLayer = self.threeWoodHeatmapLayer
             case 2:
                 image = #imageLiteral(resourceName: "marker-shortest")
-                gradientColors = [.clear, .orange]
-                heatmapLayer = self.threeHybridHeatmapLayer
             default: ()
             }
-            
-            heatmapLayer.gradient = GMUGradient(
-              colors: gradientColors,
-              startPoints: gradientStartPoints,
-              colorMapSize: 256
-            )
-            heatmapLayer.radius = 200
-            heatmapLayer.opacity = 0.7
-            
-            // Add the latlngs to the heatmap layer.
-            heatmapLayer.weightedData = teeShotList
-        
-            heatmapLayer.map = self.mapView
-            heatmapLayer.clearTileCache()
             
             #if DEBUG
             //get average number of shots for each second club then get the approximate position of the second shot target
@@ -952,6 +919,10 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     
     internal func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        guard !isDraggingMarker else {
+            return
+        }
+        
         //Long press interferes with dragging - make new marker if not already dragging it
         if !isDraggingDistanceMarker {
             AudioServicesPlaySystemSound(1519)
@@ -970,11 +941,29 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     internal func mapView(_ mapView: GMSMapView, didBeginDragging marker: GMSMarker) {
         AudioServicesPlaySystemSound(1519)
-        self.isDraggingDistanceMarker = true
-        mapView.selectedMarker = currentDistanceMarker
+        switch marker {
+        case currentTeeMarker:
+            mapView.selectedMarker = marker
+            self.isDraggingMarker = true
+        case currentPinMarker:
+            mapView.selectedMarker = marker
+            self.isDraggingMarker = true
+        default:
+            if currentBunkerMarkers.contains(marker) {
+                mapView.selectedMarker = marker
+                self.isDraggingMarker = true
+            } else {
+                self.isDraggingDistanceMarker = true
+                mapView.selectedMarker = currentDistanceMarker
+            }
+        }
     }
     internal func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {
-        self.isDraggingDistanceMarker = false
+        if marker == self.currentDistanceMarker {
+            self.isDraggingDistanceMarker = false
+        } else {
+            self.isDraggingMarker = false
+        }
     }
     internal func mapView(_ mapView: GMSMapView, didDrag marker: GMSMarker) {
         if (marker == currentDistanceMarker) {

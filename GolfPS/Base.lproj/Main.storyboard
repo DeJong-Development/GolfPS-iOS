@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qmG-rg-n9I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oC1-YL-ffk">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -24,11 +24,11 @@
             <objects>
                 <viewController id="hjg-UV-4kJ" customClass="CourseSelectionViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YSO-B8-Drc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="847"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="SUw-36-JKM">
-                                <rect key="frame" x="20" y="60" width="374" height="745"/>
+                                <rect key="frame" x="20" y="12" width="374" height="827"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="DmB-fi-Xw8">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="63"/>
@@ -93,13 +93,13 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rqg-4F-71p">
-                                        <rect key="frame" x="0.0" y="74" width="374" height="617"/>
+                                        <rect key="frame" x="0.0" y="74" width="374" height="699"/>
                                         <connections>
                                             <segue destination="jYd-HR-a0k" kind="embed" identifier="EmbedCourseTable" id="Mgt-R0-vKU"/>
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4y-uD-6Wy">
-                                        <rect key="frame" x="0.0" y="695" width="374" height="50"/>
+                                        <rect key="frame" x="0.0" y="777" width="374" height="50"/>
                                         <color key="backgroundColor" red="0.76470588240000004" green="0.65490196079999996" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="f3l-NZ-wla"/>
@@ -121,18 +121,25 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="obI-k2-VJh">
-                                <rect key="frame" x="170" y="369.5" width="74" height="74"/>
+                                <rect key="frame" x="170" y="386.5" width="74" height="74"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="77w-tU-hDT">
+                                        <rect key="frame" x="18.5" y="18.5" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="77w-tU-hDT" firstAttribute="centerX" secondItem="obI-k2-VJh" secondAttribute="centerX" id="2Mv-Yc-PfY"/>
+                                    <constraint firstAttribute="width" secondItem="obI-k2-VJh" secondAttribute="height" multiplier="1:1" id="CNm-u9-9Hc"/>
+                                    <constraint firstItem="77w-tU-hDT" firstAttribute="width" secondItem="obI-k2-VJh" secondAttribute="width" multiplier="0.5" id="hdV-4M-ThV"/>
+                                    <constraint firstItem="77w-tU-hDT" firstAttribute="centerY" secondItem="obI-k2-VJh" secondAttribute="centerY" id="soB-vU-6QY"/>
+                                </constraints>
                             </view>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="77w-tU-hDT">
-                                <rect key="frame" x="188.5" y="388" width="37" height="37"/>
-                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9ZU-o3-nl9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <accessibility key="accessibilityConfiguration" identifier="CourseSelectionViewController"/>
                         <constraints>
-                            <constraint firstItem="obI-k2-VJh" firstAttribute="height" secondItem="77w-tU-hDT" secondAttribute="height" multiplier="2" id="0sl-UF-fpQ"/>
                             <constraint firstItem="SUw-36-JKM" firstAttribute="top" secondItem="9ZU-o3-nl9" secondAttribute="top" constant="12" id="8x7-W8-T9I">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
@@ -141,11 +148,8 @@
                             <constraint firstItem="9ZU-o3-nl9" firstAttribute="bottom" secondItem="SUw-36-JKM" secondAttribute="bottom" constant="8" id="dDs-E3-t5J">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
-                            <constraint firstItem="77w-tU-hDT" firstAttribute="centerX" secondItem="9ZU-o3-nl9" secondAttribute="centerX" id="fVd-HA-PuD"/>
                             <constraint firstItem="obI-k2-VJh" firstAttribute="centerX" secondItem="9ZU-o3-nl9" secondAttribute="centerX" id="gR2-6B-dUD"/>
                             <constraint firstItem="9ZU-o3-nl9" firstAttribute="trailing" secondItem="SUw-36-JKM" secondAttribute="trailing" constant="20" id="jQS-Et-Slq"/>
-                            <constraint firstItem="obI-k2-VJh" firstAttribute="width" secondItem="77w-tU-hDT" secondAttribute="width" multiplier="2" id="lgb-Pk-3Xe"/>
-                            <constraint firstItem="77w-tU-hDT" firstAttribute="centerY" secondItem="YSO-B8-Drc" secondAttribute="centerY" id="v3V-ab-nxN"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
@@ -409,7 +413,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="jYd-HR-a0k" customClass="CoursePickerTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Wh5-iP-fOK">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="617"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="699"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -476,6 +480,45 @@ Patience please!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i4K-kk-fDD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-220" y="-396"/>
+        </scene>
+        <!--Sign In View Controller-->
+        <scene sceneID="OBE-cQ-R1M">
+            <objects>
+                <viewController id="oC1-YL-ffk" customClass="SignInViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hK7-Rl-zjc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V1d-jG-JIK">
+                                <rect key="frame" x="170" y="411" width="74" height="74"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="fIx-hz-9Xq">
+                                        <rect key="frame" x="18.5" y="18.5" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="fIx-hz-9Xq" firstAttribute="centerY" secondItem="V1d-jG-JIK" secondAttribute="centerY" id="HT4-zU-4Bh"/>
+                                    <constraint firstItem="fIx-hz-9Xq" firstAttribute="width" secondItem="V1d-jG-JIK" secondAttribute="width" multiplier="0.5" id="YjE-Nu-s61"/>
+                                    <constraint firstAttribute="width" secondItem="V1d-jG-JIK" secondAttribute="height" id="mzQ-5e-O4k"/>
+                                    <constraint firstItem="fIx-hz-9Xq" firstAttribute="centerX" secondItem="V1d-jG-JIK" secondAttribute="centerX" id="zbS-Rv-nm8"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="h7c-fg-oNv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="V1d-jG-JIK" firstAttribute="centerY" secondItem="hK7-Rl-zjc" secondAttribute="centerY" id="3UF-Xj-PO4"/>
+                            <constraint firstItem="V1d-jG-JIK" firstAttribute="centerX" secondItem="hK7-Rl-zjc" secondAttribute="centerX" id="NmG-KF-Oje"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="qmG-rg-n9I" kind="presentation" identifier="FinishSignIn" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="zFy-rH-zyY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9rU-Ck-4Yg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-299" y="-1305"/>
         </scene>
         <!--Tab Parent View Controller-->
         <scene sceneID="7Y1-GN-ZnK">
@@ -888,11 +931,11 @@ Patience please!</string>
             <objects>
                 <viewController id="wjM-U8-Nre" customClass="MyBagViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hyJ-QP-Boi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="847"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Golf Bag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fZk-sp-qat">
-                                <rect key="frame" x="153" y="60" width="108.5" height="30"/>
+                                <rect key="frame" x="153" y="12" width="108.5" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="fk9-sh-0Hg"/>
                                 </constraints>
@@ -903,7 +946,7 @@ Patience please!</string>
                                 </variation>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="QYh-v7-fSn">
-                                <rect key="frame" x="20" y="110" width="374" height="695"/>
+                                <rect key="frame" x="20" y="62" width="374" height="777"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify these values to get accurate club recommendations!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sy-T4-vMf">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="13.5"/>
@@ -914,7 +957,7 @@ Patience please!</string>
                                         </variation>
                                     </label>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J97-Px-f20">
-                                        <rect key="frame" x="0.0" y="14.5" width="374" height="680.5"/>
+                                        <rect key="frame" x="0.0" y="14.5" width="374" height="762.5"/>
                                         <connections>
                                             <segue destination="NuW-7G-wT0" kind="embed" id="hXV-A6-Ewv"/>
                                         </connections>
@@ -925,7 +968,7 @@ Patience please!</string>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6v4-LH-NQX" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="354" y="55" width="40" height="40"/>
+                                <rect key="frame" x="354" y="7" width="40" height="40"/>
                                 <color key="backgroundColor" name="Grass"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Sf6-zH-NQy"/>
@@ -950,7 +993,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTL-fe-aeO" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="306" y="55" width="40" height="40"/>
+                                <rect key="frame" x="306" y="7" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="uTL-fe-aeO" secondAttribute="height" multiplier="1:1" id="rDr-RP-KQM"/>
@@ -973,7 +1016,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="customize" translatesAutoresizingMaskIntoConstraints="NO" id="RTP-6P-LSQ">
-                                <rect key="frame" x="359" y="60" width="30" height="30"/>
+                                <rect key="frame" x="359" y="12" width="30" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RTP-6P-LSQ" secondAttribute="height" multiplier="1:1" id="Quj-6m-N4p"/>
@@ -1028,7 +1071,7 @@ Patience please!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxW-QG-3nJ">
-                                <rect key="frame" x="160.5" y="60" width="93.5" height="30"/>
+                                <rect key="frame" x="160.5" y="12" width="93.5" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Z99-55-RqO"/>
                                 </constraints>
@@ -1039,7 +1082,7 @@ Patience please!</string>
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleAspectFit" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XcB-tf-0iP">
-                                <rect key="frame" x="57" y="190" width="300" height="50"/>
+                                <rect key="frame" x="57" y="142" width="300" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.75294117650000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="gpv-dF-4SS"/>
@@ -1056,19 +1099,19 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snap-ghost" translatesAutoresizingMaskIntoConstraints="NO" id="d2s-ya-r7j">
-                                <rect key="frame" x="294.5" y="196.5" width="37.5" height="37.5"/>
+                                <rect key="frame" x="294.5" y="148.5" width="37.5" height="37.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="d2s-ya-r7j" secondAttribute="height" multiplier="1:1" id="NvT-ks-c20"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golf_ball_blank" translatesAutoresizingMaskIntoConstraints="NO" id="SEV-Hy-NMi">
-                                <rect key="frame" x="125.5" y="102" width="163" height="80"/>
+                                <rect key="frame" x="125.5" y="54" width="163" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="SEV-Hy-NMi" secondAttribute="height" multiplier="163:80" id="9gh-X9-fQZ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link your Snapchat account to display your Bitmoji character on the map at your current location." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ReD-vQ-44z">
-                                <rect key="frame" x="107" y="250" width="200" height="36"/>
+                                <rect key="frame" x="107" y="202" width="200" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="48b-n0-Lvq"/>
                                 </constraints>
@@ -1079,7 +1122,7 @@ Patience please!</string>
                                 </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZIk-hs-8il" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="141.5" y="727" width="131" height="37"/>
+                                <rect key="frame" x="141.5" y="761" width="131" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="PRIVACY POLICY">
@@ -1097,7 +1140,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="loV-ZL-Phz" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="111.5" y="768" width="191" height="37"/>
+                                <rect key="frame" x="111.5" y="802" width="191" height="37"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" title="TERMS AND CONDITIONS">
@@ -1115,7 +1158,7 @@ Patience please!</string>
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wpz-Ce-hFo">
-                                <rect key="frame" x="10" y="301" width="394" height="374"/>
+                                <rect key="frame" x="10" y="253" width="394" height="456"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="500" id="cHC-yc-4Tx"/>
                                 </constraints>
@@ -1129,7 +1172,7 @@ Patience please!</string>
                                 </connections>
                             </containerView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x48-8q-zzQ" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
-                                <rect key="frame" x="131" y="683" width="152" height="36"/>
+                                <rect key="frame" x="131" y="717" width="152" height="36"/>
                                 <color key="backgroundColor" name="Grass"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="18"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="8" maxX="10" maxY="8"/>
@@ -1194,7 +1237,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="SD1-NX-MJV" customClass="SettingsTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="CBc-80-qHy">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="374"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="456"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexColor" systemColor="labelColor"/>
@@ -1380,7 +1423,7 @@ Patience please!</string>
             <objects>
                 <tableViewController id="NuW-7G-wT0" customClass="MyBagTableViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WMP-E4-qdC">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="680.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="762.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -1615,7 +1658,7 @@ Patience please!</string>
             <objects>
                 <viewController id="B1g-gZ-Tbn" customClass="BadgesViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J1o-aL-isS">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="374"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="456"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Golf Game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sf9-qt-dIH">
@@ -1627,7 +1670,7 @@ Patience please!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="245" verticalHuggingPriority="245" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b30-oH-IeT">
-                                <rect key="frame" x="10" y="60" width="374" height="304"/>
+                                <rect key="frame" x="10" y="60" width="374" height="386"/>
                                 <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYu-PJ-CJK">
                                     <size key="itemSize" width="100" height="150"/>

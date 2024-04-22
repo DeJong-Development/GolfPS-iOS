@@ -17,6 +17,7 @@ class Player {
     var geoPoint:GeoPoint?
     private(set) var lastLocationUpdate:Timestamp?
     private(set) var avatarURL:URL?
+    private(set) var ambassadorCourses:[String] = [String]()
     
     init(id:String) {
         self.id = id
@@ -26,15 +27,34 @@ class Player {
         
         self.geoPoint = data["location"] as? GeoPoint
         self.lastLocationUpdate = data["updateTime"] as? Timestamp
+        self.ambassadorCourses = data["ambassadorCourses"] as? [String] ?? [String]()
         
         if let imageStr = data["image"] as? String, imageStr != "" {
             self.avatarURL = URL(string: imageStr)
         }
     }
+    
+    func getUserInfo() {
+        let userDoc = Firestore.firestore().collection("players").document(id)
+        userDoc.getDocument {[weak self] document, error in
+            guard let self = self else { return }
+            if let err = error {
+                DebugLogger.report(error: err, message: "Error retrieving courses.")
+            } else if let doc = document, let data = doc.data() {
+                self.geoPoint = data["location"] as? GeoPoint
+                self.lastLocationUpdate = data["updateTime"] as? Timestamp
+                self.ambassadorCourses = data["ambassadorCourses"] as? [String] ?? [String]()
+                
+                if let imageStr = data["image"] as? String, imageStr != "" {
+                    self.avatarURL = URL(string: imageStr)
+                }
+            }
+        }
+    }
 }
 
 class MePlayer:Player {
-    private let preferences = UserDefaults.standard;
+    private let preferences = UserDefaults.standard
     
     var numStrokes:Int = 0
     

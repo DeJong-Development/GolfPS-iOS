@@ -3,7 +3,6 @@ use_frameworks!
 
 target 'GolfPS' do
     pod 'GoogleMaps'
-    pod 'Google-Maps-iOS-Utils'
     pod 'GoogleUtilities'
     
     pod 'Firebase/Core'
