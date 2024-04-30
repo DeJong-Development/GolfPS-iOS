@@ -97,6 +97,7 @@ class CoursePickerTableViewController: UITableViewController {
                 //do nothing - this is a placeholder cell
                 cell.courseNameLabel.text = "NO COURSES FOUND!"
                 cell.courseStateLabel.text = ""
+                cell.stateImage.image = nil
                 cell.courseNameLabel.textColor = UIColor.red
             }
             return cell
