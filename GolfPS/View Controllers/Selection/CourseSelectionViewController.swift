@@ -15,39 +15,46 @@ extension CourseSelectionViewController: CoursePickerDelegate {
         getCourses(isTableRefresh: true)
     }
     internal func goToCourse(_ course: Course) {
-        AppSingleton.shared.course = course;
+        AppSingleton.shared.course = course
         
-        loadingView.startAnimating()
-        loadingBackground.isHidden = false
+        self.loadingView.startAnimating()
+        self.loadingBackground.isHidden = false
         
-        CourseTools.updateHoleInfo(for: course) { (success, err) in
-            self.loadingView.stopAnimating()
-            self.loadingBackground.isHidden = true
-            
-            if (success) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            CourseTools.updateHoleInfo(for: course) {[weak self] (success, err) in
+                guard let self = self else {
+                    AppSingleton.shared.course = nil
+                    return
+                }
                 
-                //update selected course
-                AppSingleton.shared.db.collection("players")
-                    .document(AppSingleton.shared.me.id)
-                    .setData([
-                        "course": course.id,
-                        "updateTime": Timestamp()
-                        ], merge: true)
-                
-                self.performSegue(withIdentifier: "GoToCourse", sender: nil)
-            } else {
-                AppSingleton.shared.course = nil;
                 DispatchQueue.main.async {
-                    let ac = UIAlertController(title: "Error!", message: "Unable to load hole information for selected course.", preferredStyle: .alert)
-                    ac.addAction(UIAlertAction(title: "OK", style: .default))
-                    self.present(ac, animated: true)
+                    if (success) {
+                        
+                        //update selected course
+                        AppSingleton.shared.db.collection("players")
+                            .document(AppSingleton.shared.me.id)
+                            .setData([
+                                "course": course.id,
+                                "updateTime": Timestamp()
+                                ], merge: true)
+                        
+                        self.performSegue(withIdentifier: "GoToCourse", sender: nil)
+                    } else {
+                        AppSingleton.shared.course = nil
+                        self.loadingView.stopAnimating()
+                        self.loadingBackground.isHidden = true
+                        
+                        let ac = UIAlertController(title: "Error!", message: "Unable to load hole information for selected course.", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(ac, animated: true)
+                    }
                 }
             }
         }
     }
 }
 
-class CourseSelectionViewController: UIViewController {
+class CourseSelectionViewController: BaseKeyboardViewController {
     
     @IBOutlet weak var loadingBackground: UIView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
@@ -153,7 +160,19 @@ class CourseSelectionViewController: UIViewController {
         let courseArray = Array(coursesThatMatch).sorted { $0.name < $1.name }
         self.embeddedCourseTableViewController?.courseList = courseArray
     }
-
+    
+    //use this to pop out of a course request
+    @IBAction func unwindToSelection(unwindSegue: UIStoryboardSegue) {
+        AppSingleton.shared.course?.holeInfo.removeAll()
+        
+        DispatchQueue.main.async {
+            self.embeddedCourseTableViewController?.deselectRows()
+            self.loadingView.stopAnimating()
+            self.loadingBackground.isHidden = true
+        }
+    }
+    
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.destination {
@@ -162,13 +181,5 @@ class CourseSelectionViewController: UIViewController {
             self.embeddedCourseTableViewController?.delegate = self
         default: ()
         }
-    }
-    
-    //use this to pop out of a course request
-    @IBAction func unwindToSelection(unwindSegue: UIStoryboardSegue) {
-    }
-    
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
     }
 }

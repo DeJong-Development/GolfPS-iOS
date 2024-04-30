@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import GoogleMaps
-//import GoogleMapsUtils
 import FirebaseFirestore
 import AudioToolbox
 import SCSDKBitmojiKit
@@ -115,14 +114,12 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
 
 class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
-    fileprivate var me:MePlayer {
-        return AppSingleton.shared.me
-    }
+    fileprivate var me:MePlayer { return AppSingleton.shared.me }
+    private var db:Firestore { return AppSingleton.shared.db }
     
     private let mapTools:MapTools = MapTools()
     private let clubTools:ClubTools = ClubTools()
     
-    private var db:Firestore { return AppSingleton.shared.db }
     private var mapView:GMSMapView!
     weak var delegate:ViewUpdateDelegate?
     
@@ -225,7 +222,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         listenToPlayerLocationsOnCourse(with: course.id)
         
-        self.goToHole()
+        self.goToHole(animate: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -233,10 +230,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         playerListener?.remove()
     }
     
+    /// https://developer.apple.com/documentation/uikit/uiviewcontroller/1621454-loadview
     override func loadView() {
         let mapOptions = GMSMapViewOptions()
         mapOptions.frame = .zero
-        mapOptions.camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -75, zoom: 3.5)
+        mapOptions.camera = GMSCameraPosition.camera(withLatitude: 40, longitude: -85, zoom: 3.5)
         mapOptions.backgroundColor = .systemBackground
         
         self.mapView = GMSMapView.init(options: mapOptions)
@@ -255,7 +253,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.pausesLocationUpdatesAutomatically = true
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation()
         
@@ -271,7 +269,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             if let urlString = avatarURL, let url = URL(string: urlString) {
                 self.getData(from: url) { data, response, error in
                     guard let data = data, error == nil else { return }
-                    DispatchQueue.main.async() {
+                    DispatchQueue.main.async {
                         self.myPlayerImage = UIImage(data: data)
                     }
                 }
@@ -352,7 +350,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    public func goToHole(increment: Int = 0) {
+    public func goToHole(increment: Int = 0, animate: Bool = true) {
         guard let course = AppSingleton.shared.course else {
             return
         }
@@ -390,7 +388,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         //check if we have played at this course before
         updateDidPlayHere()
         
-        moveCamera(to: currentHole, orientToHole: true)
+        moveCamera(to: currentHole, orientToHole: true, animate: animate)
         
         mapView?.selectedMarker = currentPinMarker
         
@@ -439,7 +437,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    private func moveCamera(to hole:Hole, orientToHole:Bool) {
+    private func moveCamera(to hole:Hole, orientToHole:Bool, animate:Bool = true) {
         let center:CLLocationCoordinate2D = mapTools.getBoundsCenter(hole.bounds)
         
         var bearing:Double = 0
@@ -458,7 +456,12 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                                                              zoom: newZoom,
                                                              bearing: bearing,
                                                              viewingAngle: viewingAngle)
-        mapView?.animate(to: cameraView)
+        
+        if animate {
+            mapView?.animate(to: cameraView)
+        } else {
+            mapView?.moveCamera(GMSCameraUpdate.setCamera(cameraView))
+        }
     }
     
     private func removeOldPlayerMarkers() {
@@ -541,7 +544,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     userDataForMarker["snap"] = true
                     self.getData(from: avatar) { data, response, error in
                         guard let data = data, error == nil else { return }
-                        DispatchQueue.main.async() {
+                        DispatchQueue.main.async {
                             opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
                         }
                     }
@@ -567,7 +570,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     userDataForMarker["snap"] = true
                     self.getData(from: avatar) { data, response, error in
                         guard let data = data, error == nil else { return }
-                        DispatchQueue.main.async() {
+                        DispatchQueue.main.async {
                             opMarker.icon = UIImage(data: data)?.toNewSize(CGSize(width: 35, height: 35))
                         }
                     }
@@ -793,7 +796,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let teeAngles = stride(from: -30, to: 30, by: 3)
         let ssAngles = stride(from: -10, to: 10, by: 3)
         
-        DispatchQueue.global(qos: .userInitiated).async {
+//        DispatchQueue.global(qos: .userInitiated).async {
             for (teeClubIndex, teeClub) in teeClubs.enumerated() {
                 print("Checking routes with \(teeClub.name) off the tee...")
                 
@@ -828,7 +831,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 
                 self.showBestRoutesTargets(routes, teeClubIndex: teeClubIndex)
             }
-        }
+//        }
     }
     
     private func playRoutes(_ routes:[GolfShotRoute]) -> [GolfShotRoute] {

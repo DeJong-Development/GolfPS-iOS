@@ -32,7 +32,9 @@ class SignInViewController: UIViewController {
             me.getUserInfo()
             AppSingleton.shared.me = me
             
-            self.performSegue(withIdentifier: "FinishSignIn", sender: nil)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "FinishSignIn", sender: nil)
+            }
         }
 
         //remove keychain values if we have never run this app
@@ -48,9 +50,7 @@ class SignInViewController: UIViewController {
                 UserDefaults.standard.synchronize()
                 
             } else {
-                DispatchQueue.main.async {
-                    loadUser(user)
-                }
+                loadUser(user)
             }
         } else {
             //we have run the app before but we logged out and are restarting the app with no user logged in

@@ -46,6 +46,11 @@ class CoursePickerTableViewController: UITableViewController {
     internal func endRefresh() {
         refreshControl?.endRefreshing()
     }
+    internal func deselectRows() {
+        for row in 0..<tableView.numberOfRows(inSection: 0) {
+            self.tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: false)
+        }
+    }
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {

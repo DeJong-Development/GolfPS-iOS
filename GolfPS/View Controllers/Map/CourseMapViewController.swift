@@ -113,15 +113,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.destination {
-        case let vc as GoogleMapViewController:
-            self.embeddedMapViewController = vc
-            self.embeddedMapViewController.delegate = self
-        default: ()
-        }
-    }
-    
     internal func updateCurrentHole(hole: Hole) {
         currentHoleLabel.setTitle("#\(hole.number)", for: .normal)
         
@@ -181,16 +172,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
 //        }
     }
     
-    internal func goToHole1() {
-        guard let course = AppSingleton.shared.course, let firstHole = course.holeInfo.first else {
-            return
-        }
-        embeddedMapViewController.currentHole = firstHole
-        embeddedMapViewController.goToHole()
-    }
-    
     @IBAction func clickBack(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.performSegue(withIdentifier: "unwindToSelection", sender: nil)
     }
     @IBAction func nextHoleButton(_ sender: UIButton?) {
         guard (AppSingleton.shared.course != nil) else {
@@ -208,7 +191,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         guard AppSingleton.shared.course == nil else {
             return
         }
-        
         self.performSegue(withIdentifier: "unwindToSelection", sender: nil)
     }
     
@@ -313,5 +295,15 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     func sessionDidBecomeInactive(_ session: WCSession) { }
     
     func sessionDidDeactivate(_ session: WCSession) { }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.destination {
+        case let vc as GoogleMapViewController:
+            self.embeddedMapViewController = vc
+            self.embeddedMapViewController.delegate = self
+        default: ()
+        }
+    }
 }
 

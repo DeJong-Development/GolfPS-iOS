@@ -4,9 +4,7 @@
 Pods
 
 *.xcuserstate
-
-GolfPS.xcworkspace/xcuserdata/
-
+*/xcuserdata/*
 *.xcbkptlist
 
 GolfPS/ApiKeys.plist

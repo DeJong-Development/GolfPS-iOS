@@ -94,7 +94,7 @@ class SettingsViewController: UIViewController {
             //once this is linked - it will always be linked
             //set up with a "Link Snapchat Bitmoji" button or something like that
             SCSDKLoginClient.login(from: self, completion: { success, error in
-                DispatchQueue.main.async() {
+                DispatchQueue.main.async {
                     self.updateButtonLabel()
                     self.embeddedTableViewController.updateBitSwitch()
                 }
@@ -184,7 +184,7 @@ class SettingsViewController: UIViewController {
                     //get the image data and display in the UIImage
                     self.getData(from: url) { data, response, error in
                         guard let data = data, error == nil else { return }
-                        DispatchQueue.main.async() {
+                        DispatchQueue.main.async {
                             self.bitmojiImage.image = UIImage(data: data)
                         }
                     }
