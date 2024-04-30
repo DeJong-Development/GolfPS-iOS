@@ -127,10 +127,10 @@ class CourseSelectionViewController: BaseKeyboardViewController {
             }
             
             self.allGolfCourses = golfCourses.sorted { $0.name < $1.name }
+            self.embeddedCourseTableViewController?.endRefresh()
             self.queryCourses()
             self.loadingView.stopAnimating()
             self.loadingBackground.isHidden = true
-            self.embeddedCourseTableViewController?.endRefresh()
         }
     }
     

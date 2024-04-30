@@ -19,6 +19,8 @@ class CoursePickerTableViewController: UITableViewController {
     private final let cellIdentifier = "GCTableCell"
     weak var delegate:CoursePickerDelegate?
     
+    private var isLoadingCourses:Bool = true
+    
     internal var courseList:[Course] = [Course]() {
         didSet {
             self.tableView.reloadData()
@@ -44,7 +46,8 @@ class CoursePickerTableViewController: UITableViewController {
         delegate?.refreshCourseList()
     }
     internal func endRefresh() {
-        refreshControl?.endRefreshing()
+        self.isLoadingCourses = false
+        self.refreshControl?.endRefreshing()
     }
     internal func deselectRows() {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
@@ -87,10 +90,15 @@ class CoursePickerTableViewController: UITableViewController {
         }
         
         guard (courseList.count > 0) else {
-            //do nothing - this is a placeholder cell
-            cell.courseNameLabel.text = "NO COURSES FOUND!"
-            cell.courseStateLabel.text = ""
-            cell.courseNameLabel.textColor = UIColor.red
+            if self.isLoadingCourses {
+                cell.courseNameLabel.text = ""
+                cell.courseStateLabel.text = ""
+            } else {
+                //do nothing - this is a placeholder cell
+                cell.courseNameLabel.text = "NO COURSES FOUND!"
+                cell.courseStateLabel.text = ""
+                cell.courseNameLabel.textColor = UIColor.red
+            }
             return cell
         }
         
