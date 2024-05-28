@@ -88,17 +88,7 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             createPlayerMarker()
         }
         
-        if let pm = currentPinMarker {
-            let distanceToPin:Int = mapTools.distanceFrom(first: cpl.coordinate, second: pm.position)
-            delegate?.updateDistanceToPin(distance: distanceToPin)
-            
-            if let suggestedClub:Club = me.bag.getClubSuggestion(distanceTo: distanceToPin) {
-                delegate?.updateSelectedClub(club: suggestedClub)
-                
-                //update any suggestion lines
-                updateSuggestionLines(with: suggestedClub)
-            }
-        }
+        updateSuggestionLines()
         
         //add course visitation
         if let course = AppSingleton.shared.course,
@@ -422,18 +412,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         DispatchQueue.main.async {
             self.delegate?.updateElevationEffect(height: elevation, distance: distance)
             
-            var distanceToUseInSuggestion:Int = 300
-            if let distancePinMe = self.distanceToPinFromMyLocation {
-                distanceToUseInSuggestion = distancePinMe
-            } else if let distancePinTee = self.distanceToPinFromTee {
-                distanceToUseInSuggestion = distancePinTee
-            }
-            self.delegate?.updateDistanceToPin(distance: distanceToUseInSuggestion)
-            
-            if let suggestedClub:Club = self.me.bag.getClubSuggestion(distanceTo: distanceToUseInSuggestion + Int(distance)) {
-                self.delegate?.updateSelectedClub(club: suggestedClub)
-                self.updateSuggestionLines(with: suggestedClub)
-            }
+            self.updateSuggestionLines()
         }
     }
     
@@ -796,7 +775,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let teeAngles = stride(from: -30, to: 30, by: 3)
         let ssAngles = stride(from: -10, to: 10, by: 3)
         
-//        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             for (teeClubIndex, teeClub) in teeClubs.enumerated() {
                 print("Checking routes with \(teeClub.name) off the tee...")
                 
@@ -831,7 +810,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 
                 self.showBestRoutesTargets(routes, teeClubIndex: teeClubIndex)
             }
-//        }
+        }
     }
     
     private func playRoutes(_ routes:[GolfShotRoute]) -> [GolfShotRoute] {
@@ -998,25 +977,30 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         }
     }
     
-    private func updateSuggestionLines(with club:Club) {
+    private func updateSuggestionLines() {
+        guard let distancePinTee = distanceToPinFromTee, let suggestedClubFromMyPin:Club = me.bag.getClubSuggestion(distanceTo: distancePinTee) else {
+            return
+        }
+        
         //if recommending club that is not driver - show recommended club lines
-        if let distancePinTee = distanceToPinFromTee,
-            let distancePinMe = distanceToPinFromMyLocation,
+        if let distancePinMe = distanceToPinFromMyLocation,
             let distanceTeeMe = distanceToTeeFromMyLocation {
             let meIsNearPin = distancePinMe < 300
             let meIsNearTeeBox = distanceTeeMe < 100
             let meIsCloseToSelectedHole = distanceTeeMe + distancePinMe < distancePinTee + 100
             
+            let suggestedClubFromMyLocation:Club = me.bag.getClubSuggestion(distanceTo: distancePinMe) ?? suggestedClubFromMyPin
+            
             if meIsNearTeeBox {
-                updateDrivingDistanceLines(useMyLocation: true)
+                updateRecommendedClubLines(suggestedClubFromMyLocation, useMyLocation: true)
             } else if meIsNearPin || meIsCloseToSelectedHole {
-                updateRecommendedClubLines(club)
+                updateRecommendedClubLines(suggestedClubFromMyLocation)
             } else {
                 //not close to the pin OR not close to the selected hole
-                updateDrivingDistanceLines()
+                updateRecommendedClubLines(suggestedClubFromMyPin, useMyLocation: false)
             }
         } else {
-            updateDrivingDistanceLines()
+            updateRecommendedClubLines(suggestedClubFromMyPin, useMyLocation: false)
         }
     }
     
@@ -1082,83 +1066,45 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     
     private func clearDistanceLines() {
         for line in drivingDistanceLines {
-            line.map = nil;
+            line.map = nil
         }
         for line in suggestedDistanceLines {
-            line.map = nil;
+            line.map = nil
         }
         drivingDistanceLines.removeAll()
         suggestedDistanceLines.removeAll()
     }
     
-    private func updateDrivingDistanceLines(useMyLocation: Bool = false) {
+    private func updateRecommendedClubLines(_ suggestedClub:Club, useMyLocation: Bool = true) {
         clearDistanceLines()
         
-        guard let pinGP:GeoPoint = currentHole.pinLocation else {
-            DebugLogger.report(error: nil, message: "Hole does not have a pin!")
-            return
-        }
-        
-        let startGP:GeoPoint
+        let startGeopoint: GeoPoint
         if useMyLocation {
-            startGP = self.me.geoPoint ?? currentHole.teeLocations[0]
+            startGeopoint = self.me.geoPoint ?? currentHole.teeLocations[0]
         } else {
-            startGP = currentHole.teeLocations[0]
+            startGeopoint = currentHole.teeLocations[0]
         }
         
-        let bearingToPin:Double = mapTools.calcBearing(start: startGP, finish: pinGP)
+        let pinGeopoint:GeoPoint = currentHole.pinLocation!
         
-        var bearingToDogLeg:Double = bearingToPin
+        let distanceToPin = mapTools.distanceFrom(first: startGeopoint, second: pinGeopoint)
+        let bearingToPin:Double = mapTools.calcBearing(start: startGeopoint, finish: pinGeopoint)
+        
+        var bearingToTarget:Double = bearingToPin
         if let dll = currentHole.dogLegLocation {
-            bearingToDogLeg = mapTools.calcBearing(start: startGP, finish: dll)
+            bearingToTarget = mapTools.calcBearing(start: startGeopoint, finish: dll)
         }
         
-        let minBearing:Int = Int(bearingToDogLeg - 12)
-        let maxBearing:Int = Int(bearingToDogLeg + 12)
+        let minBearing:Int = Int(bearingToTarget - 12)
+        let maxBearing:Int = Int(bearingToTarget + 12)
         
-        let teeYardsToPin:Int = mapTools.distanceFrom(first: startGP.location, second: pinGP.location)
+        self.delegate?.updateDistanceToPin(distance: distanceToPin)
+        self.delegate?.updateSelectedClub(club: suggestedClub)
         
-        let myClubs = self.me.bag.myClubs
-        guard let driver:Club = myClubs.first else {
-            return
-        }
-        
-        if (driver.distance < teeYardsToPin) {
-            for i in 0..<3 {
-                guard (myClubs.count > i) else { break }
-                let drivingClub:Club = myClubs[i]
-                let lineColor:UIColor = drivingDistanceLineColors[i]
-                
-                let distancePath = GMSMutablePath()
-                for angle in minBearing..<maxBearing {
-                    let distanceCoords = mapTools.coordinates(startingCoordinates: startGP.location, atDistance: Double(drivingClub.distance), atAngle: Double(angle))
-                    distancePath.add(distanceCoords)
-                }
-                let distanceLine = GMSPolyline(path: distancePath)
-                distanceLine.strokeColor = lineColor
-                distanceLine.strokeWidth = 2
-                distanceLine.map = mapView
-                
-                drivingDistanceLines.append(distanceLine)
-            }
-        }
-    }
-    private func updateRecommendedClubLines(_ suggestedClub:Club) {
-        clearDistanceLines()
-        
-        guard let myGeopoint = self.me.geoPoint,
-            let distancePinMe = distanceToPinFromMyLocation else {
-            return
-        }
-        
-        let pinGeopoint:GeoPoint = currentHole.pinLocation!;
-        let bearingToPin:Double = mapTools.calcBearing(start: myGeopoint, finish: pinGeopoint)
-        
-        let minBearing:Int = Int(bearingToPin - 12)
-        let maxBearing:Int = Int(bearingToPin + 12)
         
         //only show suggestion line if the min distance is less than current distance
-        guard let shortestWedge:Club = self.me.bag.myClubs.last, shortestWedge.distance < distancePinMe else {
+        guard let shortestWedge:Club = self.me.bag.myClubs.last, shortestWedge.distance < distanceToPin else {
+            print("Distance is too short for suggestion lines.")
             return
         }
         
@@ -1177,7 +1123,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             var lineColor:UIColor = UIColor.white
             switch i {
-                case -1: lineColor = UIColor.red
+                case -2: lineColor = UIColor.red
+                case -1: lineColor = UIColor.orange
                 case 0: lineColor = UIColor.green
                 case 1: lineColor = UIColor.yellow
                 default: lineColor = UIColor(white: 1, alpha: 0.25)
@@ -1185,7 +1132,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             
             let distancePath = GMSMutablePath()
             for angle in minBearing..<maxBearing {
-                let distanceCoords = mapTools.coordinates(startingCoordinates: myGeopoint.location, atDistance: Double(clubSelectionToShow.distance), atAngle: Double(angle))
+                let distanceCoords = mapTools.coordinates(startingCoordinates: startGeopoint.location, atDistance: Double(clubSelectionToShow.distance), atAngle: Double(angle))
                 distancePath.add(distanceCoords)
             }
             let distanceLine = GMSPolyline(path: distancePath)
