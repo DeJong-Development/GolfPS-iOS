@@ -35,6 +35,7 @@ class SettingsTableViewController: UITableViewController {
         self.tableView.delegate = self
         
         metricControl.selectedSegmentIndex = AppSingleton.shared.metric ? 1 : 0
+        displayModeControl.selectedSegmentIndex = AppSingleton.shared.cupholderMode ? 1 : 0
 
         locationShareSwitch.setOn(AppSingleton.shared.me.shareLocation, animated: false)
         if (!AppSingleton.shared.me.shareLocation) {
