@@ -30,6 +30,14 @@ class AppSingleton {
             return UserDefaults.standard.bool(forKey: "using_metric")
         }
     }
+    var cupholderMode:Bool {
+        set(newValue) {
+            UserDefaults.standard.set(newValue, forKey: "cupholder_mode")
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: "cupholder_mode")
+        }
+    }
     
     // Wrapper for obtaining keys from keys.plist
     func valueForAPIKey(keyname:String) -> String {

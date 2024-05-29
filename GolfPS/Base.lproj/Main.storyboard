@@ -161,6 +161,7 @@
                         <outlet property="loadingView" destination="77w-tU-hDT" id="jNO-aa-NI5"/>
                         <outlet property="requestCourseButton" destination="B4y-uD-6Wy" id="sOG-L6-tLw"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="GoToCourse" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="vUx-4q-GZg"/>
+                        <segue destination="oDb-7k-S7A" kind="presentation" identifier="GoToCourseCupholder" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="KxH-8e-QMm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f25-sz-Vvr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -406,7 +407,7 @@ Patience please!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzF-Ri-W5W" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="gS2-1F-aQH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1387" y="413"/>
+            <point key="canvasLocation" x="-1768" y="413"/>
         </scene>
         <!--Course Picker Table View Controller-->
         <scene sceneID="tBr-E4-eMd">
@@ -550,20 +551,20 @@ Patience please!</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOD-mc-DML">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nOD-mc-DML" userLabel="Google Maps Container">
                                 <rect key="frame" x="0.0" y="28" width="414" height="815"/>
                                 <connections>
                                     <segue destination="uBb-u3-RS0" kind="embed" identifier="GoogleMapEmbed" id="ZXW-nZ-FTI"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPt-JS-cAK" customClass="ViewX" customModule="GolfPS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPt-JS-cAK" userLabel="Long Drive Background" customClass="ViewX" customModule="GolfPS" customModuleProvider="target">
                                 <rect key="frame" x="149" y="759.5" width="116" height="83.5"/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="250" id="Qzq-HM-Rcn"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gSy-sB-JAX">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gSy-sB-JAX" userLabel="Long Drive Stack">
                                 <rect key="frame" x="149" y="745" width="116" height="98"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ivE-1M-Lti" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
@@ -662,11 +663,11 @@ Patience please!</string>
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cC6-Al-7hC">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cC6-Al-7hC" userLabel="Action Stack View">
                                 <rect key="frame" x="0.0" y="843" width="414" height="53"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6zZ-Li-gyD">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6zZ-Li-gyD" userLabel="Action Stack">
                                 <rect key="frame" x="6" y="843" width="402" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncN-hV-8Pq">
@@ -756,7 +757,7 @@ Patience please!</string>
                                     <action selector="clickCourseName:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LQH-yu-sZU"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2Ec-Ot-HEe">
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2Ec-Ot-HEe" userLabel="Elevation Stack">
                                 <rect key="frame" x="16" y="102" width="63.5" height="23"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rcq-d6-ekt">
@@ -925,7 +926,7 @@ Patience please!</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <exit id="6dv-uI-F2a" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-532" y="413"/>
+            <point key="canvasLocation" x="-913" y="413"/>
         </scene>
         <!--My Bag-->
         <scene sceneID="DzH-sa-uw2">
@@ -1359,19 +1360,19 @@ Patience please!</string>
                                             <segue destination="B1g-gZ-Tbn" kind="show" id="Txg-DT-rOH"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="7HX-nT-iQ9">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="NYK-nx-fqr">
                                         <rect key="frame" x="0.0" y="258.5" width="394" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7HX-nT-iQ9" id="d12-ij-2fY">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NYK-nx-fqr" id="W8Y-zw-lXu">
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNITS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4L-P0-zbX">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNITS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cij-RY-k5m">
                                                     <rect key="frame" x="25" y="11" width="47.5" height="22"/>
                                                     <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="X1A-Ns-5iI">
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EJ4-KS-yfT">
                                                     <rect key="frame" x="253" y="6.5" width="125" height="32"/>
                                                     <segments>
                                                         <segment title="Yards"/>
@@ -1379,7 +1380,41 @@ Patience please!</string>
                                                     </segments>
                                                     <color key="selectedSegmentTintColor" name="Grass"/>
                                                     <connections>
-                                                        <action selector="switchUnits:" destination="SD1-NX-MJV" eventType="valueChanged" id="QXx-Eq-XFf"/>
+                                                        <action selector="switchUnits:" destination="SD1-NX-MJV" eventType="valueChanged" id="vkc-E8-LIV"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstItem="cij-RY-k5m" firstAttribute="leading" secondItem="W8Y-zw-lXu" secondAttribute="leadingMargin" constant="5" id="8DY-P4-EGg"/>
+                                                <constraint firstItem="cij-RY-k5m" firstAttribute="centerY" secondItem="W8Y-zw-lXu" secondAttribute="centerY" id="lN4-9V-18r"/>
+                                                <constraint firstAttribute="trailing" secondItem="EJ4-KS-yfT" secondAttribute="trailing" constant="16" id="t5f-0D-ip9"/>
+                                                <constraint firstItem="EJ4-KS-yfT" firstAttribute="centerY" secondItem="W8Y-zw-lXu" secondAttribute="centerY" id="zhS-XY-lAc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="7HX-nT-iQ9">
+                                        <rect key="frame" x="0.0" y="302" width="394" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7HX-nT-iQ9" id="d12-ij-2fY">
+                                            <rect key="frame" x="0.0" y="0.0" width="394" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DISPLAY MODE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4L-P0-zbX">
+                                                    <rect key="frame" x="25" y="11" width="118.5" height="22"/>
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="X1A-Ns-5iI">
+                                                    <rect key="frame" x="211" y="6.5" width="167" height="32"/>
+                                                    <segments>
+                                                        <segment title="Default"/>
+                                                        <segment title="Cupholder"/>
+                                                    </segments>
+                                                    <color key="selectedSegmentTintColor" name="Grass"/>
+                                                    <connections>
+                                                        <action selector="switchDisplayMode:" destination="SD1-NX-MJV" eventType="valueChanged" id="KS0-M9-gle"/>
                                                     </connections>
                                                 </segmentedControl>
                                             </subviews>
@@ -1410,9 +1445,10 @@ Patience please!</string>
                         <outlet property="bitmojiShareInfoButton" destination="ADy-qB-mtk" id="18x-pR-6Vt"/>
                         <outlet property="bitmojiShareSwitch" destination="05m-ld-L2j" id="5DE-vx-VeL"/>
                         <outlet property="bitmojiShareTitle" destination="3sb-P1-BlR" id="XWA-AE-gv2"/>
+                        <outlet property="displayModeControl" destination="X1A-Ns-5iI" id="VgF-tP-XBW"/>
                         <outlet property="locationShareInfoButton" destination="CTO-Tc-Fjg" id="HWn-1i-lL6"/>
                         <outlet property="locationShareSwitch" destination="TTk-Kb-LNf" id="Lpo-0v-eks"/>
-                        <outlet property="metricControl" destination="X1A-Ns-5iI" id="X8t-P0-ggE"/>
+                        <outlet property="metricControl" destination="EJ4-KS-yfT" id="eBH-IK-2o3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PFl-1S-DRw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1644,14 +1680,15 @@ Patience please!</string>
             <objects>
                 <viewController id="uBb-u3-RS0" customClass="GoogleMapViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qhs-1S-jpn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="815"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="835"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cnZ-tc-Gvy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gpv-C6-Ivk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-532" y="1108"/>
+            <point key="canvasLocation" x="-586" y="1167"/>
         </scene>
         <!--Badges View Controller-->
         <scene sceneID="bah-aq-Ew0">
@@ -1932,18 +1969,428 @@ Patience please!</string>
             </objects>
             <point key="canvasLocation" x="3946" y="327"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="1tP-rj-4kK">
+            <objects>
+                <viewController id="oDb-7k-S7A" customClass="CourseMapViewController" customModule="GolfPS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="emC-LZ-4oE">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vnh-Nl-LxH" userLabel="Google Maps Container">
+                                <rect key="frame" x="0.0" y="61" width="414" height="835"/>
+                                <connections>
+                                    <segue destination="uBb-u3-RS0" kind="embed" id="tgu-7o-2VN"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JoD-Pw-NhP" userLabel="Long Drive Background" customClass="ViewX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="149" y="812.5" width="116" height="83.5"/>
+                                <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="250" id="wZ0-vO-3H7"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ztt-cQ-b00" userLabel="Long Drive Stack">
+                                <rect key="frame" x="149" y="798" width="116" height="98"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GU8-T2-Okd" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="116" height="29"/>
+                                        <color key="backgroundColor" name="Gold"/>
+                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
+                                        <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                                        <state key="normal" title="Longest Drive">
+                                            <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" systemColor="systemBackgroundColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="roundTL" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="roundTR" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="22"/>
+                                        </variation>
+                                        <connections>
+                                            <action selector="clickLongDrive:" destination="oDb-7k-S7A" eventType="touchUpInside" id="7fc-G4-wQH"/>
+                                        </connections>
+                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="jnH-b8-bOF">
+                                        <rect key="frame" x="27" y="39" width="62" height="59"/>
+                                        <subviews>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="333 yds" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN9-dF-PwU">
+                                                <rect key="frame" x="0.0" y="0.0" width="62" height="0.0"/>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Um-lC-hra" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="62" height="27"/>
+                                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
+                                                <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                                                <state key="normal" title="MARK">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="18"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="clickMarkButton:" destination="oDb-7k-S7A" eventType="touchUpInside" id="Ura-kJ-SuD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3g7-6N-zg8" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="32" width="62" height="27"/>
+                                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
+                                                <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                                                <state key="normal" title="CLEAR">
+                                                    <color key="titleColor" red="0.93999999999999995" green="0.050000000000000003" blue="0.19" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                        <color key="value" red="0.93999999999999995" green="0.050000000000000003" blue="0.19" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="18"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="clickClearButton:" destination="oDb-7k-S7A" eventType="touchUpInside" id="Pgl-uX-gIn"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Se-Jh-C3s" userLabel="Action Stack View">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="61"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7h9-7R-izR" userLabel="Action Stack">
+                                        <rect key="frame" x="0.0" y="8" width="414" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ak2-yG-8z0">
+                                                <rect key="frame" x="0.0" y="5" width="138" height="35"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="35" id="LPe-ZR-oXx">
+                                                        <variation key="heightClass=regular-widthClass=regular" constant="45"/>
+                                                    </constraint>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
+                                                <state key="normal" title="↢ Prev">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="22"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="previousHoleButton:" destination="oDb-7k-S7A" eventType="touchUpInside" id="ZXW-11-xAL"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgY-LL-wCj">
+                                                <rect key="frame" x="138" y="0.0" width="138" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="aGa-3p-uPp">
+                                                        <variation key="heightClass=regular-widthClass=regular" constant="55"/>
+                                                    </constraint>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="30"/>
+                                                <state key="normal" title="#1">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNs-cw-h6S">
+                                                <rect key="frame" x="276" y="5" width="138" height="35"/>
+                                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
+                                                <state key="normal" title="Next ↣">
+                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=regular">
+                                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="22"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="nextHoleButton:" destination="oDb-7k-S7A" eventType="touchUpInside" id="Osi-xq-8Dc"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="aNs-cw-h6S" firstAttribute="height" secondItem="ak2-yG-8z0" secondAttribute="height" id="15q-cV-5qv"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="7h9-7R-izR" firstAttribute="centerX" secondItem="4Se-Jh-C3s" secondAttribute="centerX" id="048-JC-ReK"/>
+                                    <constraint firstItem="7h9-7R-izR" firstAttribute="top" secondItem="4Se-Jh-C3s" secondAttribute="top" constant="8" id="UpS-cM-Jir"/>
+                                    <constraint firstItem="7h9-7R-izR" firstAttribute="centerY" secondItem="4Se-Jh-C3s" secondAttribute="centerY" id="akU-cO-1t7"/>
+                                    <constraint firstItem="7h9-7R-izR" firstAttribute="width" secondItem="4Se-Jh-C3s" secondAttribute="width" id="sa1-eH-Xgp"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Kv-2I-b0i">
+                                <rect key="frame" x="16" y="121" width="18" height="50"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="45"/>
+                                <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="1" height="-1"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="50"/>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8O-l3-8iE" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="16" y="81" width="143" height="32"/>
+                                <color key="backgroundColor" name="Grass"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <inset key="contentEdgeInsets" minX="20" minY="5" maxX="20" maxY="5"/>
+                                <state key="normal" title="Course Name">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="24"/>
+                                </variation>
+                                <connections>
+                                    <action selector="clickCourseName:" destination="oDb-7k-S7A" eventType="touchUpInside" id="1VH-DG-TV6"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="GXh-Dq-vmP" userLabel="Elevation Stack">
+                                <rect key="frame" x="16" y="171" width="63.5" height="23"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elevation:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ktj-N4-wpF">
+                                        <rect key="frame" x="0.0" y="4.5" width="51" height="14.5"/>
+                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="12"/>
+                                        <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <size key="shadowOffset" width="1" height="-1"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="14"/>
+                                        </variation>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bw-zb-rQI">
+                                        <rect key="frame" x="55" y="0.0" width="8.5" height="23"/>
+                                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                        <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <size key="shadowOffset" width="1" height="-1"/>
+                                        <variation key="heightClass=regular-widthClass=regular">
+                                            <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                        </variation>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fc-xk-Elt">
+                                <rect key="frame" x="16" y="194" width="9" height="23"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="20"/>
+                                <color key="textColor" red="0.93722427220000004" green="0.95955170670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="1" height="-1"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EJt-xn-sMe" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="372" y="81" width="32" height="32"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="EJt-xn-sMe" secondAttribute="height" id="8nK-Dm-1lJ"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="arrow.down" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickBack:" destination="oDb-7k-S7A" eventType="touchUpInside" id="rns-Me-yjq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4NR-Fx-yAW" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="16" y="237" width="35.5" height="35.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4NR-Fx-yAW" secondAttribute="height" id="frA-bG-y61"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="binoculars.fill" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickCalculateDriveLocation:" destination="oDb-7k-S7A" eventType="touchUpInside" id="nNb-BL-GP2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1d7-hp-uxS" customClass="ButtonX" customModule="GolfPS" customModuleProvider="target">
+                                <rect key="frame" x="16" y="284.5" width="35.5" height="35.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1d7-hp-uxS" secondAttribute="height" id="SDz-51-cwj"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="heat.waves" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="clickCalculateHeatmap:" destination="oDb-7k-S7A" eventType="touchUpInside" id="DvY-Rq-2PT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ppi-fp-dcr"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="EJt-xn-sMe" firstAttribute="centerY" secondItem="R8O-l3-8iE" secondAttribute="centerY" id="7bQ-yQ-Cjk"/>
+                            <constraint firstItem="3fc-xk-Elt" firstAttribute="top" secondItem="GXh-Dq-vmP" secondAttribute="bottom" id="7ms-SK-fSE"/>
+                            <constraint firstItem="4NR-Fx-yAW" firstAttribute="leading" secondItem="3fc-xk-Elt" secondAttribute="leading" id="9za-Qc-Ptp"/>
+                            <constraint firstItem="3Kv-2I-b0i" firstAttribute="leading" secondItem="R8O-l3-8iE" secondAttribute="leading" id="AES-Zp-GOE"/>
+                            <constraint firstItem="4NR-Fx-yAW" firstAttribute="width" secondItem="EJt-xn-sMe" secondAttribute="width" multiplier="1.10938" id="BJW-tz-AQK"/>
+                            <constraint firstItem="1d7-hp-uxS" firstAttribute="width" secondItem="4NR-Fx-yAW" secondAttribute="width" id="FsR-rJ-zMc"/>
+                            <constraint firstItem="3fc-xk-Elt" firstAttribute="leading" secondItem="3Kv-2I-b0i" secondAttribute="leading" id="GQp-iX-ddl"/>
+                            <constraint firstAttribute="bottom" secondItem="JoD-Pw-NhP" secondAttribute="bottom" id="HXH-5N-HkB"/>
+                            <constraint firstItem="Vnh-Nl-LxH" firstAttribute="top" secondItem="4Se-Jh-C3s" secondAttribute="bottom" id="IQe-9g-qZe"/>
+                            <constraint firstItem="R8O-l3-8iE" firstAttribute="leading" secondItem="ppi-fp-dcr" secondAttribute="leading" constant="16" id="JuK-lt-zOh"/>
+                            <constraint firstItem="EJt-xn-sMe" firstAttribute="height" secondItem="R8O-l3-8iE" secondAttribute="height" id="K83-3c-t8W"/>
+                            <constraint firstItem="GXh-Dq-vmP" firstAttribute="leading" secondItem="3fc-xk-Elt" secondAttribute="leading" id="KaE-jA-9Xm"/>
+                            <constraint firstItem="Vnh-Nl-LxH" firstAttribute="width" secondItem="emC-LZ-4oE" secondAttribute="width" id="KhU-3X-MoU"/>
+                            <constraint firstItem="GXh-Dq-vmP" firstAttribute="top" secondItem="3Kv-2I-b0i" secondAttribute="bottom" id="O85-WT-KAw"/>
+                            <constraint firstItem="4Se-Jh-C3s" firstAttribute="centerX" secondItem="ppi-fp-dcr" secondAttribute="centerX" id="PdG-1C-83H"/>
+                            <constraint firstItem="ztt-cQ-b00" firstAttribute="centerX" secondItem="ppi-fp-dcr" secondAttribute="centerX" id="Snp-hh-oaU"/>
+                            <constraint firstItem="1d7-hp-uxS" firstAttribute="top" secondItem="4NR-Fx-yAW" secondAttribute="bottom" constant="12" id="V5o-WB-qbV"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="top" secondItem="4Se-Jh-C3s" secondAttribute="top" id="YFd-oI-hKN"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="R8O-l3-8iE" secondAttribute="trailing" constant="20" symbolic="YES" id="YoZ-oh-4XT"/>
+                            <constraint firstItem="JoD-Pw-NhP" firstAttribute="width" secondItem="ztt-cQ-b00" secondAttribute="width" id="b4d-9w-QoO"/>
+                            <constraint firstAttribute="bottom" secondItem="Vnh-Nl-LxH" secondAttribute="bottom" id="bqi-6S-IAh"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="bottom" secondItem="ztt-cQ-b00" secondAttribute="bottom" id="dCn-hr-qty"/>
+                            <constraint firstItem="4Se-Jh-C3s" firstAttribute="width" secondItem="emC-LZ-4oE" secondAttribute="width" id="dd5-yZ-p9x"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3fc-xk-Elt" secondAttribute="trailing" symbolic="YES" id="h3U-Lg-HFB"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="bottom" secondItem="ztt-cQ-b00" secondAttribute="bottom" id="izs-8Q-q7V"/>
+                            <constraint firstItem="Vnh-Nl-LxH" firstAttribute="centerX" secondItem="ppi-fp-dcr" secondAttribute="centerX" id="jFd-VV-bhw"/>
+                            <constraint firstItem="4NR-Fx-yAW" firstAttribute="top" secondItem="3fc-xk-Elt" secondAttribute="bottom" constant="20" id="kPd-oe-LGe"/>
+                            <constraint firstItem="3Kv-2I-b0i" firstAttribute="top" secondItem="R8O-l3-8iE" secondAttribute="bottom" constant="8" id="nVl-Sj-qfX"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="trailing" secondItem="EJt-xn-sMe" secondAttribute="trailing" constant="10" id="oCl-4V-WBe"/>
+                            <constraint firstItem="3fc-xk-Elt" firstAttribute="width" secondItem="3Kv-2I-b0i" secondAttribute="width" multiplier="0.5" id="r7a-Lz-jOy"/>
+                            <constraint firstItem="JoD-Pw-NhP" firstAttribute="centerX" secondItem="ztt-cQ-b00" secondAttribute="centerX" id="t0v-ia-JOp"/>
+                            <constraint firstItem="ppi-fp-dcr" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3Kv-2I-b0i" secondAttribute="trailing" symbolic="YES" id="tD5-6B-VMK"/>
+                            <constraint firstItem="JoD-Pw-NhP" firstAttribute="top" secondItem="GU8-T2-Okd" secondAttribute="centerY" id="umG-9X-Mqa"/>
+                            <constraint firstItem="R8O-l3-8iE" firstAttribute="top" secondItem="Vnh-Nl-LxH" secondAttribute="top" constant="20" id="vQe-yX-3Q3"/>
+                            <constraint firstItem="1d7-hp-uxS" firstAttribute="leading" secondItem="4NR-Fx-yAW" secondAttribute="leading" id="yGv-em-cjC"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="dCn-hr-qty"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="compass_black" selectedImage="compass_white" id="RPH-vt-Az5"/>
+                    <navigationItem key="navigationItem" id="JnO-d9-qME"/>
+                    <connections>
+                        <outlet property="backButton" destination="EJt-xn-sMe" id="LZT-J0-nZP"/>
+                        <outlet property="calculateDriveLocationButton" destination="4NR-Fx-yAW" id="h22-ef-F7v"/>
+                        <outlet property="calculateHeatMapButton" destination="1d7-hp-uxS" id="T7v-Q8-5s4"/>
+                        <outlet property="clearButton" destination="3g7-6N-zg8" id="o2N-hj-D1H"/>
+                        <outlet property="courseNameButton" destination="R8O-l3-8iE" id="cLk-bp-F6y"/>
+                        <outlet property="currentHoleLabel" destination="mgY-LL-wCj" id="f7I-a8-cn8"/>
+                        <outlet property="distanceToPinLabel" destination="3Kv-2I-b0i" id="Nko-by-p1I"/>
+                        <outlet property="elevationLabel" destination="2bw-zb-rQI" id="K8c-UH-1tT"/>
+                        <outlet property="hideDriveStackConstraint" destination="izs-8Q-q7V" id="ho8-N6-hTL"/>
+                        <outlet property="longDriveButton" destination="GU8-T2-Okd" id="I5l-lC-WfQ"/>
+                        <outlet property="longDriveButtonStack" destination="jnH-b8-bOF" id="Hbf-SV-5Mr"/>
+                        <outlet property="markButton" destination="8Um-lC-hra" id="6S6-kU-50o"/>
+                        <outlet property="myDriveLabel" destination="fN9-dF-PwU" id="81J-KZ-Odk"/>
+                        <outlet property="nextHoleButton" destination="aNs-cw-h6S" id="n3j-Ef-ztj"/>
+                        <outlet property="prevHoleButton" destination="ak2-yG-8z0" id="JNU-Af-2dL"/>
+                        <outlet property="selectedClubLabel" destination="3fc-xk-Elt" id="Syl-EZ-1Sw"/>
+                        <outlet property="showDriveStackConstraint" destination="dCn-hr-qty" id="bPD-aD-z2l"/>
+                        <segue destination="LZC-em-Jvc" kind="unwind" identifier="unwindToSelection" unwindAction="unwindToSelectionWithUnwindSegue:" id="sRI-B2-eml"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3i9-8c-ipX" sceneMemberID="firstResponder"/>
+                <exit id="LZC-em-Jvc" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-189.85507246376812" y="412.5"/>
+        </scene>
     </scenes>
     <designables>
+        <designable name="1d7-hp-uxS">
+            <size key="intrinsicContentSize" width="30" height="32"/>
+        </designable>
+        <designable name="3g7-6N-zg8">
+            <size key="intrinsicContentSize" width="58" height="27"/>
+        </designable>
+        <designable name="4NR-Fx-yAW">
+            <size key="intrinsicContentSize" width="35.5" height="32"/>
+        </designable>
         <designable name="6v4-LH-NQX">
             <size key="intrinsicContentSize" width="79" height="32"/>
         </designable>
+        <designable name="8Um-lC-hra">
+            <size key="intrinsicContentSize" width="62" height="27"/>
+        </designable>
         <designable name="CDK-cm-fIb">
             <size key="intrinsicContentSize" width="59" height="35"/>
+        </designable>
+        <designable name="EJt-xn-sMe">
+            <size key="intrinsicContentSize" width="27" height="32"/>
+        </designable>
+        <designable name="GU8-T2-Okd">
+            <size key="intrinsicContentSize" width="116" height="29"/>
         </designable>
         <designable name="LAh-mD-6c3">
             <size key="intrinsicContentSize" width="58" height="27"/>
         </designable>
         <designable name="PPu-K7-rob">
+            <size key="intrinsicContentSize" width="143" height="32"/>
+        </designable>
+        <designable name="R8O-l3-8iE">
             <size key="intrinsicContentSize" width="143" height="32"/>
         </designable>
         <designable name="ZIk-hs-8il">
@@ -1989,6 +2436,7 @@ Patience please!</string>
     <inferredMetricsTieBreakers>
         <segue reference="dCD-AP-2Be"/>
         <segue reference="Txg-DT-rOH"/>
+        <segue reference="tgu-7o-2VN"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="Grass"/>
     <resources>

@@ -38,7 +38,11 @@ extension CourseSelectionViewController: CoursePickerDelegate {
                                 "updateTime": Timestamp()
                                 ], merge: true)
                         
-                        self.performSegue(withIdentifier: "GoToCourse", sender: nil)
+                        if AppSingleton.shared.cupholderMode {
+                            self.performSegue(withIdentifier: "GoToCourseCupholder", sender: nil)
+                        } else {
+                            self.performSegue(withIdentifier: "GoToCourse", sender: nil)
+                        }
                     } else {
                         AppSingleton.shared.course = nil
                         self.loadingView.stopAnimating()

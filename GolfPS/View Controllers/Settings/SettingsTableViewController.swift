@@ -25,6 +25,7 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var bitmojiShareInfoButton: UIButton!
     
     @IBOutlet weak var metricControl: UISegmentedControl!
+    @IBOutlet weak var displayModeControl: UISegmentedControl!
     
     weak var actionDelegate: SettingsActionDelegate?
     
@@ -54,6 +55,10 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func switchUnits(_ sender: UISegmentedControl) {
         AppSingleton.shared.metric = (sender.selectedSegmentIndex == 1)
+    }
+    
+    @IBAction func switchDisplayMode(_ sender: UISegmentedControl) {
+        AppSingleton.shared.cupholderMode = (sender.selectedSegmentIndex == 1)
     }
     
     @IBAction func switchMapShare(_ sender: UISwitch) {
