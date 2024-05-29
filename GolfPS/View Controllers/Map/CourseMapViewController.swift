@@ -21,6 +21,7 @@ protocol ViewUpdateDelegate: AnyObject {
 
 class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDelegate {
 
+    @IBOutlet weak var actionStackView: UIView!
     @IBOutlet weak var backButton: ButtonX!
     @IBOutlet weak var prevHoleButton: UIButton!
     @IBOutlet weak var nextHoleButton: UIButton!
@@ -39,10 +40,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     
     @IBOutlet weak var calculateDriveLocationButton: ButtonX!
     @IBOutlet weak var calculateHeatMapButton: ButtonX!
-    
-    //use these constraints to add space under long drive options
-    @IBOutlet weak var showDriveStackConstraint: NSLayoutConstraint!
-    @IBOutlet weak var hideDriveStackConstraint: NSLayoutConstraint!
     
     private var wcSession : WCSession? = nil
     private var embeddedMapViewController:GoogleMapViewController!
@@ -245,24 +242,12 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             clearButton.isHidden = false
             
             longDriveButtonStack.isHidden = false
-            
-            //if value exists then always show the stack
-            hideDriveStackConstraint.isActive = false
-            showDriveStackConstraint.isActive = true
         } else {
             //no value so hide the label
             myDriveLabel.isHidden = true
             clearButton.isHidden = true
             markButton.isHidden = false
             longDriveButtonStack.isHidden = hideStack
-            
-            if (hideStack) { //also set constraints based on stack visibility
-                showDriveStackConstraint.isActive = false
-                hideDriveStackConstraint.isActive = true
-            } else {
-                hideDriveStackConstraint.isActive = false
-                showDriveStackConstraint.isActive = true
-            }
         }
         
         self.view.layoutIfNeeded()
@@ -271,8 +256,6 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     private func hideLongDrive(hideButton:Bool) {
         longDriveButton.isHidden = hideButton
         longDriveButtonStack.isHidden = true
-        showDriveStackConstraint.isActive = false
-        hideDriveStackConstraint.isActive = true
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
