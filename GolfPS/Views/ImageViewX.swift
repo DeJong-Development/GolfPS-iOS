@@ -2,36 +2,34 @@
 //  ImageViewX.swift
 //
 //  Created by Greg DeJong on 12/11/18.
-//  Copyright © 2018 Sports Academy. All rights reserved.
 //
 
 import UIKit
 
 @IBDesignable class ImageViewX: UIImageView {
     
-    @IBInspectable var flagColor: UIColor = UIColor.gold {
+    @IBInspectable var borderType: Int = 0 {
         didSet {
-            self.cornerLayer.fillColor = flagColor.cgColor.copy(alpha: 0.75)
+            verifyBorderExistence()
+            if borderType > 0 {
+                customViewBorder.lineDashPattern = [4, 4]
+                customViewBorder.lineDashPhase = 0
+            } else {
+                customViewBorder.lineDashPattern = []
+            }
         }
     }
-    @IBInspectable var hasCornerFlag: Bool = false {
+    
+    @IBInspectable var borderColor: UIColor = UIColor.clear {
         didSet {
-            if hasCornerFlag {
-                self.cornerLayer.path = getCornerPath().cgPath
-                self.layer.insertSublayer(cornerLayer, at: 0)
-            } else {
-                self.cornerLayer.removeFromSuperlayer()
-            }
+            verifyBorderExistence()
+            customViewBorder.strokeColor = borderColor.cgColor
         }
     }
     @IBInspectable var borderWidth: CGFloat = 1 {
         didSet {
-            layer.borderWidth = borderWidth
-        }
-    }
-    @IBInspectable var borderColor: UIColor = UIColor.clear {
-        didSet {
-            layer.borderColor = borderColor.cgColor
+            verifyBorderExistence()
+            customViewBorder.lineWidth = borderWidth
         }
     }
     
@@ -67,23 +65,38 @@ import UIKit
         }
     }
     private var cornersToRound:UIRectCorner = .allCorners
-    
-    private var cornerLayer:CAShapeLayer = CAShapeLayer()
+    private var customViewBorder = CAShapeLayer()
     
     override func layoutSubviews() {
         super.layoutSubviews()
         resizeView()
     }
     
+    private func verifyBorderExistence() {
+        if borderWidth > 0 {
+            customViewBorder.lineWidth = borderWidth
+            customViewBorder.strokeColor = borderColor.cgColor
+            customViewBorder.fillColor = nil
+            if let sublayers = self.layer.sublayers, sublayers.contains(customViewBorder) {
+                //already has custom view border
+            } else {
+                self.layer.addSublayer(customViewBorder)
+            }
+        } else {
+            self.customViewBorder.removeFromSuperlayer()
+        }
+    }
+    
     private func resizeView() {
         self.layer.masksToBounds = true
         
-        if (hasCornerFlag) {
-            self.cornerLayer.path = getCornerPath().cgPath
-        }
+        customViewBorder.frame = self.bounds
         
-        if (isRounded) {
-            if (roundTR || roundTL || roundBL || roundBR) {
+        let borderInset = borderWidth / 2
+        
+        let hasSpecifiedCorners = roundTR || roundTL || roundBL || roundBR
+        if (isRounded || hasSpecifiedCorners) {
+            if hasSpecifiedCorners {
                 cornersToRound = UIRectCorner()
                 if roundTL {
                     cornersToRound.formUnion(.topLeft)
@@ -99,31 +112,46 @@ import UIKit
                 }
             }
             
-            let cornerRad = (cornerRadius > 0) ? cornerRadius : frame.height / 2
-            if !cornersToRound.contains(.allCorners) {
-                let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: cornerRad, height: cornerRad))
+            let fullCapsuleSize = min(frame.width, frame.height) / 2
+            let outerCornerRad = (cornerRadius > 0) ? min(fullCapsuleSize, cornerRadius) : fullCapsuleSize
+            
+            //MASK
+            if !cornersToRound.contains(.allCorners) { //round specified corners
+                let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: outerCornerRad, height: outerCornerRad))
                 let mask = CAShapeLayer()
                 mask.path = path.cgPath
                 layer.mask = mask
                 layer.cornerRadius = 0
-            } else {
+            } else { //round all corners
                 layer.mask = nil
-                layer.cornerRadius = cornerRad
+                layer.cornerRadius = outerCornerRad
             }
-        } else {
+            
+            //BORDER
+            if (borderWidth > 0) { // rounded with border
+                let modifiedCornerRad = max(0, outerCornerRad - borderInset)
+                var borderPath = UIBezierPath(rect: self.bounds.insetBy(dx: borderInset, dy: borderInset))
+                if (modifiedCornerRad > 0) {
+                    borderPath = UIBezierPath(roundedRect: self.bounds.insetBy(dx: borderInset, dy: borderInset), byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: modifiedCornerRad, height: modifiedCornerRad))
+                }
+                borderPath.close()
+                borderPath.lineCapStyle = .square
+                borderPath.lineJoinStyle = .round
+                customViewBorder.path = borderPath.cgPath
+            } else { //rounded with no border
+                customViewBorder.path = nil
+            }
+        } else { // Not rounded
+            //MASK
             layer.mask = nil
             layer.cornerRadius = 0
+            
+            //BORDER
+            if (borderWidth > 0) {
+                customViewBorder.path = UIBezierPath(rect: self.bounds.insetBy(dx: borderInset, dy: borderInset)).cgPath
+            } else {
+                customViewBorder.path = nil
+            }
         }
-    }
-    
-    private func getCornerPath() -> UIBezierPath {
-        let cornerSize:CGFloat = 75
-        let cornerPath:UIBezierPath = UIBezierPath()
-        cornerPath.move(to: CGPoint(x: self.bounds.width - cornerSize, y: self.bounds.height))
-        cornerPath.addLine(to: CGPoint(x: self.bounds.width, y: self.bounds.height))
-        cornerPath.addLine(to: CGPoint(x: self.bounds.width, y: self.bounds.height - cornerSize))
-        cornerPath.close()
-        
-        return cornerPath
     }
 }

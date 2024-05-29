@@ -1,9 +1,7 @@
 //
 //  TextFieldX.swift
-//  Cognition
 //
 //  Created by Greg DeJong on 10/15/18.
-//  Copyright © 2018 Axon Sports. All rights reserved.
 //
 
 import UIKit

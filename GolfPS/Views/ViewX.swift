@@ -1,9 +1,7 @@
 //
-//  UIViewX.swift
-//  Instinct
+//  ViewX.swift
 //
 //  Created by Greg DeJong on 12/11/18.
-//  Copyright © 2018 Sports Academy. All rights reserved.
 //
 
 import UIKit
@@ -15,7 +13,7 @@ public enum ViewXGradientStyle:Int {
     case radial = 3
 }
 
-@IBDesignable class ViewX: UIView {
+@IBDesignable class ViewX: UIControl {
     
     override public class var layerClass: Swift.AnyClass {
         return CAGradientLayer.self
@@ -56,36 +54,33 @@ public enum ViewXGradientStyle:Int {
     }
     private var cornersToRound:UIRectCorner = .allCorners
     
-    @IBInspectable var hasDashedBorder: Bool = false {
+    @IBInspectable var hasBorder: Bool = true {
         didSet {
-            if hasDashedBorder {
-                dashedViewBorder.lineWidth = borderWidth
-                dashedViewBorder.strokeColor = borderColor.cgColor
-                dashedViewBorder.lineDashPattern = [4, 4]
-                dashedViewBorder.fillColor = nil
-                self.layer.addSublayer(dashedViewBorder)
+            verifyBorderExistence()
+        }
+    }
+    @IBInspectable var borderType: Int = 0 {
+        didSet {
+            verifyBorderExistence()
+            if borderType > 0 {
+                customViewBorder.lineDashPattern = [4, 4]
+                customViewBorder.lineDashPhase = 0
             } else {
-                self.dashedViewBorder.removeFromSuperlayer()
+                customViewBorder.lineDashPattern = []
             }
         }
     }
     
     @IBInspectable var borderColor: UIColor = UIColor.clear {
         didSet {
-            if hasDashedBorder {
-                dashedViewBorder.strokeColor = borderColor.cgColor
-            } else {
-                layer.borderColor = borderColor.cgColor
-            }
+            verifyBorderExistence()
+            customViewBorder.strokeColor = borderColor.cgColor
         }
     }
     @IBInspectable var borderWidth: CGFloat = 1 {
         didSet {
-            if hasDashedBorder {
-                dashedViewBorder.lineWidth = borderWidth
-            } else {
-                layer.borderWidth = borderWidth
-            }
+            verifyBorderExistence()
+            customViewBorder.lineWidth = borderWidth
         }
     }
     @IBInspectable var glowColor: UIColor? = nil {
@@ -123,7 +118,12 @@ public enum ViewXGradientStyle:Int {
             self.drawBackground()
         }
     }
-    
+    /**
+     - none = -1
+     - horizontal = 1
+     - vertical = 2
+     - radial = 3
+     */
     @IBInspectable var gradientValue: Int = -1 {
         didSet {
             gradientStyle = ViewXGradientStyle(rawValue: gradientValue) ?? .none
@@ -133,18 +133,43 @@ public enum ViewXGradientStyle:Int {
     
     private var gradientStyle:ViewXGradientStyle = .none
     private var cornerLayer:CAShapeLayer = CAShapeLayer()
-    private var dashedViewBorder = CAShapeLayer()
+    private var customViewBorder = CAShapeLayer()
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if hasBorder {
+            customViewBorder.strokeColor = borderColor.cgColor
+        }
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         resizeView()
     }
     
+    private func verifyBorderExistence() {
+        if hasBorder {
+            customViewBorder.lineWidth = borderWidth
+            customViewBorder.strokeColor = borderColor.cgColor
+            customViewBorder.fillColor = nil
+            if let sublayers = self.layer.sublayers, sublayers.contains(customViewBorder) {
+                //already has custom view border
+            } else {
+                self.layer.addSublayer(customViewBorder)
+            }
+        } else {
+            self.customViewBorder.removeFromSuperlayer()
+        }
+    }
+    
     private func resizeView() {
-        dashedViewBorder.frame = self.bounds
+        customViewBorder.frame = self.bounds
         
-        if (isRounded) {
-            if (roundTR || roundTL || roundBL || roundBR) {
+        let borderInset = borderWidth / 2
+        
+        let hasSpecifiedCorners = roundTR || roundTL || roundBL || roundBR
+        if (isRounded || hasSpecifiedCorners) {
+            if hasSpecifiedCorners {
                 cornersToRound = UIRectCorner()
                 if roundTL {
                     cornersToRound.formUnion(.topLeft)
@@ -160,7 +185,10 @@ public enum ViewXGradientStyle:Int {
                 }
             }
             
-            let cornerRad = (cornerRadius > 0) ? cornerRadius : frame.height / 2
+            let fullCapsuleSize = min(frame.width, frame.height) / 2
+            let cornerRad = (cornerRadius > 0) ? min(fullCapsuleSize, cornerRadius) : fullCapsuleSize
+            
+            //MASK
             if !cornersToRound.contains(.allCorners) {
                 let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: cornerRad, height: cornerRad))
                 let mask = CAShapeLayer()
@@ -171,11 +199,38 @@ public enum ViewXGradientStyle:Int {
                 layer.mask = nil
                 layer.cornerRadius = cornerRad
             }
-            dashedViewBorder.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: cornerRad, height: cornerRad)).cgPath
-        } else {
+            
+            //BORDER
+            if (borderWidth > 0) {
+                //Rounded with border
+                let modifiedCornerRad = max(0, cornerRad - borderInset)
+                var borderPath = UIBezierPath(rect: self.bounds.insetBy(dx: borderInset, dy: borderInset))
+                if modifiedCornerRad > 0 {
+                    borderPath = UIBezierPath(roundedRect: self.bounds.insetBy(dx: borderInset, dy: borderInset), byRoundingCorners: cornersToRound, cornerRadii: CGSize(width: modifiedCornerRad, height: modifiedCornerRad))
+                }
+                borderPath.close()
+                borderPath.lineCapStyle = .square
+                borderPath.lineJoinStyle = .round
+                customViewBorder.path = borderPath.cgPath
+            } else {
+                //Rounded no border
+                customViewBorder.path = nil
+            }
+        } else { //Not rounded
+            //MASK
             layer.mask = nil
             layer.cornerRadius = 0
-            dashedViewBorder.path = UIBezierPath(rect: self.bounds).cgPath
+            
+            //BORDER
+            if (borderWidth > 0) {
+                customViewBorder.path = UIBezierPath(rect: self.bounds.insetBy(dx: borderInset, dy: borderInset)).cgPath
+            } else {
+                customViewBorder.path = nil
+            }
+        }
+        
+        if hasBorder {
+            customViewBorder.strokeColor = borderColor.cgColor
         }
         
         drawBackground()
@@ -183,12 +238,7 @@ public enum ViewXGradientStyle:Int {
     
     private func drawBackground() {
         if let bc = backgroundColor, bc != UIColor.clear {
-            var defaultGradientColors = [CGColor]()
-            if let sc = gradientStartColor, let ec = gradientEndColor {
-                defaultGradientColors = [sc.cgColor, ec.cgColor]
-            } else {
-                defaultGradientColors = [bc.lighter(by: 15)!.cgColor, bc.darker(by: 15)!.cgColor]
-            }
+            let defaultGradientColors = [bc.lighter(by: 15)!.cgColor, bc.darker(by: 15)!.cgColor]
             switch gradientStyle {
                 case .horizontal:
                     gradientLayer.type = .axial
@@ -210,10 +260,31 @@ public enum ViewXGradientStyle:Int {
                     gradientLayer.colors = nil
                     backgroundColor = bc
             }
+        } else if let sc = gradientStartColor, let ec = gradientEndColor {
+            let defaultGradientColors = [sc.cgColor, ec.cgColor]
+            switch gradientStyle {
+                case .horizontal:
+                    gradientLayer.type = .axial
+                    gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+                    gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+                    gradientLayer.colors = defaultGradientColors
+                case .vertical:
+                    gradientLayer.type = .axial
+                    gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
+                    gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
+                    gradientLayer.colors = defaultGradientColors
+                case .radial:
+                    gradientLayer.type = .radial
+                    gradientLayer.locations = [0, 1]
+                    gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.5)
+                    gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+                    gradientLayer.colors = defaultGradientColors
+                case .none:
+                    gradientLayer.colors = nil
+            }
         } else {
             gradientLayer.colors = nil
             layer.backgroundColor = nil
-            backgroundColor = nil
         }
     }
 }
