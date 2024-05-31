@@ -200,6 +200,8 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
     }
     
     @IBAction func clickLongDrive(_ sender: Any) {
+        AnalyticsLogger.log(name: "click_long_drive")
+        
         if longDriveButtonStack.isHidden {
             showLongDrive(hideStack: false)
         } else {
@@ -207,10 +209,14 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         }
     }
     @IBAction func clickMarkButton(_ sender: Any) {
+        AnalyticsLogger.log(name: "click_long_drive_mark")
+        
         embeddedMapViewController.addDrivePrompt()
     }
     
     @IBAction func clickClearButton(_ sender: Any) {
+        AnalyticsLogger.log(name: "click_long_drive_clear")
+        
         myDriveLabel.isHidden = true
         markButton.isHidden = false
         clearButton.isHidden = true

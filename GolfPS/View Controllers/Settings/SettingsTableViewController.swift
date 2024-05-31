@@ -18,9 +18,7 @@ class SettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var locationShareSwitch: UISwitch!
     @IBOutlet weak var bitmojiShareSwitch: UISwitch!
-
     @IBOutlet weak var bitmojiShareTitle: UILabel!
-    
     @IBOutlet weak var locationShareInfoButton: UIButton!
     @IBOutlet weak var bitmojiShareInfoButton: UIButton!
     
@@ -56,16 +54,22 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func switchUnits(_ sender: UISegmentedControl) {
         AppSingleton.shared.metric = (sender.selectedSegmentIndex == 1)
+        AnalyticsLogger.log(name: "click_switch_units")
+        AnalyticsLogger.setUnits(isMetric: AppSingleton.shared.metric)
     }
     
     @IBAction func switchDisplayMode(_ sender: UISegmentedControl) {
         AppSingleton.shared.cupholderMode = (sender.selectedSegmentIndex == 1)
+        AnalyticsLogger.log(name: "click_display_mode")
+        AnalyticsLogger.setDisplayMode(isDefault: !AppSingleton.shared.cupholderMode)
     }
     
     @IBAction func switchMapShare(_ sender: UISwitch) {
         //update in app preferences
         AppSingleton.shared.me.shareLocation = sender.isOn
         updateBitSwitch()
+        
+        AnalyticsLogger.log(name: "click_map_share")
 
         if (!AppSingleton.shared.me.shareLocation) {
             //if user elects to stop sharing location
@@ -83,6 +87,8 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func switchBitmojiShare(_ sender: UISwitch) {
         //update in app preferences
         AppSingleton.shared.me.shareBitmoji = sender.isOn
+        
+        AnalyticsLogger.log(name: "click_bitmoji_share")
 
         if (sender.isOn) {
             //get up to date bitmoji avatar url

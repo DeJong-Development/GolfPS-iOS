@@ -486,7 +486,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             //add a driving distance marker and select it
             self.myDrivingDistanceMarker?.map = nil
             
-            guard let loc:CLLocationCoordinate2D = self.me.geoPoint?.location else {
+            guard let loc = self.me.geoPoint?.location else {
                 //do not have current location for player
                 return
             }
@@ -496,13 +496,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             if (distanceToTee > 500) {
                 //prompt some sort of alert saying this is just ridiculous
             } else {
-                self.myDrivingDistanceMarker = GMSMarker(position: loc)
-                self.myDrivingDistanceMarker!.title = "My Drive"
-                self.myDrivingDistanceMarker!.snippet = distanceToTee.distance
-                self.myDrivingDistanceMarker!.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
-                self.myDrivingDistanceMarker!.userData = "Drive";
-                self.myDrivingDistanceMarker!.map = self.mapView;
-                self.mapView.selectedMarker = self.myDrivingDistanceMarker!;
+                let myDistanceMarker = self.myDrivingDistanceMarker ?? GMSMarker(position: loc)
+                myDistanceMarker.title = "My Drive"
+                myDistanceMarker.snippet = distanceToTee.distance
+                myDistanceMarker.icon = #imageLiteral(resourceName: "marker-distance-longdrive").toNewSize(CGSize(width: 30, height: 30))
+                myDistanceMarker.userData = "Drive"
+                myDistanceMarker.map = self.mapView
+                self.myDrivingDistanceMarker = myDistanceMarker
+                
+                self.mapView.selectedMarker = myDistanceMarker
                 
                 //update my drive data on hole object
                 self.currentHole.setLongestDrive(distance: distanceToTee)
@@ -525,11 +527,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private func updateFirestoreLongDrive(distance:Int, location: GeoPoint) {
         let userId = self.me.id
         
-        var yards:Double = Double(distance)
-        if AppSingleton.shared.metric {
-            //convert distance to meters
-            yards = Double(distance).toMeters()
-        }
+        let yards = AppSingleton.shared.metric ? Double(distance).toMeters() : Double(distance)
         
         if let holeDocRef = currentHole.docReference {
             let myLongDriveDoc = holeDocRef.collection("drives").document(userId)
@@ -642,15 +640,11 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             let golfRoutes = Array(routes.prefix(10))
             
             var image = #imageLiteral(resourceName: "marker-distance")
-            
             switch teeClubIndex {
-            case 0:
-                image = #imageLiteral(resourceName: "marker-longest")
-            case 1:
-                image = #imageLiteral(resourceName: "marker-distance-longdrive")
-            case 2:
-                image = #imageLiteral(resourceName: "marker-shortest")
-            default: ()
+                case 0: image = #imageLiteral(resourceName: "marker-longest")
+                case 1: image = #imageLiteral(resourceName: "marker-distance-longdrive")
+                case 2: image = #imageLiteral(resourceName: "marker-shortest")
+                default: ()
             }
             
             #if DEBUG
@@ -696,12 +690,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         //Long press interferes with dragging - make new marker if not already dragging it
         if !isDraggingDistanceMarker {
             AudioServicesPlaySystemSound(1519)
-            currentDistanceMarker?.map = nil
-            currentDistanceMarker = GMSMarker(position: coordinate)
-            currentDistanceMarker!.isDraggable = true
-            currentDistanceMarker!.map = mapView;
-            currentDistanceMarker!.icon = #imageLiteral(resourceName: "golf_ball_blank").toNewSize(CGSize(width: 30, height: 30))
-            currentDistanceMarker!.userData = "distance_marker";
+            
+            let distanceMarker = currentDistanceMarker ?? GMSMarker(position: coordinate)
+            distanceMarker.isDraggable = true
+            distanceMarker.map = mapView
+            distanceMarker.icon = #imageLiteral(resourceName: "golf_ball_blank").toNewSize(CGSize(width: 30, height: 30))
+            distanceMarker.userData = "distance_marker"
+            self.currentDistanceMarker = distanceMarker
             
             mapView.selectedMarker = currentDistanceMarker;
             
@@ -780,15 +775,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             let suggestedClubFromMyLocation:Club = me.bag.getClubSuggestion(distanceTo: distancePinMe) ?? suggestedClubFromMyPin
             
             if meIsNearTeeBox {
-                updateRecommendedClubLines(suggestedClubFromMyLocation, useMyLocation: true)
+                updateRecommendedClubLines(suggestedClubFromMyLocation, useDogLeg: true, useMyLocation: true)
             } else if meIsNearPin || meIsCloseToSelectedHole {
-                updateRecommendedClubLines(suggestedClubFromMyLocation)
+                updateRecommendedClubLines(suggestedClubFromMyLocation, useDogLeg: false)
             } else {
                 //not close to the pin OR not close to the selected hole
-                updateRecommendedClubLines(suggestedClubFromMyPin, useMyLocation: false)
+                updateRecommendedClubLines(suggestedClubFromMyPin, useDogLeg: true, useMyLocation: false)
             }
         } else {
-            updateRecommendedClubLines(suggestedClubFromMyPin, useMyLocation: false)
+            updateRecommendedClubLines(suggestedClubFromMyPin, useDogLeg: true, useMyLocation: false)
         }
     }
     
@@ -828,28 +823,22 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             pinPath.add(cDistanceMarker.position)
             pinPath.add(pm.position)
             
-            if (lineToPin == nil) {
-                lineToPin = GMSPolyline(path: pinPath)
-                lineToPin!.strokeWidth = 2
-                lineToPin!.strokeColor = UIColor.white
-                lineToPin!.geodesic = true
-                lineToPin!.map = mapView
-            } else {
-                lineToPin!.map = mapView
-                lineToPin!.path = pinPath
-            }
+            let pinLine = lineToPin ?? GMSPolyline(path: pinPath)
+            pinLine.strokeWidth = 2
+            pinLine.strokeColor = UIColor.white
+            pinLine.geodesic = true
+            pinLine.map = mapView
+            pinLine.path = pinPath
+            self.lineToPin = pinLine
         }
         
-        if (lineToMyLocation == nil) {
-            lineToMyLocation = GMSPolyline(path: playerPath)
-            lineToMyLocation!.strokeWidth = 2
-            lineToMyLocation!.strokeColor = UIColor.white
-            lineToMyLocation!.geodesic = true
-            lineToMyLocation!.map = mapView
-        } else {
-            lineToMyLocation!.map = mapView
-            lineToMyLocation!.path = playerPath
-        }
+        let myLineLocation = lineToMyLocation ?? GMSPolyline(path: playerPath)
+        myLineLocation.strokeWidth = 2
+        myLineLocation.strokeColor = UIColor.white
+        myLineLocation.geodesic = true
+        myLineLocation.map = mapView
+        myLineLocation.path = playerPath
+        self.lineToMyLocation = myLineLocation
     }
     
     private func clearDistanceLines() {
@@ -863,7 +852,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         suggestedDistanceLines.removeAll()
     }
     
-    private func updateRecommendedClubLines(_ suggestedClub:Club, useMyLocation: Bool = true) {
+    private func updateRecommendedClubLines(_ suggestedClub:Club, useDogLeg: Bool, useMyLocation: Bool = true) {
         clearDistanceLines()
         
         let startGeopoint: GeoPoint
@@ -879,7 +868,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let bearingToPin:Double = mapTools.calcBearing(start: startGeopoint, finish: pinGeopoint)
         
         var bearingToTarget:Double = bearingToPin
-        if let dll = currentHole.dogLegLocation {
+        if let dll = currentHole.dogLegLocation, useDogLeg {
             bearingToTarget = mapTools.calcBearing(start: startGeopoint, finish: dll)
         }
         

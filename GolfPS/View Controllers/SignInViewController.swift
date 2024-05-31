@@ -43,6 +43,9 @@ class SignInViewController: UIViewController {
             if !UserDefaults.standard.bool(forKey: "hasRunBefore") {
                 try? Auth.auth().signOut()
                 
+                AnalyticsLogger.setDisplayMode(isDefault: true)
+                AnalyticsLogger.setUnits(isMetric: false)
+                
                 signInAnon()
 
                 // update the flag indicator

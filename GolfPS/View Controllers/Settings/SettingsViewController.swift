@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAnalytics
 import SCSDKLoginKit
 import SCSDKBitmojiKit
 
@@ -72,11 +71,11 @@ class SettingsViewController: UIViewController {
         if (!AppSingleton.shared.me.shareLocation) {
             self.avatarURLToShare = nil
         }
-
-        
     }
     
     @IBAction func clickSnapLink(_ sender: Any) {
+        AnalyticsLogger.log(name: "click_snap_link")
+        
         if (SCSDKLoginClient.isUserLoggedIn) {
             self.embeddedTableViewController.bitmojiShareSwitch.setOn(false, animated: true)
             AppSingleton.shared.me.shareBitmoji = false
@@ -108,7 +107,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func clickPrivacy(_ sender: UIButton) {
-        Analytics.logEvent("click_privacy_settings", parameters: nil)
+        AnalyticsLogger.log(name: "click_privacy_settings")
         
         if let privacyURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/privacy_policy.html") {
             if #available(iOS 10.0, *) {
@@ -120,7 +119,7 @@ class SettingsViewController: UIViewController {
         }
     }
     @IBAction func clickTerms(_ sender: UIButton) {
-        Analytics.logEvent("click_terms_settings", parameters: nil)
+        AnalyticsLogger.log(name: "click_terms_settings")
         
         if let termsURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/terms_and_conditions.html") {
             if #available(iOS 10.0, *) {
@@ -139,13 +138,13 @@ class SettingsViewController: UIViewController {
     private func updateButtonLabel() {
         DispatchQueue.main.async {
             if (SCSDKLoginClient.isUserLoggedIn) {
-                Analytics.setUserProperty("true", forName: "snapchat")
+                AnalyticsLogger.setSnapchat(usingSnapchat: true)
                 
                 self.snapLink.setTitle("Disconnect Snapchat", for: .normal)
                 self.snapLink.backgroundColor = UIColor(red: 0.235, green: 0.698, blue: 0.886, alpha: 1)
                 
             } else {
-                Analytics.setUserProperty("false", forName: "snapchat")
+                AnalyticsLogger.setSnapchat(usingSnapchat: false)
                 
                 self.snapLink.setTitle("Link Snapchat", for: .normal)
                 self.snapLink.backgroundColor = UIColor(red: 1, green: 0.753, blue: 0, alpha: 1)
@@ -196,7 +195,7 @@ class SettingsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? SettingsTableViewController {
             self.embeddedTableViewController = vc
-            self.embeddedTableViewController.actionDelegate = self;
+            self.embeddedTableViewController.actionDelegate = self
         }
     }
 }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAnalytics
 
 protocol CoursePickerDelegate:AnyObject {
     func refreshCourseList()
@@ -76,9 +75,7 @@ class CoursePickerTableViewController: UITableViewController {
         
         let course:Course = courseList[indexPath.row]
         
-        Analytics.logEvent("select_course", parameters:  [
-            "name": course.name.lowercased()
-        ])
+        AnalyticsLogger.selectCourse(course)
         
         delegate?.goToCourse(course)
     }
