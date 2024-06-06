@@ -50,8 +50,10 @@ class MyBagViewController: UIViewController {
     
     @IBAction func clickEdit(_ sender: Any?) {
         if (myBagTVC.tableView.isEditing) {
+            AnalyticsLogger.log(name: "click_save_bag")
             saveBag()
         } else {
+            AnalyticsLogger.log(name: "click_edit_bag")
             showEditBag()
         }
     }
@@ -85,23 +87,19 @@ class MyBagViewController: UIViewController {
         //show the add club dialog
         if self.me.bag.myClubs.isEmpty {
             let ac = UIAlertController(title: "Build a Bag", message: "Select an option to prepopulate your golf bag with a standard clubs and distances. You can customize it later.", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Pro Golfer", style: .default, handler: { action in
-                self.me.bag.populateBagLong()
-                self.saveBag()
-            }))
-            ac.addAction(UIAlertAction(title: "Long Hitter", style: .default, handler: { action in
-                self.me.bag.populateBagAverage()
-                self.saveBag()
-            }))
-            ac.addAction(UIAlertAction(title: "Average Hitter", style: .default, handler: { action in
-                self.me.bag.populateBagShort()
-                self.saveBag()
-            }))
+            for bagType in BagType.allCases {
+                ac.addAction(UIAlertAction(title: bagType.name, style: .default, handler: { action in
+                    AnalyticsLogger.setDefaultBag(bagType: bagType)
+                    self.me.bag.populateBag(type: bagType)
+                    self.saveBag()
+                }))
+            }
             ac.addAction(UIAlertAction(title: "Custom", style: .cancel, handler: { action in
                 self.performSegue(withIdentifier: "ShowAddClub", sender: nil)
             }))
             self.present(ac, animated: true)
         } else {
+            AnalyticsLogger.log(name: "click_add_club")
             self.performSegue(withIdentifier: "ShowAddClub", sender: nil)
         }
     }

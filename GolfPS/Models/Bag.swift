@@ -8,6 +8,21 @@
 
 import Foundation
 
+enum BagType: String, CaseIterable {
+    case pro, long, average
+    
+    var name: String {
+        switch self {
+        case .pro:
+            return "Pro Golfer"
+        case .long:
+            return "Long Hitter"
+        case .average:
+            return "Average Hitter"
+        }
+    }
+}
+
 public class Bag {
     
     private let prefs:UserDefaults = UserDefaults.standard
@@ -48,7 +63,18 @@ public class Bag {
         sortClubs()
     }
     
-    public func populateBagLong() {
+    internal func populateBag(type: BagType) {
+        switch type {
+        case .pro:
+            self.populateBagLong()
+        case .long:
+            self.populateBagAverage()
+        case .average:
+            self.populateBagShort()
+        }
+    }
+    
+    private func populateBagLong() {
         let driver = Club(name: "Driver", distance: 300)
         let threeWood = Club(name: "3 Wood", distance: 270)
         let threeHybrid = Club(name: "3 Hybrid", distance: 245)
@@ -67,7 +93,7 @@ public class Bag {
         self.activeClubs(clubs)
     }
     
-    public func populateBagAverage() {
+    private func populateBagAverage() {
         let driver = Club(name: "Driver", distance: 260)
         let threeWood = Club(name: "3 Wood", distance: 235)
         let fiveWood = Club(name: "5 Wood", distance: 215)
@@ -86,7 +112,7 @@ public class Bag {
         self.activeClubs(clubs)
     }
     
-    public func populateBagShort() {
+    private func populateBagShort() {
         let driver = Club(name: "Driver", distance: 217)
         let threeWood = Club(name: "3 Wood", distance: 205)
         let fiveWood = Club(name: "5 Wood", distance: 195)

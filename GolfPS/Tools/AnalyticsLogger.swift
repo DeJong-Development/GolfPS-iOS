@@ -29,6 +29,10 @@ class AnalyticsLogger {
         Analytics.setUserProperty(value, forName: name)
     }
     
+    static func setDefaultBag(bagType: BagType) {
+        self.setUserProperty(value: bagType.rawValue, name: "default_bag")
+    }
+    
     static func setSnapchat(usingSnapchat: Bool) {
         self.setUserProperty(value: usingSnapchat ? "true" : "false", name: "snapchat")
     }
