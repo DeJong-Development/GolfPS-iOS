@@ -115,7 +115,6 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
         
         self.markerTools.updatePlayerMarker(self.myPlayerMarker, playerImage: self.myPlayerImage, mapView: self.mapView)
         
-        self.updateSuggestionLines()
         
         //add course visitation
         if let course = AppSingleton.shared.course,
@@ -124,8 +123,15 @@ extension GoogleMapViewController: CLLocationManagerDelegate {
             self.me.addCourseVisitation(courseId: course.id)
         }
         
-        //update any distance markers we already have displayed when we update our location
-        updateDistanceMarker()
+        if currentHole != nil {
+            self.delegate?.updateDistanceToPin(distance: self.distanceToPinFromMyLocation ?? self.distanceToPinFromTee)
+            
+            self.updateSuggestionLines()
+            
+            //update any distance markers we already have displayed when we update our location
+            self.updateDistanceMarker()
+        }
+        
     }
 }
 
@@ -433,13 +439,15 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         } else {
             ShotTools.getElevationChange(start: hole.teeLocations.first!, finish: hole.pinLocation!, completion: calculateElevation)
         }
+        
+        self.updateSuggestionLines()
+        
+        self.delegate?.updateDistanceToPin(distance: self.distanceToPinFromMyLocation ?? self.distanceToPinFromTee)
     }
     
     private func calculateElevation(_ start:Double, _ finish: Double, _ distance:Double, _ elevation:Double, _ error:String?) {
         DispatchQueue.main.async {
             self.delegate?.updateElevationEffect(height: elevation, distance: distance)
-            
-            self.updateSuggestionLines()
         }
     }
     
@@ -761,7 +769,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     private func updateSuggestionLines() {
-        guard let distancePinTee = distanceToPinFromTee, let suggestedClubFromMyPin:Club = me.bag.getClubSuggestion(distanceTo: distancePinTee) else {
+        guard let distancePinTee = distanceToPinFromTee else {
+            DebugLogger.log(message: "Unable to determine distance from pin to tee. No suggestion to provide.")
+            return
+        }
+        
+        guard let suggestedClubFromMyPin = me.bag.getClubSuggestion(distanceTo: distancePinTee) else {
+            DebugLogger.log(message: "Unable to best club from bag. No suggestion to provide.")
             return
         }
         
@@ -875,7 +889,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         let minBearing:Int = Int(bearingToTarget - 12)
         let maxBearing:Int = Int(bearingToTarget + 12)
         
-        self.delegate?.updateDistanceToPin(distance: distanceToPin)
         self.delegate?.updateSelectedClub(club: suggestedClub)
         
         

@@ -12,7 +12,7 @@ import Firebase
 import WatchConnectivity
 
 protocol ViewUpdateDelegate: AnyObject {
-    func updateDistanceToPin(distance: Int)
+    func updateDistanceToPin(distance: Int?)
     func updateSelectedClub(club: Club)
     func updateCurrentHole(hole: Hole)
     func updateElevationEffect(height: Double, distance: Double)
@@ -128,13 +128,18 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
             hideLongDrive(hideButton: true)
         }
     }
-    internal func updateDistanceToPin(distance: Int) {
+    internal func updateDistanceToPin(distance: Int?) {
+        guard let distanceToPin = distance else {
+            DebugLogger.log(message: "No distance to pin sent")
+            return
+        }
+        
         var message:[String:Any] = [
-            "distance": distance,
+            "distance": distanceToPin,
             "hole": self.embeddedMapViewController.currentHole.number
         ]
         
-        distanceToPinLabel.text = distance.distance
+        distanceToPinLabel.text = distanceToPin.distance
         message["units"] = AppSingleton.shared.metric ? "m" : "yds"
         
         if let wcs = wcSession, wcs.isReachable {
