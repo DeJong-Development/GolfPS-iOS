@@ -8,7 +8,6 @@
 
 import UIKit
 import SCSDKLoginKit
-import SCSDKBitmojiKit
 
 extension SettingsViewController: SettingsActionDelegate {
     
@@ -168,10 +167,17 @@ class SettingsViewController: UIViewController {
      - Parameter replaceImage: If true, the image will be replaced with the most up to date image from the Snapchat bitmoji url
      */
     private func getAvatar(replaceImage:Bool = true) {
-        SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
-            if let error = error {
-                DebugLogger.report(error: error, message: "Unable to retrieve Bitmoji")
-            } else if let urlString = avatarURL, let url = URL(string: urlString) {
+        let builder = SCSDKUserDataQueryBuilder().withBitmojiTwoDAvatarUrl()
+        let userDataQuery = builder.build()
+        
+        SCSDKLoginClient.fetchUserData(with: userDataQuery) { userData, error in
+            let displayName = userData?.displayName ?? "Unknown User"
+            
+            if let partialError = error {
+                DebugLogger.report(error: partialError, message: "Unable to retrieve Bitmoji")
+            }
+            
+            if let urlString = userData?.bitmojiTwoDAvatarUrl, let url = URL(string: urlString) {
                 self.avatarURLToShare = url;
                 if (AppSingleton.shared.me.shareBitmoji) {
                     //if user has elected to share bitmoji on the map - put url in firestore
@@ -189,6 +195,8 @@ class SettingsViewController: UIViewController {
                     }
                 }
             }
+        } failure: { error, isUserLoggedOut in
+            DebugLogger.report(error: error, message: "Unable to retrieve Bitmoji")
         }
     }
     

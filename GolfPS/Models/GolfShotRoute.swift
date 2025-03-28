@@ -44,10 +44,10 @@ class GolfShotRoute {
     private var numberOfHits:Int = 0
     
     init(club1: Club, club2: Club, hole: Hole) {
-        self.teeGeopoint = hole.teeLocations.first!
-        self.dogLegGeopoint = hole.dogLegLocation
-        self.bunkerGeopoints = hole.bunkerLocations
-        self.pinGeopoint = hole.pinLocation
+        self.teeGeopoint = hole.teeGeoPoints.first!
+        self.dogLegGeopoint = hole.dogLegGeoPoint
+        self.bunkerGeopoints = hole.bunkerGeoPoints
+        self.pinGeopoint = hole.pinGeoPoint
         self.fairway = hole.fairwayPath
         
         self.club1 = club1

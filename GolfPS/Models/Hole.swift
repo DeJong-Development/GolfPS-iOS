@@ -25,12 +25,12 @@ public class Hole {
         return AppSingleton.shared.course?.docReference?.collection("holes").document("\(self.number)")
     }
     
-    private(set) var bunkerLocations:[GeoPoint] = [GeoPoint]()
-    private(set) var fairwayLocations:[GeoPoint] = [GeoPoint]()
+    private(set) var bunkerGeoPoints:[GeoPoint] = [GeoPoint]()
+    private(set) var fairwayGeoPoints:[GeoPoint] = [GeoPoint]()
     private(set) var fairwayPath: GMSPath? = nil
-    private(set) var teeLocations:[GeoPoint] = [GeoPoint]()
-    private(set) var pinLocation:GeoPoint!
-    private(set) var dogLegLocation:GeoPoint?
+    private(set) var teeGeoPoints:[GeoPoint] = [GeoPoint]()
+    private(set) var pinGeoPoint:GeoPoint!
+    private(set) var dogLegGeoPoint:GeoPoint?
     
     var pinElevation:Double?
     var isLongDrive:Bool = false
@@ -42,16 +42,16 @@ public class Hole {
     
     var bounds:GMSCoordinateBounds {
         var bounds:GMSCoordinateBounds = GMSCoordinateBounds()
-        for tPoint in self.teeLocations {
+        for tPoint in self.teeGeoPoints {
             bounds = bounds.includingCoordinate(tPoint.location)
         }
-        for blPoint in self.bunkerLocations {
+        for blPoint in self.bunkerGeoPoints {
             bounds = bounds.includingCoordinate(blPoint.location)
         }
-        if let dlPoint = self.dogLegLocation {
+        if let dlPoint = self.dogLegGeoPoint {
             bounds = bounds.includingCoordinate(dlPoint.location)
         }
-        if let pinLocation:GeoPoint = self.pinLocation {
+        if let pinLocation:GeoPoint = self.pinGeoPoint {
             bounds = bounds.includingCoordinate(pinLocation.location)
         }
         return bounds
@@ -63,11 +63,11 @@ public class Hole {
     init?(number:Int, data:[String:Any]) {
         self.number = number
         
-        bunkerLocations = [GeoPoint]()
-        fairwayLocations = [GeoPoint]()
-        teeLocations = [GeoPoint]()
-        pinLocation = nil
-        dogLegLocation = nil
+        bunkerGeoPoints = [GeoPoint]()
+        fairwayGeoPoints = [GeoPoint]()
+        teeGeoPoints = [GeoPoint]()
+        pinGeoPoint = nil
+        dogLegGeoPoint = nil
         isLongDrive = false
         
         guard let pinObj = data["pin"] as? GeoPoint else {
@@ -75,30 +75,30 @@ public class Hole {
             return nil
         }
         
-        self.pinLocation = pinObj
+        self.pinGeoPoint = pinObj
         
         if let teeObj = data["tee"] as? [GeoPoint] {
-            self.teeLocations = teeObj
+            self.teeGeoPoints = teeObj
         } else if let teeObj = data["tee"] as? GeoPoint {
-            self.teeLocations = [teeObj]
+            self.teeGeoPoints = [teeObj]
         }
         
-        guard !self.teeLocations.isEmpty else {
+        guard !self.teeGeoPoints.isEmpty else {
             return nil
         }
         
         if let fairwayObj = data["fairway"] as? [GeoPoint] {
-            self.fairwayLocations = fairwayObj
+            self.fairwayGeoPoints = fairwayObj
         } else if let fairwayObj = data["fairway"] as? GeoPoint {
-            self.fairwayLocations = [fairwayObj]
+            self.fairwayGeoPoints = [fairwayObj]
         }
         if let bunkerObj = data["bunkers"] as? [GeoPoint] {
-            self.bunkerLocations = bunkerObj
+            self.bunkerGeoPoints = bunkerObj
         } else if let bunkerObj = data["bunkers"] as? GeoPoint {
-            self.bunkerLocations = [bunkerObj]
+            self.bunkerGeoPoints = [bunkerObj]
         }
         if let dlObj = data["dogLeg"] as? GeoPoint {
-            self.dogLegLocation = dlObj
+            self.dogLegGeoPoint = dlObj
         }
         if let pinElevation = data["pinElevation"] as? Double {
             self.pinElevation = pinElevation
@@ -106,16 +106,16 @@ public class Hole {
         
         self.isLongDrive = data["longDrive"] as? Bool ?? false
         
-        self.distance = self.mapTools.distanceFrom(first: self.teeLocations[0], second: self.pinLocation)
+        self.distance = self.mapTools.distanceFrom(first: self.teeGeoPoints[0], second: self.pinGeoPoint)
         
-        if !fairwayLocations.isEmpty && fairwayLocations.count > 2 {
+        if !fairwayGeoPoints.isEmpty && fairwayGeoPoints.count > 2 {
             //create fairway polygon so we can check if we are within it or not
             let path = GMSMutablePath()
-            for point in fairwayLocations {
+            for point in fairwayGeoPoints {
                 path.add(point.location)
             }
             // close the path
-            path.add(fairwayLocations.first!.location)
+            path.add(fairwayGeoPoints.first!.location)
             self.fairwayPath = path
         }
     }
@@ -148,6 +148,67 @@ public class Hole {
                 self?.updateDelegate?.didUpdateLongDrive()
             }
         }
+    }
+    
+    func saveNewTeeLocation(_ location: CLLocationCoordinate2D) -> Bool {
+        // check to make sure tee location is reasonable
+        if mapTools.distanceFrom(first: location, second: self.pinGeoPoint.location) > 800 {
+            DebugLogger.report(error: nil, message: "Ambassador moved tee to unreasonable location: \(AppSingleton.shared.me.id)")
+            return false
+        }
+        
+        self.docReference!.setData([
+            "tee": [location.geopoint],
+            "updateTime": Timestamp(),
+            "updatedBy": AppSingleton.shared.me.id
+        ], merge: true)
+        
+        // update the local location of the tee
+        self.teeGeoPoints = [location.geopoint]
+        
+        return true
+    }
+    
+    func saveNewPinLocation(_ location: CLLocationCoordinate2D) -> Bool {
+        // check to make sure tee location is reasonable
+        if mapTools.distanceFrom(first: location, second: self.teeGeoPoints[0].location) > 800 {
+            DebugLogger.report(error: nil, message: "Ambassador moved pin to unreasonable location: \(AppSingleton.shared.me.id)")
+            return false
+        }
+        
+        self.docReference!.setData([
+            "pin": location.geopoint,
+            "updateTime": Timestamp(),
+            "updatedBy": AppSingleton.shared.me.id
+        ], merge: true)
+        
+        // update the local location of the pin
+        self.pinGeoPoint = location.geopoint
+        
+        //TODO: get new elevation value?
+        
+        return true
+    }
+    
+    func saveNewBunkerLocations(_ locations: [CLLocationCoordinate2D]) -> Bool {
+        // check to make sure tee location is reasonable
+        for bl in locations {
+            if mapTools.distanceFrom(first: bl, second: self.pinGeoPoint.location) > 800 {
+                DebugLogger.report(error: nil, message: "Ambassador moved bunker to unreasonable location: \(AppSingleton.shared.me.id)")
+                return false
+            }
+        }
+        
+        self.docReference!.setData([
+            "bunkers": locations.compactMap({$0.geopoint}),
+            "updateTime": Timestamp(),
+            "updatedBy": AppSingleton.shared.me.id
+        ], merge: true)
+        
+        // update the local location of the pin
+        self.bunkerGeoPoints = locations.compactMap({$0.geopoint})
+        
+        return true
     }
     
     

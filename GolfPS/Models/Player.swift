@@ -17,6 +17,8 @@ class Player {
     var geoPoint:GeoPoint?
     private(set) var lastLocationUpdate:Timestamp?
     private(set) var avatarURL:URL?
+    
+    ///Courses that the player is allowed to manipulate and update
     private(set) var ambassadorCourses:[String] = [String]()
     
     init(id:String) {
@@ -34,13 +36,12 @@ class Player {
         }
     }
     
-    func getUserInfo() {
+    func getUserInfo() async {
         let userDoc = Firestore.firestore().collection("players").document(id)
-        userDoc.getDocument {[weak self] document, error in
-            guard let self = self else { return }
-            if let err = error {
-                DebugLogger.report(error: err, message: "Error retrieving courses.")
-            } else if let doc = document, let data = doc.data() {
+        
+        do {
+            let document = try await userDoc.getDocument()
+            if let data = document.data() {
                 self.geoPoint = data["location"] as? GeoPoint
                 self.lastLocationUpdate = data["updateTime"] as? Timestamp
                 self.ambassadorCourses = data["ambassadorCourses"] as? [String] ?? [String]()
@@ -49,6 +50,8 @@ class Player {
                     self.avatarURL = URL(string: imageStr)
                 }
             }
+        } catch {
+            DebugLogger.report(error: error, message: "Error retrieving courses.")
         }
     }
 }
@@ -90,6 +93,21 @@ class MePlayer:Player {
            self.preferences.synchronize()
         }
     }
+    var didSeeAmbassadorMessage:Bool {
+        get { return self.preferences.bool(forKey: "player_saw_ambassador_message") }
+        set(didSeeMessage) {
+           self.preferences.setValue(didSeeMessage, forKey: "player_saw_ambassador_message")
+           self.preferences.synchronize()
+        }
+    }
+    
+    var didModifyAmbassadorCourse:Bool {
+        get { return self.preferences.bool(forKey: "player_modified_course") }
+        set(didSeeMessage) {
+           self.preferences.setValue(didSeeMessage, forKey: "player_modified_course")
+           self.preferences.synchronize()
+        }
+    }
     
     var shareLocation:Bool {
         get { return self.preferences.bool(forKey: "player_share_location") }
@@ -111,7 +129,13 @@ class MePlayer:Player {
         
         self.badges = [ExplorerBadge(id: "explorer"),
                        LongDriveBadge(id: "longdrive"),
-                       CustomizerBadge(id: "bagcustomize")
+                       CustomizerBadge(id: "bagcustomize"),
+                       AmbassadorBadge(id: "ambassador"),
+                       ActiveAmbassadorBadge(id: "activeambassador")
         ]
+    }
+    
+    internal func isAmbassadorOf(_ course: Course) -> Bool {
+        return self.ambassadorCourses.contains(course.id)
     }
 }

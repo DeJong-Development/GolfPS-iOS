@@ -11,8 +11,8 @@ import UIKit
 import GoogleMaps
 import FirebaseFirestore
 import AudioToolbox
-import SCSDKBitmojiKit
 import SCSDKLoginKit
+import SCSDKCreativeKit
 
 extension GoogleMapViewController: MarkerToolsDelegate {
     func replaceMyPlayerMarker(_ marker: GMSMarker?) {
@@ -77,7 +77,7 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
                     ShotTools.getElevationChange(start: cpgp, finishElevation: pinElevation) { (start, finish, distanceEffect, elevation, error) in
                         self.delegate?.updateElevationEffect(height: elevation, distance: distanceEffect)
                     }
-                } else if let pinPosition = hole.pinLocation {
+                } else if let pinPosition = hole.pinGeoPoint {
                     ShotTools.getElevationChange(start: cpgp, finish: pinPosition) { (start, finish, distanceEffect, elevation, error) in
                         self.delegate?.updateElevationEffect(height: elevation, distance: distanceEffect)
                     }
@@ -291,8 +291,17 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     }
     
     private func downloadBitmojiImage() {
-        SCSDKBitmojiClient.fetchAvatarURL { (avatarURL: String?, error: Error?) in
-            if let urlString = avatarURL, let url = URL(string: urlString) {
+        let builder = SCSDKUserDataQueryBuilder().withBitmojiTwoDAvatarUrl()
+        let userDataQuery = builder.build()
+        
+        SCSDKLoginClient.fetchUserData(with: userDataQuery) { userData, error in
+            let displayName = userData?.displayName ?? "Unknown User"
+            
+            if let partialError = error {
+                DebugLogger.report(error: partialError, message: "Unable to retrieve Bitmoji")
+            }
+            
+            if let urlString = userData?.bitmojiTwoDAvatarUrl, let url = URL(string: urlString) {
                 self.getData(from: url) { data, response, error in
                     guard let data = data, error == nil else { return }
                     DispatchQueue.main.async {
@@ -300,6 +309,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                     }
                 }
             }
+        } failure: { error, isUserLoggedOut in
+            DebugLogger.report(error: error, message: "Unable to retrieve Bitmoji")
         }
     }
     
@@ -431,13 +442,13 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
             //update elevation numbers since we changed places!
             if let pinElevation = hole.pinElevation {
                 ShotTools.getElevationChange(start: myGeoPoint, finishElevation: pinElevation, completion: calculateElevation)
-            } else if let pinPosition = hole.pinLocation {
+            } else if let pinPosition = hole.pinGeoPoint {
                 ShotTools.getElevationChange(start: myGeoPoint, finish: pinPosition, completion: calculateElevation)
             }
         } else if let pinElevation = currentHole.pinElevation {
-            ShotTools.getElevationChange(start: hole.teeLocations.first!, finishElevation: pinElevation, completion: calculateElevation)
+            ShotTools.getElevationChange(start: hole.teeGeoPoints.first!, finishElevation: pinElevation, completion: calculateElevation)
         } else {
-            ShotTools.getElevationChange(start: hole.teeLocations.first!, finish: hole.pinLocation!, completion: calculateElevation)
+            ShotTools.getElevationChange(start: hole.teeGeoPoints.first!, finish: hole.pinGeoPoint!, completion: calculateElevation)
         }
         
         self.updateSuggestionLines()
@@ -457,8 +468,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         var bearing:Double = 0
         var viewingAngle:Double = 0
         if (orientToHole) {
-            let teeLocation:GeoPoint = hole.teeLocations[0]
-            let pinLocation:GeoPoint = hole.pinLocation
+            let teeLocation:GeoPoint = hole.teeGeoPoints[0]
+            let pinLocation:GeoPoint = hole.pinGeoPoint
             bearing = mapTools.calcBearing(start: teeLocation, finish: pinLocation) - 20
             viewingAngle = 45
         }
@@ -499,7 +510,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
                 return
             }
             
-            let distanceToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeLocations[0], second: loc.geopoint)
+            let distanceToTee:Int = self.mapTools.distanceFrom(first: self.currentHole.teeGeoPoints[0], second: loc.geopoint)
             
             if (distanceToTee > 500) {
                 //prompt some sort of alert saying this is just ridiculous
@@ -737,6 +748,57 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         } else {
             self.isDraggingMarker = false
         }
+        
+        if (AppSingleton.shared.me.ambassadorCourses.contains(AppSingleton.shared.course!.id)) {
+            switch marker {
+            case currentTeeMarker:
+                // update the tee location for this hole in firebase
+                let successfulMove = self.currentHole.saveNewTeeLocation(marker.position)
+                if !successfulMove {
+                    // move marker back to original location
+                    self.currentTeeMarker.position = self.currentHole.teeGeoPoints[0].location
+                    
+                    // show alert to user
+                    let ac = UIAlertController(title: "Move Error", message: "Careful! You attempted to move the location of the teebox for this hole to an unreasonable distance from the pin. \n\nWith great power comes great responsibility... Please do not abuse this power or it may be revoked.", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(ac, animated: true)
+                }
+            case currentPinMarker:
+                // update the pin location for this hole in firebase
+                let successfulMove = self.currentHole.saveNewPinLocation(marker.position)
+                
+                if !successfulMove {
+                    // move marker back to original location
+                    self.currentPinMarker.position = self.currentHole.pinGeoPoint.location
+                    
+                    // show alert to user
+                    let ac = UIAlertController(title: "Move Error", message: "Careful! You attempted to move the location of the pin for this hole to an unreasonable distance from the teebox. \n\nWith great power comes great responsibility... Please do not abuse this power or it may be revoked.", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(ac, animated: true)
+                } else {
+                    //update distance to pin
+                    markerTools.updatePinMarker(self.currentPinMarker, hole: self.currentHole, mapView: mapView)
+                }
+            case currentDistanceMarker: ()
+                // do nothing - this will not need to be saved on the server
+            default:
+                if currentBunkerMarkers.contains(marker) {
+                    // Update location of bunker on server
+                    let successfulMove = self.currentHole.saveNewBunkerLocations(self.currentBunkerMarkers.compactMap({$0.position}))
+                    
+                    // move bunker markers location
+                    // update the values of the bunker markers - subtitle - distance from pin
+                    self.markerTools.updateBunkerMarkers(self.currentBunkerMarkers, hole: self.currentHole, mapView: mapView)
+                    
+                    if !successfulMove {
+                        // show alert to user
+                        let ac = UIAlertController(title: "Move Error", message: "Careful! You attempted to move the location of a bunker for this hole to an unreasonable distance from the teebox. \n\nWith great power comes great responsibility... Please do not abuse this power or it may be revoked.", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(ac, animated: true)
+                    }
+                }
+            }
+        }
     }
     internal func mapView(_ mapView: GMSMapView, didDrag marker: GMSMarker) {
         if (marker == currentDistanceMarker) {
@@ -871,18 +933,18 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         let startGeopoint: GeoPoint
         if useMyLocation {
-            startGeopoint = self.me.geoPoint ?? currentHole.teeLocations[0]
+            startGeopoint = self.me.geoPoint ?? currentHole.teeGeoPoints[0]
         } else {
-            startGeopoint = currentHole.teeLocations[0]
+            startGeopoint = currentHole.teeGeoPoints[0]
         }
         
-        let pinGeopoint:GeoPoint = currentHole.pinLocation!
+        let pinGeopoint:GeoPoint = currentHole.pinGeoPoint!
         
         let distanceToPin = mapTools.distanceFrom(first: startGeopoint, second: pinGeopoint)
         let bearingToPin:Double = mapTools.calcBearing(start: startGeopoint, finish: pinGeopoint)
         
         var bearingToTarget:Double = bearingToPin
-        if let dll = currentHole.dogLegLocation, useDogLeg {
+        if let dll = currentHole.dogLegGeoPoint, useDogLeg {
             bearingToTarget = mapTools.calcBearing(start: startGeopoint, finish: dll)
         }
         

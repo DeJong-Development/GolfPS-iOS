@@ -98,3 +98,41 @@ class CustomizerBadge: Badge {
         self.background = #imageLiteral(resourceName: "golf_ball_blank")
     }
 }
+
+class AmbassadorBadge: Badge {
+    
+    override var progress:CGFloat {
+        return me.didSeeAmbassadorMessage ? 100 : 0
+    }
+    override var isUnlocked:Bool {
+        return me.didSeeAmbassadorMessage
+    }
+    
+    override init(id: String) {
+        super.init(id: id)
+        
+        self.title = "AMBASSADOR"
+        self.description = "Become a course ambassador by convincing the app developer that you are worthy."
+        self.icon = #imageLiteral(resourceName: "ambassador")
+        self.background = #imageLiteral(resourceName: "golf_ball_blank")
+    }
+}
+
+class ActiveAmbassadorBadge: Badge {
+    
+    override var progress:CGFloat {
+        return me.didModifyAmbassadorCourse ? 100 : 0
+    }
+    override var isUnlocked:Bool {
+        return me.didModifyAmbassadorCourse
+    }
+    
+    override init(id: String) {
+        super.init(id: id)
+        
+        self.title = "EDITOR"
+        self.description = "Contribute to the community by keeping your course data up to date. Update the position of a tee, pin, or bunker."
+        self.icon = #imageLiteral(resourceName: "surveyor")
+        self.background = #imageLiteral(resourceName: "golf_ball_blank")
+    }
+}

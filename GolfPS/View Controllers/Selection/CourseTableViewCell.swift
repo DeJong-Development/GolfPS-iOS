@@ -10,8 +10,9 @@ import UIKit
 
 class CourseTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var courseStateLabel: UILabel!
-    @IBOutlet weak var stateImage: UIImageView!
+    @IBOutlet weak var ambassadorImage: UIImageView!
     @IBOutlet weak var courseNameLabel: UILabel!
+    @IBOutlet weak var stateImage: UIImageView!
+    @IBOutlet weak var courseStateLabel: UILabel!
 
 }

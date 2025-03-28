@@ -97,6 +97,7 @@ class CoursePickerTableViewController: UITableViewController {
                 cell.stateImage.image = nil
                 cell.courseNameLabel.textColor = UIColor.red
             }
+            cell.ambassadorImage.isHidden = true
             return cell
         }
         
@@ -107,6 +108,8 @@ class CoursePickerTableViewController: UITableViewController {
         
         let stateInitials = golfCourse.state.uppercased()
         cell.courseStateLabel.text = stateInitials
+        
+        cell.ambassadorImage.isHidden = !AppSingleton.shared.me.ambassadorCourses.contains(golfCourse.id)
         
         switch stateInitials {
         case "AZ": cell.stateImage.image = #imageLiteral(resourceName: "noun-arizona-3402606")

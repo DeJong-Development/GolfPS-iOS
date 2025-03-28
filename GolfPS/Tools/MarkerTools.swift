@@ -28,6 +28,7 @@ class MarkerTools {
     
     weak var delegate: MarkerToolsDelegate?
     
+    /// Update the current markers for the specified hole
     public func updateMarkers(pinMarker: GMSMarker?, teeMarker: GMSMarker?, bunkerMarkers: [GMSMarker], longDriveMarkers: [GMSMarker], myDriveMarker: GMSMarker?, hole: Hole, mapView: GMSMapView) {
         
         self.updatePinMarker(pinMarker, hole: hole, mapView: mapView)
@@ -48,14 +49,14 @@ class MarkerTools {
         self.delegate?.replaceLongDriveMarkers(longDriveMarkers)
     }
     
-    private func updatePinMarker(_ pinMarker: GMSMarker?, hole: Hole, mapView: GMSMapView) {
+    public func updatePinMarker(_ pinMarker: GMSMarker?, hole: Hole, mapView: GMSMapView) {
         let me:MePlayer = AppSingleton.shared.me
         let mapTools:MapTools = MapTools()
         
-        let pinPoint:GeoPoint = hole.pinLocation!
+        let pinPoint:GeoPoint = hole.pinGeoPoint!
         let pinLoc:CLLocationCoordinate2D = pinPoint.location
         
-        let teePoint:GeoPoint = hole.teeLocations[0]
+        let teePoint:GeoPoint = hole.teeGeoPoints[0]
         let teeLoc:CLLocationCoordinate2D = teePoint.location
         let distanceToPin:Int = mapTools.distanceFrom(first: pinLoc, second: teeLoc)
         
@@ -73,7 +74,7 @@ class MarkerTools {
     }
     
     private func updateTeeMarker(_ teeMarker: GMSMarker?, hole: Hole, mapView: GMSMapView) {
-        let teePoint:GeoPoint = hole.teeLocations[0]
+        let teePoint:GeoPoint = hole.teeGeoPoints[0]
         let loc:CLLocationCoordinate2D = teePoint.location
         
         teeMarker?.map = nil
@@ -83,12 +84,12 @@ class MarkerTools {
         marker.icon = #imageLiteral(resourceName: "tee_marker").toNewSize(CGSize(width: 55, height: 55))
         marker.userData = "\(hole.number):T"
         marker.map = mapView
-        marker.isDraggable = true
+        marker.isDraggable = AppSingleton.shared.me.ambassadorCourses.contains(AppSingleton.shared.course!.id)
         
         self.delegate?.replaceTeeMarker(marker)
     }
     
-    private func updateBunkerMarkers(_ bunkerMarkers: [GMSMarker], hole: Hole, mapView: GMSMapView) {
+    public func updateBunkerMarkers(_ bunkerMarkers: [GMSMarker], hole: Hole, mapView: GMSMapView) {
         let mapTools:MapTools = MapTools()
         let me:MePlayer = AppSingleton.shared.me
         
@@ -98,10 +99,10 @@ class MarkerTools {
         
         var markers = [GMSMarker]()
         
-        let bunkerLocationsForHole:[GeoPoint] = hole.bunkerLocations
+        let bunkerLocationsForHole:[GeoPoint] = hole.bunkerGeoPoints
         for (bunkerIndex,bunkerLocation) in bunkerLocationsForHole.enumerated() {
             let bunkerLoc = bunkerLocation.location
-            let teeLoc = hole.teeLocations[0].location
+            let teeLoc = hole.teeGeoPoints[0].location
             let distanceToBunker:Int = mapTools.distanceFrom(first: bunkerLoc, second: teeLoc)
             
             let bunkerMarker = GMSMarker(position: bunkerLoc)
@@ -137,7 +138,7 @@ class MarkerTools {
                 let longDriveLocation = longDrive.value
                 
                 let ldLoc = longDriveLocation.location
-                let teeLoc = hole.teeLocations[0].location
+                let teeLoc = hole.teeGeoPoints[0].location
                 
                 let distanceToTee:Int = mapTools.distanceFrom(first: ldLoc, second: teeLoc)
                 
@@ -167,7 +168,7 @@ class MarkerTools {
         }
         
         let ldLoc = myLongDrive.value.location
-        let teeLoc = hole.teeLocations[0].location
+        let teeLoc = hole.teeGeoPoints[0].location
         
         let distanceToTee:Int = mapTools.distanceFrom(first: ldLoc, second: teeLoc)
         

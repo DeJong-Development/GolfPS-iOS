@@ -23,13 +23,16 @@ class SignInViewController: UIViewController {
                 guard let user = authResult?.user else {
                     fatalError("Unable to sign in anonymously")
                 }
-                loadUser(user)
+                
+                Task {
+                    await loadUser(user)
+                }
             }
         }
         
-        func loadUser(_ user: User) {
+        func loadUser(_ user: User) async {
             let me = MePlayer(id: user.uid)
-            me.getUserInfo()
+            await me.getUserInfo()
             AppSingleton.shared.me = me
             
             DispatchQueue.main.async {
@@ -53,7 +56,10 @@ class SignInViewController: UIViewController {
                 UserDefaults.standard.synchronize()
                 
             } else {
-                loadUser(user)
+                
+                Task {
+                    await loadUser(user)
+                }
             }
         } else {
             //we have run the app before but we logged out and are restarting the app with no user logged in
