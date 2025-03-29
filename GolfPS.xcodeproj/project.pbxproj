@@ -65,6 +65,7 @@
 		F71D90902C08CA8B00BD6D89 /* AnalyticsLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71D908F2C08CA8B00BD6D89 /* AnalyticsLogger.swift */; };
 		F73700652BD6C4CD00ED169C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73700642BD6C4CD00ED169C /* SignInViewController.swift */; };
 		F7378C9A2BB38C340078B46C /* GolfShotRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7378C992BB38C340078B46C /* GolfShotRoute.swift */; };
+		F7754D662D983D6900188060 /* BitmojiUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7754D652D983D5F00188060 /* BitmojiUtility.swift */; };
 		F7C02D8F2B8553BA00C6AEE2 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */; };
 		F7C02D922B85591400C6AEE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */; };
 		F7C02D942B9A6EA200C6AEE2 /* screenshots.sh in Resources */ = {isa = PBXBuildFile; fileRef = F7C02D932B9A6EA200C6AEE2 /* screenshots.sh */; };
@@ -217,6 +218,7 @@
 		F73700642BD6C4CD00ED169C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		F7378C972BB38BFE0078B46C /* GeneticAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneticAlgorithm.swift; sourceTree = "<group>"; };
 		F7378C992BB38C340078B46C /* GolfShotRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GolfShotRoute.swift; sourceTree = "<group>"; };
+		F7754D652D983D5F00188060 /* BitmojiUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitmojiUtility.swift; sourceTree = "<group>"; };
 		F7C02D8D2B85537200C6AEE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F7C02D8E2B8553BA00C6AEE2 /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = ApiKeys.plist; sourceTree = "<group>"; };
 		F7C02D902B85546900C6AEE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 		89D078B8208ADBCA00B97690 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				F7754D652D983D5F00188060 /* BitmojiUtility.swift */,
 				F7C02D952B9A6EB300C6AEE2 /* AppUtility.swift */,
 				F7C02D972B9A6EDE00C6AEE2 /* DebugLogger.swift */,
 				F71D908F2C08CA8B00BD6D89 /* AnalyticsLogger.swift */,
@@ -871,6 +874,7 @@
 				F7C02D962B9A6EB300C6AEE2 /* AppUtility.swift in Sources */,
 				896D147A22A6D1AA00873D15 /* TextFieldX.swift in Sources */,
 				89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */,
+				F7754D662D983D6900188060 /* BitmojiUtility.swift in Sources */,
 				F71D90902C08CA8B00BD6D89 /* AnalyticsLogger.swift in Sources */,
 				896D147C22A6D1AC00873D15 /* ButtonX.swift in Sources */,
 				896856D2253C9CB300EB3FE6 /* AddClubViewController.swift in Sources */,
@@ -1078,7 +1082,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
@@ -1103,7 +1107,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
@@ -1126,7 +1130,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
@@ -1149,7 +1153,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
@@ -1170,7 +1174,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1196,7 +1200,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

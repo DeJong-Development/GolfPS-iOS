@@ -18,8 +18,10 @@ extension SettingsViewController: SettingsActionDelegate {
     
     ///Changed permissions - so lets make sure we are properly displaying the bitmoji avatar.
     func updateAvatar() {
-        //Do not need to force update the avatar image
-        getAvatar(replaceImage: false)
+        //Do not need to update the displayed avatar image
+        BitmojiUtility.getBitmojiURL { bitmojiUrl in
+            self.avatarURLToShare = bitmojiUrl
+        }
     }
 }
 
@@ -55,7 +57,12 @@ class SettingsViewController: UIViewController {
         
         if (SCSDKLoginClient.isUserLoggedIn) {
             //get bitmoji avatar
-            getAvatar()
+            BitmojiUtility.downloadBitmojiImage { bitmojiUrl, bitmojiImage in
+                self.avatarURLToShare = bitmojiUrl
+                DispatchQueue.main.async {
+                    self.bitmojiImage.image = bitmojiImage
+                }
+            }
         }
         
         updateButtonLabel()
@@ -67,7 +74,7 @@ class SettingsViewController: UIViewController {
         self.bitmojiImage.contentMode = .scaleAspectFit
         snapLink.layer.cornerRadius = 8
         
-        if (!AppSingleton.shared.me.shareLocation) {
+        if !AppSingleton.shared.me.shareLocation {
             self.avatarURLToShare = nil
         }
     }
@@ -78,7 +85,7 @@ class SettingsViewController: UIViewController {
         if (SCSDKLoginClient.isUserLoggedIn) {
             self.embeddedTableViewController.bitmojiShareSwitch.setOn(false, animated: true)
             AppSingleton.shared.me.shareBitmoji = false
-            self.avatarURLToShare = nil
+            
             //change to "Unlink" after we are all logged in
             SCSDKLoginClient.clearToken()
             
@@ -97,7 +104,12 @@ class SettingsViewController: UIViewController {
                     self.embeddedTableViewController.updateBitSwitch()
                 }
                 
-                self.getAvatar()
+                BitmojiUtility.downloadBitmojiImage { bitmojiUrl, bitmojiImage in
+                    self.avatarURLToShare = bitmojiUrl
+                    DispatchQueue.main.async {
+                        self.bitmojiImage.image = bitmojiImage
+                    }
+                }
             })
         }
     }
@@ -108,30 +120,18 @@ class SettingsViewController: UIViewController {
     @IBAction func clickPrivacy(_ sender: UIButton) {
         AnalyticsLogger.log(name: "click_privacy_settings")
         
-        if let privacyURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/privacy_policy.html") {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(privacyURL, options: [:], completionHandler: nil)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.shared.openURL(privacyURL)
-            }
+        guard let privacyURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/privacy_policy.html") else {
+            return
         }
+        UIApplication.shared.open(privacyURL, options: [:], completionHandler: nil)
     }
     @IBAction func clickTerms(_ sender: UIButton) {
         AnalyticsLogger.log(name: "click_terms_settings")
         
-        if let termsURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/terms_and_conditions.html") {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(termsURL, options: [:], completionHandler: nil)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.shared.openURL(termsURL)
-            }
+        guard let termsURL:URL = URL(string: "https://golfps-dejongdevelopment.firebaseapp.com/terms_and_conditions.html") else {
+            return
         }
-    }
-    
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+        UIApplication.shared.open(termsURL, options: [:], completionHandler: nil)
     }
     
     private func updateButtonLabel() {
@@ -158,45 +158,6 @@ class SettingsViewController: UIViewController {
                     .setData(["image": ""], merge: true)
                 
             }
-        }
-    }
-    
-    /**
-     Gets bitmoji avatar url from Snapchat and updates value stored in firestore.
-     This ensures we always have the most up to date bitmoji from the user.
-     - Parameter replaceImage: If true, the image will be replaced with the most up to date image from the Snapchat bitmoji url
-     */
-    private func getAvatar(replaceImage:Bool = true) {
-        let builder = SCSDKUserDataQueryBuilder().withBitmojiTwoDAvatarUrl()
-        let userDataQuery = builder.build()
-        
-        SCSDKLoginClient.fetchUserData(with: userDataQuery) { userData, error in
-            let displayName = userData?.displayName ?? "Unknown User"
-            
-            if let partialError = error {
-                DebugLogger.report(error: partialError, message: "Unable to retrieve Bitmoji")
-            }
-            
-            if let urlString = userData?.bitmojiTwoDAvatarUrl, let url = URL(string: urlString) {
-                self.avatarURLToShare = url;
-                if (AppSingleton.shared.me.shareBitmoji) {
-                    //if user has elected to share bitmoji on the map - put url in firestore
-                    AppSingleton.shared.db.collection("players")
-                        .document(AppSingleton.shared.me.id)
-                        .setData(["image": url.absoluteString], merge: true)
-                }
-                if (replaceImage) {
-                    //get the image data and display in the UIImage
-                    self.getData(from: url) { data, response, error in
-                        guard let data = data, error == nil else { return }
-                        DispatchQueue.main.async {
-                            self.bitmojiImage.image = UIImage(data: data)
-                        }
-                    }
-                }
-            }
-        } failure: { error, isUserLoggedOut in
-            DebugLogger.report(error: error, message: "Unable to retrieve Bitmoji")
         }
     }
     

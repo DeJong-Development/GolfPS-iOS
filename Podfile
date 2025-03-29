@@ -12,7 +12,7 @@ target 'GolfPS' do
     pod 'Firebase/Analytics'
     pod 'Firebase/Crashlytics'
 
-    pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit']
+    pod 'SnapSDK', :subspecs => ['SCSDKLoginKit']
 end
 
 

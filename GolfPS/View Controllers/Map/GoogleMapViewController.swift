@@ -12,7 +12,6 @@ import GoogleMaps
 import FirebaseFirestore
 import AudioToolbox
 import SCSDKLoginKit
-import SCSDKCreativeKit
 
 extension GoogleMapViewController: MarkerToolsDelegate {
     func replaceMyPlayerMarker(_ marker: GMSMarker?) {
@@ -220,16 +219,17 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         return mapTools.distanceFrom(first: tp, second: pp)
     }
     
-    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         if !SCSDKLoginClient.isUserLoggedIn {
             myPlayerImage = nil
         } else if myPlayerImage == nil {
-            downloadBitmojiImage()
+            BitmojiUtility.downloadBitmojiImage { _, bitmojiImage  in
+                DispatchQueue.main.async {
+                    self.myPlayerImage = bitmojiImage
+                }
+            }
         }
     }
     
@@ -288,30 +288,6 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         otherPlayerTimer = PlayerUpdateTimer()
         otherPlayerTimer.delegate = self
-    }
-    
-    private func downloadBitmojiImage() {
-        let builder = SCSDKUserDataQueryBuilder().withBitmojiTwoDAvatarUrl()
-        let userDataQuery = builder.build()
-        
-        SCSDKLoginClient.fetchUserData(with: userDataQuery) { userData, error in
-            let displayName = userData?.displayName ?? "Unknown User"
-            
-            if let partialError = error {
-                DebugLogger.report(error: partialError, message: "Unable to retrieve Bitmoji")
-            }
-            
-            if let urlString = userData?.bitmojiTwoDAvatarUrl, let url = URL(string: urlString) {
-                self.getData(from: url) { data, response, error in
-                    guard let data = data, error == nil else { return }
-                    DispatchQueue.main.async {
-                        self.myPlayerImage = UIImage(data: data)
-                    }
-                }
-            }
-        } failure: { error, isUserLoggedOut in
-            DebugLogger.report(error: error, message: "Unable to retrieve Bitmoji")
-        }
     }
     
     private func updateFirestorePlayerPosition(with location: GeoPoint) {

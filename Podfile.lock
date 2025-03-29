@@ -1487,8 +1487,6 @@ PODS:
     - PromisesObjC (= 2.4.0)
   - RecaptchaInterop (101.0.0)
   - SnapSDK/SCSDKCoreKit (2.5.0)
-  - SnapSDK/SCSDKCreativeKit (2.5.0):
-    - SnapSDK/SCSDKCoreKit
   - SnapSDK/SCSDKLoginKit (2.5.0):
     - SnapSDK/SCSDKCoreKit
 
@@ -1501,7 +1499,6 @@ DEPENDENCIES:
   - Firebase/Performance
   - GoogleMaps
   - GoogleUtilities
-  - SnapSDK/SCSDKCreativeKit
   - SnapSDK/SCSDKLoginKit
 
 SPEC REPOS:
@@ -1575,6 +1572,6 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
   SnapSDK: 7f9cff455207306ba63588026cbf7ed1a1a505c2
 
-PODFILE CHECKSUM: 8d1c15c73408149629abf0cfe7052aab1c900a3b
+PODFILE CHECKSUM: bd40a765083ed09804b45d80c63450f71a8c0e66
 
 COCOAPODS: 1.16.2
