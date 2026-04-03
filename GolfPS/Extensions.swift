@@ -208,6 +208,7 @@ extension UIColor {
     static var grass:UIColor = UIColor(named: "Grass")!
     static var gold:UIColor = UIColor(named: "Gold")!
     static var text:UIColor = UIColor(named: "Text")!
+    static var background:UIColor = UIColor(named: "Background")!
     
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
