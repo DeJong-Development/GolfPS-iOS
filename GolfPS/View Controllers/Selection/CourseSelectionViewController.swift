@@ -59,11 +59,10 @@ extension CourseSelectionViewController: CoursePickerDelegate {
     }
 }
 
-class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDelegate {
+class CourseSelectionViewController: BaseKeyboardViewController {
     
     @IBOutlet weak var loadingBackground: UIView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
-    @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var courseNameSearch: UITextField!
     @IBOutlet weak var courseTableContainer: UIView!
     @IBOutlet weak var requestCourseButton: UIButton!
@@ -71,13 +70,12 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
     var embeddedCourseTableViewController:CoursePickerTableViewController?
     
     private var allGolfCourses:[Course] = [Course]()
-    private var availableStates:[String] = []
-    private var selectedState:String?
+    private var primaryNearbyCourses:[Course] = [Course]()
+    private var primaryAmbassadorCourses:[Course] = [Course]()
+    private var primaryVisitedCourses:[Course] = [Course]()
     private let geocoder = CLGeocoder()
     private let locationService = PlayerLocationService.shared
-    private let statePickerView = UIPickerView()
-    private let statePickerHostField = UITextField(frame: .zero)
-    private var isFinalizingStateSelection = false
+    private let mapTools = MapTools()
     
     private var db:Firestore {
         return AppSingleton.shared.db
@@ -91,22 +89,12 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
         
         requestCourseButton.layer.cornerRadius = 8
         requestCourseButton.layer.masksToBounds = true
-        stateButton.layer.cornerRadius = 8
-        stateButton.layer.masksToBounds = true
-        
-        statePickerView.dataSource = self
-        statePickerView.delegate = self
-        statePickerHostField.delegate = self
-        statePickerHostField.inputView = statePickerView
-        statePickerHostField.inputAccessoryView = makeStatePickerAccessoryView()
-        statePickerHostField.isHidden = true
-        view.addSubview(statePickerHostField)
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        loadAvailableStates()
+        getCourses()
     }
     override var prefersStatusBarHidden: Bool {
         return false
@@ -114,26 +102,11 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
     
     @IBAction func courseNameFilterChanged(_ sender: UITextField) {
         guard let queryText = sender.text, queryText.count > 1 else {
-            self.embeddedCourseTableViewController?.courseList = Array(allGolfCourses)
-            self.embeddedCourseTableViewController?.tableView.reloadData()
+            self.embeddedCourseTableViewController?.isShowingSearchResults = false
+            self.embeddedCourseTableViewController?.searchResults = []
             return
         }
         queryCourses(with: queryText)
-    }
-    
-    @IBAction func stateFilterTapped(_ sender: UIButton) {
-        if availableStates.isEmpty {
-            return
-        }
-        
-        if let selectedState = selectedState,
-           let selectedIndex = availableStates.firstIndex(of: selectedState) {
-            statePickerView.selectRow(selectedIndex, inComponent: 0, animated: false)
-        } else {
-            statePickerView.selectRow(0, inComponent: 0, animated: false)
-        }
-        
-        statePickerHostField.becomeFirstResponder()
     }
     
     private func getCourses(isTableRefresh:Bool = false) {
@@ -142,22 +115,10 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
             loadingBackground.isHidden = false
         }
         
-        guard let selectedState = selectedState, !selectedState.isEmpty else {
-            self.allGolfCourses = []
-            self.embeddedCourseTableViewController?.endRefresh()
-            self.embeddedCourseTableViewController?.courseList = []
-            self.loadingView.stopAnimating()
-            self.loadingBackground.isHidden = true
-            return
-        }
-        
-        CourseTools.getCourses(inState: selectedState) { [weak self] nearbyCourses, stateError in
+        loadNearbyCourses { [weak self] nearbyCourses in
             guard let self = self else {
                 DebugLogger.report(error: nil, message: "Unable to get courses. No self.")
                 return
-            }
-            if let stateError = stateError {
-                DebugLogger.report(error: stateError, message: "Error retrieving selected state courses.")
             }
             
             let courseIDsToLoad = (AppSingleton.shared.me.ambassadorCourses + (AppSingleton.shared.me.coursesVisited ?? []))
@@ -166,14 +127,36 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
                     DebugLogger.report(error: error, message: "Error retrieving saved courses.")
                 }
                 
+                let ambassadorIDs = Set(AppSingleton.shared.me.ambassadorCourses)
+                let visitedIDs = Set(AppSingleton.shared.me.coursesVisited ?? [])
                 var coursesByID = [String: Course]()
                 for course in nearbyCourses + savedCourses {
                     coursesByID[course.id] = course
                 }
                 
                 self.allGolfCourses = Array(coursesByID.values).sorted(by: self.defaultSort(lhs:rhs:))
+                self.primaryAmbassadorCourses = savedCourses
+                    .filter { ambassadorIDs.contains($0.id) }
+                    .sorted(by: self.defaultSort(lhs:rhs:))
+                self.primaryVisitedCourses = savedCourses
+                    .filter { visitedIDs.contains($0.id) && !ambassadorIDs.contains($0.id) }
+                    .sorted(by: self.defaultSort(lhs:rhs:))
+                self.primaryNearbyCourses = nearbyCourses
+                    .filter { !ambassadorIDs.contains($0.id) && !visitedIDs.contains($0.id) }
+                    .sorted(by: self.defaultSort(lhs:rhs:))
+                
+                self.embeddedCourseTableViewController?.ambassadorCourses = self.primaryAmbassadorCourses
+                self.embeddedCourseTableViewController?.nearbyCourses = self.primaryNearbyCourses
+                self.embeddedCourseTableViewController?.visitedCourses = self.primaryVisitedCourses
+                self.embeddedCourseTableViewController?.courseDistances = self.courseDistanceLabels(for: self.allGolfCourses)
+                self.embeddedCourseTableViewController?.isShowingSearchResults = false
+                self.embeddedCourseTableViewController?.searchResults = []
                 self.embeddedCourseTableViewController?.endRefresh()
-                self.queryCourses()
+                
+                if let searchQuery = self.courseNameSearch.text,
+                   searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).count > 1 {
+                    self.queryCourses(with: searchQuery)
+                }
                 self.loadingView.stopAnimating()
                 self.loadingBackground.isHidden = true
             }
@@ -182,57 +165,52 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
     
     private func queryCourses(with query: String = "") {
         let q = query.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        var coursesThatMatch = Set<Course>()
-        for course in allGolfCourses {
-            let name = course.name.lowercased()
-            let abbrev = course.state.lowercased()
-            let state = course.fullStateName?.lowercased()
-            
-            if (name == "test course") {
-                continue
-            } else if (query == "") {
-                coursesThatMatch.insert(course)
-                continue
-            }
-            
-            if (name.contains(q) || abbrev.contains(q) || q.starts(with: name) || q.starts(with: abbrev)) {
-                coursesThatMatch.insert(course)
-            } else if let stateName = state, stateName.contains(q) || q.starts(with: stateName.lowercased()) || query.fuzzyMatch(stateName) {
-                coursesThatMatch.insert(course)
-            } else if query.fuzzyMatch(name) || query.fuzzyMatch(abbrev) {
-                coursesThatMatch.insert(course)
-            }
+        guard !q.isEmpty else {
+            embeddedCourseTableViewController?.isShowingSearchResults = false
+            embeddedCourseTableViewController?.searchResults = []
+            return
         }
-        let courseArray = Array(coursesThatMatch).sorted { $0.name < $1.name }
-        self.embeddedCourseTableViewController?.courseList = courseArray
-    }
-    
-    private func loadAvailableStates() {
+        
         loadingView.startAnimating()
         loadingBackground.isHidden = false
         
-        CourseTools.getAvailableStates { [weak self] states, error in
+        db.collection("courses").order(by: "name").getDocuments { [weak self] snapshot, error in
             guard let self = self else {
                 return
             }
+            
             if let error = error {
-                DebugLogger.report(error: error, message: "Error retrieving available course states.")
+                DebugLogger.report(error: error, message: "Error retrieving courses for search.")
+                self.embeddedCourseTableViewController?.searchResults = []
+                self.embeddedCourseTableViewController?.isShowingSearchResults = true
+                self.loadingView.stopAnimating()
+                self.loadingBackground.isHidden = true
+                return
             }
             
-            self.availableStates = states
-            self.statePickerView.reloadAllComponents()
-            self.loadNearbyStateSelection()
+            let allCourses = snapshot?.documents.compactMap { document in
+                Course(id: document.documentID, data: document.data())
+            } ?? []
+            let coursesThatMatch = allCourses.filter { course in
+                self.courseMatchesSearch(course, query: q)
+            }.sorted(by: self.defaultSort(lhs:rhs:))
+            
+            self.embeddedCourseTableViewController?.courseDistances = self.courseDistanceLabels(for: coursesThatMatch)
+            self.embeddedCourseTableViewController?.searchResults = coursesThatMatch
+            self.embeddedCourseTableViewController?.isShowingSearchResults = true
+            self.loadingView.stopAnimating()
+            self.loadingBackground.isHidden = true
         }
     }
     
-    private func loadNearbyStateSelection() {
+    private func loadNearbyCourses(completion: @escaping ([Course]) -> Void) {
         locationService.requestLocation { [weak self] geoPoint in
             guard let self = self else {
                 return
             }
             
             guard let geoPoint = geoPoint else {
-                self.applySelectedState(self.availableStates.first)
+                completion([])
                 return
             }
             
@@ -240,60 +218,68 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
             self.geocoder.reverseGeocodeLocation(location) { placemarks, error in
                 if let error = error {
                     DebugLogger.report(error: error, message: "Error reverse geocoding player location for nearby courses.")
-                    self.applySelectedState(self.availableStates.first)
+                    completion([])
                     return
                 }
                 
                 guard let stateCode = placemarks?.first?.administrativeArea?.uppercased() else {
-                    self.applySelectedState(self.availableStates.first)
+                    completion([])
                     return
                 }
                 
-                self.applySelectedState(self.availableStates.contains(stateCode) ? stateCode : self.availableStates.first)
+                CourseTools.getCourses(inState: stateCode) { courses, error in
+                    if let error = error {
+                        DebugLogger.report(error: error, message: "Error retrieving nearby state courses.")
+                    }
+                    completion(courses)
+                }
             }
         }
     }
     
-    private func applySelectedState(_ state: String?) {
-        selectedState = state
-        stateButton.setTitle(state, for: .normal)
+    private func courseMatchesSearch(_ course: Course, query: String) -> Bool {
+        let name = course.name.lowercased()
+        let city = course.city.lowercased()
+        let stateCode = course.state.lowercased()
+        let stateName = course.fullStateName?.lowercased()
         
-        if let state = state, let selectedIndex = availableStates.firstIndex(of: state) {
-            statePickerView.selectRow(selectedIndex, inComponent: 0, animated: false)
+        if name == "test course" {
+            return false
         }
         
-        getCourses()
-    }
-    
-    private func makeStatePickerAccessoryView() -> UIToolbar {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        toolbar.items = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(commitSelectedState))
-        ]
-        return toolbar
-    }
-    
-    @objc private func commitSelectedState() {
-        finalizeStateSelection()
-        statePickerHostField.resignFirstResponder()
-    }
-    
-    private func finalizeStateSelection() {
-        guard !isFinalizingStateSelection else {
-            return
+        if name.contains(query) || city.contains(query) || stateCode.contains(query) {
+            return true
         }
         
-        isFinalizingStateSelection = true
-        defer { isFinalizingStateSelection = false }
-        
-        let selectedIndex = statePickerView.selectedRow(inComponent: 0)
-        guard availableStates.indices.contains(selectedIndex) else {
-            return
+        if let stateName = stateName,
+           stateName.contains(query) || query.fuzzyMatch(stateName) {
+            return true
         }
         
-        applySelectedState(availableStates[selectedIndex])
+        return query.fuzzyMatch(name) || query.fuzzyMatch(city) || query.fuzzyMatch(stateCode)
+    }
+    
+    private func courseDistanceLabels(for courses: [Course]) -> [String:String] {
+        guard let myLocation = AppSingleton.shared.me?.geoPoint else {
+            return [:]
+        }
+        
+        var labels:[String:String] = [:]
+        for course in courses {
+            guard let courseLocation = course.spectation else {
+                continue
+            }
+            
+            let rawDistance = mapTools.distanceFrom(first: myLocation, second: courseLocation)
+            if AppSingleton.shared.metric {
+                let kilometers = Double(rawDistance) / 1000
+                labels[course.id] = String(format: "%.1f km", kilometers)
+            } else {
+                let miles = Double(rawDistance) / 1760
+                labels[course.id] = String(format: "%.1f mi", miles)
+            }
+        }
+        return labels
     }
     
     private func defaultSort(lhs: Course, rhs: Course) -> Bool {
@@ -351,44 +337,5 @@ class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDele
             self.embeddedCourseTableViewController?.delegate = self
         default: ()
         }
-    }
-}
-
-extension CourseSelectionViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return availableStates.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        guard availableStates.indices.contains(row) else {
-            return nil
-        }
-        return displayName(for: availableStates[row])
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    }
-    
-    private func displayName(for stateCode: String?) -> String {
-        guard let stateCode = stateCode, !stateCode.isEmpty else {
-            return ""
-        }
-        
-        if let fullName = Course.fullStateName(for: stateCode) {
-            return "\(stateCode) - \(fullName)"
-        }
-        
-        return stateCode
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard textField == statePickerHostField else {
-            return
-        }
-        finalizeStateSelection()
     }
 }

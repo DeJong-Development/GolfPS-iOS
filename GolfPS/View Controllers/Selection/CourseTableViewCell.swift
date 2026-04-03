@@ -12,6 +12,7 @@ class CourseTableViewCell: UITableViewCell {
 
     @IBOutlet weak var ambassadorImage: UIImageView!
     @IBOutlet weak var courseNameLabel: UILabel!
+    @IBOutlet weak var courseDistanceLabel: UILabel!
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var courseStateLabel: UILabel!
 
