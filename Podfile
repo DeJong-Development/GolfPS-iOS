@@ -1,16 +1,9 @@
-platform :ios, '14.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target 'GolfPS' do
     pod 'GoogleMaps'
     pod 'GoogleUtilities'
-    
-    pod 'Firebase/Core'
-    pod 'Firebase/Auth'
-    pod 'Firebase/Firestore'
-    pod 'Firebase/Performance'
-    pod 'Firebase/Analytics'
-    pod 'Firebase/Crashlytics'
 
     pod 'SnapSDK', :subspecs => ['SCSDKLoginKit']
 end
@@ -19,9 +12,6 @@ end
 target 'GolfPSTests' do
   use_frameworks!
   
-  pod 'Firebase/Core'
-  pod 'Firebase/Firestore'
-  pod 'Firebase/Auth'
   pod 'GoogleUtilities'
 end
 
@@ -37,7 +27,7 @@ post_install do |installer|
       end
     end
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
     end
   end
 end
