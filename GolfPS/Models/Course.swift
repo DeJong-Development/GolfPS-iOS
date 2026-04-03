@@ -11,6 +11,81 @@ import GoogleMaps
 import FirebaseFirestore
 
 public class Course: Hashable {
+    static private let stateNameLookup:[String:String] = [
+        "AL": "Alabama",
+        "AK": "Alaska",
+        "AZ": "Arizona",
+        "AR": "Arkansas",
+        "CA": "California",
+        "CO": "Colorado",
+        "CT": "Connecticut",
+        "DE": "Delaware",
+        "FL": "Florida",
+        "GA": "Georgia",
+        "HI": "Hawaii",
+        "ID": "Idaho",
+        "IL": "Illinois",
+        "IN": "Indiana",
+        "IA": "Iowa",
+        "KS": "Kansas",
+        "KY": "Kentucky",
+        "LA": "Louisiana",
+        "ME": "Maine",
+        "MD": "Maryland",
+        "MA": "Massachusetts",
+        "MI": "Michigan",
+        "MN": "Minnesota",
+        "MS": "Mississippi",
+        "MO": "Missouri",
+        "MT": "Montana",
+        "NE": "Nebraska",
+        "NV": "Nevada",
+        "NH": "New Hampshire",
+        "NJ": "New Jersey",
+        "NM": "New Mexico",
+        "NY": "New York",
+        "NC": "North Carolina",
+        "ND": "North Dakota",
+        "OH": "Ohio",
+        "OK": "Oklahoma",
+        "OR": "Oregon",
+        "PA": "Pennsylvania",
+        "RI": "Rhode Island",
+        "SC": "South Carolina",
+        "SD": "South Dakota",
+        "TN": "Tennessee",
+        "TX": "Texas",
+        "UT": "Utah",
+        "VT": "Vermont",
+        "VA": "Virginia",
+        "WA": "Washington",
+        "WV": "West Virginia",
+        "WI": "Wisconsin",
+        "WY": "Wyoming",
+        "DC": "District of Columbia",
+        "AB": "Alberta",
+        "BC": "British Columbia",
+        "MB": "Manitoba",
+        "NB": "New Brunswick",
+        "NL": "Newfoundland and Labrador",
+        "NS": "Nova Scotia",
+        "NT": "Northwest Territories",
+        "NU": "Nunavut",
+        "ON": "Ontario",
+        "PE": "Prince Edward Island",
+        "QC": "Quebec",
+        "SK": "Saskatchewan",
+        "YT": "Yukon",
+        "DR": "Dominican Republic",
+        "MX": "Mexico",
+        "UK": "United Kingdom"
+    ]
+    
+    static func fullStateName(for code:String) -> String? {
+        let normalizedCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        return stateNameLookup[normalizedCode]
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
         hasher.combine(self.name)
@@ -31,59 +106,7 @@ public class Course: Hashable {
     private(set) var spectation:GeoPoint?
     
     var fullStateName:String? {
-        switch state.uppercased() {
-        case "AL": return "alabama"
-        case "AK": return "alaska"
-        case "AZ": return "arizona"
-        case "AR": return "arkansas"
-        case "CA": return "california"
-        case "CO": return "colorado"
-        case "CT": return "connecticut"
-        case "DE": return "delaware"
-        case "FL": return "florida"
-        case "GA": return "georgia"
-        case "HI": return "hawaii"
-        case "ID": return "idaho"
-        case "IL": return "illinois"
-        case "IN": return "indiana"
-        case "IA": return "iowa"
-        case "KS": return "kansas"
-        case "KY": return "kentucky"
-        case "LA": return "louisiana"
-        case "ME": return "maine"
-        case "MD": return "maryland"
-        case "MA": return "massachusetts"
-        case "MI": return "michigan"
-        case "MN": return "minnesota"
-        case "MS": return "mississippi"
-        case "MO": return "missouri"
-        case "MT": return "montana"
-        case "NE": return "nebraska"
-        case "NV": return "nevada"
-        case "NH": return "new hampshire"
-        case "NJ": return "new jersy"
-        case "NM": return "new mexico"
-        case "NY": return "new york"
-        case "NC": return "north carolina"
-        case "ND": return "north dakota"
-        case "OH": return "ohio"
-        case "OK": return "oklahoma"
-        case "OR": return "oregon"
-        case "PA": return "pennsylvania"
-        case "RI": return "rhode island"
-        case "SC": return "south carolina"
-        case "SD": return "south dakota"
-        case "TN": return "tennessee"
-        case "TX": return "texas"
-        case "UT": return "utah"
-        case "VT": return "vermont"
-        case "VA": return "virginia"
-        case "WA": return "washington"
-        case "WV": return "west virginia"
-        case "WI": return "wisconsin"
-        case "WY": return "wyoming"
-        default: return nil
-        }
+        return Course.fullStateName(for: state)
     }
     
     var holeInfo:[Hole] = [Hole]()

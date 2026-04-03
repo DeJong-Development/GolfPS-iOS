@@ -10,6 +10,89 @@ import Foundation
 import FirebaseFirestore
 
 class CourseTools {
+    static public func getAvailableStates(completion: @escaping ([String], Error?) -> ()) {
+        AppSingleton.shared.db.collection("courses")
+            .order(by: "state")
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    completion([], error)
+                    return
+                }
+                
+                let states = Array(Set(snapshot?.documents.compactMap { document in
+                    (document.data()["state"] as? String)?
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                        .uppercased()
+                }.filter { !$0.isEmpty } ?? [])).sorted()
+                completion(states, nil)
+            }
+    }
+    
+    static public func getCourses(withIDs ids: [String], completion: @escaping ([Course], Error?) -> ()) {
+        let uniqueIDs = Array(Set(ids)).filter { !$0.isEmpty }
+        guard !uniqueIDs.isEmpty else {
+            completion([], nil)
+            return
+        }
+        
+        let group = DispatchGroup()
+        let lock = NSLock()
+        var golfCourses: [Course] = []
+        var firstError: Error?
+        
+        for id in uniqueIDs {
+            group.enter()
+            AppSingleton.shared.db.collection("courses").document(id).getDocument { snapshot, error in
+                defer { group.leave() }
+                
+                if let error = error {
+                    lock.lock()
+                    if firstError == nil {
+                        firstError = error
+                    }
+                    lock.unlock()
+                    return
+                }
+                
+                guard let snapshot = snapshot,
+                      let data = snapshot.data(),
+                      let course = Course(id: snapshot.documentID, data: data) else {
+                    return
+                }
+                
+                lock.lock()
+                golfCourses.append(course)
+                lock.unlock()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            completion(golfCourses, firstError)
+        }
+    }
+    
+    static public func getCourses(inState state: String, completion: @escaping ([Course], Error?) -> ()) {
+        let trimmedState = state.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard !trimmedState.isEmpty else {
+            completion([], nil)
+            return
+        }
+        
+        AppSingleton.shared.db.collection("courses")
+            .whereField("state", isEqualTo: trimmedState)
+            .order(by: "name")
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    completion([], error)
+                    return
+                }
+                
+                let golfCourses = snapshot?.documents.compactMap { document in
+                    Course(id: document.documentID, data: document.data())
+                } ?? []
+                completion(golfCourses, nil)
+            }
+    }
     
     static public func updateHoleInfo(for course:Course, completion: @escaping (Bool, Error?) -> ()) {
         

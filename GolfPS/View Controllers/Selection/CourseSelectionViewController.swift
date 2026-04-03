@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import FirebaseFirestore
 
 extension CourseSelectionViewController: CoursePickerDelegate {
@@ -58,10 +59,11 @@ extension CourseSelectionViewController: CoursePickerDelegate {
     }
 }
 
-class CourseSelectionViewController: BaseKeyboardViewController {
+class CourseSelectionViewController: BaseKeyboardViewController, UITextFieldDelegate {
     
     @IBOutlet weak var loadingBackground: UIView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var courseNameSearch: UITextField!
     @IBOutlet weak var courseTableContainer: UIView!
     @IBOutlet weak var requestCourseButton: UIButton!
@@ -69,6 +71,13 @@ class CourseSelectionViewController: BaseKeyboardViewController {
     var embeddedCourseTableViewController:CoursePickerTableViewController?
     
     private var allGolfCourses:[Course] = [Course]()
+    private var availableStates:[String] = []
+    private var selectedState:String?
+    private let geocoder = CLGeocoder()
+    private let locationService = PlayerLocationService.shared
+    private let statePickerView = UIPickerView()
+    private let statePickerHostField = UITextField(frame: .zero)
+    private var isFinalizingStateSelection = false
     
     private var db:Firestore {
         return AppSingleton.shared.db
@@ -82,13 +91,22 @@ class CourseSelectionViewController: BaseKeyboardViewController {
         
         requestCourseButton.layer.cornerRadius = 8
         requestCourseButton.layer.masksToBounds = true
+        stateButton.layer.cornerRadius = 8
+        stateButton.layer.masksToBounds = true
+        
+        statePickerView.dataSource = self
+        statePickerView.delegate = self
+        statePickerHostField.delegate = self
+        statePickerHostField.inputView = statePickerView
+        statePickerHostField.inputAccessoryView = makeStatePickerAccessoryView()
+        statePickerHostField.isHidden = true
+        view.addSubview(statePickerHostField)
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        //get all courses at load
-        getCourses()
+        loadAvailableStates()
     }
     override var prefersStatusBarHidden: Bool {
         return false
@@ -103,38 +121,62 @@ class CourseSelectionViewController: BaseKeyboardViewController {
         queryCourses(with: queryText)
     }
     
+    @IBAction func stateFilterTapped(_ sender: UIButton) {
+        if availableStates.isEmpty {
+            return
+        }
+        
+        if let selectedState = selectedState,
+           let selectedIndex = availableStates.firstIndex(of: selectedState) {
+            statePickerView.selectRow(selectedIndex, inComponent: 0, animated: false)
+        } else {
+            statePickerView.selectRow(0, inComponent: 0, animated: false)
+        }
+        
+        statePickerHostField.becomeFirstResponder()
+    }
+    
     private func getCourses(isTableRefresh:Bool = false) {
         if (!isTableRefresh) {
             loadingView.startAnimating()
             loadingBackground.isHidden = false
         }
         
-        var golfCourses:[Course] = [Course]()
+        guard let selectedState = selectedState, !selectedState.isEmpty else {
+            self.allGolfCourses = []
+            self.embeddedCourseTableViewController?.endRefresh()
+            self.embeddedCourseTableViewController?.courseList = []
+            self.loadingView.stopAnimating()
+            self.loadingBackground.isHidden = true
+            return
+        }
         
-        let query:Query = db.collection("courses").order(by: "name")
-        
-        query.getDocuments() { [weak self] (querySnapshot, err) in
+        CourseTools.getCourses(inState: selectedState) { [weak self] nearbyCourses, stateError in
             guard let self = self else {
                 DebugLogger.report(error: nil, message: "Unable to get courses. No self.")
                 return
             }
-            if let err = err {
-                DebugLogger.report(error: err, message: "Error retrieving courses.")
-            } else if let snapshot = querySnapshot {
-                //get all the courses and add to a course list
-                for document in snapshot.documents {
-                    guard let course = Course(id: document.documentID, data: document.data()) else {
-                        continue
-                    }
-                    golfCourses.append(course)
-                }
+            if let stateError = stateError {
+                DebugLogger.report(error: stateError, message: "Error retrieving selected state courses.")
             }
             
-            self.allGolfCourses = golfCourses.sorted { $0.name < $1.name }
-            self.embeddedCourseTableViewController?.endRefresh()
-            self.queryCourses()
-            self.loadingView.stopAnimating()
-            self.loadingBackground.isHidden = true
+            let courseIDsToLoad = (AppSingleton.shared.me.ambassadorCourses + (AppSingleton.shared.me.coursesVisited ?? []))
+            CourseTools.getCourses(withIDs: courseIDsToLoad) { savedCourses, error in
+                if let error = error {
+                    DebugLogger.report(error: error, message: "Error retrieving saved courses.")
+                }
+                
+                var coursesByID = [String: Course]()
+                for course in nearbyCourses + savedCourses {
+                    coursesByID[course.id] = course
+                }
+                
+                self.allGolfCourses = Array(coursesByID.values).sorted(by: self.defaultSort(lhs:rhs:))
+                self.embeddedCourseTableViewController?.endRefresh()
+                self.queryCourses()
+                self.loadingView.stopAnimating()
+                self.loadingBackground.isHidden = true
+            }
         }
     }
     
@@ -165,6 +207,130 @@ class CourseSelectionViewController: BaseKeyboardViewController {
         self.embeddedCourseTableViewController?.courseList = courseArray
     }
     
+    private func loadAvailableStates() {
+        loadingView.startAnimating()
+        loadingBackground.isHidden = false
+        
+        CourseTools.getAvailableStates { [weak self] states, error in
+            guard let self = self else {
+                return
+            }
+            if let error = error {
+                DebugLogger.report(error: error, message: "Error retrieving available course states.")
+            }
+            
+            self.availableStates = states
+            self.statePickerView.reloadAllComponents()
+            self.loadNearbyStateSelection()
+        }
+    }
+    
+    private func loadNearbyStateSelection() {
+        locationService.requestLocation { [weak self] geoPoint in
+            guard let self = self else {
+                return
+            }
+            
+            guard let geoPoint = geoPoint else {
+                self.applySelectedState(self.availableStates.first)
+                return
+            }
+            
+            let location = CLLocation(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+            self.geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                if let error = error {
+                    DebugLogger.report(error: error, message: "Error reverse geocoding player location for nearby courses.")
+                    self.applySelectedState(self.availableStates.first)
+                    return
+                }
+                
+                guard let stateCode = placemarks?.first?.administrativeArea?.uppercased() else {
+                    self.applySelectedState(self.availableStates.first)
+                    return
+                }
+                
+                self.applySelectedState(self.availableStates.contains(stateCode) ? stateCode : self.availableStates.first)
+            }
+        }
+    }
+    
+    private func applySelectedState(_ state: String?) {
+        selectedState = state
+        stateButton.setTitle(state, for: .normal)
+        
+        if let state = state, let selectedIndex = availableStates.firstIndex(of: state) {
+            statePickerView.selectRow(selectedIndex, inComponent: 0, animated: false)
+        }
+        
+        getCourses()
+    }
+    
+    private func makeStatePickerAccessoryView() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(commitSelectedState))
+        ]
+        return toolbar
+    }
+    
+    @objc private func commitSelectedState() {
+        finalizeStateSelection()
+        statePickerHostField.resignFirstResponder()
+    }
+    
+    private func finalizeStateSelection() {
+        guard !isFinalizingStateSelection else {
+            return
+        }
+        
+        isFinalizingStateSelection = true
+        defer { isFinalizingStateSelection = false }
+        
+        let selectedIndex = statePickerView.selectedRow(inComponent: 0)
+        guard availableStates.indices.contains(selectedIndex) else {
+            return
+        }
+        
+        applySelectedState(availableStates[selectedIndex])
+    }
+    
+    private func defaultSort(lhs: Course, rhs: Course) -> Bool {
+        guard let me = AppSingleton.shared.me else {
+            return lhs.name < rhs.name
+        }
+        
+        let lhsIsAmbassador = me.ambassadorCourses.contains(lhs.id)
+        let rhsIsAmbassador = me.ambassadorCourses.contains(rhs.id)
+        if lhsIsAmbassador != rhsIsAmbassador {
+            return lhsIsAmbassador
+        }
+        
+        let lhsWasVisited = me.coursesVisited?.contains(lhs.id) ?? false
+        let rhsWasVisited = me.coursesVisited?.contains(rhs.id) ?? false
+        if lhsWasVisited != rhsWasVisited {
+            return lhsWasVisited
+        }
+        
+        if let myLocation = me.geoPoint {
+            let lhsDistance = distanceToCourse(lhs, from: myLocation)
+            let rhsDistance = distanceToCourse(rhs, from: myLocation)
+            if lhsDistance != rhsDistance {
+                return lhsDistance < rhsDistance
+            }
+        }
+        
+        return lhs.name < rhs.name
+    }
+    
+    private func distanceToCourse(_ course: Course, from geoPoint: GeoPoint) -> Int {
+        guard let spectation = course.spectation else {
+            return Int.max
+        }
+        return MapTools().distanceFrom(first: geoPoint, second: spectation)
+    }
+    
     //use this to pop out of a course request
     @IBAction func unwindToSelection(unwindSegue: UIStoryboardSegue) {
         AppSingleton.shared.course?.holeInfo.removeAll()
@@ -185,5 +351,44 @@ class CourseSelectionViewController: BaseKeyboardViewController {
             self.embeddedCourseTableViewController?.delegate = self
         default: ()
         }
+    }
+}
+
+extension CourseSelectionViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return availableStates.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        guard availableStates.indices.contains(row) else {
+            return nil
+        }
+        return displayName(for: availableStates[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    }
+    
+    private func displayName(for stateCode: String?) -> String {
+        guard let stateCode = stateCode, !stateCode.isEmpty else {
+            return ""
+        }
+        
+        if let fullName = Course.fullStateName(for: stateCode) {
+            return "\(stateCode) - \(fullName)"
+        }
+        
+        return stateCode
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard textField == statePickerHostField else {
+            return
+        }
+        finalizeStateSelection()
     }
 }

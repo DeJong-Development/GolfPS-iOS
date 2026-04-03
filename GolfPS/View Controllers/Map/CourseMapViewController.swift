@@ -69,30 +69,31 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         longDriveButton.isHidden = true
         longDriveButtonStack.isHidden = true
         
-        if let course = AppSingleton.shared.course {
-            courseNameButton.setTitle(course.name, for: .normal)
-            courseNameButton.isHidden = false
-            ambassadorButton.isHidden = AppSingleton.shared.me.ambassadorCourses.contains(course.id) ? false : true
-            distanceToPinLabel.isHidden = false
-            selectedClubLabel.isHidden = false
-            
-            if course.name.lowercased().contains("hickory") {
-                calculateDriveLocationButton.isHidden = false
-            }
-            
-            if AppSingleton.shared.me.isAmbassadorOf(course) && !AppSingleton.shared.me.didSeeAmbassadorMessage {
-                // Show ambassador message to user
-                let ac = UIAlertController(title: "You're the Ambassador!", message: "You are the ambassador of this course. There may be changes to the course over time and you have the power to update the tee and pin positions as you see fit. \n\nSimply click and drag the markers to their correct locations and your fellow golfers will be able to see the updated course information.", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                    AppSingleton.shared.me.didSeeAmbassadorMessage = true
-                }))
-                self.present(ac, animated: true)
-            }
-        } else {
+        guard let course = AppSingleton.shared.course else {
             courseNameButton.isHidden = true
             ambassadorButton.isHidden = true
             distanceToPinLabel.isHidden = true
             selectedClubLabel.isHidden = true
+            return
+        }
+        
+        courseNameButton.setTitle(course.name, for: .normal)
+        courseNameButton.isHidden = false
+        ambassadorButton.isHidden = AppSingleton.shared.me.ambassadorCourses.contains(course.id) ? false : true
+        distanceToPinLabel.isHidden = false
+        selectedClubLabel.isHidden = false
+        
+        if course.name.lowercased().contains("hickory") {
+            calculateDriveLocationButton.isHidden = false
+        }
+        
+        if AppSingleton.shared.me.isAmbassadorOf(course) && !AppSingleton.shared.me.didSeeAmbassadorMessage {
+            // Show ambassador message to user
+            let ac = UIAlertController(title: "You're the Ambassador!", message: "You are the ambassador of this course. There may be changes to the course over time and you have the power to update the tee and pin positions as you see fit. \n\nSimply click and drag the markers to their correct locations and your fellow golfers will be able to see the updated course information.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                AppSingleton.shared.me.didSeeAmbassadorMessage = true
+            }))
+            self.present(ac, animated: true)
         }
     }
     
@@ -115,7 +116,7 @@ class CourseMapViewController: UIViewController, ViewUpdateDelegate, WCSessionDe
         calculateDriveLocationButton.isHidden = true
         calculateHeatMapButton.isHidden = true
         
-        if (WCSession.isSupported()) {
+        if WCSession.isSupported() {
             wcSession = WCSession.default
             wcSession!.delegate = self
             wcSession!.activate()

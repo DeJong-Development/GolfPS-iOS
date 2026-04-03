@@ -21,19 +21,21 @@ class TabParentViewController: UITabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if let tabSublayers = tabBar.layer.sublayers {
-            gradient.frame = CGRect(x: CGFloat(0),
-                                    y: CGFloat(0),
-                                    width: self.tabBar.frame.size.width,
-                                    height: self.tabBar.frame.size.height)
+        guard let tabSublayers = tabBar.layer.sublayers else {
+            return
+        }
+        
+        gradient.frame = CGRect(x: CGFloat(0),
+                                y: CGFloat(0),
+                                width: self.tabBar.frame.size.width,
+                                height: self.tabBar.frame.size.height)
 
-            if (!tabSublayers.contains(gradient)) {
-                gradient.colors = [UIColor.init(white: 1, alpha: 0.2).cgColor, UIColor.init(white: 0, alpha: 0.2).cgColor]
-                gradient.startPoint = CGPoint(x: 0.5, y: 0)
-                gradient.endPoint = CGPoint(x: 0.5, y: 1)
-                gradient.zPosition = 0
-                self.tabBar.layer.addSublayer(gradient)
-            }
+        if !tabSublayers.contains(gradient) {
+            gradient.colors = [UIColor.init(white: 1, alpha: 0.2).cgColor, UIColor.init(white: 0, alpha: 0.2).cgColor]
+            gradient.startPoint = CGPoint(x: 0.5, y: 0)
+            gradient.endPoint = CGPoint(x: 0.5, y: 1)
+            gradient.zPosition = 0
+            self.tabBar.layer.addSublayer(gradient)
         }
     }
     

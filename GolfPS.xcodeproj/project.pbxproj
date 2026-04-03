@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4DFC349DC0415089F7109928 /* Pods_GolfPSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3891515CEDD537A21F4C7191 /* Pods_GolfPSTests.framework */; };
+		3DCD09CBE460C36D1D89D6F7 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 299BF9403A4846B783A7FF4D /* Pods_GolfPS.framework */; };
+		5416CA2627FC0429345F9F9D /* Pods_GolfPSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E30664F527E28A4B738BD195 /* Pods_GolfPSTests.framework */; };
 		8904F344208E548900B9CCE5 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F343208E548900B9CCE5 /* Course.swift */; };
 		8904F347208E555700B9CCE5 /* Hole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F346208E555700B9CCE5 /* Hole.swift */; };
 		8904F349208E705800B9CCE5 /* ClubTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8904F348208E705800B9CCE5 /* ClubTools.swift */; };
@@ -60,7 +61,14 @@
 		89DFFE4F21E96B9B0096AC3C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DFFE4E21E96B9B0096AC3C /* Extensions.swift */; };
 		89F474F822B1D6CA007D044A /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F474F722B1D6CA007D044A /* Club.swift */; };
 		89F49A9F2432837000C0B9A0 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F49A9E2432837000C0B9A0 /* Colors.xcassets */; };
-		EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */; };
+		F703C77B2F7FFC2300A24A0A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F703C77A2F7FFC2300A24A0A /* FirebaseAnalytics */; };
+		F703C77D2F7FFC2300A24A0A /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = F703C77C2F7FFC2300A24A0A /* FirebaseAppCheck */; };
+		F703C77F2F7FFC2300A24A0A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F703C77E2F7FFC2300A24A0A /* FirebaseAuth */; };
+		F703C7812F7FFC2300A24A0A /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = F703C7802F7FFC2300A24A0A /* FirebaseCore */; };
+		F703C7832F7FFC2300A24A0A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = F703C7822F7FFC2300A24A0A /* FirebaseCrashlytics */; };
+		F703C7852F7FFC2300A24A0A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F703C7842F7FFC2300A24A0A /* FirebaseFirestore */; };
+		F703C7872F7FFC2300A24A0A /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = F703C7862F7FFC2300A24A0A /* FirebasePerformance */; };
+		F703C7892F7FFC2300A24A0A /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = F703C7882F7FFC2300A24A0A /* FirebaseRemoteConfig */; };
 		F71D908E2C07785100BD6D89 /* MarkerTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71D908D2C07785100BD6D89 /* MarkerTools.swift */; };
 		F71D90902C08CA8B00BD6D89 /* AnalyticsLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71D908F2C08CA8B00BD6D89 /* AnalyticsLogger.swift */; };
 		F73700652BD6C4CD00ED169C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73700642BD6C4CD00ED169C /* SignInViewController.swift */; };
@@ -146,13 +154,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		06F5E4438E5F6058CD62C241 /* Pods-Golf Ace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Golf Ace.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Golf Ace/Pods-Golf Ace.debug.xcconfig"; sourceTree = "<group>"; };
-		1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.debug.xcconfig"; sourceTree = "<group>"; };
-		3891515CEDD537A21F4C7191 /* Pods_GolfPSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GolfPSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C8721E8AF28D167FA7BAA41 /* Pods-GolfPSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests.release.xcconfig"; sourceTree = "<group>"; };
-		6C0D967551C1D0DB5C8ACEBF /* Pods_Golf_Ace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Golf_Ace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GolfPS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E14322CB073CCC339AF56FB /* Pods-Golf Ace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Golf Ace.release.xcconfig"; path = "Pods/Target Support Files/Pods-Golf Ace/Pods-Golf Ace.release.xcconfig"; sourceTree = "<group>"; };
+		299BF9403A4846B783A7FF4D /* Pods_GolfPS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GolfPS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5325FBB4A2A87E3FB3B9DEE4 /* Pods-GolfPSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPSTests.debug.xcconfig"; path = "Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		59AE02F9A77D745CC9BD834B /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
+		86BF43B94146753EA9550BD1 /* Pods-GolfPSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPSTests.release.xcconfig"; path = "Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests.release.xcconfig"; sourceTree = "<group>"; };
 		8904F343208E548900B9CCE5 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		8904F346208E555700B9CCE5 /* Hole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hole.swift; sourceTree = "<group>"; };
 		8904F348208E705800B9CCE5 /* ClubTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubTools.swift; sourceTree = "<group>"; };
@@ -211,8 +216,8 @@
 		89DFFE4E21E96B9B0096AC3C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		89F474F722B1D6CA007D044A /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		89F49A9E2432837000C0B9A0 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		DA555DCB97632F9DA9B7AD72 /* Pods-GolfPSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.release.xcconfig"; path = "Pods/Target Support Files/Pods-GolfPS/Pods-GolfPS.release.xcconfig"; sourceTree = "<group>"; };
+		B106FA661E177AB4B81F1014 /* Pods-GolfPS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GolfPS.debug.xcconfig"; path = "Target Support Files/Pods-GolfPS/Pods-GolfPS.debug.xcconfig"; sourceTree = "<group>"; };
+		E30664F527E28A4B738BD195 /* Pods_GolfPSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GolfPSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F71D908D2C07785100BD6D89 /* MarkerTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerTools.swift; sourceTree = "<group>"; };
 		F71D908F2C08CA8B00BD6D89 /* AnalyticsLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsLogger.swift; sourceTree = "<group>"; };
 		F73700642BD6C4CD00ED169C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -248,7 +253,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE8FE31E1FD7B9FB257C1686 /* Pods_GolfPS.framework in Frameworks */,
+				F703C7892F7FFC2300A24A0A /* FirebaseRemoteConfig in Frameworks */,
+				F703C77B2F7FFC2300A24A0A /* FirebaseAnalytics in Frameworks */,
+				F703C7812F7FFC2300A24A0A /* FirebaseCore in Frameworks */,
+				F703C77D2F7FFC2300A24A0A /* FirebaseAppCheck in Frameworks */,
+				F703C7832F7FFC2300A24A0A /* FirebaseCrashlytics in Frameworks */,
+				F703C77F2F7FFC2300A24A0A /* FirebaseAuth in Frameworks */,
+				F703C7872F7FFC2300A24A0A /* FirebasePerformance in Frameworks */,
+				F703C7852F7FFC2300A24A0A /* FirebaseFirestore in Frameworks */,
+				3DCD09CBE460C36D1D89D6F7 /* Pods_GolfPS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +276,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DFC349DC0415089F7109928 /* Pods_GolfPSTests.framework in Frameworks */,
+				5416CA2627FC0429345F9F9D /* Pods_GolfPSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,10 +293,9 @@
 		5CABB7DBB20D208E39DBC9FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6C0D967551C1D0DB5C8ACEBF /* Pods_Golf_Ace.framework */,
 				898A20B121026D80005FCA7A /* NotificationCenter.framework */,
-				6D22EB7CC0F081B69868738A /* Pods_GolfPS.framework */,
-				3891515CEDD537A21F4C7191 /* Pods_GolfPSTests.framework */,
+				299BF9403A4846B783A7FF4D /* Pods_GolfPS.framework */,
+				E30664F527E28A4B738BD195 /* Pods_GolfPSTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -313,8 +325,8 @@
 				F7C02DB12B9A728200C6AEE2 /* GolfPSUITests */,
 				8915E65D2088F8C800A20258 /* Products */,
 				8915E6732088F9AE00A20258 /* Podfile */,
-				F2952F7C429A150259B45E6E /* Pods */,
 				5CABB7DBB20D208E39DBC9FE /* Frameworks */,
+				AAADF11C45843533B838B8A9 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -473,17 +485,15 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		F2952F7C429A150259B45E6E /* Pods */ = {
+		AAADF11C45843533B838B8A9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				06F5E4438E5F6058CD62C241 /* Pods-Golf Ace.debug.xcconfig */,
-				7E14322CB073CCC339AF56FB /* Pods-Golf Ace.release.xcconfig */,
-				1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */,
-				DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */,
-				DA555DCB97632F9DA9B7AD72 /* Pods-GolfPSTests.debug.xcconfig */,
-				5C8721E8AF28D167FA7BAA41 /* Pods-GolfPSTests.release.xcconfig */,
+				B106FA661E177AB4B81F1014 /* Pods-GolfPS.debug.xcconfig */,
+				59AE02F9A77D745CC9BD834B /* Pods-GolfPS.release.xcconfig */,
+				5325FBB4A2A87E3FB3B9DEE4 /* Pods-GolfPSTests.debug.xcconfig */,
+				86BF43B94146753EA9550BD1 /* Pods-GolfPSTests.release.xcconfig */,
 			);
-			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		F7C02D9E2B9A723E00C6AEE2 /* GolfPSTests */ = {
@@ -514,15 +524,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8915E66E2088F8CA00A20258 /* Build configuration list for PBXNativeTarget "GolfPS" */;
 			buildPhases = (
-				987338A928E6E19A037AF527 /* [CP] Check Pods Manifest.lock */,
+				688861399A3AA6C207F203D2 /* [CP] Check Pods Manifest.lock */,
 				8915E6582088F8C800A20258 /* Sources */,
 				8915E6592088F8C800A20258 /* Frameworks */,
 				8915E65A2088F8C800A20258 /* Resources */,
-				BACC91256F54FA1CF3FF6808 /* [CP] Embed Pods Frameworks */,
-				ECED2BF15C4390BFF343AB3E /* [CP] Copy Pods Resources */,
 				898A20C021026D80005FCA7A /* Embed Foundation Extensions */,
 				8972601C245B3B2F00A85FEE /* Embed Watch Content */,
 				89AD88DB211E219F00AA8D02 /* ShellScript */,
+				B4489D4ECB280BEF3F42A93D /* [CP] Embed Pods Frameworks */,
+				A6FA767E36AC0876EE17DE7F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -573,11 +583,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7C02DA32B9A723E00C6AEE2 /* Build configuration list for PBXNativeTarget "GolfPSTests" */;
 			buildPhases = (
-				8C0E09B94E28DBA73CCFEDE7 /* [CP] Check Pods Manifest.lock */,
+				BE2E58097B2678E45E376F02 /* [CP] Check Pods Manifest.lock */,
 				F7C02D992B9A723E00C6AEE2 /* Sources */,
 				F7C02D9A2B9A723E00C6AEE2 /* Frameworks */,
 				F7C02D9B2B9A723E00C6AEE2 /* Resources */,
-				A671C9EDA528E16950809866 /* [CP] Embed Pods Frameworks */,
+				CAB68DCA7F135472F7EFF74A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -658,6 +668,9 @@
 				Base,
 			);
 			mainGroup = 8915E6532088F8C800A20258;
+			packageReferences = (
+				F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 8915E65D2088F8C800A20258 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -721,6 +734,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		688861399A3AA6C207F203D2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GolfPS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		89AD88DB211E219F00AA8D02 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -737,7 +772,49 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
-		8C0E09B94E28DBA73CCFEDE7 /* [CP] Check Pods Manifest.lock */ = {
+		A6FA767E36AC0876EE17DE7F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4489D4ECB280BEF3F42A93D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BE2E58097B2678E45E376F02 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -759,25 +836,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		987338A928E6E19A037AF527 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-GolfPS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A671C9EDA528E16950809866 /* [CP] Embed Pods Frameworks */ = {
+		CAB68DCA7F135472F7EFF74A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -785,47 +844,17 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GolfPSTests/Pods-GolfPSTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BACC91256F54FA1CF3FF6808 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ECED2BF15C4390BFF343AB3E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GolfPS/Pods-GolfPS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1077,22 +1106,22 @@
 		};
 		8915E66F2088F8CA00A20258 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1DC83D54EA0D2343C22DF4B6 /* Pods-GolfPS.debug.xcconfig */;
+			baseConfigurationReference = B106FA661E177AB4B81F1014 /* Pods-GolfPS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1102,21 +1131,21 @@
 		};
 		8915E6702088F8CA00A20258 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF7AD519DDB461F93E57B4E8 /* Pods-GolfPS.release.xcconfig */;
+			baseConfigurationReference = 59AE02F9A77D745CC9BD834B /* Pods-GolfPS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GolfPS/GolfPS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "$(SRCROOT)/GolfPS/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1130,11 +1159,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
@@ -1153,11 +1182,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				IBSC_MODULE = GolfPS_Companion_Extension;
 				INFOPLIST_FILE = "GolfPS Companion/Info.plist";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1174,7 +1203,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1182,7 +1211,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
@@ -1200,7 +1229,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JJEJU2G45A;
 				INFOPLIST_FILE = "GolfPS Companion Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1208,7 +1237,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dejongdevelopment.golfps.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1222,7 +1251,7 @@
 		};
 		F7C02DA42B9A723E00C6AEE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA555DCB97632F9DA9B7AD72 /* Pods-GolfPSTests.debug.xcconfig */;
+			baseConfigurationReference = 5325FBB4A2A87E3FB3B9DEE4 /* Pods-GolfPSTests.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1251,7 +1280,7 @@
 		};
 		F7C02DA52B9A723E00C6AEE2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C8721E8AF28D167FA7BAA41 /* Pods-GolfPSTests.release.xcconfig */;
+			baseConfigurationReference = 86BF43B94146753EA9550BD1 /* Pods-GolfPSTests.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1386,6 +1415,60 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F703C77A2F7FFC2300A24A0A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		F703C77C2F7FFC2300A24A0A /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		F703C77E2F7FFC2300A24A0A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		F703C7802F7FFC2300A24A0A /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		F703C7822F7FFC2300A24A0A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		F703C7842F7FFC2300A24A0A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		F703C7862F7FFC2300A24A0A /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
+		};
+		F703C7882F7FFC2300A24A0A /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F703C7792F7FFC2300A24A0A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8915E6542088F8C800A20258 /* Project object */;
 }

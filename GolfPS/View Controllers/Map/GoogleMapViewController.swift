@@ -93,44 +93,30 @@ extension GoogleMapViewController: LocationUpdateTimerDelegate, PlayerUpdateTime
     }
 }
 
-extension GoogleMapViewController: CLLocationManagerDelegate {
-    internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        let isAuthorized:Bool = (status == .authorizedWhenInUse || status == .authorizedAlways)
+extension GoogleMapViewController: PlayerLocationServiceDelegate {
+    func playerLocationService(_ service: PlayerLocationService, didChangeAuthorization isAuthorized: Bool) {
         self.mapView?.isMyLocationEnabled = isAuthorized
         self.mapView?.settings.myLocationButton = isAuthorized
         
-        //remove information associated with current locatino if we become unauthorized
         if !isAuthorized {
             self.me.geoPoint = nil
         }
     }
-    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        guard let cpl = locations.last else {
-            return
-        }
-        
-        self.me.geoPoint = cpl.geopoint
-        
+    
+    func playerLocationService(_ service: PlayerLocationService, didUpdate location: CLLocation) {
         self.markerTools.updatePlayerMarker(self.myPlayerMarker, playerImage: self.myPlayerImage, mapView: self.mapView)
         
-        
-        //add course visitation
         if let course = AppSingleton.shared.course,
-            !(self.me.coursesVisited?.contains(course.id) ?? false),
-            course.bounds.contains(cpl.coordinate) {
+           !(self.me.coursesVisited?.contains(course.id) ?? false),
+           course.bounds.contains(location.coordinate) {
             self.me.addCourseVisitation(courseId: course.id)
         }
         
         if currentHole != nil {
             self.delegate?.updateDistanceToPin(distance: self.distanceToPinFromMyLocation ?? self.distanceToPinFromTee)
-            
             self.updateSuggestionLines()
-            
-            //update any distance markers we already have displayed when we update our location
             self.updateDistanceMarker()
         }
-        
     }
 }
 
@@ -149,7 +135,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     private var locationTimer:LocationUpdateTimer!
     private var otherPlayerTimer:PlayerUpdateTimer!
     
-    private let locationManager = CLLocationManager()
+    private let locationService = PlayerLocationService.shared
     private var previousPlayerGeoPoint:GeoPoint?
     
     internal var currentHole:Hole!
@@ -252,6 +238,7 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         playerListener?.remove()
+        locationService.removeDelegate(self)
     }
     
     /// https://developer.apple.com/documentation/uikit/uiviewcontroller/1621454-loadview
@@ -276,12 +263,8 @@ class GoogleMapViewController: UIViewController, GMSMapViewDelegate {
         
         markerTools.delegate = self
         
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.pausesLocationUpdatesAutomatically = true
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.startUpdatingLocation()
+        locationService.addDelegate(self)
+        locationService.startLocationUpdates()
         
         locationTimer = LocationUpdateTimer()
         locationTimer.delegate = self
